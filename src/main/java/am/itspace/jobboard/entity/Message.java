@@ -16,7 +16,7 @@ public class Message {
     private int id;
     private String messageText;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date messageDate;
 
     @ManyToOne
