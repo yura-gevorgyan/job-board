@@ -3,5 +3,16 @@ spring:
     url: jdbc:mysql://localhost:3306/job_board
     username: root
     password: root
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jobboardofficial@gmail.com
+    password: zvfekdljbyxqplsw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   liquibase:
     change-log: classpath*:db/change-log.xml

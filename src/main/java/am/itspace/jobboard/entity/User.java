@@ -21,6 +21,7 @@ public class User {
     private boolean isDeleted;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
     private UserRole userRole;
 
 }
