@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -30,48 +27,62 @@ public class UserController {
     private final SendMessageService sendMessageService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/login/page")
+    @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
 
-    @GetMapping("/confirm/email/page")
+    @GetMapping("/register")
+    public String registerPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+        addMessageToModel(msg, modelMap);
+
+        // Add all user roles except ADMIN
+        Set<UserRole> nonAdminRoles = EnumSet.complementOf(EnumSet.of(UserRole.ADMIN));
+        modelMap.addAttribute("userRoles", new ArrayList<>(nonAdminRoles));
+        return "registration";
+    }
+
+    @GetMapping("/confirm/email")
     public String confirmEmailPage() {
         return "confirm-email-page";
     }
 
-    @GetMapping("/confirm/email/change/for/password/page")
-    public String confirmEmailForPasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        addMessageToModel(msg, modelMap);
-        return "confirm-email-page-for-change-password";
-    }
-
-    @GetMapping("/forgot/password/page")
+    @GetMapping("/forgot/password")
     public String forgotPasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
         addMessageToModel(msg, modelMap);
         return "forgot-password";
     }
 
-    @GetMapping("/change/password/page")
+    @GetMapping("/change/password")
     public String changePasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
         addMessageToModel(msg, modelMap);
         return "change-password";
     }
 
-    //We'll look at it later
+    @GetMapping("/confirm/email/change/password")
+    public String confirmEmailChangePassword(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+        addMessageToModel(msg, modelMap);
+        return "confirm-email-page-for-change-password";
+    }
+
+    //ToDo We'll look at it later
     @GetMapping("/login/success")
     public String loginSuccess() {
         return "redirect:/";
     }
 
-    @GetMapping("/register/page")
-    public String registerPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        addMessageToModel(msg, modelMap);
-
-        //Add all user roles except ADMIN
-        Set<UserRole> nonAdminRoles = EnumSet.complementOf(EnumSet.of(UserRole.ADMIN));
-        modelMap.addAttribute("userRoles", new ArrayList<>(nonAdminRoles));
-        return "registration";
+    @PostMapping("/register")
+    public String register(
+            @ModelAttribute User user,
+            @RequestParam String confirmPassword) {
+        try {
+            userService.register(user, confirmPassword, user.getUserRole());
+        } catch (EmailIsPresentException e) {
+            return "redirect:/user/register?msg=Email is already in use";
+        } catch (PasswordNotMuchException e) {
+            return "redirect:/user/register?msg=Passwords do not match";
+        }
+        return "redirect:/confirm/email";
     }
 
     @PostMapping("/confirm/email")
@@ -85,16 +96,6 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("/confirm/email/for/change/password")
-    public String confirmEmailForChangePassword(@RequestParam String confirmEmailCode, HttpSession httpSession) {
-        Optional<User> optionalUser = userService.findByToken(confirmEmailCode);
-        if (optionalUser.isPresent()) {
-            httpSession.setAttribute("user", optionalUser.get());
-            return "redirect:/change/password/page";
-        }
-        return "redirect:/confirm/email/change/for/password/page?msg=Invalid Email, please try again!";
-    }
-
     @PostMapping("/forgot/password")
     public String forgotPassword(@RequestParam String email) {
         User user = userService.findByEmail(email);
@@ -102,39 +103,35 @@ public class UserController {
             user.setToken(GenerateTokenUtil.generateToken());
             userService.save(user);
             sendMessageService.sendEmailConfirmMail(user);
-            return "redirect:/confirm/email/change/for/password/page";
+            return "redirect:/confirm/email/change/password";
         }
-        return "redirect:/forgot/password/page?msg=Invalid Email, please try again!";
+        return "redirect:/forgot/password?msg=Invalid Email, please try again!";
+    }
+
+    @PostMapping("/confirm/email/change/password")
+    public String confirmEmailForChangePassword(@RequestParam String confirmEmailCode, HttpSession httpSession) {
+        Optional<User> optionalUser = userService.findByToken(confirmEmailCode);
+        if (optionalUser.isPresent()) {
+            httpSession.setAttribute("user", optionalUser.get());
+            return "redirect:/change/password";
+        }
+        return "redirect:/confirm/email/change/password?msg=Invalid Email, please try again!";
     }
 
     @PostMapping("/change/password")
-    public String changePassword(@RequestParam String password, String confirmPassword,HttpSession session) {
+    public String changePassword(@RequestParam String password, String confirmPassword, HttpSession session) {
         User user = (User) session.getAttribute("user");
 
         if (!password.equals(confirmPassword)) {
-            return "redirect:/change/password/page?msg=Password do not much";
+            return "redirect:/change/password?msg=Passwords do not match";
         } else if (password.equals(user.getPassword())) {
-            return "redirect:/change/password/page?msg=Dont use old password";
+            return "redirect:/change/password?msg=Don't use the old password";
         }
 
         user.setPassword(passwordEncoder.encode(password));
         userService.save(user);
         sendMessageService.send(user.getEmail(), "Changing Password", "Password successfully changed!");
-        return "redirect:/login/page";
-    }
-
-    @PostMapping("/register")
-    public String register(
-            @ModelAttribute User user,
-            @RequestParam String confirmPassword) {
-        try {
-            userService.register(user, confirmPassword, user.getUserRole());
-        } catch (EmailIsPresentException e) {
-            return "redirect:/register/page?msg=Email is already in use";
-        } catch (PasswordNotMuchException e) {
-            return "redirect:/register/page?msg=Passwords do not match";
-        }
-        return "redirect:/confirm/email/page";
+        return "redirect:/login";
     }
 
     private void addMessageToModel(String msg, ModelMap modelMap) {

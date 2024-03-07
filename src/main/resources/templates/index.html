@@ -112,12 +112,12 @@
                                                 <a href="index-03.html" class="d-lg-none d-block">Home 03</a>
                                             </li>
                                             <li class="col-lg-2">
-                                                <a href="index-04.html" class="d-none d-lg-block">
+                                                <a href="index.html" class="d-none d-lg-block">
                                                     <span class="mb-0 mb-lg-3 d-block py-2 p-lg-0 px-4 px-lg-0 text-uppercase sub-title font-weight-800 display-30">Home 04</span>
                                                     <img src="/img/content/home-04.jpg" class="d-none d-lg-block shadow"
                                                          alt="...">
                                                 </a>
-                                                <a href="index-04.html" class="d-lg-none d-block">Home 04</a>
+                                                <a href="index.html" class="d-lg-none d-block">Home 04</a>
                                             </li>
                                             <li class="col-lg-2">
                                                 <a href="index-05.html" class="d-none d-lg-block">
@@ -146,8 +146,8 @@
                                             <li><a href="contact-us.html">Contact Us</a></li>
                                             <li><a href="#!">User Pages</a>
                                                 <ul>
-                                                    <li th:if="${currentUser == null}"><a href="/login/page">Login</a></li>
-                                                    <li th:if="${currentUser == null}"><a href="/register/page">Register</a></li>
+                                                    <li th:if="${currentUser == null}"><a href="/login">Login</a></li>
+                                                    <li th:if="${currentUser == null}"><a href="/register">Register</a></li>
                                                     <li th:if="${currentUser != null}"><a href="/logout">Logout</a></li>
                                                 </ul>
                                             </li>

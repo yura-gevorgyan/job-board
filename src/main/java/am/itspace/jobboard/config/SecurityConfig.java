@@ -10,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
@@ -18,24 +19,22 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailService userDetailService;
 
+
+    //ToDo Security
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/admin/**").hasAuthority(UserRole.ADMIN.name())
-                .requestMatchers("/login/page").permitAll()
-                .requestMatchers("/register/page").permitAll()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login/page")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/login/success")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/");
+        httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers("/login", "/register").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/login/success")
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/")
+                );
         return httpSecurity.build();
     }
 
