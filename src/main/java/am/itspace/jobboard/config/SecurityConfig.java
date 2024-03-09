@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -26,6 +27,8 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/static/**").permitAll()
+
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin
@@ -33,7 +36,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/login/success")
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/")
+                        .logoutUrl("/logout")
                 );
         return httpSecurity.build();
     }
