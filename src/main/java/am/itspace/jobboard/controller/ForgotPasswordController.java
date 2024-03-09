@@ -32,7 +32,7 @@ public class ForgotPasswordController {
     @GetMapping("/confirm")
     public String confirmEmailChangePasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
         AddMessageUtil.addMessageToModel(msg, modelMap);
-        return "confirm-email-page-for-change-password";
+        return "confirm-forgot-password";
     }
 
     @GetMapping("/confirm/change")
@@ -67,7 +67,7 @@ public class ForgotPasswordController {
         } catch (PasswordNotMuchException e) {
             return "redirect:/forgot/password/confirm/change?msg=Invalid password";
         } catch (UseOldPasswordException e) {
-            return "redirect:/forgot/password/confirm/change?msg=You are use old password";
+            return "redirect:/forgot/password/confirm/change?msg=You are using old password";
         }
         return "redirect:/login";
     }

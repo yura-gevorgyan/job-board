@@ -52,6 +52,11 @@ public class RegisterController {
     public String register(
             @ModelAttribute User user,
             @RequestParam String confirmPassword) {
+
+        if (user.getUserRole() == null || user.getUserRole().toString().isEmpty()) {
+            return "redirect:/register?msg=Choose your type!";
+        }
+
         try {
             userService.register(user, confirmPassword, user.getUserRole());
         } catch (EmailIsPresentException e) {

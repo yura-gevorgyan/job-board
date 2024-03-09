@@ -1,7 +1,8 @@
-package am.itspace.jobboard.service.impl;
+package am.itspace.jobboard.scheduler;
 
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.service.UserService;
+import am.itspace.jobboard.service.impl.SendMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RegistrationCleanerSchedulerService {
+public class UserSchedulerService {
 
     private final UserService userService;
     private final SendMessageService sendMessageService;
