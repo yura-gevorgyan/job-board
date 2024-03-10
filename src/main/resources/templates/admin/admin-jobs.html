@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- title  -->
+    <title>Job Board - Job Portal HTML Template</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+    <link href="/css/styles.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
+    ================================================== -->
+    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <!-- EMPLOYER DASHBOARD
+    ================================================== -->
+    <section class="py-0">
+        <div class="row g-0">
+            <th:block th:insert="~{admin/adminfragment/left-menue-fragment::left-menue-fragment}"/>
+            <div class="col-lg-9">
+                <div class="dashboard-right-sidebar">
+                    <div class="row mb-2-2">
+                        <div class="col-lg-12 mb-1-9">
+                            <h3 class="mb-3">Latest Jobs</h3>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="dashboard-title">
+                                <div class="d-md-flex justify-content-between align-items-center">
+                                    <div class="mb-4 mb-md-0">
+                                        <h4 class="mb-0 h5">Showing 20 of <span class="text-primary"
+                                                                                th:text="${jobCount}"></span><span> Jobs</span>
+                                        </h4>
+                                    </div>
+                                    <form action="/admin/jobs/search" method="get" enctype="multipart/form-data"
+                                          onclick="">
+                                        <div class="quform-elements">
+                                            <div class="row align-items-center">
+
+                                                <!-- Begin Select element -->
+
+                                                <!-- End Select element -->
+
+                                                <!-- Begin Select element -->
+
+                                                <div class="attr-nav align-items-lg-center ms-lg-auto">
+                                                    <ul>
+                                                        <li class="search"><i class="fas fa-search"></i></li>
+                                                        <li><input id="longitude" class="form-control" type="text"
+                                                                   name="title" placeholder="Enter Job Title"></li>
+                                                        <input type="hidden" name="searchIndexStr" th:value="${1}">
+                                                        <li class="d-none d-xl-inline-block">
+                                                            <button type="submit" class="not-border"><a
+                                                                    class="butn secondary text-white">
+                                                                Search a Job
+                                                            </a></button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- End Select element -->
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="table-responsive">
+                                    <table class="table custome-table2">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Published Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="job : ${jobs}">
+                                            <td>
+                                                <div class="d-xl-flex align-items-center">
+                                                    <div class="flex-shrink-0 mb-3 mb-xl-0">
+                                                        <img src="/img/content/company-01.jpg" alt="...">
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-xl-3">
+                                                        <h5 class="mb-1"><a href="#!" th:text="${job.title}"></a></h5>
+                                                        <span class="me-2 display-30 text-muted"
+                                                              th:text="${job.category.name}"></span>
+                                                        <span class="me-2 display-30 text-muted"><i
+                                                                class="ti-location-pin pe-1"></i><span
+                                                                th:text="${job.location}"></span></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td th:text="${#dates.format(job.publishedDate,'MMM dd, yyyy')}"></td>
+                                            <td th:if="${job.deleted}"><span
+                                                    class="text-danger font-weight-600">Deleted</span></td>
+                                            <td th:if="${!job.deleted}"><span class="text-success font-weight-600">Active</span>
+                                            </td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- start pager -->
+                                        <div th:if="${totalPages != 0}" class="text-center mt-6">
+                                            <div class="pagination text-primary">
+                                                <ul>
+                                                    <li th:if="${searchIndex == 0}"
+                                                        th:class="${index <= 1 ? 'disabled' : ''}">
+                                                        <a th:href="@{'/admin/jobs/' + ${index - 1}}"
+                                                           aria-label="Previous">
+                                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                                        </a>
+                                                    </li>
+                                                    <li th:if="${index == 0}"
+                                                        th:class="${searchIndex <= 1 ? 'disabled' : ''}">
+                                                        <a th:href="@{'/admin/jobs/search?title=' + ${title} + '&searchIndexStr=' + ${searchIndex - 1}}"
+                                                           aria-label="Previous">
+                                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                                        </a>
+                                                    </li>
+
+
+                                                    <th:block th:if="${searchIndex == 0}"
+                                                              th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                                        <li>
+                                                            <a th:href="@{'/admin/jobs/' + ${pageNum}}"
+                                                               th:text="${pageNum}"></a>
+                                                        </li>
+                                                    </th:block>
+                                                    <th:block th:if="${index == 0}"
+                                                              th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                                        <li>
+                                                            <a th:href="@{'/admin/jobs/search?title=' + ${title} + '&searchIndexStr=' + ${pageNum}}"
+                                                               th:text="${pageNum}"></a>
+                                                        </li>
+                                                    </th:block>
+
+
+                                                    <li th:if="${searchIndex == 0}"
+                                                        th:class="${index >= totalPages ? 'disabled' : ''}">
+                                                        <a th:href="@{'/admin/jobs/' + ${index + 1}}" aria-label="Next">
+                                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li th:if="${index == 0}"
+                                                        th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
+                                                        <a th:href="@{'/admin/jobs/search?title=' + ${title} + '&searchIndexStr=' + ${searchIndex + 1}}"
+                                                           aria-label="Next">
+                                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- end pager -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<!-- BUY TEMPLATE
+================================================== -->
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+<!-- end scroll to top -->
+
+<!-- all js include start -->
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
+
+<!-- search -->
+<script src="/search/search.js"></script>
+
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
+
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+
+<!-- all js include end -->
+
+</body>
+
+</html>

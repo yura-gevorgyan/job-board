@@ -5,3 +5,8 @@ spring:
     password: hilg456
   liquibase:
     change-log: classpath*:db/change-log.xml
+
+program:
+  pictures:
+    file:
+      path: C:/Users/Dell/IdeaProjects/job-board/src/programfiles

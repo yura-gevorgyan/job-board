@@ -31,4 +31,7 @@ public class Company {
     @ManyToOne
     private Category category;
 
+    @Transient
+    private int activeJobs;
+
 }

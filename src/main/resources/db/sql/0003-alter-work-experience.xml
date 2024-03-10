@@ -1,0 +1,15 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0003-alter-work-experience" author="Lyova Hakobyan">
+        <dropColumn tableName="resume" columnName="work_experience"/>
+        <addColumn tableName="resume">
+            <column name="work_experience"
+                    type="enum('LESS_THAN_1_YEAR', 'FROM_1_TO_3', 'FROM_3_TO_5', 'FROM_5_TO_MORE')" afterColumn="expected_salary">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

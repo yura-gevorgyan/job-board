@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- title  -->
+    <title>Dashboard</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- PAGE LOADING
+    ================================================== -->
+    <div id="preloader"></div>
+
+    <!-- MAIN WRAPPER
+    ================================================== -->
+    <div class="main-wrapper">
+
+        <!-- HEADER
+        ================================================== -->
+        <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+        <!-- EMPLOYER DASHBOARD
+        ================================================== -->
+        <section class="py-0">
+            <div class="row g-0">
+                <th:block th:insert="~{admin/adminfragment/left-menue-fragment::left-menue-fragment}"/>
+                <div class="col-lg-9">
+                    <div class="dashboard-right-sidebar">
+                        <div class="row mb-2-2">
+                            <div class="col-lg-12 mb-1-9">
+                                <h3 class="mb-3">Recent Statics</h3>
+                            </div>
+                            <div class="col-sm-6 col-lg-3 mb-1-9 mb-lg-0">
+                                <div class="card card-style1">
+                                    <div class="card-body p-1-6">
+                                        <div class="categorie-icon light-blue">
+                                            <i class="ti-briefcase blue"></i>
+                                        </div>
+                                        <h3 class="h2 mb-1" th:text="${companyCount}"></h3>
+                                        <span class="mb-0 display-30">Total Companies</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3 mb-1-9 mb-lg-0">
+                                <div class="card card-style1">
+                                    <div class="card-body p-1-6">
+                                        <div class="categorie-icon red">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <h3 class="h2 mb-1" th:text="${userCount}"></h3>
+                                        <span class="mb-0 display-30">Total Users</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3 mb-1-9 mb-sm-0">
+                                <div class="card card-style1">
+                                    <div class="card-body p-1-6">
+                                        <div class="categorie-icon yellow">
+                                            <i class="ti-comment-alt"></i>
+                                        </div>
+                                        <h3 class="h2 mb-1" th:text="${resumeCount}"></h3>
+                                        <span class="mb-0 display-30">Total Resumes</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="card card-style1">
+                                    <div class="card-body p-1-6">
+                                        <div class="categorie-icon green">
+                                            <i class="ti-bookmark"></i>
+                                        </div>
+                                        <h3 class="h2 mb-1" th:text="${jobCount}"></h3>
+                                        <span class="mb-0 display-30">Posted Jobs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2-2">
+                            <div class="col-xl-7 mb-2-2 mb-xl-0">
+                                <div class="dashboard-title">
+                                    <h5 class="mb-0">Your Profile Views</h5>
+                                </div>
+                                <div class="dashboard-widget">
+
+                                </div>
+                            </div>
+                            <div class="col-xl-5">
+                                <div class="dashboard-title">
+                                    <h5 class="mb-0">Last Posted Jobs</h5>
+                                </div>
+                                <div class="dashboard-widget">
+                                    <div class="d-flex align-items-center mb-4" th:each="job : ${jobs}">
+                                        <div class="flex-shrink-0">
+                                            <div class="notification-icon green"><i class="ti-layers"></i></div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h6 class="mb-0"><span th:text="${job.title}"></span><br><span class="green" th:text="${job.category.name}"></span></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2-2">
+                            <div class="col-lg-12">
+                                <div class="dashboard-title">
+                                    <h5 class="mb-0">Recent Resumes</h5>
+                                </div>
+                                <div class="dashboard-widget">
+                                    <div class="row mt-n1-9">
+                                        <div th:each="resume : ${resumes}" class="col-xxl-6 mt-1-9">
+                                            <div class="card-style2">
+                                                <div class="card-body">
+                                                    <div class="d-sm-flex justify-content-between align-items-center">
+                                                        <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
+                                                            <div class="flex-shrink-0 mb-3 mb-sm-0">
+                                                                <img src="/img/candidate/candidate-01.jpg" alt="..." class="border-radius-50">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-sm-3">
+                                                                <h5><a href="employer-details.html" th:text="${resume.user.name} + ' ' + ${resume.user.surname}"></a></h5>
+                                                                <div class="mb-3">
+                                                                    <span class="text-secondary me-2 display-30" th:text="${resume.category.name}"></span>
+                                                                    <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i><span th:text="${resume.location}"></span></span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="company-info" th:text="${resume.profession}"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ul class="list-style">
+                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- BUY TEMPLATE
+    ================================================== -->
+    <!-- start scroll to top -->
+    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+    <!-- end scroll to top -->
+
+    <!-- all js include start -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- popper js -->
+    <script src="/js/popper.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- core.min.js -->
+    <script src="/js/core.min.js"></script>
+
+    <!-- search -->
+    <script src="/search/search.js"></script>
+
+    <!-- custom scripts -->
+    <script src="/js/main.js"></script>
+
+    <!-- form plugins js -->
+    <script src="/quform/js/plugins.js"></script>
+
+    <!-- form scripts js -->
+    <script src="/quform/js/scripts.js"></script>
+
+    <!-- all js include end -->
+
+</body>
+
+</html>

@@ -35,6 +35,9 @@ public class Resume {
 
     private String profession;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date createdDate;
+
     @ManyToOne
     private Category category;
 

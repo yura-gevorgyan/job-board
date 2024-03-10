@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="col-lg-3 mb-2-2 mb-lg-0" th:fragment="left-menue-fragment">
+  <div class="dashboard-left-sidebar">
+    <h3 class="bg-primary text-white collapse-sm m-0 h5 px-3 py-3 font-weight-600 d-block d-lg-none">Dashboard</h3>
+    <ul class="dashboard-list dashboard-menu">
+
+      <li th:if="${!page.equals('dashboard')}"><a href="/admin"><i class="ti-home"></i>Dashboard</a></li>
+      <li th:if="${page.equals('dashboard')}" class="active"><a href="/admin"><i class="ti-home"></i>Dashboard</a></li>
+
+      <li th:if="${!page.equals('users')}"><a href="/admin/users/1"><i class="ti-user"></i>User Accounts</a></li>
+      <li th:if="${page.equals('users')}" class="active"><a href="/admin/users/1"><i class="ti-user"></i>User Accounts</a></li>
+
+      <li th:if="${!page.equals('resumes')}"><a href="/admin/resumes/1"><i class="ti-ruler-pencil"></i>User Resumes</a></li>
+      <li th:if="${page.equals('resumes')}" class="active"><a href="/admin/resumes/1"><i class="ti-ruler-pencil"></i>User Resumes</a></li>
+
+      <li th:if="${!page.equals('companies')}"><a href="/admin/companies/1"><i class="ti-briefcase"></i>Companies</a></li>
+      <li th:if="${page.equals('companies')}" class="active"><a href="/admin/companies/1"><i class="ti-briefcase"></i>Companies</a></li>
+
+      <li th:if="${!page.equals('jobs')}"><a href="/admin/jobs/1"><i class="ti-bookmark"></i>Jobs</a></li>
+      <li th:if="${page.equals('jobs')}" class="active"><a href="/admin/jobs/1"><i class="ti-bookmark"></i>Jobs</a></li>
+
+      <li th:if="${!page.equals('categoryConfig')}"><a href="/admin/categories"><i class="ti-notepad"></i>Work Category Configurations</a></li>
+      <li th:if="${page.equals('categoryConfig')}" class="active"><a href="/admin/categories"><i class="ti-notepad"></i>Work Category Configurations</a></li>
+
+      <li><a href="/logout"><i class="ti-power-off"></i>Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

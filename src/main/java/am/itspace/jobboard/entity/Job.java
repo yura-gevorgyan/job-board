@@ -1,6 +1,7 @@
 package am.itspace.jobboard.entity;
 
 import am.itspace.jobboard.entity.enums.Status;
+import am.itspace.jobboard.entity.enums.WorkExperience;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,7 +22,9 @@ public class Job {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publishedDate;
 
-    private double experience;
+    @Enumerated(EnumType.STRING)
+    private WorkExperience workExperience;
+
     private String location;
     private double salary;
     private String description;
@@ -37,6 +40,8 @@ public class Job {
 
     @ManyToOne
     private Company company;
+
+    private boolean isDeleted;
 
 
 }

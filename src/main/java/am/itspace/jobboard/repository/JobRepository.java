@@ -1,9 +1,23 @@
 package am.itspace.jobboard.repository;
 
 import am.itspace.jobboard.entity.Job;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface JobRepository extends JpaRepository<Job, Integer> {
 
+    int countBy();
+
+    List<Job> findTop4ByOrderByPublishedDateDesc();
+
+    int countByTitleContaining(String title);
+
+    Page<Job> findAllByTitleContaining(PageRequest pageRequest, String title);
+
+    int countByCompanyId(int companyId);
 
 }
