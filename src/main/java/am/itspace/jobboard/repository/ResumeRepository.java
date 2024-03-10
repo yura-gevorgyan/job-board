@@ -1,9 +1,28 @@
 package am.itspace.jobboard.repository;
 
-import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.Resume;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ResumeRepository extends JpaRepository<Job, Integer> {
+import java.util.List;
 
+public interface ResumeRepository extends JpaRepository<Resume, Integer> {
+
+    int countBy();
+
+    List<Resume> findTop6ByOrderByCreatedDateDesc();
+
+    int countByUserEmailContaining(String email);
+
+    int countByCategoryId(int id);
+
+    int countByUserEmailContainingAndCategoryId(String email, int id);
+
+    Page<Resume> findAllByUserEmailContaining(PageRequest pageRequest, String email);
+
+    Page<Resume> findAllByCategoryId(PageRequest pageRequest, int id);
+
+    Page<Resume> findAllByUserEmailContainingAndCategoryId(PageRequest pageRequest, String email, int id);
 
 }

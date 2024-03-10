@@ -1,7 +1,6 @@
 package am.itspace.jobboard.entity;
 
-import am.itspace.jobboard.entity.enums.UserRole;
-import jakarta.persistence.Column;
+import am.itspace.jobboard.entity.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,6 +17,7 @@ import java.util.Date;
 @Table(name = "user")
 @Data
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,11 +29,10 @@ public class User {
     private boolean activated;
     private boolean isDeleted;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date registerDate;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "role")
-    private UserRole userRole;
 
 }

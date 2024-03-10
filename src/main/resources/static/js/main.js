@@ -20,7 +20,7 @@
         a(this).remove()
     }), t.on("scroll", function () {
         var e = t.scrollTop(), o = a(".navbar-brand img"), s = a(".navbar-brand.logodefault img");
-        e <= 50 ? (a("header").removeClass("scrollHeader").addClass("fixedHeader"), o.attr("src", "/static/img/logos/logo-white.png")) : (a("header").removeClass("fixedHeader").addClass("scrollHeader"), o.attr("src", "/static/img/logos/logo.png")), s.attr("src", "/static/img/logos/logo.png")
+        e <= 50 ? (a("header").removeClass("scrollHeader").addClass("fixedHeader"), o.attr("src", "/img/logos/logo-white.png")) : (a("header").removeClass("fixedHeader").addClass("scrollHeader"), o.attr("src", "/img/logos/logo.png")), s.attr("src", "/img/logos/logo.png")
     }), t.on("scroll", function () {
         500 < a(this).scrollTop() ? a(".scroll-to-top").fadeIn(400) : a(".scroll-to-top").fadeOut(400)
     }), a(".scroll-to-top").on("click", function (e) {

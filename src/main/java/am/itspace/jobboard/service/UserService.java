@@ -1,16 +1,14 @@
 package am.itspace.jobboard.service;
 
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.entity.enums.UserRole;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.web.multipart.MultipartFile;
+import am.itspace.jobboard.entity.enums.Role;
+import org.springframework.data.domain.Page;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User register(User user, String confirmPassword, UserRole userRole);
+    User register(User user, String confirmPassword, Role role);
 
     User save(User user);
 
@@ -18,6 +16,17 @@ public interface UserService {
 
     User findByEmail(String email);
 
+    int getUserCount();
+
+    int getTotalPages();
+
+    Page<User> getUsersFromNToM(int index);
+
+    int getTotalPagesOfSearch(String email, String role);
+
+    int getUserCountOfEmailRole(String email, String role);
+
+    Page<User> getUsersFromNToMForSearch(int index, String email, String role);
     User confirmEmail(String confirmEmailCode);
 
     User forgotPassword(String email);

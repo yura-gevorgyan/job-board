@@ -1,7 +1,7 @@
 package am.itspace.jobboard.controller;
 
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.entity.enums.UserRole;
+import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.service.UserService;
@@ -29,8 +29,8 @@ public class RegisterController {
     @GetMapping
     public String registerPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
         AddMessageUtil.addMessageToModel(msg, modelMap);
-        Set<UserRole> nonAdminRoles = EnumSet.complementOf(EnumSet.of(UserRole.ADMIN));
-        modelMap.addAttribute("userRoles", new ArrayList<>(nonAdminRoles));
+        Set<Role> nonAdminRoles = EnumSet.complementOf(EnumSet.of(Role.ADMIN));
+        modelMap.addAttribute("roles", new ArrayList<>(nonAdminRoles));
         return "registration";
     }
 
@@ -53,12 +53,12 @@ public class RegisterController {
             @ModelAttribute User user,
             @RequestParam String confirmPassword) {
 
-        if (user.getUserRole() == null || user.getUserRole().toString().isEmpty()) {
+        if (user.getRole() == null || user.getRole().toString().isEmpty()) {
             return "redirect:/register?msg=Choose your type!";
         }
 
         try {
-            userService.register(user, confirmPassword, user.getUserRole());
+            userService.register(user, confirmPassword, user.getRole());
         } catch (EmailIsPresentException e) {
             return "redirect:/register?msg=Email is already in use";
         } catch (PasswordNotMuchException e) {

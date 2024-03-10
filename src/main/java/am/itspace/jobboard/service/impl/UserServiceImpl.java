@@ -1,20 +1,20 @@
 package am.itspace.jobboard.service.impl;
 
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.entity.enums.UserRole;
+import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
-import am.itspace.jobboard.exception.EmailNotFoundException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.repository.UserRepository;
 import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.GenerateTokenUtil;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final SendMessageService sendMessageService;
 
     @Override
-    public User register(User user, String confirmPassword, UserRole userRole) {
+    public User register(User user, String confirmPassword, Role role) {
         Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
 
         if (byEmail.isPresent()) {
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setUserRole(userRole);
+        user.setRole(role);
         user.setToken(GenerateTokenUtil.generateToken());
         user.setActivated(false);
         user.setDeleted(false);
@@ -92,6 +92,77 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public int getUserCount() {
+        return userRepository.countBy();
+    }
+
+    @Override
+    public int getTotalPages() {
+        int pageSize = 20;
+        long totalCount = userRepository.count();
+        return (int) Math.ceil((double) totalCount / pageSize);
+    }
+
+    @Override
+    public Page<User> getUsersFromNToM(int index) {
+        int pageSize = 20;
+        return userRepository.findAll(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")));
+    }
+
+    @Override
+    public int getTotalPagesOfSearch(String email, String role) {
+        int pageSize = 20;
+        long totalCount = getUserCountOfEmailRole(email, role);
+        return (int) Math.ceil((double) totalCount / pageSize);
+    }
+
+    @Override
+    public int getUserCountOfEmailRole(String email, String role) {
+        Role roleEnum;
+        if ((email == null || email.trim().isEmpty()) && (role == null || role.trim().isEmpty())) {
+            return 0;
+        }
+        if (email == null || email.trim().isEmpty()) {
+            try {
+                roleEnum = Role.valueOf(role);
+                return userRepository.countByRole(roleEnum);
+            } catch (IllegalArgumentException e) {
+                return 0;
+            }
+        }
+        if (role == null || role.trim().isEmpty()) {
+            return userRepository.countByEmailContaining(email);
+        }
+        try {
+            roleEnum = Role.valueOf(role);
+            return userRepository.countByEmailContainingAndRole(email, roleEnum);
+        } catch (IllegalArgumentException ignored) {
+            return 0;
+        }
+    }
+
+    @Override
+    public Page<User> getUsersFromNToMForSearch(int index, String email, String role) {
+        int pageSize = 20;
+        Role roleEnum;
+        if ((email == null || email.trim().isEmpty()) && (role == null || role.trim().isEmpty())) {
+            return null;
+        }
+        if (email == null || email.trim().isEmpty()) {
+            try {
+                roleEnum = Role.valueOf(role);
+                return userRepository.findAllByRole(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")), roleEnum);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+        if (role == null || role.trim().isEmpty()) {
+            return userRepository.findAllByEmailContaining(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")), email);
+        }
+        return userRepository.findAllByEmailContainingAndRole(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")), email, Role.valueOf(role));
     }
 
     @Override

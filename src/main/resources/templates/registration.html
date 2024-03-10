@@ -16,16 +16,16 @@
     <title>Job Board - Job Portal HTML Template</title>
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="/static/img/logos/favicon.png"/>
-    <link rel="apple-touch-icon" href="/static/img/logos/apple-touch-icon-57x57.png"/>
-    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/logos/apple-touch-icon-72x72.png"/>
-    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/logos/apple-touch-icon-114x114.png"/>
+    <link rel="shortcut icon" href="/img/logos/favicon.png"/>
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png"/>
 
     <!-- plugins -->
     <link rel="stylesheet" href="/css/plugins.css"/>
 
     <!-- search css -->
-    <link rel="stylesheet" href="/static/search/search.css"/>
+    <link rel="stylesheet" href="/search/search.css"/>
 
     <!-- quform css -->
     <link rel="stylesheet" href="/quform/css/base.css">
@@ -48,13 +48,13 @@
     <!-- LOGIN
     ================================================== -->
     <section class="full-screen cover-background bg-img d-flex align-items-center p-0" data-overlay-dark="8"
-             data-background="/static/img/bg/bg-02.jpg">
+             data-background="/img/bg/bg-02.jpg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="row g-0">
                         <div class="col-lg-5 bg-img cover-background min-height-300 rounded-start-lg-10px d-none d-lg-block"
-                             data-background="/static/img/bg/bg-03.jpg"></div>
+                             data-background="/img/bg/bg-03.jpg"></div>
                         <div class="col-lg-7">
                             <div class="p-1-6 p-sm-1-9 p-lg-2-2 p-xl-2-9 bg-white rounded-start-md-10px rounded-end-lg-10px">
                                 <div class="text-center mb-1-6 mb-lg-1-9">
@@ -74,7 +74,7 @@
                                                 <i class="ti-user"></i>
                                             </div>
                                             <input type="text" class="form-control border-radius-10" name="name"
-                                                   placeholder="name" id="name" required>
+                                                   placeholder="Name" id="name" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-3">
@@ -84,7 +84,7 @@
                                                 <i class="ti-user"></i>
                                             </div>
                                             <input type="text" class="form-control border-radius-10" name="surname"
-                                                   placeholder="surname" id="surname" required>
+                                                   placeholder="Surname" id="surname" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-3">
@@ -93,7 +93,7 @@
                                             <div class="input-group-text bg-light border-radius-10">
                                                 <i class="ti-user"></i>
                                             </div>
-                                            <input type="text" class="form-control border-radius-10" name="email"
+                                            <input type="email" class="form-control border-radius-10" name="email"
                                                    placeholder="example@company.com" id="username" required>
                                         </div>
                                     </div>
@@ -126,9 +126,9 @@
                                                 </div>
                                                 <label>
                                                     <div class="quform-input">
-                                                        <select class="form-control form-select" name="userRole">
+                                                        <select class="form-control form-select" name="role">
                                                             <option value="" disabled selected>Choose type</option> <!-- Добавленный элемент -->
-                                                            <option th:each="role : ${userRoles}" th:value="${role}" th:text="${role}"></option>
+                                                            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
                                                         </select>
                                                     </div>
                                                 </label>
@@ -181,19 +181,14 @@
 
 <!-- BUY TEMPLATE
 ================================================== -->
-<div class="buy-theme alt-font d-none d-lg-inline-block"><a
-        href="https://wrapbootstrap.com/theme/job-board-job-portal-html-template-WB0S2FC71" target="_blank"><i
-        class="fas fa-cart-plus"></i><span>Buy Template</span></a></div>
-
-<div class="all-demo alt-font d-none d-lg-inline-block"><a href="https://www.chitrakootweb.com/contact.html"
-                                                           target="_blank"><i class="far fa-envelope"></i><span>Quick Question?</span></a>
-</div>
 
 <!-- start scroll to top -->
 <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+<!-- jQuery -->
+
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
 
@@ -202,30 +197,6 @@
 
 <!-- bootstrap -->
 <script src="/js/bootstrap.min.js"></script>
-
-<!-- core.min.js -->
-<script src="/js/core.min.js"></script>
-
-<!-- search -->
-<script src="/search/search.js"></script>
-
-<!-- custom scripts -->
-<script src="/js/main.js"></script>
-
-<!-- form plugins js -->
-<script src="/quform/js/plugins.js"></script>
-
-<!-- form scripts js -->
-<script src="/quform/js/scripts.js"></script>
-
-<!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
-
-<!-- popper js -->
-<script src="/js/popper.min.js"></script>
-
-<!-- bootstrap -->
-<script src="/static/js/bootstrap.min.js"></script>
 
 <!-- core.min.js -->
 <script src="/js/core.min.js"></script>
