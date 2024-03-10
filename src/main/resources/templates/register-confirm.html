@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Email</title>
+    <link rel="stylesheet" href="/css/confirmEmail.css">
+</head>
+<body>
+<div class="container">
+    <h1>Confirm Email</h1>
+    <p>Welcome! To complete registration, please confirm your email address.</p>
+    <div class="text-center mb-1-6 mb-lg-1-9">
+        <h2 class="h3 mb-0">Create Your Account</h2>
+        <span th:if="${msg != null}">
+         <div class="alert alert-danger alert-dismissible">
+           <strong th:text="${msg}"></strong>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+        </span>
+    </div>
+    <div class="timer-container">
+        <span class="timer-text">01:00</span>
+    </div>
+    <form action="/register/confirm" method="post">
+        <input type="text" name="confirmEmailCode" class="confirmation-code" maxlength="6" placeholder="XXXXXX">
+        <button class="btn btn-green">Confirm code</button>
+    </form>
+</div>
+<script src="/js/confirmEmailTimer.js"></script>
+</body>
+</html>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
+
+<!-- search -->
+<script src="/search/search.js"></script>
+
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
+
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
