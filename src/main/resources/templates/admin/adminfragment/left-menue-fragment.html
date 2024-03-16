@@ -26,8 +26,8 @@
       <li th:if="${!page.equals('jobs')}"><a href="/admin/jobs/1"><i class="ti-bookmark"></i>Jobs</a></li>
       <li th:if="${page.equals('jobs')}" class="active"><a href="/admin/jobs/1"><i class="ti-bookmark"></i>Jobs</a></li>
 
-      <li th:if="${!page.equals('categoryConfig')}"><a href="/admin/categories"><i class="ti-notepad"></i>Work Category Configurations</a></li>
-      <li th:if="${page.equals('categoryConfig')}" class="active"><a href="/admin/categories"><i class="ti-notepad"></i>Work Category Configurations</a></li>
+      <li th:if="${!page.equals('categories')}"><a href="/admin/categories"><i class="ti-notepad"></i>Work Category Configurations</a></li>
+      <li th:if="${page.equals('categories')}" class="active"><a href="/admin/categories"><i class="ti-notepad"></i>Work Category Configurations</a></li>
 
       <li><a href="/logout"><i class="ti-power-off"></i>Logout</a></li>
     </ul>

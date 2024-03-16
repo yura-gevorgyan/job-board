@@ -23,4 +23,12 @@ public interface JobService {
 
     int getCountByCompanyId(int id);
 
+    void blockById(int id);
+
+    void unlockById(int id);
+
+    List<Job> getAllByCompanyId(int id);
+
+    void save(Job job);
+
 }

@@ -25,4 +25,6 @@ public class ApplicantList {
     @ManyToOne
     private Resume resume;
 
+    private boolean isActive;
+
 }

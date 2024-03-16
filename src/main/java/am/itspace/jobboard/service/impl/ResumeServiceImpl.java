@@ -3,6 +3,7 @@ package am.itspace.jobboard.service.impl;
 import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.repository.ResumeRepository;
 import am.itspace.jobboard.service.ResumeService;
+import am.itspace.jobboard.service.SendMailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,12 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository resumeRepository;
+
+    private final SendMailService sendMailService;
 
     @Override
     public int getResumeCount() {
@@ -74,6 +78,15 @@ public class ResumeServiceImpl implements ResumeService {
             return resumeRepository.findAllByCategoryId(PageRequest.of(index - 1, pageSize), categoryId);
         }
         return resumeRepository.findAllByUserEmailContainingAndCategoryId(PageRequest.of(index - 1, pageSize), userEmail, categoryId);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        Optional<Resume> byId = resumeRepository.findById(id);
+        if (byId.isPresent()) {
+            sendMailService.sendEmailResumeDeleted(byId.get().getUser());
+            resumeRepository.deleteById(id);
+        }
     }
 
 

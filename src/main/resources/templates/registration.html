@@ -128,7 +128,7 @@
                                                     <div class="quform-input">
                                                         <select class="form-control form-select" name="role">
                                                             <option value="" disabled selected>Choose type</option> <!-- Добавленный элемент -->
-                                                            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                                                            <option th:each="role : ${roles}" th:value="${role}" th:text="${role.name().replace('_',' ')}"></option>
                                                         </select>
                                                     </div>
                                                 </label>
@@ -137,7 +137,7 @@
 
                                         <div class="col-lg-12">
                                         <div class="d-grid">
-                                            <button type="submit" class="butn">Create An Account</button>
+                                            <button type="submit" class="butn">Create</button>
                                         </div>
                                     </div>
                                     </div>

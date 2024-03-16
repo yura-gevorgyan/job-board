@@ -1,8 +1,8 @@
 package am.itspace.jobboard.scheduler;
 
 import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.service.UserService;
-import am.itspace.jobboard.service.impl.SendMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 public class UserSchedulerService {
 
     private final UserService userService;
-    private final SendMessageService sendMessageService;
+    private final SendMailService sendMailService;
 
     @Scheduled(cron = "0 * * * * ?")
     @Transactional
@@ -25,7 +25,7 @@ public class UserSchedulerService {
         for (User user : userByActivated) {
             if (user.getRegisterDate() != null && user.getRegisterDate().before(new Date(System.currentTimeMillis() - 60000))) {
                 userService.delete(user);
-                sendMessageService.send(user.getEmail(), "Deleting register dates", "Your dates is deleted please register again");
+                sendMailService.send(user.getEmail(), "Deleting register dates", "Your dates is deleted please register again");
             }
         }
     }

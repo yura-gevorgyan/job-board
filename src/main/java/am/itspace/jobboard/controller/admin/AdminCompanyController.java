@@ -20,7 +20,7 @@ public class AdminCompanyController {
     private final CategoryService categoryService;
 
     @GetMapping("/{indexStr}")
-    public String getCompaniesPage(@PathVariable String indexStr, ModelMap modelMap) {
+    public String getCompaniesPage(@PathVariable(name = "indexStr") String indexStr, ModelMap modelMap) {
         int totalPages = companyService.getTotalPages();
         int index;
         try {
@@ -71,7 +71,7 @@ public class AdminCompanyController {
         modelMap.put("searchIndex", searchIndex);
         modelMap.put("name", name);
         if (categoryService.exists(categoryId)) {
-            modelMap.put("category", categoryService.findById(categoryId));
+            modelMap.put("category", categoryId);
         } else {
             modelMap.put("category", "");
         }

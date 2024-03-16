@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Companies</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -79,15 +79,16 @@
                                                             class="form-control form-select border-radius-10"
                                                             name="category">
                                                         <option value="">Select Category</option>
-                                                        <option th:each="category : ${categories}"
-                                                                th:value="${category.id}"
-                                                                th:text="${category.name}"></option>
+                                                        <option th:each="currentCategory : ${categories}"
+                                                                th:value="${currentCategory.id}"
+                                                                th:text="${currentCategory.name}"
+                                                                th:selected="${currentCategory.id == category}"></option>
                                                     </select>
                                                 </li>
                                                 <li class="search"><i class="fas fa-search"></i></li>
                                                 <li><input style="width: 150px" id="longitude" class="form-control"
                                                            type="text"
-                                                           name="name" placeholder="Enter Company Name"></li>
+                                                           name="name" placeholder="Enter Company Name" th:value="${name}"></li>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <li class="d-none d-xl-inline-block">
                                                     <button type="submit" class="not-border"><a
@@ -110,11 +111,12 @@
                                         <th>Active Jobs</th>
                                         <th>Email</th>
                                         <th>Owner Email</th>
-                                        <th>Action</th>
+                                        <th>Activation</th>
+                                        <th>Watch / Delete</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="company : ${companies}">
+                                    <tr th:each="company : ${companies}" class="single-row">
                                         <td>
                                             <div class="d-xl-flex align-items-center">
                                                 <div class="flex-shrink-0 mb-3 mb-xl-0">
@@ -130,15 +132,22 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><span class="text-danger font-weight-600"
+                                        <td><span style="font-size: 130%; margin-left: 16%" class="text-danger font-weight-600"
                                                   th:text="${company.activeJobs}"></span></td>
                                         <td th:text="${company.email}"></td>
                                         <td><span class="text-success font-weight-600"
                                                   th:text="${company.user.email}"></span></td>
                                         <td>
+                                            <span th:if="${company.active}" class="text-success font-weight-600">Active</span>
+                                            <span th:if="${!company.active}" class="text-danger font-weight-600">Not Active</span>
+                                        </td>
+                                        <td>
                                             <ul class="action-list">
                                                 <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                <li><a href="#!" class="delete-company"
+                                                       th:data-company-id="${company.id}"><span
+                                                        class="ti-trash"></span></a>
+                                                </li>
                                             </ul>
                                         </td>
                                     </tr>
@@ -160,7 +169,7 @@
                                                 </li>
                                                 <li th:if="${index == 0}"
                                                     th:class="${searchIndex <= 1 ? 'disabled' : ''}">
-                                                    <a th:href="@{'/admin/companies/search?category=' + ${category.id} + '&name=' + ${name} + '&searchIndexStr=' + ${searchIndex - 1}}"
+                                                    <a th:href="@{'/admin/companies/search?category=' + ${category} + '&name=' + ${name} + '&searchIndexStr=' + ${searchIndex - 1}}"
                                                        aria-label="Previous">
                                                         <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
                                                     </a>
@@ -177,7 +186,7 @@
                                                 <th:block th:if="${index == 0}"
                                                           th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
                                                     <li>
-                                                        <a th:href="@{'/admin/companies/search?category=' + ${category.id} + '&name=' + ${name} + '&searchIndexStr=' + ${pageNum}}"
+                                                        <a th:href="@{'/admin/companies/search?category=' + ${category} + '&name=' + ${name} + '&searchIndexStr=' + ${pageNum}}"
                                                            th:text="${pageNum}"></a>
                                                     </li>
                                                 </th:block>
@@ -192,7 +201,7 @@
                                                 </li>
                                                 <li th:if="${index == 0}"
                                                     th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
-                                                    <a th:href="@{'/admin/companies/search?category=' + ${category.id} + '&name=' + ${name} + '&searchIndexStr=' + ${searchIndex + 1}}"
+                                                    <a th:href="@{'/admin/companies/search?category=' + ${category} + '&name=' + ${name} + '&searchIndexStr=' + ${searchIndex + 1}}"
                                                        aria-label="Next">
                                                         Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                     </a>
@@ -219,6 +228,9 @@
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/companyAjaxRequest.js"></script>
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>

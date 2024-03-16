@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Jobs</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -84,7 +84,8 @@
                                                     <ul>
                                                         <li class="search"><i class="fas fa-search"></i></li>
                                                         <li><input id="longitude" class="form-control" type="text"
-                                                                   name="title" placeholder="Enter Job Title"></li>
+                                                                   name="title" placeholder="Enter Job Title"
+                                                                   th:value="${title}"></li>
                                                         <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                         <li class="d-none d-xl-inline-block">
                                                             <button type="submit" class="not-border"><a
@@ -109,7 +110,7 @@
                                             <th>Title</th>
                                             <th>Published Date</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Watch / Block / Unlock</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -130,14 +131,23 @@
                                                 </div>
                                             </td>
                                             <td th:text="${#dates.format(job.publishedDate,'MMM dd, yyyy')}"></td>
-                                            <td th:if="${job.deleted}"><span
-                                                    class="text-danger font-weight-600">Deleted</span></td>
-                                            <td th:if="${!job.deleted}"><span class="text-success font-weight-600">Active</span>
+                                            <td class="job-status">
+                                                <span th:hidden="${job.deleted}" class="text-success font-weight-600">Active</span>
+                                                <span th:hidden="${!job.deleted}" class="text-danger font-weight-600">Deleted</span>
                                             </td>
                                             <td>
                                                 <ul class="action-list">
                                                     <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                    <li style="margin-left: 15%" th:hidden="${job.deleted}">
+                                                        <a href="#!" class="block-job" th:data-job-id="${job.id}">
+                                                            <span class="fa-solid fa-lock"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li style="margin-left: 15%" th:hidden="${!job.deleted}">
+                                                        <a href="#!" class="unlock-job" th:data-job-id="${job.id}">
+                                                            <span class="fa-solid fa-lock-open"></span>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -220,6 +230,9 @@
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/jobAjaxRequest.js"></script>
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>

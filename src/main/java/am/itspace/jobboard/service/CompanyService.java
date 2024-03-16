@@ -17,4 +17,6 @@ public interface CompanyService {
 
     Page<Company> getCompaniesFromNToMForSearch(int index, int categoryId, String name);
 
+    void deleteById(int id);
+
 }

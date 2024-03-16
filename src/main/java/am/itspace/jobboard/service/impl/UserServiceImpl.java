@@ -1,11 +1,22 @@
 package am.itspace.jobboard.service.impl;
 
+import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Company;
+import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.JobApplies;
+import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
+import am.itspace.jobboard.repository.ApplicantListRepository;
+import am.itspace.jobboard.repository.CompanyRepository;
+import am.itspace.jobboard.repository.JobAppliesRepository;
+import am.itspace.jobboard.repository.JobRepository;
+import am.itspace.jobboard.repository.ResumeRepository;
 import am.itspace.jobboard.repository.UserRepository;
+import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.GenerateTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -25,7 +37,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SendMessageService sendMessageService;
+    private final SendMailService sendMailService;
+    private final JobRepository jobRepository;
+    private final CompanyRepository companyRepository;
+    private final ApplicantListRepository applicantListRepository;
+    private final JobAppliesRepository jobAppliesRepository;
+    private final ResumeRepository resumeRepository;
 
     @Override
     public User register(User user, String confirmPassword, Role role) {
@@ -45,7 +62,7 @@ public class UserServiceImpl implements UserService {
         user.setRegisterDate(new Date());
 
         User save = userRepository.save(user);
-        sendMessageService.sendEmailConfirmMail(save);
+        sendMailService.sendEmailConfirmMail(save);
 
         return save;
     }
@@ -60,7 +77,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(password));
         save(user);
-        sendMessageService.send(user.getEmail(), "Changing Password", "Password successfully changed!");
+        sendMailService.send(user.getEmail(), "Changing Password", "Password successfully changed!");
         return user;
     }
 
@@ -71,7 +88,7 @@ public class UserServiceImpl implements UserService {
             User user = optionalUser.get();
             user.setActivated(true);
             save(user);
-            sendMessageService.send(user.getEmail(), "successMessage", "Email confirmed successfully!");
+            sendMailService.send(user.getEmail(), "successMessage", "Email confirmed successfully!");
             return user;
         }
         return null;
@@ -83,7 +100,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             user.setToken(GenerateTokenUtil.generateToken());
             save(user);
-            sendMessageService.sendEmailConfirmMail(user);
+            sendMailService.sendEmailConfirmMail(user);
             return user;
         }
         return null;
@@ -188,5 +205,88 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public List<User> getLast4Users() {
+        return userRepository.findTop4ByOrderByRegisterDateDesc();
+    }
+
+    @Override
+    @Transactional
+    public void blockById(int id) {
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            List<Job> allByUser = jobRepository.getAllByUser(user);
+            for (Job job : allByUser) {
+                job.setDeleted(true);
+                jobRepository.save(job);
+            }
+            Optional<Company> byUser = companyRepository.findByUser(user);
+            if (byUser.isPresent()) {
+                Company company = byUser.get();
+                company.setActive(false);
+                companyRepository.save(company);
+            }
+            Optional<Resume> byUser1 = resumeRepository.findByUser(user);
+            if (byUser1.isPresent()) {
+                Resume resume = byUser1.get();
+                resume.setActive(false);
+                resumeRepository.save(resume);
+            }
+            List<JobApplies> allByToJobSeeker = jobAppliesRepository.findAllByToJobSeeker(user);
+            for (JobApplies jobApplies : allByToJobSeeker) {
+                jobApplies.setActive(false);
+                jobAppliesRepository.save(jobApplies);
+            }
+            List<ApplicantList> allByToEmployer = applicantListRepository.findAllByToEmployer(user);
+            for (ApplicantList applicantList : allByToEmployer) {
+                applicantList.setActive(false);
+                applicantListRepository.save(applicantList);
+            }
+            user.setDeleted(true);
+            userRepository.save(user);
+            sendMailService.sendEmailAccountBlocked(user);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void unlockById(int id) {
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            List<Job> allByUser = jobRepository.getAllByUser(user);
+            for (Job job : allByUser) {
+                job.setDeleted(false);
+                jobRepository.save(job);
+            }
+            Optional<Company> byUser = companyRepository.findByUser(user);
+            if (byUser.isPresent()) {
+                Company company = byUser.get();
+                company.setActive(true);
+                companyRepository.save(company);
+            }
+            Optional<Resume> byUser1 = resumeRepository.findByUser(user);
+            if (byUser1.isPresent()) {
+                Resume resume = byUser1.get();
+                resume.setActive(true);
+                resumeRepository.save(resume);
+            }
+            List<JobApplies> allByToJobSeeker = jobAppliesRepository.findAllByToJobSeeker(user);
+            for (JobApplies jobApplies : allByToJobSeeker) {
+                jobApplies.setActive(true);
+                jobAppliesRepository.save(jobApplies);
+            }
+            List<ApplicantList> allByToEmployer = applicantListRepository.findAllByToEmployer(user);
+            for (ApplicantList applicantList : allByToEmployer) {
+                applicantList.setActive(true);
+                applicantListRepository.save(applicantList);
+            }
+            user.setDeleted(false);
+            userRepository.save(user);
+            sendMailService.sendEmailAccountUnlocked(user);
+        }
     }
 }
