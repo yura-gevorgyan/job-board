@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0008-alter-tables-addActiveColumn" author="Lyova Hakobyan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="resume" columnName="is_active"/>
+                <columnExists tableName="company" columnName="is_active"/>
+                <columnExists tableName="job_applies" columnName="is_active"/>
+                <columnExists tableName="applicant_list" columnName="is_active"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="resume">
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="company">
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="job_applies">
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="applicant_list">
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -20,4 +20,6 @@ public interface ResumeService {
     int getResumeCountOfCategoryUserEmail(int categoryId, String userEmail);
 
     Page<Resume> getResumesFromNToMForSearch(int searchIndex, int categoryId, String userEmail);
+
+    void deleteById(int id);
 }

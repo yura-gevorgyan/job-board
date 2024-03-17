@@ -33,6 +33,7 @@ public class AdminHomeController {
         modelMap.put("companyCount", companyService.getCompanyCount());
         modelMap.put("jobs", jobService.getLast4Jobs());
         modelMap.put("resumes", resumeService.getLast6Resumes());
+        modelMap.put("users", userService.getLast4Users());
         return "admin/admin-dashboard";
     }
 

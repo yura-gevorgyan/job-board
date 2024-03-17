@@ -12,7 +12,7 @@
     <meta name="description" content="Job Board - Job Portal HTML Template">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Resumes</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -79,15 +79,17 @@
                                                             class="form-control form-select border-radius-10"
                                                             name="category">
                                                         <option value="">Select Category</option>
-                                                        <option th:each="category : ${categories}"
-                                                                th:value="${category.id}"
-                                                                th:text="${category.name}"></option>
+                                                        <option th:each="currentCategory : ${categories}"
+                                                                th:value="${currentCategory.id}"
+                                                                th:text="${currentCategory.name}"
+                                                                th:selected="${currentCategory.id == category}"></option>
                                                     </select>
                                                 </li>
                                                 <li class="search"><i class="fas fa-search"></i></li>
                                                 <li><input style="width: 150px" id="longitude" class="form-control"
                                                            type="text"
-                                                           name="email" placeholder="J. Seeker Email"></li>
+                                                           name="email" placeholder="J. Seeker Email"
+                                                           th:value="${email}"></li>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <li class="d-none d-xl-inline-block">
                                                     <button type="submit" class="not-border"><a
@@ -127,12 +129,19 @@
                                                         <div>
                                                             <span class="company-info"
                                                                   th:text="${resume.profession}"></span>
+                                                            <span th:if="${resume.active}"
+                                                                  class="company-info text-success font-weight-600">Active</span>
+                                                            <span th:if="${!resume.active}"
+                                                                  class="company-info text-danger font-weight-600">Not Active</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <ul class="action-list">
                                                     <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                    <li><a href="#!" class="delete-resume"
+                                                           th:data-resume-id="${resume.id}"><span
+                                                            class="ti-trash"></span></a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -213,6 +222,9 @@
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/resumeAjaxRequest.js"></script>
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Blocked</title>
+</head>
+<body>
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #333;">Account Blocked</h2>
+    <p style="color: #333;">
+        Dear <span th:text="${user.name}"></span>,
+    </p>
+    <p style="color: #333;">
+        We regret to inform you that your account on our platform has been blocked by the administrator due to a
+        violation of our community rules or terms of service.
+    </p>
+    <p style="color: #333;">
+        If you believe this action was taken in error or would like to request the reinstatement of your account, please
+        don't hesitate to contact our support team by replying to this email. We will investigate the matter promptly
+        and provide further assistance.
+    </p>
+    <p style="color: #3838f5;">
+        Additionally, please be aware that upon the blocking of your account, access to your company profile, your
+        resume, and any job advertisements associated with your account has also been suspended. Your data remains
+        intact, and once the issue is resolved, you will regain full access to your account and its associated
+        resources.
+    </p>
+    <p style="color: #333;">
+        Thank you for your understanding and cooperation as we work to maintain the integrity of our platform and uphold
+        our community standards.
+    </p>
+    <hr style="border: 1px solid #ddd;">
+    <p style="color: #666; font-size: 0.8em;">
+        If you have any questions or concerns, please don't hesitate to contact us at <a
+            href="mailto:jobboardofficial@example.com" style="color: #007bff;">jobboardofficial@example.com</a>.
+    </p>
+</div>
+</body>
+</html>

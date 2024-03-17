@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,5 +61,26 @@ public class CategoryServiceImpl implements CategoryService {
                 .name(name)
                 .picName(fileName)
                 .build());
+    }
+
+    @Override
+    public void update(int id, String name, MultipartFile multipartFile) {
+        Category category;
+        Optional<Category> byId = categoryRepository.findById(id);
+        if (byId.isPresent()) {
+            category = byId.get();
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+                File file = new File(FILE_PATH + File.separator + fileName);
+                try {
+                    multipartFile.transferTo(file);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                category.setPicName(fileName);
+            }
+            category.setName(name);
+            categoryRepository.save(category);
+        }
     }
 }

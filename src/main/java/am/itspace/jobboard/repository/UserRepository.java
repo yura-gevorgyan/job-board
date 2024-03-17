@@ -26,6 +26,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Page<User> findAllByRole(PageRequest pageRequest, Role role);
 
     Optional<User> findByEmail(String email);
+
     Optional<User> findByToken(String token);
+
     List<User> findUserByActivated(boolean isActive);
+
+    List<User> findTop4ByOrderByRegisterDateDesc();
 }

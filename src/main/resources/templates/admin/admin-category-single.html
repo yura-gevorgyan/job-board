@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -56,14 +56,14 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-2">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Create New Category</h3>
+                            <h3 class="mb-3">Update Category</h3>
                         </div>
                         <div class="col-lg-12">
                             <div class="dashboard-title">
-                                <h5 class="mb-0">Create</h5>
+                                <h5 class="mb-0">Change</h5>
                             </div>
                             <div class="dashboard-widget">
-                                <form action="/admin/categories/add" method="post" enctype="multipart/form-data">
+                                <form action="/admin/categories/update" method="post" enctype="multipart/form-data">
                                     <div class="quform-elements">
                                         <div class="row">
                                             <div th:if="${error != null}" class="alert alert-danger alert-dismissible">
@@ -77,8 +77,26 @@
                                                 <div class="quform-element form-group">
                                                     <label for="job-title">Category Name</label>
                                                     <div class="quform-input">
-                                                        <input id="job-title" class="form-control" type="text"
-                                                               name="name" placeholder="Enter Category Name">
+                                                        <input type="hidden" name="id" th:value="${category.id}">
+                                                        <input id="job-title" class="form-control" type="text" th:value="${category.name}"
+                                                               name="name" placeholder="Enter New Category Name">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-n1-9" style="width: 40%">
+                                                <div class="col-md-6 col-lg-4 mt-1-9" style="display: flex; justify-content: center">
+                                                    <div class="card card-style11">
+                                                        <div class="card-body">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="flex-shrink-0">
+                                                                    <div class="categories-icon">
+                                                                        <img th:src="'/download/picture/' + ${category.picName}"
+                                                                             alt="...">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -87,11 +105,11 @@
                                             <div class="col-md-12">
                                                 <div class="quform-element form-group">
                                                     <div class="quform-input">
-                                                        <label for="resume">File Attachment</label>
+                                                        <label for="resume">New File Attachment (Not Required)</label>
                                                         <div class="custom-file">
                                                             <input class="custom-file-input" type="file" id="resume"
                                                                    name="pic_name">
-                                                            <label class="custom-file-label" data-browse="Browse">Choose
+                                                            <label class="custom-file-label" data-browse="Browse">Choose New
                                                                 Category Picture</label>
                                                         </div>
                                                     </div>
@@ -100,7 +118,7 @@
 
                                             <div class="col-md-12">
                                                 <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Save Changes</span>
+                                                    <button class="butn" type="submit"><span>Update</span>
                                                     </button>
                                                 </div>
                                                 <div class="quform-loading-wrap"><span class="quform-loading"></span>
@@ -111,40 +129,6 @@
                                         </div>
                                     </div>
                                 </form>
-                                <section class="bg-primary-light">
-                                    <div class="container">
-                                        <div class="section-heading4">
-                                            <h2>Categories</h2>
-                                        </div>
-                                        <div class="row mt-n1-9">
-                                            <div th:each="category : ${categories}" class="col-md-6 col-lg-4 mt-1-9">
-                                                <div class="card card-style11">
-                                                    <div class="card-body">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="flex-shrink-0">
-                                                                <div class="categories-icon">
-                                                                    <img th:src="'/download/picture/' + ${category.picName}"
-                                                                         alt="...">
-                                                                </div>
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-3">
-                                                                <h4 class="h5" th:text="${category.name}"></h4>
-                                                                <div style="display: flex; justify-content: right">
-                                                                    <ul class="action-list">
-                                                                        <li>
-                                                                            <a th:href="'/admin/categories/' + ${category.id}"><span
-                                                                                    class="fa-solid fa-pen-to-square"></span></a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
                             </div>
                         </div>
                     </div>

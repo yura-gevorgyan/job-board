@@ -25,4 +25,6 @@ public class JobApplies {
     @JoinColumn(name = "to_job_seeker_id")
     private User toJobSeeker;
 
+    private boolean isActive;
+
 }

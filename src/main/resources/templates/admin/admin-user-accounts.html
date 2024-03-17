@@ -12,7 +12,7 @@
     <meta name="description" content="Job Board - Job Portal HTML Template">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - User Accounts</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -82,7 +82,7 @@
                                             <li class="search"><i class="fas fa-search"></i></li>
                                             <li><input style="width: 150px" id="longitude" class="form-control"
                                                        type="text"
-                                                       name="email" placeholder="Enter Email"></li>
+                                                       name="email" placeholder="Enter Email" th:value="${email}"></li>
                                             <input type="hidden" name="searchIndexStr" th:value="${1}">
                                             <li class="d-none d-xl-inline-block">
                                                 <button type="submit" class="not-border"><a
@@ -105,24 +105,33 @@
                                             <th>Activation</th>
                                             <th>Status</th>
                                             <th>Registered Date</th>
-                                            <th>Actions</th>
+                                            <th>Block / Unlock</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="user : ${users}">
                                             <td th:text="${user.email}"></td>
                                             <td th:text="${user.name} + ' ' + ${user.surname}"></td>
-                                            <td><span class="text-orange" th:text="${user.role}"></span></td>
-                                            <td th:if="${!user.activated}"><span
-                                                    class="text-danger font-weight-600">Not Activated</span></td>
+                                            <td><span class="text-orange"
+                                                      th:text="${user.role.name().replace('_',' ')}"></span></td>
+
+                                            <td th:if="${!user.activated}"><span class="text-danger font-weight-600">Not Activated</span></td>
                                             <td th:if="${user.activated}"><span class="text-success font-weight-600">Activated</span>
-                                            <td th:if="${user.deleted}"><span
-                                                    class="text-danger font-weight-600">Deleted</span></td>
-                                            <td th:if="${!user.deleted}"><span class="text-success font-weight-600">Exists</span>
+
+                                            <td class="user-status">
+                                                <span th:hidden="${user.deleted}" class="text-success font-weight-600">Exist</span>
+                                                <span th:hidden="${!user.deleted}" class="text-danger font-weight-600">Deleted</span>
+                                            </td>
+
                                             <td th:text="${#dates.format(user.registerDate,'MMM dd, yyyy HH:mm:ss')}"></td>
                                             <td>
-                                                <ul class="action-list">
-                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                <ul class="action-list" style="display: flex; justify-content: center">
+                                                    <li th:hidden="${user.deleted}"><a href="#!" class="block-user"
+                                                                                       th:data-user-id="${user.id}"><span
+                                                            class="fa-solid fa-lock"></span></a></li>
+                                                    <li th:hidden="${!user.deleted}"><a href="#!" class="unlock-user"
+                                                                                        th:data-user-id="${user.id}"><span
+                                                            class="fa-solid fa-lock-open"></span></a></li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -205,6 +214,9 @@
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/userAjaxRequest.js"></script>
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>

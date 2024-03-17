@@ -19,4 +19,6 @@ public interface CategoryService {
 
     void save(String name, MultipartFile multipartFile);
 
+    void update(int id, String name, MultipartFile multipartFile);
+
 }

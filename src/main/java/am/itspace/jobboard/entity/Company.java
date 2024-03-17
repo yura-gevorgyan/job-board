@@ -34,4 +34,6 @@ public class Company {
     @Transient
     private int activeJobs;
 
+    private boolean isActive;
+
 }

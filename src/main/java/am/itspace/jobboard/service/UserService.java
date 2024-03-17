@@ -36,5 +36,12 @@ public interface UserService {
     Optional<User> findByToken(String token);
 
     List<User> findUserByActivated(boolean isActive);
+
     void delete(User user);
+
+    List<User> getLast4Users();
+
+    void blockById(int id);
+
+    void unlockById(int id);
 }

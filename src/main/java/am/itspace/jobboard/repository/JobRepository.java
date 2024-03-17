@@ -1,6 +1,7 @@
 package am.itspace.jobboard.repository;
 
 import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +20,9 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     Page<Job> findAllByTitleContaining(PageRequest pageRequest, String title);
 
     int countByCompanyId(int companyId);
+
+    List<Job> getAllByCompanyId(int companyId);
+
+    List<Job> getAllByUser(User user);
 
 }

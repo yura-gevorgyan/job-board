@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Regarding Deletion of Your Company</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
+            color: #777;
+        }
+        .yell {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Notification Regarding Deletion of Your Company</h1>
+    <p>Dear <span th:text="${user.name}"></span>,</p>
+    <p>We regret to inform you that your company has been deleted from our platform due to a violation of our community guidelines or terms of service.</p>
+    <p>Our platform is committed to providing a fair and safe environment for all users, and we take the enforcement of our policies seriously to ensure the integrity of our platform.</p>
+    <p>Upon review, it has been determined that your company did not comply with our guidelines, resulting in its removal. We understand that this may come as disappointing news, and we would like to take this opportunity to provide further details regarding the reasons behind this decision.</p>
+    <p>Our community guidelines are in place to ensure that all companies on our platform meet certain standards of quality, legality, and appropriateness. Unfortunately, your company was found to be in violation of these guidelines, prompting its removal from our platform.</p>
+    <p>We encourage you to review our community guidelines and terms of service to ensure compliance with our policies in the future. It's essential for all users to adhere to these guidelines to maintain the quality and credibility of our platform.</p>
+    <p class="yell">Please note that although your company has been deleted, any job advertisements associated with it have now been updated to reflect that the company is no longer valid. These advertisements remain on our platform for reference purposes.</p>
+    <p>If you have any questions or concerns regarding this matter, please don't hesitate to reach out to our support team. We are here to assist you and provide clarification on any issues you may have.</p>
+    <p class="signature">Thank you for your understanding and cooperation.<br>From the administration.</p>
+</div>
+</body>
+</html>

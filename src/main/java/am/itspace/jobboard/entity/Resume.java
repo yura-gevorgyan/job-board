@@ -43,4 +43,6 @@ public class Resume {
 
     @ManyToOne
     private User user;
+
+    private boolean isActive;
 }
