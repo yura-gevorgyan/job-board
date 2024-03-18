@@ -71,10 +71,10 @@
                             <div class="sidebar-title">Search</div>
                             <div class="widget search">
                                 <div class="quform-element form-group">
-                                    <label for="search">Search By Keywords</label>
+                                    <label for="search">Search By Job Title</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="search" type="text"
-                                               th:value="${currentTitle}" name="title" placeholder="search keywords">
+                                               th:value="${currentTitle}" name="title" placeholder="Job Title">
                                     </div>
                                 </div>
                                 <div class="quform-element">
@@ -84,7 +84,8 @@
                                                 name="category">
                                             <option value="0">Choose Category</option>
                                             <option th:each="category : ${categories}" th:value="${category.id}"
-                                                    th:text="${category.name}" th:selected="${currentCategoryId != null && (category.id == currentCategoryId)}">
+                                                    th:text="${category.name}"
+                                                    th:selected="${currentCategoryId != null && (category.id == currentCategoryId)}">
                                             </option>
                                         </select>
                                     </div>
@@ -96,14 +97,16 @@
                                     <label for="search">From Salary</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="fromSalary" type="number"
-                                              th:value="${currentFromSalary}" name="fromSalary" placeholder="From Salary" step="500" min="0" max="100000000">
+                                               th:value="${currentFromSalary}" name="fromSalary" placeholder="From"
+                                               step="500" min="0" max="100000000">
                                     </div>
                                 </div>
                                 <div class="quform-element form-group">
                                     <label for="search">To Salary</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="toSalary" type="number"
-                                              th:value="${currentToSalary}" name="toSalary" placeholder="To Salary" step="500" min="0" max="100000000">
+                                               th:value="${currentToSalary}" name="toSalary" placeholder="To" step="500"
+                                               min="0" max="100000000">
                                     </div>
                                 </div>
                             </div>
@@ -111,8 +114,9 @@
                             <div class="widget">
                                 <div class="form-check mb-2" th:each="status : ${statuses}">
                                     <input class="form-check-input" type="checkbox" name="statuses"
-                                           id="full-time"  th:value="${status.toString()}" th:checked="${currentStatus != null && currentStatus.contains(status)}">
-                                    <label class="form-check-label mb-0" for="full-time"
+                                           th:id="${status.name()}" th:value="${status.toString()}"
+                                           th:checked="${currentStatus != null && currentStatus.contains(status)}">
+                                    <label class="form-check-label mb-0" th:for="${status.name()}"
                                            th:text="${status.toString().replace('_',' ')}"></label>
                                 </div>
                             </div>
@@ -120,15 +124,16 @@
                             <div class="widget">
                                 <div class="form-check mb-2" th:each="experience : ${experiences}">
                                     <input class="form-check-input" type="checkbox" name="experiences" value=""
-                                           id="fresher" th:value="${experience.toString()}" th:checked="${currentExperience != null && currentExperience.contains(experience)}">
-                                    <label class="form-check-label mb-0" for="fresher"
+                                           th:id="${experience.name()}" th:value="${experience.toString()}"
+                                           th:checked="${currentExperience != null && currentExperience.contains(experience)}">
+                                    <label class="form-check-label mb-0" th:for="${experience.name()}"
                                            th:text="${experience.toString().replace('_',' ')}"></label>
                                 </div>
                             </div>
                             <li class="d-none d-xl-inline-block">
                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                 <button type="submit" class="not-border"><a class="butn secondary text-white">
-                                    Search a Job
+                                    Search Job
                                 </a></button>
                             </li>
                         </form>
@@ -154,7 +159,9 @@
                                                 <div class="col-md-6 mb-4 mb-md-0">
                                                     <div class="quform-element">
                                                         <div class="quform-input">
-                                                            <select id="sortby" class="form-control form-select border-radius-10" name="sortby">
+                                                            <select id="sortby"
+                                                                    class="form-control form-select border-radius-10"
+                                                                    name="sortby">
                                                                 <option value="">Sort By</option>
                                                                 <option value="New Jobs">New Jobs</option>
                                                                 <option value="Freelance">Freelance</option>
@@ -172,7 +179,9 @@
                                                 <div class="col-md-6">
                                                     <div class="quform-element">
                                                         <div class="quform-input">
-                                                            <select id="show" class="form-control form-select border-radius-10" name="show">
+                                                            <select id="show"
+                                                                    class="form-control form-select border-radius-10"
+                                                                    name="show">
                                                                 <option value="">Show</option>
                                                                 <option value="10">Show 10</option>
                                                                 <option value="20">Show 20</option>
@@ -193,7 +202,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div  th:each="job : ${jobs}" class="row justify-content-center mt-n1-9 recent-job-style2">
+                        <div th:each="job : ${jobs}" class="row justify-content-center mt-n1-9 recent-job-style2">
                             <div class="col-lg-12 mt-1-9">
                                 <div class="p-1-6 border border-color-extra-light-gray bg-white border-radius-10">
                                     <div
@@ -242,11 +251,13 @@
                                             </li>
                                             <li th:if="${index == 0}"
                                                 th:class="${searchIndex <= 1 ? 'disabled' : ''}">
-                                                <a th:if="${searchIndex == 1}" th:href="@{'/jobs/search?' + ${url} + ${searchIndex}}"
+                                                <a th:if="${searchIndex == 1}"
+                                                   th:href="@{'/jobs/search?' + ${url} + ${searchIndex}}"
                                                    aria-label="Previous">
                                                     <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
                                                 </a>
-                                                <a th:if="${searchIndex != 1}" th:href="@{'/jobs/search?' + ${url} + ${searchIndex - 1}}"
+                                                <a th:if="${searchIndex != 1}"
+                                                   th:href="@{'/jobs/search?' + ${url} + ${searchIndex - 1}}"
                                                    aria-label="Previous">
                                                     <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
                                                 </a>
@@ -306,7 +317,8 @@
                             <a href="index.html" class="footer-logo"><img src="/img/logos/logo-white.png" alt="..."></a>
                         </div>
                         <div class="flex-grow-1 border-sm-start border-color-light-white ms-sm-4 ps-sm-4 border-width-2">
-                            <p class="mb-0 display-30 text-white opacity9 w-lg-95">Create a free account to discover lots of Jobs & Career Opportunities around you!</p>
+                            <p class="mb-0 display-30 text-white opacity9 w-lg-95">Create a free account to discover
+                                lots of Jobs & Career Opportunities around you!</p>
                         </div>
                     </div>
                 </div>
@@ -353,11 +365,15 @@
             <div class="row mt-n2-6">
                 <div class="col-sm-6 col-lg-3 mt-2-6">
                     <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Contact Us</h3>
-                    <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly customers and seek 15.8 million CV in our database.</p>
+                    <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly
+                        customers and seek 15.8 million CV in our database.</p>
                     <ul class="contact-list">
-                        <li class="d-flex"><span class="fa fa-home pe-3 text-white"></span><a href="#!">66 Guild Street 512B, Great North Town.</a></li>
-                        <li class="d-flex"><span class="fa fa-phone-alt pe-3 text-white"></span><a href="#!">(+44) 123 456 789</a></li>
-                        <li class="d-flex"><span class="fa fa-envelope pe-3 text-white"></span><a href="#!">info@example.com</a></li>
+                        <li class="d-flex"><span class="fa fa-home pe-3 text-white"></span><a href="#!">66 Guild Street
+                            512B, Great North Town.</a></li>
+                        <li class="d-flex"><span class="fa fa-phone-alt pe-3 text-white"></span><a href="#!">(+44) 123
+                            456 789</a></li>
+                        <li class="d-flex"><span class="fa fa-envelope pe-3 text-white"></span><a href="#!">info@example.com</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-sm-6 col-lg-2 mt-2-6">
@@ -400,14 +416,16 @@
                     <div class="ps-lg-2-2 ps-xl-2-5">
                         <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Join Newsletter</h3>
                         <p class="text-white mb-4">Subscribe to get the latest jobs posted, candidates...</p>
-                        <form class="quform newsletter-form" action="quform/newsletter-two.php" method="post" enctype="multipart/form-data" onclick="">
+                        <form class="quform newsletter-form" action="quform/newsletter-two.php" method="post"
+                              enctype="multipart/form-data" onclick="">
                             <div class="quform-elements">
                                 <div class="row">
                                     <!-- Begin Text input element -->
                                     <div class="col-md-12">
                                         <div class="quform-element">
                                             <div class="quform-input">
-                                                <input class="form-control" id="email_address" type="text" name="email_address" placeholder="Subscribe with us">
+                                                <input class="form-control" id="email_address" type="text"
+                                                       name="email_address" placeholder="Subscribe with us">
                                             </div>
                                         </div>
                                     </div>
@@ -416,9 +434,11 @@
                                     <!-- Begin Submit button -->
                                     <div class="col-md-12">
                                         <div class="quform-submit-inner">
-                                            <button class="btn btn-white text-primary m-0" type="submit"><span><i class="fas fa-paper-plane text-primary"></i></span></button>
+                                            <button class="btn btn-white text-primary m-0" type="submit"><span><i
+                                                    class="fas fa-paper-plane text-primary"></i></span></button>
                                         </div>
-                                        <div class="quform-loading-wrap text-start"><span class="quform-loading"></span></div>
+                                        <div class="quform-loading-wrap text-start"><span class="quform-loading"></span>
+                                        </div>
                                     </div>
                                     <!-- End Submit button -->
                                 </div>
@@ -432,8 +452,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-7 text-center text-md-start mt-3 mt-md-0 order-2 order-md-1">
-                        <p class="d-inline-block text-white mb-0">&copy; <span class="current-year"></span> Job Board Powered by
-                            <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary white-hover">Chitrakoot Web</a>
+                        <p class="d-inline-block text-white mb-0">&copy; <span class="current-year"></span> Job Board
+                            Powered by
+                            <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary white-hover">Chitrakoot
+                                Web</a>
                         </p>
                     </div>
                     <div class="col-md-5 text-center text-md-end order-1 order-md-2">

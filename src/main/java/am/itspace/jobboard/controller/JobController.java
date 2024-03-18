@@ -31,7 +31,7 @@ public class JobController {
     @GetMapping("/{index}")
     public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
         try {
-            if (indexStr == null && indexStr.isEmpty()) {
+            if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/jobs/1";
             }
             int index = Integer.parseInt(indexStr);
@@ -41,8 +41,8 @@ public class JobController {
 
             Page<Job> jobs = jobService.findAllByIsDeletedFalse(index);
 
-            if (index > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
-                return "redirect:/jobs/" + (index - 1);
+            if (index > jobs.getTotalPages()) {
+                return "redirect:/jobs/1";
             }
 
             addAttributes(modelMap, null, jobs, 0, index);
@@ -64,8 +64,8 @@ public class JobController {
                             HttpServletRequest httpServletRequest,
                             ModelMap modelMap) {
         List<Status> statusList = new ArrayList<>();
-
         List<WorkExperience> experienceList = new ArrayList<>();
+
         try {
             int searchIndex = Integer.parseInt(searchIndexStr);
             int categoryId = Integer.parseInt(categoryIdStr);
