@@ -2,6 +2,7 @@ package am.itspace.jobboard.service;
 
 import am.itspace.jobboard.entity.Job;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -30,5 +31,11 @@ public interface JobService {
     List<Job> getAllByCompanyId(int id);
 
     void save(Job job);
+
+    List<Job> findTop6();
+
+    Page<Job> findAllByIsDeletedFalse(int index);
+
+    Page<Job> findAll(Specification<Job> specification, int index);
 
 }

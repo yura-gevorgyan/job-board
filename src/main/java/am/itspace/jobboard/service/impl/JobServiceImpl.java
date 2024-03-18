@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
 
     private final SendMailService sendMailService;
+
+    int pageSize = 20;
 
     @Override
     public int getJobCount() {
@@ -36,20 +39,17 @@ public class JobServiceImpl implements JobService {
     //Page size configuration
     @Override
     public Page<Job> getJobsFromNToM(int index) {
-        int pageSize = 20;
         return jobRepository.findAll(PageRequest.of(index - 1, pageSize).withSort(Sort.by("publishedDate")));
     }
 
     @Override
     public int getTotalPages() {
-        int pageSize = 20;
         long totalCount = jobRepository.count();
         return (int) Math.ceil((double) totalCount / pageSize);
     }
 
     @Override
     public int getTotalPagesOfSearch(String title) {
-        int pageSize = 20;
         long totalCount = jobRepository.countByTitleContaining(title);
         return (int) Math.ceil((double) totalCount / pageSize);
     }
@@ -61,7 +61,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Page<Job> getJobsFromNToMForSearch(int index, String title) {
-        int pageSize = 20;
         return jobRepository.findAllByTitleContaining(PageRequest.of(index - 1, pageSize).withSort(Sort.by("publishedDate")), title);
     }
 
@@ -102,5 +101,20 @@ public class JobServiceImpl implements JobService {
     @Override
     public void save(Job job) {
         jobRepository.save(job);
+    }
+
+    @Override
+    public List<Job> findTop6() {
+        return jobRepository.findTop6ByOrderByPublishedDateDesc();
+    }
+
+    @Override
+    public Page<Job> findAllByIsDeletedFalse(int index) {
+        return jobRepository.findByIsDeletedFalse(PageRequest.of(index - 1, pageSize).withSort(Sort.by("publishedDate")));
+    }
+
+    @Override
+    public Page<Job> findAll(Specification<Job> specification, int index) {
+        return jobRepository.findAll(specification,PageRequest.of(index-1,pageSize).withSort(Sort.by("publishedDate")));
     }
 }
