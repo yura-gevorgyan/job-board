@@ -7,10 +7,9 @@
 <body>
 
 <header th:fragment="header" class="header-style1 menu_area-light">
+    <div class="navbar-default border-bottom border-color-light-white" style="background-color: whitesmoke">
 
-        <!-- end top search -->
-
-        <div class="container-fluid px-lg-1-6 px-xl-2-5 px-xxl-2-9" style="background-color: whitesmoke">
+        <div class="container-fluid px-lg-1-6 px-xl-2-5 px-xxl-2-9">
             <div class="row align-items-center">
                 <div class="col-12 col-lg-12">
                     <div class="menu_area alt-font">
@@ -27,7 +26,7 @@
                             <!-- menu area -->
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
                                 <li><a href="/" style="color: black">Home</a></li>
-                                <li><a href="/jobs" style="color: black">Jobs</a></li>
+                                <li><a href="/jobs/1" style="color: black">Jobs</a></li>
                                 <li class="has-sub"><a href="#!" style="color: black">Job Listing</a>
                                     <ul class="row megamenu">
                                         <li class="col-lg-4 col-xl-3"><span class="mb-0 mb-lg-3 d-block py-2 p-lg-0 px-4 px-lg-0 text-uppercase sub-title font-weight-700">Job Listing</span>
@@ -150,9 +149,9 @@
                             <!-- start attribute navigation -->
                             <div class="attr-nav align-items-lg-center ms-lg-auto">
                                 <ul>
-                                    <li class="d-none d-xl-inline-block" th:if="${currentUser == null}"><a href="/login" class="butn secondary white-hover text-white">Sign In</a></li>
-                                    <li class="d-none d-xl-inline-block" th:if="${currentUser == null}"><a href="/register" class="butn secondary white-hover text-white">Sign Up</a></li>
-                                    <li class="d-none d-xl-inline-block" th:if="${currentUser != null}"><a href="/register" class="butn secondary white-hover text-white">Post a Job</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}" href="/login" class="butn secondary white-hover text-white">Sign In</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}"href="/register" class="butn secondary white-hover text-white">Sign Up</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null}"href="employer-post-job.html" class="butn secondary white-hover text-white">Post a Job</a></li>
                                 </ul>
                             </div>
                             <!-- end attribute navigation -->
@@ -162,6 +161,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 </header>
 

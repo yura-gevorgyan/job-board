@@ -23,7 +23,7 @@ public class JobServiceImpl implements JobService {
 
     private final SendMailService sendMailService;
 
-    int pageSize = 20;
+    private final int PAGE_SIZE = 20;
 
     @Override
     public int getJobCount() {
@@ -39,19 +39,19 @@ public class JobServiceImpl implements JobService {
     //Page size configuration
     @Override
     public Page<Job> getJobsFromNToM(int index) {
-        return jobRepository.findAll(PageRequest.of(index - 1, pageSize).withSort(Sort.by("publishedDate")));
+        return jobRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
     }
 
     @Override
     public int getTotalPages() {
         long totalCount = jobRepository.count();
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
 
     @Override
     public int getTotalPagesOfSearch(String title) {
         long totalCount = jobRepository.countByTitleContaining(title);
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Page<Job> getJobsFromNToMForSearch(int index, String title) {
-        return jobRepository.findAllByTitleContaining(PageRequest.of(index - 1, pageSize).withSort(Sort.by("publishedDate")), title);
+        return jobRepository.findAllByTitleContaining(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")), title);
     }
 
     @Override
@@ -110,11 +110,11 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Page<Job> findAllByIsDeletedFalse(int index) {
-        return jobRepository.findByIsDeletedFalse(PageRequest.of(index - 1, pageSize).withSort(Sort.by("publishedDate")));
+        return jobRepository.findByIsDeletedFalse(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
     }
 
     @Override
     public Page<Job> findAll(Specification<Job> specification, int index) {
-        return jobRepository.findAll(specification,PageRequest.of(index-1,pageSize).withSort(Sort.by("publishedDate")));
+        return jobRepository.findAll(specification,PageRequest.of(index-1,PAGE_SIZE).withSort(Sort.by("publishedDate")));
     }
 }

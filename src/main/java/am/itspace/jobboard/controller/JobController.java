@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,11 +27,6 @@ public class JobController {
 
     private final JobService jobService;
     private final CategoryService categoryService;
-
-    @GetMapping()
-    public String job() {
-        return "redirect:/jobs/1";
-    }
 
     @GetMapping("/{index}")
     public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
@@ -60,20 +56,33 @@ public class JobController {
     @GetMapping("/search")
     public String jobSearch(@RequestParam(value = "title", required = false) String title,
                             @RequestParam(value = "category", required = false, defaultValue = "0") String categoryIdStr,
-                            @RequestParam(value = "statuses", required = false) List<Status> statuses,
-                            @RequestParam(value = "experiences", required = false) List<WorkExperience> experiences,
+                            @RequestParam(value = "statuses", required = false) List<String> statuses,
+                            @RequestParam(value = "experiences", required = false) List<String> experiences,
                             @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
                             @RequestParam(value = "fromSalary", required = false, defaultValue = "0") String fromSalaryStr,
-                            @RequestParam(value = "toSalary", required = false, defaultValue = "10000000000000") String toSalaryStr,
+                            @RequestParam(value = "toSalary", required = false, defaultValue = "100000000") String toSalaryStr,
                             HttpServletRequest httpServletRequest,
                             ModelMap modelMap) {
+        List<Status> statusList = new ArrayList<>();
 
+        List<WorkExperience> experienceList = new ArrayList<>();
         try {
             int searchIndex = Integer.parseInt(searchIndexStr);
             int categoryId = Integer.parseInt(categoryIdStr);
             double fromSalary = Double.parseDouble(fromSalaryStr);
             double toSalary = Double.parseDouble(toSalaryStr);
 
+            if (statuses != null && !statuses.isEmpty()) {
+                for (String status : statuses) {
+                    statusList.add(Status.valueOf(status));
+                }
+            }
+
+            if (experiences != null && !experiences.isEmpty()) {
+                for (String experience : experiences) {
+                    experienceList.add(WorkExperience.valueOf(experience));
+                }
+            }
 
             String string = httpServletRequest.getQueryString();
             int length = string.length() - 1;
@@ -83,7 +92,7 @@ public class JobController {
                 return "redirect:/jobs/search?" + url + searchIndex;
             }
 
-            Specification<Job> jobSpecification = JobSpecification.searchJobs(title, experiences, statuses,
+            Specification<Job> jobSpecification = JobSpecification.searchJobs(title, experienceList, statusList,
                     categoryService.findById(categoryId), fromSalary, toSalary, false);
 
             Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex);
@@ -95,9 +104,15 @@ public class JobController {
 
             addAttributes(modelMap, url, jobs, searchIndex, 0);
 
+            modelMap.addAttribute("currentTitle", title);
+            modelMap.addAttribute("currentCategoryId", categoryId);
+            modelMap.addAttribute("currentFromSalary", (int) fromSalary);
+            modelMap.addAttribute("currentToSalary", (int) toSalary);
+            modelMap.addAttribute("currentStatus", statusList);
+            modelMap.addAttribute("currentExperience", experienceList);
             return "job-list";
 
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             return "redirect:/jobs/1";
         }
 

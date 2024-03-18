@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -74,7 +74,7 @@
                                     <label for="search">Search By Keywords</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="search" type="text"
-                                               name="title" placeholder="search keywords">
+                                               th:value="${currentTitle}" name="title" placeholder="search keywords">
                                     </div>
                                 </div>
                                 <div class="quform-element">
@@ -84,7 +84,7 @@
                                                 name="category">
                                             <option value="0">Choose Category</option>
                                             <option th:each="category : ${categories}" th:value="${category.id}"
-                                                    th:text="${category.name}">Accounting
+                                                    th:text="${category.name}" th:selected="${currentCategoryId != null && (category.id == currentCategoryId)}">
                                             </option>
                                         </select>
                                     </div>
@@ -96,22 +96,22 @@
                                     <label for="search">From Salary</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="fromSalary" type="number"
-                                               name="fromSalary" placeholder="From Salary" step="500" min="0" max="10000000">
+                                              th:value="${currentFromSalary}" name="fromSalary" placeholder="From Salary" step="500" min="0" max="100000000">
                                     </div>
                                 </div>
                                 <div class="quform-element form-group">
                                     <label for="search">To Salary</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="toSalary" type="number"
-                                               name="toSalary" placeholder="To Salary" step="500" min="0" max="10000000">
+                                              th:value="${currentToSalary}" name="toSalary" placeholder="To Salary" step="500" min="0" max="100000000">
                                     </div>
                                 </div>
                             </div>
                             <div class="sidebar-title">Job Type</div>
                             <div class="widget">
                                 <div class="form-check mb-2" th:each="status : ${statuses}">
-                                    <input class="form-check-input" type="checkbox" name="statuses" value=""
-                                           id="full-time" th:value="${status}">
+                                    <input class="form-check-input" type="checkbox" name="statuses"
+                                           id="full-time"  th:value="${status.toString()}" th:checked="${currentStatus != null && currentStatus.contains(status)}">
                                     <label class="form-check-label mb-0" for="full-time"
                                            th:text="${status.toString().replace('_',' ')}"></label>
                                 </div>
@@ -120,7 +120,7 @@
                             <div class="widget">
                                 <div class="form-check mb-2" th:each="experience : ${experiences}">
                                     <input class="form-check-input" type="checkbox" name="experiences" value=""
-                                           id="fresher" th:value="${experience}">
+                                           id="fresher" th:value="${experience.toString()}" th:checked="${currentExperience != null && currentExperience.contains(experience)}">
                                     <label class="form-check-label mb-0" for="fresher"
                                            th:text="${experience.toString().replace('_',' ')}"></label>
                                 </div>
