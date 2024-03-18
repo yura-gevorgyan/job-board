@@ -16,3 +16,7 @@ spring:
             enable: true
   liquibase:
     change-log: classpath*:db/change-log.xml
+program:
+  pictures:
+    file:
+      path: C:\Users\Yura\IdeaProjects\job-board\pictureDirectory
