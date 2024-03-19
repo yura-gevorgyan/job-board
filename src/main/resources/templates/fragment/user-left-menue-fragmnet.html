@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="dashboard-left-sidebar" th:fragment="left-user-menue-fragment">
+    <h3 class="bg-primary text-white collapse-sm m-0 h5 px-3 py-3 font-weight-600 d-block d-lg-none">Dashboard</h3>
+
+    <!--Compnay Owener menue-->
+    <span th:if="${currentUser.role.name() == 'COMPANY_OWNER'}">
+        <ul class="dashboard-list dashboard-menu">
+              <li th:if="${hasCompany == null}"><a href="/company/profile"><i class="ti-user"></i>Create Company</a></li>
+              <li th:if="${hasCompany != null}"><a href="/company/profile"><i class="ti-user"></i>Company Profile</a></li>
+              <li th:if="${hasCompany == null}"><a href="/company/profile"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
+              <li th:if="${hasCompany != null}"><a href="/jobs/create"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
+              <li th:if="${hasCompany == null}"><a href="/company/profile"><i class="ti-briefcase"></i> Manage Jobs </a></li>
+              <li th:if="${hasCompany != null}"><a href="/jobs/manage"><i class="ti-briefcase"></i> Manage Jobs </a></li>
+              <li th:if="${hasCompany != null}"><a href="/applicant/list"><i class="ti-file"></i> All Applicants</a></li>
+              <li th:if="${hasCompany == null}"><a href="/company/profile"><i class="ti-file"></i> All Applicants</a></li>
+              <li th:if="${hasCompany != null}"><a href="/message"><i class="ti-comment-alt"></i>Messages</a></li>
+              <li th:if="${hasCompany == null}"><a href="/company/profile"><i class="ti-comment-alt"></i>Messages</a></li>
+              <li><a href="/user/change/password"><i class="ti-lock"></i>Change Password</a></li>
+              <li><a href=/logout><i class="ti-power-off"></i>Logout</a></li>
+              <li><a href="/logout"><i class="ti-trash"></i>Delete Profile</a></li>
+        </ul>
+    </span>
+
+    <!--JOB SEEKER menue-->
+    <span th:if="${currentUser.role.name() == 'JOB_SEEKER'}">
+        <ul class="dashboard-list dashboard-menu">
+        <li th:if="${hasResume == null}"><a href="/resume/profile"><i class="ti-user"></i>Create Resume</a></li>
+        <li th:if="${hasResume != null}"><a href="/resume/profile"><i class="ti-user"></i>My Resume</a></li>
+        <li th:if="${hasResume == null}"><a href="/resume/profile"><i class="ti-bookmark"></i>Shortlisted Jobs</a></li>
+        <li th:if="${hasResume != null}"><a href="/resume/applied/jobs"><i class="ti-bookmark"></i>Shortlisted Jobs</a></li>
+        <li th:if="${hasResume == null}"><a href="/resume/profile"><i class="ti-briefcase"></i>Applied Jobs</a></li>
+        <li th:if="${hasResume != null}"><a href="/job/applies"><i class="ti-briefcase"></i>Applied Jobs</a></li>
+        <li th:if="${hasResume == null}"><a href="/resume/profile"><i class="ti-comment-alt"></i>Messages</a></li>
+        <li th:if="${hasResume != null}"><a href="/message"><i class="ti-comment-alt"></i>Messages</a></li>
+        <li ><a href="/user/change/password"><i class="ti-lock"></i>Change Password</a></li>
+        <li><a href="/logout"><i class="ti-power-off"></i>Logout</a></li>
+        <li><a href="/logout"><i class="ti-trash"></i>Delete Profile</a></li>
+        </ul>
+    </span>
+
+    <!--Employee menue-->
+    <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
+        <ul class="dashboard-list dashboard-menu">
+              <li><a href="/jobs/employer/profile"><i class="ti-user"></i>My Profile</a></li>
+              <li><a href="/jobs/create"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
+              <li th:if="${hasJob == null}"><a href="/jobs/create"><i class="ti-briefcase"></i> Manage Jobs </a></li>
+              <li th:if="${hasJob != null}"><a href="/jobs/manage"><i class="ti-briefcase"></i> Manage Jobs </a></li>
+              <li th:if="${hasJob != null}"><a href="/applicant/list"><i class="ti-file"></i> All Applicants</a></li>
+              <li th:if="${hasJob == null}"><a href="/jobs/create"><i class="ti-file"></i> All Applicants</a></li>
+              <li th:if="${hasJob != null}"><a href="/message"><i class="ti-comment-alt"></i>Messages</a></li>
+              <li th:if="${hasJob == null}"><a href="/jobs/create"><i class="ti-comment-alt"></i>Messages</a></li>
+              <li><a href="/user/change/password"><i class="ti-lock"></i>Change Password</a></li>
+              <li><a href=/logout><i class="ti-power-off"></i>Logout</a></li>
+              <li><a href="/logout"><i class="ti-trash"></i>Delete Profile</a></li>
+        </ul>
+    </span>
+</div>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
+
+<!-- search -->
+<script src="/search/search.js"></script>
+
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
+
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+</body>
+</html>

@@ -9,10 +9,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JobRepository extends JpaRepository<Job, Integer> {
 
     int countBy();
+
+    Optional<Job> findByUserId(int userId);
 
     List<Job> findTop4ByOrderByPublishedDateDesc();
 
@@ -26,12 +29,10 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     List<Job> getAllByUser(User user);
 
-
     List<Job> findTop6ByOrderByPublishedDateDesc();
 
     Page<Job> findByIsDeletedFalse(Pageable pageable);
 
     Page<Job> findAll(Specification<Job> specification, Pageable pageable);
-
 
 }

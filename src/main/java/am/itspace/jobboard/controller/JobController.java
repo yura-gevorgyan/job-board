@@ -6,6 +6,7 @@ import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.specification.JobSpecification;
+import am.itspace.jobboard.util.AddMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,30 @@ public class JobController {
 
     private final JobService jobService;
     private final CategoryService categoryService;
+
+    @GetMapping("/create")
+    public String createJopPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+        AddMessageUtil.addMessageToModel(msg, modelMap);
+        modelMap.addAttribute("workExperience", WorkExperience.values());
+        modelMap.addAttribute("categories", categoryService.findAll());
+        modelMap.addAttribute("status", Status.values());
+        return "create-job";
+    }
+
+    @GetMapping("/employer/profile")
+    public String employerProfile() {
+        return "employer-profile";
+    }
+
+    @GetMapping("/manage")
+    public String jobManage() {
+        return "manage-job";
+    }
+
+    @GetMapping("/alerts")
+    public String jobAlerts() {
+        return "manage-job";
+    }
 
     @GetMapping("/{index}")
     public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
@@ -115,8 +140,6 @@ public class JobController {
         } catch (IllegalArgumentException e) {
             return "redirect:/jobs/1";
         }
-
-
     }
 
     private void addAttributes(ModelMap modelMap, String url, Page<Job> jobs, int searchIndex, int index) {
@@ -130,6 +153,4 @@ public class JobController {
         modelMap.addAttribute("statuses", Status.values());
         modelMap.addAttribute("experiences", WorkExperience.values());
     }
-
-
 }

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -62,12 +62,12 @@
                     <div class="dashboard-right-sidebar">
                         <div class="row mb-2-2">
                             <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">Applied Jobs</h3>
+                                <h3 class="mb-3">Manage Jobs</h3>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="demo-1.html">Job Board</a></li>
                                         <li class="breadcrumb-item"><a href="employer-dashboard.html">Dashboard</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Applied Jobs</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Manage Jobs</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -123,12 +123,13 @@
                                 </div>
                                 <div class="dashboard-widget">
                                     <div class="table-responsive">
-                                        <table class="table custome-table2">
+                                        <table class="table custome-table">
                                             <thead>
                                                 <tr>
                                                     <th>Title</th>
                                                     <th>Applications</th>
-                                                    <th>Date Applied</th>
+                                                    <th>Created</th>
+                                                    <th>Expired</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -136,138 +137,10 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-01.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Conzio construction</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Accounting</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Boston, USA</span>
-                                                            </div>
-                                                        </div>
+                                                        <h6>Software Engineer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Vienna, Australia</span>
                                                     </td>
-                                                    <td>8+ Applied</td>
-                                                    <td>Dec 05, 2021</td>
-                                                    <td><span class="text-warning font-weight-600">Pending</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-02.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Midway Overline</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Digital Marketer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Toronto, Canada</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>11+ Applied</td>
-                                                    <td>Nov 30, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/pictureDirectory/company-03.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Ktone Software</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Assistant Editor </span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>London, UK</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>04+ Applied</td>
-                                                    <td>Dec 05, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-04.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Alpha Kem</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Content Writer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Nizhny, Russia</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>18+ Applied</td>
-                                                    <td>Nov 17, 2021</td>
-                                                    <td><span class="text-danger font-weight-600">Expired</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-05.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Waft Technologies</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Full-Stack Developer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Utrecht, Netherlands</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>15+ Applied</td>
-                                                    <td>Dec 15, 2021</td>
-                                                    <td><span class="text-warning font-weight-600">Pending</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-06.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Sai Web Infotech</a></h5>
-                                                                <span class="me-2 display-30 text-muted">UI/UX Designer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Vienna, Australia</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>22+ Applied</td>
+                                                    <td>06+ Applied</td>
+                                                    <td>Oct 15, 2021</td>
                                                     <td>Nov 20, 2021</td>
                                                     <td><span class="text-danger font-weight-600">Expired</span></td>
                                                     <td>
@@ -280,19 +153,91 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-07.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Themezhub Infotech</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Networking</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Los Angeles, Califonia</span>
-                                                            </div>
-                                                        </div>
+                                                        <h6>Project Team Leader</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                                    </td>
+                                                    <td>07+ Applied</td>
+                                                    <td>Jan 13, 2022</td>
+                                                    <td>Jan 20, 2022</td>
+                                                    <td><span class="text-warning font-weight-600">Pending</span></td>
+                                                    <td>
+                                                        <ul class="action-list">
+                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <h6>Application Developer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Toronto, Canada</span>
+                                                    </td>
+                                                    <td>12+ Applied</td>
+                                                    <td>Oct 12, 2021</td>
+                                                    <td>Nov 17, 2021</td>
+                                                    <td><span class="text-danger font-weight-600">Expired</span></td>
+                                                    <td>
+                                                        <ul class="action-list">
+                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <h6>Marketing Manager</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Paris, France</span>
+                                                    </td>
+                                                    <td>22+ Applied</td>
+                                                    <td>Nov 16, 2021</td>
+                                                    <td>Jan 10, 2022</td>
+                                                    <td><span class="text-success font-weight-600">Active</span></td>
+                                                    <td>
+                                                        <ul class="action-list">
+                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <h6>Charted Accountant</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Montreal, US</span>
+                                                    </td>
+                                                    <td>10+ Applied</td>
+                                                    <td>Nov 13, 2021</td>
+                                                    <td>Jan 07, 2022</td>
+                                                    <td><span class="text-success font-weight-600">Active</span></td>
+                                                    <td>
+                                                        <ul class="action-list">
+                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <h6>Sr. Java Developer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Delhi, India</span>
                                                     </td>
                                                     <td>20+ Applied</td>
-                                                    <td>Dec 09, 2021</td>
+                                                    <td>Jan 05, 2022</td>
+                                                    <td>Jan 11, 2022</td>
+                                                    <td><span class="text-warning font-weight-600">Pending</span></td>
+                                                    <td>
+                                                        <ul class="action-list">
+                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <h6>PHP Developer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Montreal, US</span>
+                                                    </td>
+                                                    <td>05+ Applied</td>
+                                                    <td>Nov 09, 2021</td>
+                                                    <td>Jan 02, 2022</td>
                                                     <td><span class="text-success font-weight-600">Active</span></td>
                                                     <td>
                                                         <ul class="action-list">
@@ -319,6 +264,7 @@
                 </div>
             </div>
         </section>
+
     </div>
 
     <!-- BUY TEMPLATE
@@ -360,5 +306,4 @@
     <!-- all js include end -->
 
 </body>
-
 </html>

@@ -9,6 +9,8 @@ public interface ResumeService {
 
     int getResumeCount();
 
+    Resume findByUserId(int userId);
+
     List<Resume> getLast6Resumes();
 
     int getTotalPages();

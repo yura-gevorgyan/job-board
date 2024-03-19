@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- title  -->
+    <title>Job Board - Job Portal HTML Template</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- PAGE LOADING
+    ================================================== -->
+    <div id="preloader"></div>
+
+    <!-- MAIN WRAPPER
+    ================================================== -->
+    <div class="main-wrapper">
+
+        <!-- HEADER
+        ================================================== -->
+        <header class="header-style2 static-header">
+            <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+        </header>
+
+        <!-- EMPLOYER DASHBOARD
+        ================================================== -->
+        <section class="py-0">
+            <div class="row g-0">
+                <div class="col-lg-3 mb-2-2 mb-lg-0">
+                    <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
+                </div>
+                <div class="col-lg-9">
+                    <div class="dashboard-right-sidebar">
+                        <div class="row mb-2-5">
+                            <div class="col-lg-12 mb-1-9">
+                                <h3 class="mb-3">Employer Messages</h3>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="demo-1.html">Job Board</a></li>
+                                        <li class="breadcrumb-item"><a href="employer-dashboard.html">Dashboard</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Messages</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                            <div class="col-xl-4 mb-2-2 mb-xl-0">
+                                <div class="dashboard-title">
+                                    <h5 class="mb-0">Messages</h5>
+                                </div>
+                                <div class="dashboard-widget left-dashboard">
+                                    <div class="row mb-4">
+                                        <div class="col-md-12">
+                                            <div class="search-bar">
+                                                <input type="search" name="search" placeholder="Search here ...">
+                                                <a href="#!" class="btn-search"><i class="ti-search font-weight-600"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="message-list">
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-01.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status online"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Marko Konig</h6>
+                                                            <span class="display-31 text-muted font-weight-600">Web Designer</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">07 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-02.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status offline"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Eva Kleist</h6>
+                                                            <span class="display-31 text-muted font-weight-600">Senior Manager</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">10 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-03.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status busy"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Eshan Marshall</h6>
+                                                            <span class="display-31 text-muted font-weight-600">Business Manager</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">15 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-04.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status online"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Rosa Olsen</h6>
+                                                            <span class="display-31 text-muted font-weight-600">Apps Developer</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">18 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-05.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status online"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Iwo Maciejewski</h6>
+                                                            <span class="display-31 text-muted font-weight-600">Digital Marketer</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">20 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-06.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status offline"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Jessika Brandt</h6>
+                                                            <span class="display-31 text-muted font-weight-600">IT Specialist</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">22 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-07.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status offline"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Liam Bell</h6>
+                                                            <span class="display-31 text-muted font-weight-600">Assistant Manager</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">22 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#!" class="last">
+                                                <div class="d-sm-flex justify-content-between ">
+                                                    <div class="d-flex mb-2 mb-sm-0">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="position-relative">
+                                                                <img src="/img/dashboard-avatar/avatar-08.jpg" class="border-radius-50" alt="...">
+                                                                <span class="user-status online"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="mb-1">Miley Docherty</h6>
+                                                            <span class="display-31 text-muted font-weight-600">.Net Developer</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-end d-block">25 mins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+                                <div class="dashboard-title">
+                                    <div class="d-sm-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                            <div class="flex-shrink-0">
+                                                <div class="position-relative">
+                                                    <img src="/img/dashboard-avatar/avatar-01.jpg" class="border-radius-50" alt="...">
+                                                    <span class="user-status online"></span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="mb-0">Marko Konig</h6>
+                                                <span class="display-31 text-muted font-weight-600">Online</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a href="#!"><span class="text-danger"><i class="ti-trash pe-2 vertical-align-middle"></i>Delete Conversation</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dashboard-widget">
+                                    <div class="d-flex mb-5">
+                                        <div class="flex-shrink-0">
+                                            <img src="/img/dashboard-avatar/avatar-08.jpg" class="border-radius-50" alt="...">
+                                        </div>
+                                        <div class="flex-grow-1 ms-4">
+                                            <div class="conversation-text">
+                                                <h6>Miley Docherty</h6>
+                                                <p class="mb-2">Hello !</p>
+                                                <span class="d-block small text-end font-weight-600">09:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-5">
+                                        <div class="conversation-text">
+                                            <h6 class="text-primary">Marko Konig</h6>
+                                            <p class="mb-2">Hi, How can we help? We're here for you!</p>
+                                            <span class="d-block small text-end font-weight-600">09:01</span>
+                                        </div>
+                                        <div class="avatar-image">
+                                            <img src="/img/dashboard-avatar/avatar-01.jpg" class="border-radius-50" alt="...">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-5">
+                                        <div class="flex-shrink-0">
+                                            <img src="/img/dashboard-avatar/avatar-08.jpg" class="border-radius-50" alt="...">
+                                        </div>
+                                        <div class="flex-grow-1 ms-4">
+                                            <div class="conversation-text">
+                                                <h6>Miley Docherty</h6>
+                                                <p class="mb-2">I am searching out the best admin template. Could you please assist me to discover it out?</p>
+                                                <span class="d-block small text-end font-weight-600">09:03</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-5">
+                                        <div class="conversation-text">
+                                            <h6 class="text-primary">Marko Konig</h6>
+                                            <p class="mb-2">Don't get you email. Can you send it once again please.</p>
+                                            <span class="d-block small text-end font-weight-600">09:05</span>
+                                        </div>
+                                        <div class="avatar-image">
+                                            <img src="/img/dashboard-avatar/avatar-01.jpg" class="border-radius-50" alt="...">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="message-bar">
+                                                <input type="text" name="message" placeholder="Type message ...">
+                                                <a href="#!" class="btn-msg-send"><i class="far fa-paper-plane"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <p class="d-inline-block mb-0">© <span class="current-year"></span> Job Board Powered by
+                                    <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary secondary-hover">Chitrakoot Web</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- BUY TEMPLATE
+    ================================================== -->
+    <div class="buy-theme alt-font d-none d-lg-inline-block"><a href="https://wrapbootstrap.com/theme/job-board-job-portal-html-template-WB0S2FC71" target="_blank"><i class="fas fa-cart-plus"></i><span>Buy Template</span></a></div>
+
+    <div class="all-demo alt-font d-none d-lg-inline-block"><a href="https://www.chitrakootweb.com/contact.html" target="_blank"><i class="far fa-envelope"></i><span>Quick Question?</span></a></div>
+
+    <!-- start scroll to top -->
+    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+    <!-- end scroll to top -->
+
+    <!-- all js include start -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- popper js -->
+    <script src="/js/popper.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- core.min.js -->
+    <script src="/js/core.min.js"></script>
+
+    <!-- search -->
+    <script src="/search/search.js"></script>
+
+    <!-- custom scripts -->
+    <script src="/js/main.js"></script>
+
+    <!-- form plugins js -->
+    <script src="/quform/js/plugins.js"></script>
+
+    <!-- form scripts js -->
+    <script src="/quform/js/scripts.js"></script>
+
+    <!-- all js include end -->
+
+</body>
+
+</html>

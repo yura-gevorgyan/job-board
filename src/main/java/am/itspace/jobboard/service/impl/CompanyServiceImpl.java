@@ -100,6 +100,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public Company findCompanyByUserId(int userId) {
+        return companyRepository.findCompanyByUserId(userId).orElse(null);
+    }
+
+    @Override
     @Transactional
     public void deleteById(int id) {
         Optional<Company> byId = companyRepository.findById(id);

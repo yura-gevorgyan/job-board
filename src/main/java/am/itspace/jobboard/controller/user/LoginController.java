@@ -1,4 +1,4 @@
-package am.itspace.jobboard.controller;
+package am.itspace.jobboard.controller.user;
 
 import am.itspace.jobboard.util.AddMessageUtil;
 import lombok.RequiredArgsConstructor;
