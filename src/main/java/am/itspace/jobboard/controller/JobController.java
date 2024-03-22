@@ -10,7 +10,6 @@ import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.specification.JobSpecification;
-import am.itspace.jobboard.util.AddMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -97,8 +96,8 @@ public class JobController {
             int length = string.length() - 1;
             String url = string.substring(0, length);
 
-            if (searchIndex <= 0) {
-                return "redirect:/jobs/search?" + url + searchIndex;
+            if (searchIndex <= 0 || searchIndex > Short.MAX_VALUE) {
+                return "redirect:/jobs/1";
             }
 
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, experienceList, statusList,
@@ -107,8 +106,8 @@ public class JobController {
             Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex);
 
 
-            if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
-                return "redirect:/jobs/search?" + url + (searchIndex - 1);
+            if (searchIndex > jobs.getTotalPages()) {
+                return "redirect:/jobs/1";
             }
 
             addAttributes(modelMap, url, jobs, searchIndex, 0);
@@ -124,20 +123,6 @@ public class JobController {
         } catch (IllegalArgumentException e) {
             return "redirect:/jobs/1";
         }
-    }
-
-    @GetMapping("/create")
-    public String createJopPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
-        modelMap.addAttribute("workExperience", WorkExperience.values());
-        modelMap.addAttribute("categories", categoryService.findAll());
-        modelMap.addAttribute("status", Status.values());
-        return "/profile/create-job";
-    }
-
-    @GetMapping("/manage")
-    public String jobManage() {
-        return "/profile/manage-job";
     }
 
     @PostMapping("/create")

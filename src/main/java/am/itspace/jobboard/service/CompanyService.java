@@ -2,6 +2,7 @@ package am.itspace.jobboard.service;
 
 import am.itspace.jobboard.entity.Company;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
 
@@ -21,6 +22,12 @@ public interface CompanyService {
     Company findCompanyByUserId(int userId);
 
     void deleteById(int id);
+
+    Page<Company> findAllByIsActiveTrue(int index);
+
+    Page<Company> findAll(Specification<Company> specification, int index);
+
+    Company findById(int id);
 
 }
 

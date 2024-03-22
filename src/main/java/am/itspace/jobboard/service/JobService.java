@@ -39,5 +39,7 @@ public interface JobService {
     Page<Job> findAll(Specification<Job> specification, int index);
 
     Job findByUserId(int id);
+
+    List<Job> findTop8ByCompanyId(int id);
 }
 

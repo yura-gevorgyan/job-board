@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/message")
+@RequestMapping("/profile/message")
 public class MessageController {
 
     private final MessageService messageService;

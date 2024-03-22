@@ -4,6 +4,8 @@ import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -27,5 +29,9 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     Optional<Company> findByUser(User user);
 
     Optional<Company> findCompanyByUserId(int userId);
+
+    Page<Company> findAllByIsActiveTrue(PageRequest pageRequest);
+
+    Page<Company> findAll(Specification<Company> specification, Pageable pageable);
 }
 

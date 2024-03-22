@@ -15,8 +15,8 @@
                     <div class="menu_area alt-font">
                         <nav class="navbar navbar-expand-lg navbar-light p-0">
 
-                            <div class="navbar-header navbar-header-custom" style="width: 13%">
-                                <!-- start logo -->
+                            <div class="navbar-header navbar-header-custom" style="width: 18%">
+                            <!-- start logo -->
                                 <a href="/"><img class="new-logo-class" src="/img/logos/logo.png" alt="logo"></a>
                                 <!-- end logo -->
                             </div>
@@ -27,6 +27,7 @@
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
                                 <li><a href="/" style="color: black">Home</a></li>
                                 <li><a href="/jobs/1" style="color: black">Jobs</a></li>
+                                <li><a href="/companies/1" style="color: black">Companies</a></li>
                                 <li class="has-sub"><a href="#!" style="color: black">Job Listing</a>
                                     <ul class="row megamenu">
                                         <li class="col-lg-4 col-xl-3"><span class="mb-0 mb-lg-3 d-block py-2 p-lg-0 px-4 px-lg-0 text-uppercase sub-title font-weight-700">Job Listing</span>
@@ -151,7 +152,7 @@
                                 <ul>
                                     <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}" href="/login" class="butn secondary white-hover text-white">Sign In</a></li>
                                     <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}" href="/register" class="butn secondary white-hover text-white">Sign Up</a></li>
-                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null}" href="/user/profile" class="butn secondary white-hover text-white">My Profile</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null}" href="/profile" class="butn secondary white-hover text-white">My Profile</a></li>
                                 </ul>
                             </div>
                             <!-- end attribute navigation -->

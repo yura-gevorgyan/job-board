@@ -10,6 +10,7 @@ import am.itspace.jobboard.service.SendMailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final SendMailService sendMailService;
 
+    private static final int PAGE_SIZE = 20;
+
     @Override
     public int getCompanyCount() {
         return companyRepository.countBy();
@@ -35,15 +38,13 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public int getTotalPages() {
-        int pageSize = 20;
         long totalCount = companyRepository.count();
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
 
     @Override
     public Page<Company> getCompaniesFromNToM(int index) {
-        int pageSize = 20;
-        Page<Company> all = companyRepository.findAll(PageRequest.of(index - 1, pageSize));
+        Page<Company> all = companyRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE));
         for (Company company : all) {
             company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
         }
@@ -52,9 +53,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public int getTotalPagesOfSearch(int categoryId, String name) {
-        int pageSize = 20;
         long totalCount = getCompanyCountOfCategoryName(categoryId, name);
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
 
     @Override
@@ -73,25 +73,24 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Page<Company> getCompaniesFromNToMForSearch(int index, int categoryId, String name) {
-        int pageSize = 20;
         if (categoryId <= 0 && (name == null || name.trim().isEmpty())) {
             return null;
         }
         if (categoryId <= 0) {
-            Page<Company> all = companyRepository.findAllByNameContaining(PageRequest.of(index - 1, pageSize), name);
+            Page<Company> all = companyRepository.findAllByNameContaining(PageRequest.of(index - 1, PAGE_SIZE), name);
             for (Company company : all) {
                 company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
             }
             return all;
         }
         if (name == null || name.trim().isEmpty()) {
-            Page<Company> all = companyRepository.findAllByCategoryId(PageRequest.of(index - 1, pageSize), categoryId);
+            Page<Company> all = companyRepository.findAllByCategoryId(PageRequest.of(index - 1, PAGE_SIZE), categoryId);
             for (Company company : all) {
                 company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
             }
             return all;
         }
-        Page<Company> all = companyRepository.findAllByNameContainingAndCategoryId(PageRequest.of(index - 1, pageSize), name, categoryId);
+        Page<Company> all = companyRepository.findAllByNameContainingAndCategoryId(PageRequest.of(index - 1, PAGE_SIZE), name, categoryId);
         for (Company company : all) {
             company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
         }
@@ -119,5 +118,21 @@ public class CompanyServiceImpl implements CompanyService {
             companyRepository.delete(company);
         }
     }
+
+    @Override
+    public Page<Company> findAllByIsActiveTrue(int index) {
+        return companyRepository.findAllByIsActiveTrue(PageRequest.of(index - 1, PAGE_SIZE));
+    }
+
+    @Override
+    public Page<Company> findAll(Specification<Company> specification, int index) {
+        return companyRepository.findAll(specification, PageRequest.of(index - 1, PAGE_SIZE));
+    }
+
+    @Override
+    public Company findById(int id) {
+        return companyRepository.findById(id).orElse(null);
+    }
+
 
 }

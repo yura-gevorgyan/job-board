@@ -28,6 +28,7 @@
 
     <!-- dashboard css -->
     <link href="/css/dashboard.css" rel="stylesheet">
+    <title></title>
 
 </head>
 <body>
@@ -37,43 +38,43 @@
     <!--Compnay Owener menue-->
     <span th:if="${currentUser.role.name() == 'COMPANY_OWNER'}">
         <ul class="dashboard-list dashboard-menu">
-              <li><a href="/user/profile"><i class="ti-user"></i>My Profile</a></li>
-              <li><a href="/company/profile"><i class="ti-user"></i>Company Profile</a></li>
-              <li><a href="/jobs/create"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
-              <li><a href="/jobs/manage"><i class="ti-briefcase"></i> Manage Jobs </a></li>
-              <li><a href="/applicant/list"><i class="ti-file"></i> All Applicants</a></li>
-              <li><a href="/message"><i class="ti-comment-alt"></i>Messages</a></li>
-              <li><a href="/user/change/password"><i class="ti-lock"></i>Change Password</a></li>
+              <li><a href="/profile"><i class="ti-user"></i>My Profile</a></li>
+              <li><a href="/profile/company"><i class="ti-user"></i>Company Profile</a></li>
+              <li><a href="/profile/jobs-create"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
+              <li><a href="/profile/jobs-manage"><i class="ti-briefcase"></i> Manage Jobs </a></li>
+              <li><a href="/profile/applicant-list"><i class="ti-file"></i> All Applicants</a></li>
+              <li><a href="/profile/message"><i class="ti-comment-alt"></i>Messages</a></li>
+              <li><a href="/profile/change-password"><i class="ti-lock"></i>Change Password</a></li>
               <li><a href=/logout><i class="ti-power-off"></i>Logout</a></li>
-              <li><a href="/user/delete/account"><i class="ti-trash"></i>Delete Profile</a></li>
+              <li><a href="/profile/delete"><i class="ti-trash"></i>Delete Profile</a></li>
         </ul>
     </span>
 
     <!--JOB SEEKER menue-->
     <span th:if="${currentUser.role.name() == 'JOB_SEEKER'}">
         <ul class="dashboard-list dashboard-menu">
-         <li><a href="/user/profile"><i class="ti-user"></i>My Profile</a></li>
-        <li><a href="/resume/profile"><i class="ti-user"></i>My Resume</a></li>
-        <li><a href="/resume/applied/jobs"><i class="ti-bookmark"></i>Shortlisted Jobs</a></li>
-        <li><a href="/job/applies"><i class="ti-briefcase"></i>Applied Jobs</a></li>
-        <li><a href="/message"><i class="ti-comment-alt"></i>Messages</a></li>
-        <li ><a href="/user/change/password"><i class="ti-lock"></i>Change Password</a></li>
-        <li><a href="/user/delete/account"><i class="ti-power-off"></i>Logout</a></li>
-        <li><a href="/user/delete/account"><i class="ti-trash"></i>Delete Profile</a></li>
+         <li><a href="/profile"><i class="ti-user"></i>My Profile</a></li>
+        <li><a href="/profile/resume"><i class="ti-user"></i>My Resume</a></li>
+        <li><a href="/profile/applied-jobs"><i class="ti-bookmark"></i>Shortlisted Jobs</a></li>
+        <li><a href="/profile/job-applies"><i class="ti-briefcase"></i>Applied Jobs</a></li>
+        <li><a href="/profile/message"><i class="ti-comment-alt"></i>Messages</a></li>
+        <li><a href="/profile/change-password"><i class="ti-lock"></i>Change Password</a></li>
+        <li><a href="/logout"><i class="ti-power-off"></i>Logout</a></li>
+        <li><a href="/profile/delete"><i class="ti-trash"></i>Delete Profile</a></li>
         </ul>
     </span>
 
     <!--Employee menue-->
     <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
         <ul class="dashboard-list dashboard-menu">
-              <li><a href="/user/profile"><i class="ti-user"></i>My Profile</a></li>
-              <li><a href="/jobs/create"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
-              <li><a href="/jobs/manage"><i class="ti-briefcase"></i> Manage Jobs </a></li>
-              <li><a href="/applicant/list"><i class="ti-file"></i> All Applicants</a></li>
-              <li><a href="/message"><i class="ti-comment-alt"></i>Messages</a></li>
-              <li><a href="/user/change/password"><i class="ti-lock"></i>Change Password</a></li>
-              <li><a href=/user/delete/account><i class="ti-power-off"></i>Logout</a></li>
-              <li><a href="/user/delete/account"><i class="ti-trash"></i>Delete Profile</a></li>
+              <li><a href="/profile"><i class="ti-user"></i>My Profile</a></li>
+              <li><a href="/profile/jobs-create"><i class="ti-ruler-pencil"></i>Post New Job</a></li>
+              <li><a href="/profile/jobs-manage"><i class="ti-briefcase"></i> Manage Jobs </a></li>
+              <li><a href="/profile/applicant-list"><i class="ti-file"></i> All Applicants</a></li>
+              <li><a href="/profile/message"><i class="ti-comment-alt"></i>Messages</a></li>
+              <li><a href="/profile/change-password"><i class="ti-lock"></i>Change Password</a></li>
+              <li><a href="/logout"><i class="ti-power-off"></i>Logout</a></li>
+              <li><a href="/profile/delete"><i class="ti-trash"></i>Delete Profile</a></li>
         </ul>
     </span>
 </div>

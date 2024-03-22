@@ -34,5 +34,11 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     Page<Job> findAll(Specification<Job> specification, Pageable pageable);
 
     Optional<Job> findByUserId(int userId);
+
+    int countByCompanyIdAndIsDeletedFalse(int companyId);
+
+    List<Job> findTop6ByIsDeletedFalseOrderByPublishedDateDesc();
+
+    List<Job> findTop8ByCompanyIdAndIsDeletedFalse(int id);
 }
 

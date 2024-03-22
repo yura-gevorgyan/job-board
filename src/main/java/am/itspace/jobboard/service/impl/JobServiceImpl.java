@@ -66,7 +66,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public int getCountByCompanyId(int id) {
-        return jobRepository.countByCompanyId(id);
+        return jobRepository.countByCompanyIdAndIsDeletedFalse(id);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<Job> findTop6() {
-        return jobRepository.findTop6ByOrderByPublishedDateDesc();
+        return jobRepository.findTop6ByIsDeletedFalseOrderByPublishedDateDesc();
     }
 
     @Override
@@ -115,12 +115,17 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Page<Job> findAll(Specification<Job> specification, int index) {
-        return jobRepository.findAll(specification,PageRequest.of(index-1,PAGE_SIZE).withSort(Sort.by("publishedDate")));
+        return jobRepository.findAll(specification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
     }
 
     @Override
     public Job findByUserId(int id) {
         return jobRepository.findByUserId(id).orElse(null);
+    }
+
+    @Override
+    public List<Job> findTop8ByCompanyId(int id) {
+        return jobRepository.findTop8ByCompanyIdAndIsDeletedFalse(id);
     }
 }
 
