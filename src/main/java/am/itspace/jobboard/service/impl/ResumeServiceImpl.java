@@ -27,6 +27,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public Resume findByUserId(int userId) {
+        return resumeRepository.findByUserId(userId).orElse(null);
+    }
+
+    @Override
     public List<Resume> getLast6Resumes() {
         return resumeRepository.findTop6ByOrderByCreatedDateDesc();
     }

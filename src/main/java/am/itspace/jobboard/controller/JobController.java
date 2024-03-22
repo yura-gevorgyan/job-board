@@ -1,19 +1,27 @@
 package am.itspace.jobboard.controller;
 
 import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
+import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.specification.JobSpecification;
+import am.itspace.jobboard.util.AddMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,6 +35,7 @@ public class JobController {
 
     private final JobService jobService;
     private final CategoryService categoryService;
+    private final CompanyService companyService;
 
     @GetMapping("/{index}")
     public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
@@ -115,8 +124,45 @@ public class JobController {
         } catch (IllegalArgumentException e) {
             return "redirect:/jobs/1";
         }
+    }
 
+    @GetMapping("/create")
+    public String createJopPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+        AddMessageUtil.addMessageToModel(msg, modelMap);
+        modelMap.addAttribute("workExperience", WorkExperience.values());
+        modelMap.addAttribute("categories", categoryService.findAll());
+        modelMap.addAttribute("status", Status.values());
+        return "/profile/create-job";
+    }
 
+    @GetMapping("/manage")
+    public String jobManage() {
+        return "/profile/manage-job";
+    }
+
+    @PostMapping("/create")
+    public String createJob(@AuthenticationPrincipal SpringUser springUser, @ModelAttribute Job job) {
+        User user = springUser.getUser();
+        if ((user != null) && (user.getRole() == Role.COMPANY_OWNER)) {
+            if (companyService.findCompanyByUserId(user.getId()) != null) {
+                if (sendErrorMessageJob(job) != null) {
+                    return "redirect:/jobs/create?msg=" + sendErrorMessageJob(job);
+                }
+                jobService.save(job);
+                return "redirect:/jobs/manage";
+            }
+            return "redirect:/company/profile?msg=For creating job please create Company!";
+
+        } else if ((user != null) && (user.getRole() == Role.EMPLOYEE)) {
+
+            if (sendErrorMessageJob(job) != null) {
+                return "redirect:/jobs/create?msg=" + sendErrorMessageJob(job);
+            }
+            jobService.save(job);
+            return "redirect:/jobs/manage";
+        }
+
+        return "redirect:/";
     }
 
     private void addAttributes(ModelMap modelMap, String url, Page<Job> jobs, int searchIndex, int index) {
@@ -131,5 +177,14 @@ public class JobController {
         modelMap.addAttribute("experiences", WorkExperience.values());
     }
 
-
+    private String sendErrorMessageJob(Job job) {
+        if (job.getCategory() == null || job.getCategory().toString().isEmpty()) {
+            return "Choose Job Category!";
+        } else if (job.getStatus() == null || job.getStatus().toString().isEmpty()) {
+            return "Choose Job Status!";
+        } else if (job.getWorkExperience() == null || job.getWorkExperience().toString().isEmpty()) {
+            return "Choose Work Experience!";
+        }
+        return null;
+    }
 }

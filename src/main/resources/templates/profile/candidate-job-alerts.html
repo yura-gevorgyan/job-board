@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template" />
+    <meta name="description" content="Job Board - Job Portal HTML Template" />
+
+    <!-- title  -->
+    <title>Job Board - Job Portal HTML Template</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png" />
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png" />
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css" />
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css" />
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
+    ================================================== -->
+    <header class="header-style2 static-header">
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
+
+    <!-- EMPLOYER DASHBOARD
+    ================================================== -->
+    <section class="py-0">
+        <div class="row g-0">
+            <div class="col-lg-3 mb-2-2 mb-lg-0">
+                <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
+            </div>
+            <div class="col-lg-9">
+                <div class="dashboard-right-sidebar">
+                    <div class="row mb-2-2">
+                        <div class="col-lg-12 mb-1-9">
+                            <h3 class="mb-3">Job Alerts</h3>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="demo-1.html">Job Board</a></li>
+                                    <li class="breadcrumb-item"><a href="employer-dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Job Alerts</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="dashboard-title">
+                                <div class="d-md-flex justify-content-between align-items-center">
+                                    <div class="mb-4 mb-md-0">
+                                        <h4 class="mb-0 h5">Showing 1–10 of <span class="text-primary">07 Job</span></h4>
+                                    </div>
+                                    <form action="#!" method="post" enctype="multipart/form-data" onclick="">
+                                        <div class="quform-elements">
+                                            <div class="row align-items-center">
+
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-5 mb-4 mb-md-0">
+                                                    <div class="quform-element">
+                                                        <div class="quform-input">
+                                                            <select id="show" class="form-control form-select" name="show">
+                                                                <option value="">Show</option>
+                                                                <option value="Show 10">Show 10</option>
+                                                                <option value="Show 20">Show 20</option>
+                                                                <option value="Show 30">Show 30</option>
+                                                                <option value="Show 40">Show 40</option>
+                                                                <option value="Show 50">Show 50</option>
+                                                                <option value="Show 60">Show 60</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Select element -->
+
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-7">
+                                                    <div class="quform-element">
+                                                        <div class="quform-input">
+                                                            <select id="sortby-month" class="form-control form-select" name="sortby-month">
+                                                                <option value="">Last 6 Months</option>
+                                                                <option value="Last 6 Months">Last 6 Months</option>
+                                                                <option value="Last 12 Months">Last 12 Months</option>
+                                                                <option value="Last 16 Months">Last 16 Months</option>
+                                                                <option value="Last 24 Months">Last 24 Months</option>
+                                                                <option value="Last 5 Year">Last 5 Year</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Select element -->
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="table-responsive">
+                                    <table class="table custome-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Criteria</th>
+                                            <th>Created</th>
+                                            <th>Expired</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <h6>UX/UI Designer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Designing, Senior</td>
+                                            <td>Nov 22, 2021</td>
+                                            <td>Dec 19, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h6>Project Manager</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Art, Design</td>
+                                            <td>Nov 19, 2021</td>
+                                            <td>Dec 16, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h6>Assistant Editor</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Construction, Senior</td>
+                                            <td>Nov 17, 2021</td>
+                                            <td>Dec 15, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h6>Content Writer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Digital Marketing, Junior</td>
+                                            <td>Nov 16, 2021</td>
+                                            <td>Dec 11, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h6>Digital Marketer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Digital Marketing, Junior</td>
+                                            <td>Nov 11, 2021</td>
+                                            <td>Dec 07, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h6>Finance Executive</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Health Care, Junior</td>
+                                            <td>Nov 09, 2021</td>
+                                            <td>Dec 03, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h6>Teacher - English</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
+                                            </td>
+                                            <td>Education</td>
+                                            <td>Nov 05, 2021</td>
+                                            <td>Nov 30, 2021</td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
+                                                    <li><a href="#!"><span class="ti-trash"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <p class="d-inline-block mb-0">© <span class="current-year"></span> Job Board Powered by
+                                <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary secondary-hover">Chitrakoot Web</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- BUY TEMPLATE
+================================================== -->
+<div class="buy-theme alt-font d-none d-lg-inline-block"><a href="https://wrapbootstrap.com/theme/job-board-job-portal-html-template-WB0S2FC71" target="_blank"><i class="fas fa-cart-plus"></i><span>Buy Template</span></a></div>
+
+<div class="all-demo alt-font d-none d-lg-inline-block"><a href="https://www.chitrakootweb.com/contact.html" target="_blank"><i class="far fa-envelope"></i><span>Quick Question?</span></a></div>
+
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+<!-- end scroll to top -->
+
+<!-- all js include start -->
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
+
+<!-- search -->
+<script src="/search/search.js"></script>
+
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
+
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+
+<!-- all js include end -->
+
+</body>
+</html>
