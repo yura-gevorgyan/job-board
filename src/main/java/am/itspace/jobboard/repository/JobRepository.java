@@ -35,3 +35,4 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     Optional<Job> findByUserId(int userId);
 }
+

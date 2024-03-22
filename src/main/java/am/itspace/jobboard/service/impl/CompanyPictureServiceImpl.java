@@ -12,3 +12,4 @@ public class CompanyPictureServiceImpl implements CompanyPictureService {
     private final CompanyPictureRepository companyPictureRepository;
 
 }
+

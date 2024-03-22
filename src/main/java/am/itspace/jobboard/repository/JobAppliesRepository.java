@@ -11,3 +11,4 @@ public interface JobAppliesRepository extends JpaRepository<JobApplies, Integer>
     List<JobApplies> findAllByToJobSeeker(User user);
 
 }
+

@@ -47,3 +47,4 @@ public class UserController {
         return "/profile/candidate-change-password";
     }
 }
+

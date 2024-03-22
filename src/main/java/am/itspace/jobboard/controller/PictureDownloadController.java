@@ -30,3 +30,4 @@ public class PictureDownloadController {
         return ResponseEntity.ok().body(null);
     }
 }
+

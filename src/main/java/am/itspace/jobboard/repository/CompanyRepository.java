@@ -28,3 +28,4 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     Optional<Company> findCompanyByUserId(int userId);
 }
+

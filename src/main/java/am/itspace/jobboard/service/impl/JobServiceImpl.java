@@ -123,3 +123,4 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findByUserId(id).orElse(null);
     }
 }
+

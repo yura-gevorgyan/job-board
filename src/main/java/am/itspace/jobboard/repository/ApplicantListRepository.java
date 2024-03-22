@@ -11,3 +11,4 @@ public interface ApplicantListRepository extends JpaRepository<ApplicantList, In
     List<ApplicantList> findAllByToEmployer(User user);
 
 }
+

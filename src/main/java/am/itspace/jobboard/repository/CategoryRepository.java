@@ -14,3 +14,4 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findTop9ByOrderByPicName();
 
 }
+

@@ -18,3 +18,4 @@ public class JobAppliesController {
         return "/profile/candidate-shortlisted-jobs";
     }
 }
+

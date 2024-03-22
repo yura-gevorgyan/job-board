@@ -12,3 +12,4 @@ public class JobAppliesServiceImpl implements JobAppliesService {
     private final JobAppliesRepository jobAppliesRepository;
 
 }
+

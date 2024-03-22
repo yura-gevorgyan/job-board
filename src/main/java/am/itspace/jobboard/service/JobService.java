@@ -40,3 +40,4 @@ public interface JobService {
 
     Job findByUserId(int id);
 }
+

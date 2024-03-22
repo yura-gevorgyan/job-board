@@ -20,3 +20,4 @@ public interface SendMailService {
 
     void sendEmailAccountUnlocked(User user);
 }
+

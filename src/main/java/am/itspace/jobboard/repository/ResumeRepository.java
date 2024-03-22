@@ -32,3 +32,4 @@ public interface ResumeRepository extends JpaRepository<Resume, Integer> {
     Optional<Resume> findByUserId(int userId);
 
 }
+

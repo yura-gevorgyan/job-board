@@ -12,3 +12,4 @@ public class ApplicantListServiceImpl implements ApplicantListService {
     private final ApplicantListRepository applicantListRepository;
 
 }
+

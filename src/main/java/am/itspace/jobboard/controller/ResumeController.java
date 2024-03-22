@@ -41,3 +41,4 @@ public class ResumeController {
         return "/profile/candidate-applied-job";
     }
 }
+

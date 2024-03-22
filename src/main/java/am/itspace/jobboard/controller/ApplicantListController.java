@@ -18,3 +18,4 @@ public class ApplicantListController {
         return "/profile/applicant-list";
     }
 }
+
