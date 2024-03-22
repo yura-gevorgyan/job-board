@@ -15,6 +15,6 @@ public class ApplicantListController {
 
     @GetMapping
     public String applicantListCompany() {
-        return "applicant-list";
+        return "/profile/applicant-list";
     }
 }

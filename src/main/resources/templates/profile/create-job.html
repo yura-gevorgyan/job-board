@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -47,7 +47,7 @@
 
         <!-- HEADER
         ================================================== -->
-        <header>
+        <header class="header-style2 static-header">
             <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
         </header>
 
@@ -62,90 +62,47 @@
                     <div class="dashboard-right-sidebar">
                         <div class="row mb-2-2">
                             <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">Company Profile</h3>
+                                <h3 class="mb-3">Post New Job</h3>
+                                <span th:if="${msg != null}">
+                                           <div class="alert alert-danger alert-dismissible">
+                                        <strong th:text="${msg}"></strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                    </span>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="demo-1.html">Job Board</a></li>
                                         <li class="breadcrumb-item"><a href="employer-dashboard.html">Dashboard</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Company Profile</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Post New Job</li>
                                     </ol>
                                 </nav>
                             </div>
-                            <div class="col-lg-12 mb-2-2">
+                            <div class="col-lg-12">
                                 <div class="dashboard-title">
-                                    <h5 class="mb-0">My Profile</h5> <br>
-                                    <p>If You don't have a company, you can't add jobs, view resumes...</p>
+                                    <h5 class="mb-0">Post a Job</h5>
                                 </div>
-                                <div class="dashboard-widget" th:if="${company == null}">
-                                    <form action="#!" method="post" enctype="multipart/form-data" onclick="">
+                                <div class="dashboard-widget">
+                                    <form action="/jobs/create" method="post" enctype="multipart/form-data" onclick="">
                                         <div class="quform-elements">
                                             <div class="row">
 
-                                                <!-- Begin Select element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <div class="quform-input">
-                                                            <label for="resume">Browse Logo</label>
-                                                            <div class="custom-file">
-                                                                <input class="custom-file-input" type="file" id="resume" name="resume">
-                                                                <label class="custom-file-label" data-browse="Browse">Choose file</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Select element -->
-
                                                 <!-- Begin Text input element -->
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="quform-element form-group">
-                                                        <label for="company-name">Company Name</label>
+                                                        <label for="job-title">Job Title</label>
                                                         <div class="quform-input">
-                                                            <input id="company-name" class="form-control" type="text" name="company-name" placeholder="Enter company name">
+                                                            <input id="job-title" class="form-control" type="text" name="job-title" placeholder="Enter job title">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- End Text input element -->
 
                                                 <!-- Begin Text input element -->
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="quform-element form-group">
-                                                        <label for="email">Email </label>
+                                                        <label for="job-description">Job Description</label>
                                                         <div class="quform-input">
-                                                            <input id="email" class="form-control" type="text" name="email" placeholder="name@example.com">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="website-link">Phone</label>
-                                                        <div class="quform-input">
-                                                            <input class="form-control" id="phone" type="text" name="phone" placeholder="Enter your phone">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="website-link">Website</label>
-                                                        <div class="quform-input">
-                                                            <input id="website-link" class="form-control" type="text" name="website-link" placeholder="Enter website link">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="since-date">Founded Date</label>
-                                                        <div class="quform-input">
-                                                            <input class="form-control" id="since-date" type="date" name="since-date" placeholder="Enter since date">
+                                                            <textarea id="job-description" class="form-control" name="message" rows="6" placeholder="Enter job description"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -154,7 +111,7 @@
                                                 <!-- Begin Select element -->
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label for="category">Category</label>
+                                                        <label for="category">Job Type</label>
                                                         <div class="quform-input">
                                                             <select id="category" class="form-control form-select" name="category.id">
                                                                 <option value="" disabled selected>Choose Category</option>
@@ -169,146 +126,58 @@
                                                 </div>
                                                 <!-- End Select element -->
 
-                                                <!-- Begin Textarea element -->
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label for="message">About Company</label>
+                                                        <label for="experience">Status</label>
                                                         <div class="quform-input">
-                                                            <textarea id="message" class="form-control" name="message" rows="6" placeholder="How'd you hear about company?"></textarea>
+                                                            <select id="status" class="form-control form-select" name="status">
+                                                                <option value="" disabled selected>Select Status</option>
+                                                                <option th:each="jobStatus : ${status}" th:value="${jobStatus}" th:text="${jobStatus.name().replace('_',' ')}"></option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- End Textarea element -->
-
-                                                <!-- Begin Submit button -->
-                                                <div class="col-md-12">
-                                                    <div class="quform-submit-inner">
-                                                        <button class="butn" type="submit"><span>Create Company</span></button>
-                                                    </div>
-                                                    <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
-                                                </div>
-                                                <!-- End Submit button -->
-
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="dashboard-widget" th:if="${company != null}">
-                                    <form action="#!" method="post" enctype="multipart/form-data" onclick="">
-                                        <div class="quform-elements">
-                                            <div class="row">
 
                                                 <!-- Begin Select element -->
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
+                                                        <label for="experience">Experience</label>
                                                         <div class="quform-input">
-                                                            <label for="resume">Browse Logo</label>
-                                                            <div class="custom-file">
-                                                                <input class="custom-file-input" type="file" id="lgo" name="logoName">
-                                                                <label class="custom-file-label" data-browse="Browse">Choose file</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Select element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="company-name">Company Name</label>
-                                                        <div class="quform-input">
-                                                            <input id="companyName" class="form-control" type="text" name="name" th:value="${company.name}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="email">Email </label>
-                                                        <div class="quform-input">
-                                                            <input id="emailAddres" class="form-control" type="email" name="email" th:value="${company.email}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="website-link">Phone</label>
-                                                        <div class="quform-input">
-                                                            <input class="form-control" id="phoneNumber" type="text" name="phone" th:value="${company.phone}">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="website-link">Website</label>
-                                                        <div class="quform-input">
-                                                            <input id="websiteLink" class="form-control" type="text" name="website-link" th:value="${company.website}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Text input element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="since-date">Founded Date</label>
-                                                        <div class="quform-input">
-                                                            <input class="form-control" id="sinceDate" type="date" name="since-date" th:value="${#dates.format(company.foundedDate,'yyyy-MM-dd')}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Text input element -->
-
-                                                <!-- Begin Select element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element form-group">
-                                                        <label for="category">Category</label>
-                                                        <div class="quform-input">
-                                                            <select id="categoryCompany" class="form-control form-select" name="category.id">
-                                                                <option value="" disabled th:value="${company.getCategory()}"></option>
-                                                                <option th:if="${categories != null and not #lists.isEmpty(categories)}"
-                                                                        th:each="category : ${categories}"
-                                                                        th:text="${category.name}"
-                                                                        th:value="${category.id}">
-                                                                </option>
+                                                            <select id="experience" class="form-control form-select" name="workExperience">
+                                                                <option value="" disabled selected>Select Experience</option>
+                                                                <option th:each="experience : ${workExperience}" th:value="${experience}" th:text="${experience.name().replace('_',' ')}"></option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- End Select element -->
 
+                                                <!-- Begin Select element -->
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
+                                                        <label for="offered-salary">Offered Salary</label>
                                                         <div class="quform-input">
-                                                            <label for="resume">Browse Company Office Pictures</label>
+                                                            <input id="offered-salary" class="form-control" type="number" name="job-title" placeholder="Enter job title">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Select element -->
+
+                                                <!-- End Select element -->
+
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-12">
+                                                    <div class="quform-element form-group">
+                                                        <div class="quform-input">
+                                                            <label for="resume">File Attachment</label>
                                                             <div class="custom-file">
-                                                                <input class="custom-file-input" type="file" id="pictures" name="pictures" multiple>
+                                                                <input class="custom-file-input" type="file" id="resume" name="resume">
                                                                 <label class="custom-file-label" data-browse="Browse">Choose file</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <!-- Begin Textarea element -->
-                                                <div class="col-md-12">
-                                                    <div class="quform-element form-group">
-                                                        <label for="message">About Company</label>
-                                                        <div class="quform-input">
-                                                            <textarea id="messages" class="form-control" name="message" rows="6" th:text="${company.description}"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Textarea element -->
+                                                <!-- End Select element -->
 
                                                 <!-- Begin Submit button -->
                                                 <div class="col-md-12">
@@ -323,13 +192,12 @@
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                         <div class="row mb-2-2">
                             <div class="col-lg-12">
                                 <div class="dashboard-title">
-                                    <h5 class="mb-0">Contact Information</h5>
+                                    <h5 class="mb-0">Address</h5>
                                 </div>
                                 <div class="dashboard-widget">
                                     <form action="#!" method="post" enctype="multipart/form-data" onclick="">
@@ -417,7 +285,7 @@
                                                 <!-- End Text input element -->
 
                                                 <!-- Begin Submit button -->
-                                                <div class="col-md-12 mb-1-9">
+                                                <div class="col-md-12 mb-4">
                                                     <div class="quform-submit-inner">
                                                         <button class="butn" type="submit"><span>Search Location</span></button>
                                                     </div>
@@ -432,9 +300,9 @@
                                                 <!-- End Map -->
 
                                                 <!-- Begin Submit button -->
-                                                <div class="col-md-12">
+                                                <div class="col-md-12 text-end">
                                                     <div class="quform-submit-inner">
-                                                        <button class="butn" type="submit">Save Changes</button>
+                                                        <button class="butn" type="submit">Next</button>
                                                     </div>
                                                     <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
                                                 </div>

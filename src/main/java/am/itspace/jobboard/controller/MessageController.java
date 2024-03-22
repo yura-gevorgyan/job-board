@@ -15,7 +15,7 @@ public class MessageController {
 
     @GetMapping
     public String messagePage() {
-        return "messages";
+        return "/profile/messages";
     }
 
 }

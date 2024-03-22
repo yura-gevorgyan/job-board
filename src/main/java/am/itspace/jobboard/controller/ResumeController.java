@@ -31,13 +31,13 @@ public class ResumeController {
             modelMap.addAttribute("gender", Gender.values());
             modelMap.addAttribute("workExperience", WorkExperience.values());
             modelMap.addAttribute("resume", resumeService.findByUserId(springUser.getUser().getId()));
-            return "candidate-profile";
+            return "/profile/candidate-profile";
         }
-        return "candidate-profile";
+        return "/profile/candidate-profile";
     }
 
     @GetMapping("/applied/jobs")
     public String companySinglePage() {
-        return "candidate-applied-job";
+        return "/profile/candidate-applied-job";
     }
 }

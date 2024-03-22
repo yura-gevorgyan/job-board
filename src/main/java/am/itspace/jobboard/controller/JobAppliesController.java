@@ -15,6 +15,6 @@ public class JobAppliesController {
 
     @GetMapping
     public String JobApplies() {
-        return "candidate-shortlisted-jobs";
+        return "/profile/candidate-shortlisted-jobs";
     }
 }

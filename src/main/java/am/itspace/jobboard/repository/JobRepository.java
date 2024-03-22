@@ -15,8 +15,6 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     int countBy();
 
-    Optional<Job> findByUserId(int userId);
-
     List<Job> findTop4ByOrderByPublishedDateDesc();
 
     int countByTitleContaining(String title);
@@ -35,4 +33,5 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     Page<Job> findAll(Specification<Job> specification, Pageable pageable);
 
+    Optional<Job> findByUserId(int userId);
 }
