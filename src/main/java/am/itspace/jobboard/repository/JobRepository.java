@@ -40,5 +40,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     List<Job> findTop6ByIsDeletedFalseOrderByPublishedDateDesc();
 
     List<Job> findTop8ByCompanyIdAndIsDeletedFalse(int id);
+
+    Optional<Job> findByIdAndIsDeletedFalse(int id);
 }
 

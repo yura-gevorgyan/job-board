@@ -24,5 +24,6 @@ public interface ResumeService {
     Page<Resume> getResumesFromNToMForSearch(int searchIndex, int categoryId, String userEmail);
 
     void deleteById(int id);
+
 }
 
