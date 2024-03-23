@@ -16,17 +16,5 @@ public class ResumeController {
     private final ResumeService resumeService;
     private final CategoryService categoryService;
 
-    @GetMapping("/{index}")
-    public String resumesPage(@PathVariable("index") String indexStr) {
-        try {
-            int index = Integer.parseInt(indexStr);
-
-            return "job-seeker-list";
-
-        } catch (NumberFormatException e) {
-            return "redirect:/resumes/1";
-        }
-    }
-
 }
 
