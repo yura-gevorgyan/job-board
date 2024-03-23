@@ -49,7 +49,7 @@ public class JobController {
 
             Page<Job> jobs = jobService.findAllByIsDeletedFalse(index);
 
-            if (index > jobs.getTotalPages()) {
+            if (index > jobs.getTotalPages() && jobs.getTotalPages() != 0 ) {
                 return "redirect:/jobs/1";
             }
 

@@ -47,7 +47,7 @@ public class CompanyController {
 
             Page<Company> companies = companyService.findAllByIsActiveTrue(index);
 
-            if (index > companies.getTotalPages()) {
+            if (index > companies.getTotalPages() && companies.getTotalPages() != 0) {
                 return "redirect:/companies/1";
             }
 
