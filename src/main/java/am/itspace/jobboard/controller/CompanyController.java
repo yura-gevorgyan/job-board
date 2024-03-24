@@ -79,7 +79,7 @@ public class CompanyController {
             Specification<Company> companySpecification = CompanySpecification.searchCompanies(name, categoryService.findById(categoryId), true);
             Page<Company> companies = companyService.findAll(companySpecification, searchIndex);
 
-            if (searchIndex > companies.getTotalPages()) {
+            if (searchIndex > companies.getTotalPages() && companies.getTotalPages() != 0) {
                 return "redirect:/companies/1";
             }
 

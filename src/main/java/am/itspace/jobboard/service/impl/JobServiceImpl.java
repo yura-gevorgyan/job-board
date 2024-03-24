@@ -127,5 +127,10 @@ public class JobServiceImpl implements JobService {
     public List<Job> findTop8ByCompanyId(int id) {
         return jobRepository.findTop8ByCompanyIdAndIsDeletedFalse(id);
     }
+
+    @Override
+    public Job getJobById(int id) {
+        return jobRepository.findByIdAndIsDeletedFalse(id).orElse(null);
+    }
 }
 

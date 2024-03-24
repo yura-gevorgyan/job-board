@@ -149,7 +149,7 @@
                                 <div class="d-md-flex justify-content-between align-items-center mb-2-2">
                                     <div class="mb-4 mb-md-0">
                                         <h4 class="mb-0 h5"> Showing 20 of <span class="text-primary"
-                                                                                 th:text="${jobCount + ' Jobs'}"></span>
+                                                                                 th:text="${jobCount}"></span>
                                             Jobs
                                         </h4>
                                     </div>
@@ -216,7 +216,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 ms-lg-4">
-                                                <h4 class="h5"><a href="job-details.html"
+                                                <h4 class="h5"><a th:href="@{'/jobs/item/' + ${job.id}}"
                                                                   th:text="${job.title}"></a></h4>
                                                 <i class="ti-briefcase pe-2 text-secondary"></i>
                                                 <span class="me-2" th:text="${job.category.name}"></span>
@@ -224,14 +224,14 @@
                                                 <span class="me-2" th:text="${job.location}"></span>
                                                 <i class="ti-time pe-2 text-secondary"></i>
                                                 <span class="me-2"
-                                                      th:text="${job.publishedDate.toString().substring(0,11)}"></span>
+                                                      th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></span>
                                                 <i class="far fa-money-bill-alt pe-2 text-secondary"></i>
                                                 <span class="me-2" th:text="${job.salary + '$'}"></span>
                                                 <span class="company-info radius-10"
                                                       th:text="${job.status.toString().replace('_',' ')}">Full Time</span>
                                             </div>
                                         </div>
-                                        <a href="job-details.html" class="butn butn-md">Apply Job</a>
+                                        <a th:href="@{'/jobs/item/' + ${job.id}}" class="butn butn-md">Apply Job</a>
                                     </div>
                                 </div>
                             </div>
