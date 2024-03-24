@@ -88,7 +88,7 @@
                                 <div class="col-lg-9 mb-4 mb-lg-0">
                                     <div class="d-lg-flex align-items-center text-center text-lg-start">
                                         <div class="flex-shrink-0 mb-4 mb-lg-0">
-                                            <img th:src="@{'/download/picture/' + ${job.logoName}}" width="100px"
+                                            <img th:src="@{'/download/picture/' + ${job.logoName}}" style="width: 150px"
                                                  alt="..."
                                                  class="border-radius-10">
                                         </div>
@@ -105,7 +105,7 @@
                                             <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
                                                     th:text="${job.location}"></th:block></span>
                                             <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
-                                                    th:text="${job.workExperience.toString().replace('_',' ').toLowerCase()}"></th:block></span>
+                                                    th:text="${job.workExperience.toString().replace('_',' ')}"></th:block></span>
                                             <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
                                                     th:text="${'$' + job.salary}"></th:block></span>
                                         </div>
@@ -147,7 +147,7 @@
                                                 <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
                                                     <h5 class="display-29 display-xl-28">Experience</h5>
                                                     <span class="font-weight-500 text-primary display-30"
-                                                          th:text="${job.workExperience.toString().replace('_',' ').toLowerCase()}"></span>
+                                                          th:text="${job.workExperience.toString().replace('_',' ')}"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-4 mt-3">
@@ -177,7 +177,7 @@
                                         <div class="d-flex align-items-center mb-1-9">
                                             <div class="flex-shrink-0">
                                                 <img th:src="@{'/download/picture/' + ${job.company.logoName}}"
-                                                     width="80px" alt="..." class="border-radius-10">
+                                                     style="width: 100px" alt="..." class="border-radius-10">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h5 class="mb-1" th:text="${job.company.name}"></h5>
@@ -218,7 +218,7 @@
                                         <div class="d-flex align-items-center mb-1-9">
                                             <div class="flex-shrink-0">
                                                 <img th:src="@{'/download/picture/' + ${job.user}}"
-                                                     width="80px" alt="..." class="border-radius-10">
+                                                     style="width: 100px" alt="..." class="border-radius-10">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h5 class="mb-1" th:text="${job.user.name +' ' +  job.user.surname}"></h5>
@@ -259,7 +259,7 @@
                                     <span class="popular-jobs-status" th:text="${singleJob.status.toString().replace('_',' ')}"></span>
                                     <a class="favourite" href="#"><i class="far fa-heart"></i></a>
                                     <div class="popular-jobs-box">
-                                        <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" alt="...">
+                                        <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 70px;" alt="...">
                                         <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}" th:text="${job.title}"></a></h4>
                                         <p class="text-muted font-weight-500" th:text="${singleJob.category.name}"></p>
                                     </div>

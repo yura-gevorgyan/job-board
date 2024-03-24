@@ -9,4 +9,4 @@ spring:
 program:
   pictures:
     file:
-      path: C:/Users/Dell/IdeaProjects/job-board/src/programfiles
+      path: C:/Users/Dell/IdeaProjects/job-board-v2/src/programfiles
