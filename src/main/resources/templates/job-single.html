@@ -193,20 +193,20 @@
                                                 <th:block
                                                         th:text="${#dates.format(job.company.foundedDate,'dd MMMM yyyy')}"></th:block>
                                             </li>
-                                            <li><span>Phone</span>
+                                            <li th:if="${job.company.phone != null && !job.company.phone.isEmpty()}"><span>Phone</span>
                                                 <th:block th:text="${job.company.phone}"></th:block>
                                             </li>
-                                            <li><span>Email</span>
+                                            <li th:if="${job.company.email != null && !job.company.email.isEmpty()}"><span>Email</span>
                                                 <th:block th:text="${job.company.email}"></th:block>
                                             </li>
-                                            <li><span>Website</span>
+                                            <li th:if="${job.company.website != null && !job.company.website.isEmpty()}"><span>Website</span>
                                                 <th:block th:text="${job.company.website}"></th:block>
                                             </li>
                                             <li><span>Address</span>
                                                 <th:block th:text="${job.company.location}"></th:block>
                                             </li>
                                         </ul>
-                                        <a th:href="${job.company.website}" class="butn w-100 text-center mt-1-9">
+                                        <a th:if="${job.company.website != null && !job.company.website.isEmpty()}" th:href="${job.company.website}" class="butn w-100 text-center mt-1-9">
                                             <th:block th:text="${job.company.website}"></th:block>
                                         </a>
                                     </div>

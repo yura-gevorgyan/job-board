@@ -174,25 +174,25 @@ public class JobController {
 
             if (springUser == null || springUser.getUser().getRole() != Role.JOB_SEEKER) {
 
-                redirectAttributes.addFlashAttribute("errorMsg", "You can not to apply this job !!!");
+                redirectAttributes.addFlashAttribute("errorMsg", "You can not to apply this job.");
                 return "redirect:/jobs/item/" + id;
             }
 
             Resume resume = resumeService.findByUserId(springUser.getUser().getId());
-            if (resume == null) {
-                redirectAttributes.addFlashAttribute("resumeMsg", "For apply this job please create your resume !!!");
+            if (resume == null || !resume.isActive()) {
+                redirectAttributes.addFlashAttribute("resumeMsg", "For apply this job please create your resume.");
                 return "redirect:/jobs/item/" + id;
             }
 
             ApplicantList applyJob = applicantListService.findByEmployerIdAndResumeId(job.getUser().getId(), resume.getId());
             if (applyJob != null) {
-                redirectAttributes.addFlashAttribute("applyJobMsg", "You have already applied a job !!!");
+                redirectAttributes.addFlashAttribute("applyJobMsg", "You have already applied this job.");
                 return "redirect:/jobs/item/" + id;
             }
 
             applicantListService.save(job, resume);
 
-            redirectAttributes.addFlashAttribute("msg", "Success. You apply for a job !!!");
+            redirectAttributes.addFlashAttribute("msg", "Success. You apply for a job.");
             return "redirect:/jobs/item/" + id;
 
 
