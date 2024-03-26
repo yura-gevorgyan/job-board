@@ -21,7 +21,7 @@ public interface CategoryService {
 
     void update(int id, String name, MultipartFile multipartFile);
 
-    List<Category> findTop9();
+    List<Category> findTop(int topNumber);
 
 }
 

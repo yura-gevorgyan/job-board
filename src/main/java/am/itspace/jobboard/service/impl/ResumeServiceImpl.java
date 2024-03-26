@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     private final SendMailService sendMailService;
 
+    private final int PAGE_SIZE = 20;
+
     @Override
     public int getResumeCount() {
         return resumeRepository.countBy();
@@ -28,7 +31,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume findByUserId(int userId) {
-        return resumeRepository.findByUserId(userId).orElse(null);
+        return resumeRepository.findByUserIdAndIsActiveTrue(userId).orElse(null);
     }
 
     @Override
@@ -38,22 +41,19 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public int getTotalPages() {
-        int pageSize = 20;
         long totalCount = resumeRepository.count();
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
 
     @Override
     public Page<Resume> getResumesFromNToM(int index) {
-        int pageSize = 20;
-        return resumeRepository.findAll(PageRequest.of(index - 1, pageSize).withSort(Sort.by("createdDate")));
+        return resumeRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("createdDate")));
     }
 
     @Override
     public int getTotalPagesOfSearch(int categoryId, String userEmail) {
-        int pageSize = 20;
         long totalCount = getResumeCountOfCategoryUserEmail(categoryId, userEmail);
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
     }
 
     @Override
@@ -72,17 +72,16 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Page<Resume> getResumesFromNToMForSearch(int index, int categoryId, String userEmail) {
-        int pageSize = 20;
         if (categoryId <= 0 && (userEmail == null || userEmail.trim().isEmpty())) {
             return null;
         }
         if (categoryId <= 0) {
-            return resumeRepository.findAllByUserEmailContaining(PageRequest.of(index - 1, pageSize), userEmail);
+            return resumeRepository.findAllByUserEmailContaining(PageRequest.of(index - 1, PAGE_SIZE), userEmail);
         }
         if (userEmail == null || userEmail.trim().isEmpty()) {
-            return resumeRepository.findAllByCategoryId(PageRequest.of(index - 1, pageSize), categoryId);
+            return resumeRepository.findAllByCategoryId(PageRequest.of(index - 1, PAGE_SIZE), categoryId);
         }
-        return resumeRepository.findAllByUserEmailContainingAndCategoryId(PageRequest.of(index - 1, pageSize), userEmail, categoryId);
+        return resumeRepository.findAllByUserEmailContainingAndCategoryId(PageRequest.of(index - 1, PAGE_SIZE), userEmail, categoryId);
     }
 
     @Override
@@ -92,6 +91,26 @@ public class ResumeServiceImpl implements ResumeService {
             sendMailService.sendEmailResumeDeleted(byId.get().getUser());
             resumeRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Page<Resume> findAllByActiveTrue(int index) {
+        return resumeRepository.findAllByIsActiveTrue(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("createdDate")));
+    }
+
+    @Override
+    public Page<Resume> findAll(Specification<Resume> resumeSpecification, int searchIndex) {
+        return resumeRepository.findAll(resumeSpecification, PageRequest.of(searchIndex - 1, PAGE_SIZE).withSort(Sort.by("createdDate")));
+    }
+
+    @Override
+    public Resume getById(int id) {
+        return resumeRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Resume> findTop6() {
+        return resumeRepository.findRandomResumes(6);
     }
 
 }

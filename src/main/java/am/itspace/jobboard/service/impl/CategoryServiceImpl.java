@@ -85,8 +85,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findTop9() {
-        return categoryRepository.findTop9ByOrderByPicName();
+    public List<Category> findTop(int topNumber) {
+        return categoryRepository.findRandomCategories(topNumber);
     }
 
 }

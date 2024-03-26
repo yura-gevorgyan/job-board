@@ -105,7 +105,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<Job> findTop6() {
-        return jobRepository.findTop6ByIsDeletedFalseOrderByPublishedDateDesc();
+        return jobRepository.findRandomJobs(6);
     }
 
     @Override
@@ -119,8 +119,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job findByUserId(int id) {
-        return jobRepository.findByUserId(id).orElse(null);
+    public List<Job> findByUserId(int id) {
+        return jobRepository.findByUserId(id);
     }
 
     @Override
@@ -132,5 +132,11 @@ public class JobServiceImpl implements JobService {
     public Job getJobById(int id) {
         return jobRepository.findByIdAndIsDeletedFalse(id).orElse(null);
     }
+
+    @Override
+    public List<Job> findByUserIdAndIsDeletedFalse(int id) {
+        return jobRepository.findAllByUserIdAndIsDeletedFalse(id);
+    }
+
 }
 
