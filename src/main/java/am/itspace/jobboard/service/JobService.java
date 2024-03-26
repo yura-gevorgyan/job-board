@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface JobService {
 
@@ -39,10 +38,13 @@ public interface JobService {
 
     Page<Job> findAll(Specification<Job> specification, int index);
 
-    Job findByUserId(int id);
+    List<Job> findByUserId(int id);
 
     List<Job> findTop8ByCompanyId(int id);
 
     Job getJobById(int id);
+
+    List<Job> findByUserIdAndIsDeletedFalse(int id);
+
 }
 

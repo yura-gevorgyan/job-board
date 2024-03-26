@@ -20,7 +20,7 @@ public class ApplicantListServiceImpl implements ApplicantListService {
 
     @Override
     public ApplicantList findByEmployerIdAndResumeId(int employerId, int resumeId) {
-        return applicantListRepository.findByToEmployerIdAndResumeId(employerId, resumeId).orElse(null);
+        return applicantListRepository.findByToEmployerIdAndResumeIdAndIsActiveTrue(employerId, resumeId).orElse(null);
     }
 
     @Override
@@ -29,6 +29,7 @@ public class ApplicantListServiceImpl implements ApplicantListService {
         applicantList.setSendDate(new Date());
         applicantList.setResume(resume);
         applicantList.setToEmployer(job.getUser());
+        applicantList.setActive(true);
         applicantListRepository.save(applicantList);
     }
 }

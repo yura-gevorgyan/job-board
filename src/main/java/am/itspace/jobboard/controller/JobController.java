@@ -185,7 +185,7 @@ public class JobController {
             }
 
             ApplicantList applyJob = applicantListService.findByEmployerIdAndResumeId(job.getUser().getId(), resume.getId());
-            if (applyJob != null) {
+            if (applyJob != null && applyJob.isActive()) {
                 redirectAttributes.addFlashAttribute("applyJobMsg", "You have already applied this job.");
                 return "redirect:/jobs/item/" + id;
             }

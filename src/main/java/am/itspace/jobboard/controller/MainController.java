@@ -16,7 +16,8 @@ public class MainController {
 
     @GetMapping("/")
     public String homePage(ModelMap modelMap) {
-        modelMap.addAttribute("categories", categoryService.findTop9());
+        modelMap.addAttribute("firstCategories", categoryService.findTop(6));
+        modelMap.addAttribute("categories", categoryService.findTop(9));
         modelMap.addAttribute("jobs", jobService.findTop6());
         return "index";
     }

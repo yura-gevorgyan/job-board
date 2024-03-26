@@ -2,6 +2,7 @@ package am.itspace.jobboard.service;
 
 import am.itspace.jobboard.entity.Resume;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -25,5 +26,12 @@ public interface ResumeService {
 
     void deleteById(int id);
 
+    Page<Resume> findAllByActiveTrue(int index);
+
+    Page<Resume> findAll(Specification<Resume> resumeSpecification, int searchIndex);
+
+    Resume getById(int id);
+
+    List<Resume> findTop6();
 }
 

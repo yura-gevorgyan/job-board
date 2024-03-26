@@ -11,7 +11,7 @@ public interface ApplicantListRepository extends JpaRepository<ApplicantList, In
 
     List<ApplicantList> findAllByToEmployer(User user);
 
-    Optional<ApplicantList> findByToEmployerIdAndResumeId(int employerId, int resumeId);
+    Optional<ApplicantList> findByToEmployerIdAndResumeIdAndIsActiveTrue(int employerId, int resumeId);
 
 }
 

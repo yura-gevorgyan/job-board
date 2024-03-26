@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,20 +28,23 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     List<Job> getAllByUser(User user);
 
-    List<Job> findTop6ByOrderByPublishedDateDesc();
-
     Page<Job> findByIsDeletedFalse(Pageable pageable);
 
     Page<Job> findAll(Specification<Job> specification, Pageable pageable);
 
-    Optional<Job> findByUserId(int userId);
+    List<Job> findByUserId(int userId);
 
     int countByCompanyIdAndIsDeletedFalse(int companyId);
 
     List<Job> findTop6ByIsDeletedFalseOrderByPublishedDateDesc();
 
+    @Query(value = "SELECT * FROM job where is_deleted = false ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+    List<Job> findRandomJobs(int limit);
+
     List<Job> findTop8ByCompanyIdAndIsDeletedFalse(int id);
 
     Optional<Job> findByIdAndIsDeletedFalse(int id);
+
+    List<Job> findAllByUserIdAndIsDeletedFalse(int id);
 }
 
