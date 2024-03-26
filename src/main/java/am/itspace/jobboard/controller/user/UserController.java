@@ -19,4 +19,3 @@ public class UserController {
 
     //ToDo We'll look at it later
 }
-

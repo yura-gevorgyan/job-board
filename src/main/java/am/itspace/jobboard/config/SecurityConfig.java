@@ -35,6 +35,10 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/login/success")
                         .failureUrl("/login?error=true")
                 )
+                .rememberMe(rememberMe -> rememberMe
+                        // Saving user dates in cookise during in one week
+                        .tokenValiditySeconds(604800)
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                 );

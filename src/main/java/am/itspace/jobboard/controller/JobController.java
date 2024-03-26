@@ -129,22 +129,21 @@ public class JobController {
         if ((user != null) && (user.getRole() == Role.COMPANY_OWNER)) {
             if (companyService.findCompanyByUserId(user.getId()) != null) {
                 if (sendErrorMessageJob(job) != null) {
-                    return "redirect:/jobs/create?msg=" + sendErrorMessageJob(job);
+                    return "redirect:/profile/jobs-create?msg=" + sendErrorMessageJob(job);
                 }
                 jobService.save(job);
-                return "redirect:/jobs/manage";
+                return "redirect:/profile/jobs-manage";
             }
-            return "redirect:/company/profile?msg=For creating job please create Company!";
+            return "redirect:/profile/company?msg=For creating job please create Company!";
 
         } else if ((user != null) && (user.getRole() == Role.EMPLOYEE)) {
 
             if (sendErrorMessageJob(job) != null) {
-                return "redirect:/jobs/create?msg=" + sendErrorMessageJob(job);
+                return "redirect:/profile/jobs-create?msg=" + sendErrorMessageJob(job);
             }
             jobService.save(job);
-            return "redirect:/jobs/manage";
+            return "redirect:/profile/jobs-manage";
         }
-
         return "redirect:/";
     }
 

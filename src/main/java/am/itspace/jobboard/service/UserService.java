@@ -31,7 +31,7 @@ public interface UserService {
 
     User forgotPassword(String email);
 
-    User changePassword(String password, String confirmPassword, User user);
+    void changePassword(String password, String confirmPassword, User user);
 
     Optional<User> findByToken(String token);
 

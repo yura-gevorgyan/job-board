@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changePassword(String password, String confirmPassword, User user) {
+    public void changePassword(String password, String confirmPassword, User user) {
 
         if (!password.equals(confirmPassword)) {
             throw new PasswordNotMuchException();
@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(password));
         save(user);
         sendMailService.send(user.getEmail(), "Changing Password", "Password successfully changed!");
-        return user;
     }
 
     @Override
