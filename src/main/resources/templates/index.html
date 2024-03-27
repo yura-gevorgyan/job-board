@@ -133,7 +133,7 @@
                 <div th:each="job : ${jobs}" class="card card-style10">
                     <div class="card-body">
                         <span class="popular-jobs-status"
-                              th:text="${job.status.toString().replace('_',' ')}">Full Time</span>
+                              th:text="${job.status.toString().replace('_',' ').toLowerCase()}">Full Time</span>
                         <a class="favourite" href="#"><i class="far fa-heart"></i></a>
                         <div class="popular-jobs-box">
                             <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${job.logoName}"
