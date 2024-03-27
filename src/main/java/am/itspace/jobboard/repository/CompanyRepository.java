@@ -28,7 +28,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     Optional<Company> findByUser(User user);
 
-    Optional<Company> findCompanyByUserId(int userId);
+    Optional<Company> findCompanyByUserIdAndIsActiveTrue(int userId);
 
     Page<Company> findAllByIsActiveTrue(PageRequest pageRequest);
 

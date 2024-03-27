@@ -4,8 +4,6 @@ import am.itspace.jobboard.entity.Company;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Optional;
-
 public interface CompanyService {
 
     int getCompanyCount();
@@ -19,7 +17,8 @@ public interface CompanyService {
     int getCompanyCountOfCategoryName(int categoryId, String name);
 
     Page<Company> getCompaniesFromNToMForSearch(int index, int categoryId, String name);
-    Company findCompanyByUserId(int userId);
+
+    Company findCompanyByUserIdAndIsActiveTrue(int userId);
 
     void deleteById(int id);
 

@@ -3,12 +3,15 @@ package am.itspace.jobboard.controller;
 import am.itspace.jobboard.entity.ApplicantList;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.Resume;
-import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.security.SpringUser;
-import am.itspace.jobboard.service.*;
+import am.itspace.jobboard.service.ApplicantListService;
+import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyService;
+import am.itspace.jobboard.service.JobService;
+import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobSpecification;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -124,28 +132,26 @@ public class JobController {
     }
 
     @PostMapping("/create")
-    public String createJob(@AuthenticationPrincipal SpringUser springUser, @ModelAttribute Job job) {
-        User user = springUser.getUser();
-        if ((user != null) && (user.getRole() == Role.COMPANY_OWNER)) {
-            if (companyService.findCompanyByUserId(user.getId()) != null) {
-                if (sendErrorMessageJob(job) != null) {
-                    return "redirect:/jobs/create?msg=" + sendErrorMessageJob(job);
-                }
-                jobService.save(job);
-                return "redirect:/jobs/manage";
-            }
-            return "redirect:/company/profile?msg=For creating job please create Company!";
+    public String createJob(@AuthenticationPrincipal SpringUser springUser,
+                            @ModelAttribute Job job,
+                            RedirectAttributes redirectAttributes) {
 
-        } else if ((user != null) && (user.getRole() == Role.EMPLOYEE)) {
-
-            if (sendErrorMessageJob(job) != null) {
-                return "redirect:/jobs/create?msg=" + sendErrorMessageJob(job);
-            }
-            jobService.save(job);
-            return "redirect:/jobs/manage";
+        if (springUser.getUser() == null) {
+            return "redirect:/";
         }
 
-        return "redirect:/";
+        if (springUser.getUser().getRole() == Role.COMPANY_OWNER && companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId()) == null) {
+            redirectAttributes.addFlashAttribute("msg", "For creating job please create Company!");
+            return "redirect:/profile/company";
+        }
+
+        if (addRedirectAttribute(job) != null) {
+            redirectAttributes.addFlashAttribute("msg", addRedirectAttribute(job));
+            return "redirect:/profile/jobs-create";
+        }
+
+        jobService.save(job);
+        return "redirect:/profile/jobs-manage";
     }
 
     @GetMapping("/item/{id}")
@@ -213,15 +219,14 @@ public class JobController {
         modelMap.addAttribute("experiences", WorkExperience.values());
     }
 
-    private String sendErrorMessageJob(Job job) {
+    private String addRedirectAttribute(Job job) {
         if (job.getCategory() == null || job.getCategory().toString().isEmpty()) {
             return "Choose Job Category!";
         } else if (job.getStatus() == null || job.getStatus().toString().isEmpty()) {
-            return "Choose Job Status!";
+            return "Choose Status!";
         } else if (job.getWorkExperience() == null || job.getWorkExperience().toString().isEmpty()) {
             return "Choose Work Experience!";
         }
         return null;
     }
 }
-
