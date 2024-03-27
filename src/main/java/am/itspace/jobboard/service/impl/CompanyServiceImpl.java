@@ -98,8 +98,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company findCompanyByUserId(int userId) {
-        return companyRepository.findCompanyByUserId(userId).orElse(null);
+    public Company findCompanyByUserIdAndIsActiveTrue(int userId) {
+        return companyRepository.findCompanyByUserIdAndIsActiveTrue(userId).orElse(null);
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -27,42 +28,47 @@ public class RegisterController {
     private final UserService userService;
 
     @GetMapping
-    public String registerPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String registerPage(ModelMap modelMap) {
         Set<Role> nonAdminRoles = EnumSet.complementOf(EnumSet.of(Role.ADMIN));
         modelMap.addAttribute("roles", new ArrayList<>(nonAdminRoles));
         return "registration";
     }
 
     @GetMapping("/confirm")
-    public String confirmEmailPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String confirmEmailPage() {
         return "register-confirm";
     }
 
     @PostMapping("/confirm")
-    public String confirmEmail(@RequestParam String confirmEmailCode) {
+    public String confirmEmail(@RequestParam String confirmEmailCode, RedirectAttributes redirectAttributes) {
         if (userService.confirmEmail(confirmEmailCode) != null) {
             return "redirect:/";
         }
-        return "redirect:/register/confirm?msg=Invalid confirm code";
+        redirectAttributes.addFlashAttribute("msg", "Invalid confirm code!");
+        return "redirect:/register/confirm";
     }
 
     @PostMapping
     public String register(
             @ModelAttribute User user,
-            @RequestParam String confirmPassword) {
+            @RequestParam String confirmPassword,
+            RedirectAttributes redirectAttributes) {
 
         if (user.getRole() == null || user.getRole().toString().isEmpty()) {
-            return "redirect:/register?msg=Choose your type!";
+            redirectAttributes.addFlashAttribute("msg", "Choose your type!");
+            return "redirect:/register";
         }
 
         try {
             userService.register(user, confirmPassword, user.getRole());
+
         } catch (EmailIsPresentException e) {
-            return "redirect:/register?msg=Email is already in use";
+            redirectAttributes.addFlashAttribute("msg", "Email is already in use!");
+            return "redirect:/register";
+
         } catch (PasswordNotMuchException e) {
-            return "redirect:/register?msg=Passwords do not match";
+            redirectAttributes.addFlashAttribute("msg", "Passwords do not match!");
+            return "redirect:/register";
         }
         return "redirect:/register/confirm";
     }

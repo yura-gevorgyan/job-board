@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -24,50 +25,53 @@ public class ForgotPasswordController {
     private final UserService userService;
 
     @GetMapping
-    public String forgotPasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String forgotPasswordPage() {
         return "forgot-password";
     }
 
     @GetMapping("/confirm")
-    public String confirmEmailChangePasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String confirmEmailChangePasswordPage() {
         return "confirm-forgot-password";
     }
 
     @GetMapping("/confirm/change")
-    public String changePasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String changePasswordPage() {
         return "change-password";
     }
 
     @PostMapping
-    public String forgotPassword(@RequestParam String email) {
+    public String forgotPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
         if (userService.forgotPassword(email) != null) {
             return "redirect:/forgot/password/confirm";
         }
-        return "redirect:/forgot/password?msg=Invalid Email, please try again!";
+        redirectAttributes.addFlashAttribute("msg", "Invalid Email, please try again!");
+        return "redirect:/forgot/password";
     }
 
     @PostMapping("/confirm")
-    public String confirmEmailChangePassword(@RequestParam String confirmEmailCode, HttpSession httpSession) {
+    public String confirmEmailChangePassword(@RequestParam String confirmEmailCode, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         Optional<User> optionalUser = userService.findByToken(confirmEmailCode);
         if (optionalUser.isPresent()) {
             httpSession.setAttribute("user", optionalUser.get());
             return "redirect:/forgot/password/confirm/change";
         }
-        return "redirect:/forgot/password/confirm?msg=Wrong confirm code. Please try again !!!";
+        redirectAttributes.addFlashAttribute("msg", "Wrong confirm code. Please try again!");
+        return "redirect:/forgot/password/confirm";
     }
 
     @PostMapping("/confirm/change")
-    public String changePassword(@RequestParam String password, String confirmPassword, HttpSession session) {
+    public String changePassword(@RequestParam String password, String confirmPassword, HttpSession session, RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
         try {
             userService.changePassword(password, confirmPassword, user);
+
         } catch (PasswordNotMuchException e) {
-            return "redirect:/forgot/password/confirm/change?msg=Invalid password";
+            redirectAttributes.addFlashAttribute("msg", "Invalid password!");
+            return "redirect:/forgot/password/confirm/change";
+
         } catch (UseOldPasswordException e) {
-            return "redirect:/forgot/password/confirm/change?msg=You are using old password";
+            redirectAttributes.addFlashAttribute("msg", "You are using old password!");
+            return "redirect:/forgot/password/confirm/change";
         }
         return "redirect:/login";
     }

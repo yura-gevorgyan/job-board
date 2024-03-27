@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,8 +37,7 @@ public class ProfileController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
-    public String employerProfile(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String employerProfile() {
         return "/profile/user-profile";
     }
 
@@ -49,7 +49,7 @@ public class ProfileController {
 
         if ((springUser != null) && (springUser.getUser().getRole() == Role.COMPANY_OWNER)) {
             modelMap.addAttribute("categories", categoryService.findAll());
-            modelMap.addAttribute("company", companyService.findCompanyByUserId(springUser.getUser().getId()));
+            modelMap.addAttribute("company", companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId()));
             return "/profile/company-profile";
         }
         return "redirect:/";
@@ -130,7 +130,8 @@ public class ProfileController {
     public String changePassword(@RequestParam String oldPassword,
                                  @RequestParam String newPassword,
                                  @RequestParam String confirmPassword,
-                                 @AuthenticationPrincipal SpringUser springUser) {
+                                 @AuthenticationPrincipal SpringUser springUser,
+                                 RedirectAttributes redirectAttributes) {
         User user = springUser.getUser();
 
         if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword) || StringUtils.isEmpty(confirmPassword)) {
@@ -138,15 +139,22 @@ public class ProfileController {
         }
 
         if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
+
             try {
                 userService.changePassword(newPassword, confirmPassword, user);
-                return "redirect:/profile/change-password?msg=Your password is successfully changed";
+                redirectAttributes.addFlashAttribute("msg", "Your password is successfully changed");
+                return "redirect:/profile/change-password";
+
             } catch (PasswordNotMuchException e) {
-                return "redirect:/profile/change-password?msg=Invalid password";
+                redirectAttributes.addFlashAttribute("msg", "Invalid password");
+                return "redirect:/profile/change-password";
+
             } catch (UseOldPasswordException e) {
-                return "redirect:/profile/change-password?msg=You are using old password";
+                redirectAttributes.addFlashAttribute("msg", "You are using old password");
+                return "redirect:/profile/change-password";
             }
         }
-        return "redirect:/profile/change-password?msg=Invalid old password";
+        redirectAttributes.addFlashAttribute("msg", "Invalid old password");
+        return "redirect:/profile/change-password";
     }
 }
