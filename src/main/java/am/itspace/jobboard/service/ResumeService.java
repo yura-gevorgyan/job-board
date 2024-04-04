@@ -3,6 +3,7 @@ package am.itspace.jobboard.service;
 import am.itspace.jobboard.entity.Resume;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface ResumeService {
 
     int getResumeCount();
 
-    Resume findByUserId(int userId);
+    Resume findByUserIdAndIsActiveTrue(int userId);
 
     List<Resume> getLast6Resumes();
 
@@ -33,5 +34,7 @@ public interface ResumeService {
     Resume getById(int id);
 
     List<Resume> findTop6();
+    Resume create(Resume resume, MultipartFile multipartFile);
+    Resume update(Resume resume, MultipartFile multipartFile);
 }
 

@@ -2,15 +2,22 @@ package am.itspace.jobboard.service.impl;
 
 import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.repository.ResumeRepository;
+import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.SendMailService;
+import am.itspace.jobboard.service.UserService;
+import am.itspace.jobboard.util.PictureUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +26,14 @@ import java.util.Optional;
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository resumeRepository;
-
     private final SendMailService sendMailService;
+    private final CategoryService categoryService;
+    private final UserService userService;
 
     private final int PAGE_SIZE = 20;
+
+    @Value("${program.pictures.file.path}")
+    private String uploadDirectoryResume;
 
     @Override
     public int getResumeCount() {
@@ -30,7 +41,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Resume findByUserId(int userId) {
+    public Resume findByUserIdAndIsActiveTrue(int userId) {
         return resumeRepository.findByUserIdAndIsActiveTrue(userId).orElse(null);
     }
 
@@ -113,5 +124,38 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeRepository.findRandomResumes(6);
     }
 
-}
+    @SneakyThrows
+    @Override
+    public Resume create(Resume resume, MultipartFile multipartFile) {
+        PictureUtil.processImageUploadResume(resume, multipartFile, uploadDirectoryResume);
+        resume.setCreatedDate(new Date());
+        resume.setActive(true);
+        return resumeRepository.save(resume);
+    }
 
+    @SneakyThrows
+    @Override
+    public Resume update(Resume resume, MultipartFile multipartFile) {
+        Optional<Resume> byId = resumeRepository.findByIdAndIsActiveTrue(resume.getId());
+        if (byId.isPresent()) {
+
+            Resume originalResume = byId.get();
+            resume.setCategory(categoryService.findById(resume.getCategory().getId()));
+            resume.setUser(userService.findByIdAndIsActiveTrue(resume.getUser().getId()));
+            resume.setCreatedDate(originalResume.getCreatedDate());
+            resume.setActive(true);
+
+            if (!multipartFile.isEmpty() && !resume.getPicName().equals(multipartFile.getOriginalFilename())) {
+                PictureUtil.deletePicture(uploadDirectoryResume, originalResume.getPicName());
+                PictureUtil.processImageUploadResume(resume, multipartFile, uploadDirectoryResume);
+            } else {
+                resume.setPicName(originalResume.getPicName());
+            }
+
+            if (resume.equals(originalResume)){
+                return originalResume;
+            }
+        }
+        return resumeRepository.save(resume);
+    }
+}

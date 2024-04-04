@@ -12,6 +12,7 @@ import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.ResumeSpecification;
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,10 +20,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -194,6 +199,67 @@ public class ResumeController {
         }
     }
 
+    @PostMapping("/create")
+    public String createResume(@ModelAttribute Resume resume,
+                               BindingResult bindingResult,
+                               @AuthenticationPrincipal SpringUser springUser,
+                               @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
+                               RedirectAttributes redirectAttributes) {
+        if (springUser.getUser() == null) {
+            return "redirect:/";
+        }
+
+        if (multipartFile == null || multipartFile.isEmpty() || resume.getCategory() == null ||
+                resume.getGender() == null || resume.getWorkExperience() == null ||
+                resume.getCategory().toString().isEmpty() || resume.getGender().toString().isEmpty() ||
+                resume.getWorkExperience().toString().isEmpty()) {
+            redirectAttributes.addFlashAttribute("msg", "Please fill all required fields!");
+            return "redirect:/profile/resume";
+        }
+
+        resume.setUser(springUser.getUser());
+        resume.setCategory(categoryService.findById(resume.getCategory().getId()));
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("msg", "You are not allowed to modify real dates!");
+            return "redirect:/profile/resume";
+        }
+
+        resumeService.create(resume, multipartFile);
+        return "redirect:/profile/resume";
+    }
+
+    @PostMapping("/update")
+    public String updateResume(@ModelAttribute Resume resume,
+                               BindingResult bindingResult,
+                               @AuthenticationPrincipal SpringUser springUser,
+                               @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
+                               RedirectAttributes redirectAttributes) {
+        if (springUser.getUser() == null) {
+            return "redirect:/";
+        }
+
+        if (resume == null) {
+            return "redirect:/profile/resume";
+        }
+
+        Resume originalResume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
+
+        if (multipartFile == null || multipartFile.isEmpty() || StringUtils.isEmpty(multipartFile.getOriginalFilename()) ||
+                resume.getUser().getId() != springUser.getUser().getId() ||
+                resume.getId() != originalResume.getId()) {
+            return "redirect:/profile/resume";
+        }
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("msg", "You are not allowed to modify real dates!");
+            return "redirect:/profile/resume";
+        }
+
+        resumeService.update(resume, multipartFile);
+        return "redirect:/profile/resume";
+    }
+
     private void addAttributes(ModelMap modelMap, Page<Resume> resumes, int index, int searchIndex, String url) {
         modelMap.addAttribute("url", url);
         modelMap.addAttribute("resumes", resumes);
@@ -205,6 +271,4 @@ public class ResumeController {
         modelMap.addAttribute("statuses", Status.values());
         modelMap.addAttribute("experiences", WorkExperience.values());
     }
-
 }
-

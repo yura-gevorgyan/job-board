@@ -20,4 +20,4 @@ spring:
 program:
   pictures:
     file:
-      path: C:/Users/aperk/IdeaProjects/job-board/programfiles
+      path: C:\Users\aperk\IdeaProjects\job-board\programfiles

@@ -8,7 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -23,7 +25,10 @@ public class User {
     private int id;
     private String name;
     private String surname;
+
+    @Email(message = "Invalid Email")
     private String email;
+
     private String password;
     private String token;
     private boolean activated;

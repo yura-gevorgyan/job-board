@@ -87,7 +87,7 @@ public class ProfileController {
             modelMap.addAttribute("categories", categoryService.findAll());
             modelMap.addAttribute("gender", Gender.values());
             modelMap.addAttribute("workExperience", WorkExperience.values());
-            modelMap.addAttribute("resume", resumeService.findByUserId(springUser.getUser().getId()));
+            modelMap.addAttribute("resume", resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId()));
             return "/profile/candidate-profile";
         }
         return "/profile/candidate-profile";
