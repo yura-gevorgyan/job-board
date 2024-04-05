@@ -12,8 +12,8 @@ import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.ResumeSpecification;
-import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -200,14 +200,11 @@ public class ResumeController {
     }
 
     @PostMapping("/create")
-    public String createResume(@ModelAttribute Resume resume,
+    public String createResume(@Valid @ModelAttribute Resume resume,
                                BindingResult bindingResult,
                                @AuthenticationPrincipal SpringUser springUser,
                                @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
                                RedirectAttributes redirectAttributes) {
-        if (springUser.getUser() == null) {
-            return "redirect:/";
-        }
 
         if (multipartFile == null || multipartFile.isEmpty() || resume.getCategory() == null ||
                 resume.getGender() == null || resume.getWorkExperience() == null ||
@@ -221,7 +218,8 @@ public class ResumeController {
         resume.setCategory(categoryService.findById(resume.getCategory().getId()));
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("msg", "You are not allowed to modify real dates!");
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            redirectAttributes.addFlashAttribute("msg", errorMessage);
             return "redirect:/profile/resume";
         }
 
@@ -230,29 +228,29 @@ public class ResumeController {
     }
 
     @PostMapping("/update")
-    public String updateResume(@ModelAttribute Resume resume,
+    public String updateResume(@Valid @ModelAttribute Resume resume,
                                BindingResult bindingResult,
                                @AuthenticationPrincipal SpringUser springUser,
                                @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
                                RedirectAttributes redirectAttributes) {
-        if (springUser.getUser() == null) {
-            return "redirect:/";
-        }
-
         if (resume == null) {
             return "redirect:/profile/resume";
         }
 
         Resume originalResume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
 
-        if (multipartFile == null || multipartFile.isEmpty() || StringUtils.isEmpty(multipartFile.getOriginalFilename()) ||
-                resume.getUser().getId() != springUser.getUser().getId() ||
-                resume.getId() != originalResume.getId()) {
+        if (multipartFile == null || multipartFile.isEmpty() && !originalResume.getPicName().equals(resume.getPicName())) {
+            redirectAttributes.addFlashAttribute("msg", "Invalid Resume Picture, please try again");
+            return "redirect:/profile/resume";
+        }
+
+        if (resume.getUser() == null || (resume.getUser().getId() != springUser.getUser().getId()) || (resume.getId() != originalResume.getId())) {
             return "redirect:/profile/resume";
         }
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("msg", "You are not allowed to modify real dates!");
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            redirectAttributes.addFlashAttribute("msg", errorMessage);
             return "redirect:/profile/resume";
         }
 
