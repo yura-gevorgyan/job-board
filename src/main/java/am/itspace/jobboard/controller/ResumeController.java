@@ -21,6 +21,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -218,8 +219,7 @@ public class ResumeController {
         resume.setCategory(categoryService.findById(resume.getCategory().getId()));
 
         if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            redirectAttributes.addFlashAttribute("msg", errorMessage);
+            addErrorMessage(redirectAttributes, bindingResult);
             return "redirect:/profile/resume";
         }
 
@@ -244,13 +244,13 @@ public class ResumeController {
             return "redirect:/profile/resume";
         }
 
-        if (resume.getUser() == null || (resume.getUser().getId() != springUser.getUser().getId()) || (resume.getId() != originalResume.getId())) {
+        if ((resume.getUser() == null || resume.getCategory() == null) || (resume.getUser().getId() != springUser.getUser().getId()) || (resume.getId() != originalResume.getId())) {
+            redirectAttributes.addFlashAttribute("msg", "No Way Modify Real Dates!");
             return "redirect:/profile/resume";
         }
 
         if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            redirectAttributes.addFlashAttribute("msg", errorMessage);
+            addErrorMessage(redirectAttributes, bindingResult);
             return "redirect:/profile/resume";
         }
 
@@ -268,5 +268,20 @@ public class ResumeController {
         modelMap.addAttribute("categories", categoryService.findAll());
         modelMap.addAttribute("statuses", Status.values());
         modelMap.addAttribute("experiences", WorkExperience.values());
+    }
+
+    private void addErrorMessage(RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+        StringBuilder errorMsgBuilder = new StringBuilder("Invalid data in the form:");
+        bindingResult.getFieldErrors().forEach(error -> {
+
+            String fieldName = error.getField();
+            String errorMessage = error.getDefaultMessage();
+
+            if (errorMessage != null){
+                errorMessage = "Invalid value for " + fieldName;
+                errorMsgBuilder.append(" ").append(errorMessage);
+            }
+        });
+        redirectAttributes.addFlashAttribute("msg", errorMsgBuilder.toString());
     }
 }
