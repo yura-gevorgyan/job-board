@@ -21,7 +21,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -207,6 +206,10 @@ public class ResumeController {
                                @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
                                RedirectAttributes redirectAttributes) {
 
+        if (resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId()) != null) {
+            return "redirect:/profile/resume";
+        }
+
         if (multipartFile == null || multipartFile.isEmpty() || resume.getCategory() == null ||
                 resume.getGender() == null || resume.getWorkExperience() == null ||
                 resume.getCategory().toString().isEmpty() || resume.getGender().toString().isEmpty() ||
@@ -285,3 +288,4 @@ public class ResumeController {
         redirectAttributes.addFlashAttribute("msg", errorMsgBuilder.toString());
     }
 }
+
