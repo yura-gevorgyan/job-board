@@ -192,6 +192,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByIdAndIsActiveTrue(int id) {
+        return userRepository.findByIdAndActivatedTrueAndIsDeletedFalse(id).orElse(null);
+    }
+
+    @Override
     public Optional<User> findByToken(String token) {
         return userRepository.findByToken(token);
     }

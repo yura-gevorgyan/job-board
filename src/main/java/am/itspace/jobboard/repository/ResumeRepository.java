@@ -41,5 +41,6 @@ public interface ResumeRepository extends JpaRepository<Resume, Integer> {
     @Query(value = "SELECT * FROM resume where is_active = true ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<Resume> findRandomResumes(int limit);
 
+    Optional<Resume> findByIdAndIsActiveTrue(int id);
 }
 

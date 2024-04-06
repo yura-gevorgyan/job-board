@@ -184,7 +184,7 @@ public class JobController {
                 return "redirect:/jobs/item/" + id;
             }
 
-            Resume resume = resumeService.findByUserId(springUser.getUser().getId());
+            Resume resume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
             if (resume == null || !resume.isActive()) {
                 redirectAttributes.addFlashAttribute("resumeMsg", "For apply this job please create your resume.");
                 return "redirect:/jobs/item/" + id;

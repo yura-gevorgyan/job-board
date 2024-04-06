@@ -15,6 +15,7 @@ public interface UserService {
     User update(User user);
 
     User findByEmail(String email);
+    User findByIdAndIsActiveTrue(int id);
 
     int getUserCount();
 
