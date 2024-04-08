@@ -1,6 +1,7 @@
 package am.itspace.jobboard.service.impl;
 
 import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Chatroom;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.JobApplies;
@@ -11,9 +12,11 @@ import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.repository.ApplicantListRepository;
+import am.itspace.jobboard.repository.ChatroomRepository;
 import am.itspace.jobboard.repository.CompanyRepository;
 import am.itspace.jobboard.repository.JobAppliesRepository;
 import am.itspace.jobboard.repository.JobRepository;
+import am.itspace.jobboard.repository.MessageRepository;
 import am.itspace.jobboard.repository.ResumeRepository;
 import am.itspace.jobboard.repository.UserRepository;
 import am.itspace.jobboard.service.SendMailService;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +47,7 @@ public class UserServiceImpl implements UserService {
     private final ApplicantListRepository applicantListRepository;
     private final JobAppliesRepository jobAppliesRepository;
     private final ResumeRepository resumeRepository;
+    private final ChatroomRepository chatroomRepository;
 
     @Override
     public User register(User user, String confirmPassword, Role role) {
@@ -292,6 +297,19 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             sendMailService.sendEmailAccountUnlocked(user);
         }
+    }
+
+    @Override
+    public List<User> findUserFriendsHavingChatWith(int currentUserId) {
+        List<User> users;
+        List<Chatroom> allBySenderId = chatroomRepository.findAllBySenderId(currentUserId);
+        users = allBySenderId.stream().map(Chatroom::getRecipient).collect(Collectors.toList());
+        return users;
+    }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
     }
 }
 

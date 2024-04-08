@@ -44,7 +44,7 @@ public class ForgotPasswordController {
         if (userService.forgotPassword(email) != null) {
             return "redirect:/forgot/password/confirm";
         }
-        redirectAttributes.addFlashAttribute("msg", "Invalid Email, please try again!");
+        redirectAttributes.addFlashAttribute("msg", "Invalid Email, please try again.");
         return "redirect:/forgot/password";
     }
 
@@ -55,7 +55,7 @@ public class ForgotPasswordController {
             httpSession.setAttribute("user", optionalUser.get());
             return "redirect:/forgot/password/confirm/change";
         }
-        redirectAttributes.addFlashAttribute("msg", "Wrong confirm code. Please try again!");
+        redirectAttributes.addFlashAttribute("msg", "Wrong confirm code. Please try again.");
         return "redirect:/forgot/password/confirm";
     }
 
@@ -66,11 +66,11 @@ public class ForgotPasswordController {
             userService.changePassword(password, confirmPassword, user);
 
         } catch (PasswordNotMuchException e) {
-            redirectAttributes.addFlashAttribute("msg", "Invalid password!");
+            redirectAttributes.addFlashAttribute("msg", "Invalid password.");
             return "redirect:/forgot/password/confirm/change";
 
         } catch (UseOldPasswordException e) {
-            redirectAttributes.addFlashAttribute("msg", "You are using old password!");
+            redirectAttributes.addFlashAttribute("msg", "You are using old password.");
             return "redirect:/forgot/password/confirm/change";
         }
         return "redirect:/login";
