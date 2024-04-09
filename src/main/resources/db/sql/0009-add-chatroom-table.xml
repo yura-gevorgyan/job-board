@@ -1,0 +1,24 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0008-alter-tables-addActiveColumn" author="Lyova Hakobyan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="chatroom"/>
+            </not>
+        </preConditions>
+        <createTable tableName="chatroom">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sender_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_chatroom_sender_id" references="user(id)"/>
+            </column>
+            <column name="recipient_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_chatroom_recipient_id" references="user(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -162,14 +162,14 @@ public class ResumeController {
             Resume resume = resumeService.getById(id);
 
             if (springUser == null || springUser.getUser().getRole() == Role.JOB_SEEKER) {
-                redirectAttributes.addFlashAttribute("errorMsg", "You can not to apply this resume.");
+                redirectAttributes.addFlashAttribute("errorMsg", "You cannot apply for this resume.");
                 return "redirect:/resumes/item/" + id;
             }
 
             List<Job> byUserId = jobService.findByUserIdAndIsDeletedFalse(springUser.getUser().getId());
 
             if (byUserId == null || byUserId.isEmpty()) {
-                redirectAttributes.addFlashAttribute("jobMsg", "For apply this job create job.");
+                redirectAttributes.addFlashAttribute("jobMsg", "You should create Resume, for applying this job.");
                 return "redirect:/resumes/item/" + id;
             }
 
@@ -179,21 +179,17 @@ public class ResumeController {
                 Job job = jobService.getJobById(jobId);
                 JobApplies jobApplies = jobAppliesService.findByJobIdAndUserIdAndIsActiveTrue(job.getId(), resume.getUser().getId());
                 if (jobApplies != null){
-                    redirectAttributes.addFlashAttribute("applyResumeMsg", "You have already applied this resume.");
+                    redirectAttributes.addFlashAttribute("applyResumeMsg", "You have already applied for this resume.");
                     return "redirect:/resumes/item/" + id;
                 }
 
                 jobAppliesService.save(job,resume.getUser());
 
-                redirectAttributes.addFlashAttribute("msg", "Success. You apply for a job.");
+                redirectAttributes.addFlashAttribute("msg", "Success. You have applied for the job.");
                 return "redirect:/resumes/item/" + id;
             }else {
                 return "redirect:/resumes/item/" + id;
             }
-
-
-
-
         } catch (NumberFormatException e) {
             return "redirect:/resumes/1";
         }
@@ -214,7 +210,7 @@ public class ResumeController {
                 resume.getGender() == null || resume.getWorkExperience() == null ||
                 resume.getCategory().toString().isEmpty() || resume.getGender().toString().isEmpty() ||
                 resume.getWorkExperience().toString().isEmpty()) {
-            redirectAttributes.addFlashAttribute("msg", "Please fill all required fields!");
+            redirectAttributes.addFlashAttribute("msg", "Please fill all required fields.");
             return "redirect:/profile/resume";
         }
 
@@ -243,12 +239,12 @@ public class ResumeController {
         Resume originalResume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
 
         if (multipartFile == null || multipartFile.isEmpty() && !originalResume.getPicName().equals(resume.getPicName())) {
-            redirectAttributes.addFlashAttribute("msg", "Invalid Resume Picture, please try again");
+            redirectAttributes.addFlashAttribute("msg", "Invalid Resume Picture, Please Try Again.");
             return "redirect:/profile/resume";
         }
 
         if ((resume.getUser() == null || resume.getCategory() == null) || (resume.getUser().getId() != springUser.getUser().getId()) || (resume.getId() != originalResume.getId())) {
-            redirectAttributes.addFlashAttribute("msg", "No Way Modify Real Dates!");
+            redirectAttributes.addFlashAttribute("msg", "No Way Modify Real Dates.");
             return "redirect:/profile/resume";
         }
 

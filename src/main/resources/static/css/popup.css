@@ -35,3 +35,41 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.alert-pop {
+    color: #333;
+    margin-bottom: 20px; /* Space before buttons */
+}
+
+.cnt {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-footer-pop {
+    text-align: center; /* Center-align the buttons */
+    padding-top: 20px; /* Space above buttons */
+}
+
+#deleteBtn {
+    background-color: #ff4d4d; /* Red */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px; /* Space between buttons */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+#deleteBtn:hover {
+    opacity: 0.9; /* Slightly less opaque on hover for interaction feedback */
+}
+
+
+/* Ensuring close button styles are applied correctly */
+.close-pop:hover,
+.close-pop:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

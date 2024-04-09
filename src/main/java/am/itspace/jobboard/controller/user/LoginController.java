@@ -16,7 +16,7 @@ public class LoginController {
     @GetMapping
     public String loginPage(@RequestParam(value = "error", required = false) String error, ModelMap modelMap) {
         if (error != null && error.equals("true")) {
-            AddMessageUtil.addMessageToModel("Invalid Email or Password!", modelMap);
+            AddMessageUtil.addMessageToModel("Invalid Email or Password, Try Again", modelMap);
         }
         return "login";
     }

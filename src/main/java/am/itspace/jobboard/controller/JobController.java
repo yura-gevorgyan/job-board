@@ -141,7 +141,7 @@ public class JobController {
         }
 
         if (springUser.getUser().getRole() == Role.COMPANY_OWNER && companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId()) == null) {
-            redirectAttributes.addFlashAttribute("msg", "For creating job please create Company!");
+            redirectAttributes.addFlashAttribute("msg", "For creating job, please create Company.");
             return "redirect:/profile/company";
         }
 
@@ -180,13 +180,13 @@ public class JobController {
 
             if (springUser == null || springUser.getUser().getRole() != Role.JOB_SEEKER) {
 
-                redirectAttributes.addFlashAttribute("errorMsg", "You can not to apply this job.");
+                redirectAttributes.addFlashAttribute("errorMsg", "You cannot apply for this job.");
                 return "redirect:/jobs/item/" + id;
             }
 
             Resume resume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
             if (resume == null || !resume.isActive()) {
-                redirectAttributes.addFlashAttribute("resumeMsg", "For apply this job please create your resume.");
+                redirectAttributes.addFlashAttribute("resumeMsg", "Create your Resume, for applying this job.");
                 return "redirect:/jobs/item/" + id;
             }
 
@@ -198,7 +198,7 @@ public class JobController {
 
             applicantListService.save(job, resume);
 
-            redirectAttributes.addFlashAttribute("msg", "Success. You apply for a job.");
+            redirectAttributes.addFlashAttribute("msg", "Success. You have applied for the job.");
             return "redirect:/jobs/item/" + id;
 
 
@@ -221,11 +221,11 @@ public class JobController {
 
     private String addRedirectAttribute(Job job) {
         if (job.getCategory() == null || job.getCategory().toString().isEmpty()) {
-            return "Choose Job Category!";
+            return "Choose Job Category.";
         } else if (job.getStatus() == null || job.getStatus().toString().isEmpty()) {
-            return "Choose Status!";
+            return "Choose Status.";
         } else if (job.getWorkExperience() == null || job.getWorkExperience().toString().isEmpty()) {
-            return "Choose Work Experience!";
+            return "Choose Work Experience.";
         }
         return null;
     }

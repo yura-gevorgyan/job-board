@@ -44,7 +44,7 @@ public class RegisterController {
         if (userService.confirmEmail(confirmEmailCode) != null) {
             return "redirect:/";
         }
-        redirectAttributes.addFlashAttribute("msg", "Invalid confirm code!");
+        redirectAttributes.addFlashAttribute("msg", "Invalid confirm code.");
         return "redirect:/register/confirm";
     }
 
@@ -55,7 +55,7 @@ public class RegisterController {
             RedirectAttributes redirectAttributes) {
 
         if (user.getRole() == null || user.getRole().toString().isEmpty()) {
-            redirectAttributes.addFlashAttribute("msg", "Choose your type!");
+            redirectAttributes.addFlashAttribute("msg", "Choose your type.");
             return "redirect:/register";
         }
 
@@ -63,11 +63,11 @@ public class RegisterController {
             userService.register(user, confirmPassword, user.getRole());
 
         } catch (EmailIsPresentException e) {
-            redirectAttributes.addFlashAttribute("msg", "Email is already in use!");
+            redirectAttributes.addFlashAttribute("msg", "Email is already in use.");
             return "redirect:/register";
 
         } catch (PasswordNotMuchException e) {
-            redirectAttributes.addFlashAttribute("msg", "Passwords do not match!");
+            redirectAttributes.addFlashAttribute("msg", "Passwords do not match.");
             return "redirect:/register";
         }
         return "redirect:/register/confirm";

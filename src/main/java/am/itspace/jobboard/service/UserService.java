@@ -45,5 +45,9 @@ public interface UserService {
     void blockById(int id);
 
     void unlockById(int id);
+
+    List<User> findUserFriendsHavingChatWith(int currentUserId);
+
+    User findById(int id);
 }
 

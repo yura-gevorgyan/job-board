@@ -142,19 +142,19 @@ public class ProfileController {
 
             try {
                 userService.changePassword(newPassword, confirmPassword, user);
-                redirectAttributes.addFlashAttribute("msg", "Your password is successfully changed");
+                redirectAttributes.addFlashAttribute("msg", "Your password is successfully changed.");
                 return "redirect:/profile/change-password";
 
             } catch (PasswordNotMuchException e) {
-                redirectAttributes.addFlashAttribute("msg", "Invalid password");
+                redirectAttributes.addFlashAttribute("msg", "Invalid password.");
                 return "redirect:/profile/change-password";
 
             } catch (UseOldPasswordException e) {
-                redirectAttributes.addFlashAttribute("msg", "You are using old password");
+                redirectAttributes.addFlashAttribute("msg", "You are using old password.");
                 return "redirect:/profile/change-password";
             }
         }
-        redirectAttributes.addFlashAttribute("msg", "Invalid old password");
+        redirectAttributes.addFlashAttribute("msg", "Invalid old password.");
         return "redirect:/profile/change-password";
     }
 }
