@@ -43,5 +43,4 @@ public class Job {
 
     private boolean isDeleted;
 
-
 }

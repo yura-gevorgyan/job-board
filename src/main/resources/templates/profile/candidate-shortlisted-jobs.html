@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -33,324 +33,332 @@
     <!-- dashboard css -->
     <link href="/css/dashboard.css" rel="stylesheet">
 
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- title  -->
+    <title>Job Board - Job Portal HTML Template</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- title  -->
+    <title>Job Board - Job Search</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- core style css -->
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+
 </head>
 
 <body>
 
-    <!-- PAGE LOADING
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
     ================================================== -->
-    <div id="preloader"></div>
+    <header class="header-style2 static-header">
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
 
-    <!-- MAIN WRAPPER
+    <!-- EMPLOYER DASHBOARD
     ================================================== -->
-    <div class="main-wrapper">
-
-        <!-- HEADER
-        ================================================== -->
-        <header class="header-style2 static-header">
-            <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
-        </header>
-
-        <!-- EMPLOYER DASHBOARD
-        ================================================== -->
-        <section class="py-0">
-            <div class="row g-0">
-                <div class="col-lg-3 mb-2-2 mb-lg-0">
-                    <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
-                </div>
-                <div class="col-lg-9">
-                    <div class="dashboard-right-sidebar">
-                        <div class="row mb-2-2">
-                            <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">Shorlisted Jobs</h3>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="dashboard-title">
-                                    <div class="d-md-flex justify-content-between align-items-center">
-                                        <div class="mb-4 mb-md-0">
-                                            <h4 class="mb-0 h5">Showing 10 of <span class="text-primary">07 Favorite Job</span></h4>
-                                        </div>
-                                        <form action="#!" method="post" enctype="multipart/form-data" onclick="">
-                                            <div class="quform-elements">
-                                                <div class="row align-items-center">
-
-                                                    <!-- Begin Select element -->
-                                                    <div class="col-md-5 mb-4 mb-md-0">
-                                                        <div class="quform-element">
-                                                            <div class="quform-input">
-                                                                <select id="show" class="form-control form-select" name="show">
-                                                                    <option value="">Show</option>
-                                                                    <option value="Show 10">Show 10</option>
-                                                                    <option value="Show 20">Show 20</option>
-                                                                    <option value="Show 30">Show 30</option>
-                                                                    <option value="Show 40">Show 40</option>
-                                                                    <option value="Show 50">Show 50</option>
-                                                                    <option value="Show 60">Show 60</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Select element -->
-
-                                                    <!-- Begin Select element -->
-                                                    <div class="col-md-7">
-                                                        <div class="quform-element">
-                                                            <div class="quform-input">
-                                                                <select id="sortby-month" class="form-control form-select" name="sortby-month">
-                                                                    <option value="">Last 6 Months</option>
-                                                                    <option value="Last 6 Months">Last 6 Months</option>
-                                                                    <option value="Last 12 Months">Last 12 Months</option>
-                                                                    <option value="Last 16 Months">Last 16 Months</option>
-                                                                    <option value="Last 24 Months">Last 24 Months</option>
-                                                                    <option value="Last 5 Year">Last 5 Year</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Select element -->
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+    <section class="py-0">
+        <div class="row g-0">
+            <div class="col-lg-3 mb-2-2 mb-lg-0">
+                <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
+            </div>
+            <div class="col-lg-9">
+                <div class="dashboard-right-sidebar">
+                    <div class="row mb-2-2">
+                        <div class="col-lg-12 mb-1-9">
+                            <h3 class="mb-3">Applied Jobs</h3>
+                            <span th:if="${createResumeMsg != null}">
+                                <div class="alert alert-warning alert-dismissible">
+                                    <strong th:text="${createResumeMsg}"></strong>
+                                    <button type="button" class="btn btn-outline-warning">
+                                        <a href="/profile/resume">Create Account ?</a>
+                                    </button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                 </div>
-                                <div class="dashboard-widget">
-                                    <div class="table-responsive">
-                                        <table class="table custome-table2">
-                                            <thead>
-                                                <tr>
-                                                    <th>Title</th>
-                                                    <th>Date Applied</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-01.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Conzio construction</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Accounting</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Boston, USA</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 08, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-02.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Midway Overline</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Digital Marketer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Toronto, Canada</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 09, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/pictureDirectory/company-03.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Ktone Software</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Assistant Editor</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>London, UK</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 13, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/pictureDirectory/company-04.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Alpha Kem</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Content Writer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Nizhny, Russia</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 17, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-05.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Waft Technologies</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Full-Stack Developer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Utrecht, Netherlands</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 20, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-06.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Sai Web Infotech</a></h5>
-                                                                <span class="me-2 display-30 text-muted">UI/UX Designer</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Vienna, Australia</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 21, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-xl-flex align-items-center">
-                                                            <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                                <img src="/img/content/company-07.jpg" alt="...">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-xl-3">
-                                                                <h5 class="mb-1"><a href="#!">Themezhub Infotech</a></h5>
-                                                                <span class="me-2 display-30 text-muted">Networking</span>
-                                                                <span class="me-2 display-30 text-muted"><i class="ti-location-pin pe-1"></i>Los Angeles, Califonia</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>Nov 23, 2021</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                            </span>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="dashboard-title">
+                                <div class="d-md-flex justify-content-between align-items-center">
+                                    <div class="mb-4 mb-md-0">
+                                        <h4 class="mb-0 h5">Job Offers<span class="text-primary">  List</span>
+                                        </h4>
+                                    </div>
+                                    <div class="quform-elements">
+                                        <div class="row align-items-center">
+                                            <form action="/job/applies/search" method="get" class="d-flex">
+                                                <input class="form-control border-radius-10 me-2" id="search"
+                                                       type="text" name="profession" placeholder="Search">
+                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
+                                                <select id="status"
+                                                        class="form-control form-select border-radius-10 me-2"
+                                                        name="status">
+                                                    <option value="0">Choose Status</option>
+                                                    <option value="TOTAL"
+                                                            th:selected="${currentStatus != null && ('TOTAL' == currentStatus)}">
+                                                        Total
+                                                    </option>
+                                                    <option value="APPROVED"
+                                                            th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}">
+                                                        Approved
+                                                    </option>
+                                                    <option value="REJECTED"
+                                                            th:selected="${currentStatus != null && ('REJECTED' == currentStatus)}">
+                                                        Rejected
+                                                    </option>
+                                                </select>
+                                                <select id="date" class="form-control form-select border-radius-10 me-2"
+                                                        name="date">
+                                                    <option value="">Choose Date</option>
+                                                    <option value="day" th:selected="${currentDate == 'day'}">Last Day
+                                                    </option>
+                                                    <option value="week" th:selected="${currentDate == 'week'}">Last
+                                                        Week
+                                                    </option>
+                                                    <option value="month" th:selected="${currentDate == 'month'}">Last
+                                                        Month
+                                                    </option>
+                                                </select>
+                                                <button type="submit" class="not-border"><a
+                                                        class="butn secondary text-white">Search</a></button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <p class="d-inline-block mb-0">© <span class="current-year"></span> Job Board Powered by
-                                    <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary secondary-hover">Chitrakoot Web</a>
-                                </p>
+
+                        <div class="dashboard-widget">
+                            <div class="table-responsive">
+                                        <span style="justify-content: center"
+                                              th:if="${jobApplies == null or jobApplies == 0}">
+                                               <h2>Job Offers Not found.</h2>
+                                            </span>
+                                <table class="table custome-table2">
+                                    <thead th:if="${jobApplies != null and jobApplies != 0}">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date Applied</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="jobApply : ${jobApplies}" class="single-row">
+                                        <td>
+                                            <div class="d-xl-flex align-items-center">
+                                                <div class="flex-shrink-0 mb-3 mb-xl-0">
+                                                    <img th:src="@{/getImage(picName=${jobApply.job.logoName})}"
+                                                         alt="...">
+                                                </div>
+                                                <div class="flex-grow-1 ms-xl-3">
+                                                    <h5 class="mb-1"><a th:href="@{'/jobs/item/' + ${jobApply.job.id}}"
+                                                                        th:text="${jobApply.job.title}"></a></h5>
+                                                    <span class="me-2 display-30 text-muted"
+                                                          th:text="${jobApply.job.category.name}"></span>
+                                                    <span class="me-2 display-30 text-muted"><i
+                                                            class="ti-location-pin pe-1"
+                                                            th:text="${jobApply.job.location}"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td th:text="${#dates.format(jobApply.sendDate, 'yyyy-MM-dd')}"></td>
+                                        <td>
+                                            <span th:if="${jobApply.jobAppliesStatus.name() == 'TOTAL'}"
+                                                  class="text-warning font-weight-600">Total</span>
+                                            <span th:if="${jobApply.jobAppliesStatus.name() == 'APPROVED'}"
+                                                  class="text-success font-weight-600">Approved</span>
+                                            <span th:if="${jobApply.jobAppliesStatus.name() == 'REJECTED'}"
+                                                  class="text-danger font-weight-600">Rejected</span>
+                                        </td>
+                                        <td>
+                                            <ul class="action-list">
+                                                <li><a th:href="@{'/jobs/item/' + ${jobApply.job.id}}"><span class="ti-eye"></span></a></li>
+                                                <li th:unless="${jobApply.jobAppliesStatus.name() == 'APPROVED' || jobApply.jobAppliesStatus.name() == 'REJECTED' }">
+                                                    <a th:href="@{'/job/applies/approve/' + ${jobApply.id}}"><span class="ti-check"></span></a>
+                                                </li>
+                                                <li th:unless="${jobApply.jobAppliesStatus.name() == 'APPROVED' || jobApply.jobAppliesStatus.name() == 'REJECTED' }">
+                                                    <a th:href="@{'/job/applies/reject/' + ${jobApply.id}}"><span class="ti-close"></span></a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- start pager  -->
+                            <div th:if="${totalPages != 0}" class="text-center mt-6">
+                                <div class="pagination text-primary">
+                                    <ul>
+                                        <li th:if="${searchIndex == 0}"
+                                            th:class="${index <= 1 ? 'disabled' : ''}">
+                                            <a th:href="@{'/job/applies/' + ${index - 1}}"
+                                               aria-label="Previous">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                            </a>
+                                        </li>
+                                        <li th:if="${index == 0}"
+                                            th:class="${searchIndex <= 1 ? 'disabled' : ''}">
+                                            <a th:if="${searchIndex == 1}"
+                                               th:href="@{'/job/applies/search?' + ${url} + ${searchIndex}}"
+                                               aria-label="Previous">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                            </a>
+                                            <a th:if="${searchIndex != 1}"
+                                               th:href="@{'/job/applies/search?' + ${url} + ${searchIndex - 1}}"
+                                               aria-label="Previous">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                            </a>
+                                        </li>
+
+
+                                        <th:block th:if="${searchIndex == 0}"
+                                                  th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                            <li>
+                                                <a th:href="@{'/job/applies/' + ${pageNum}}"
+                                                   th:text="${pageNum}"></a>
+                                            </li>
+                                        </th:block>
+                                        <th:block th:if="${index == 0}"
+                                                  th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                            <li>
+                                                <a th:href="@{'/job/applies/search?' + ${url} + ${pageNum}}"
+                                                   th:text="${pageNum}"></a>
+                                            </li>
+                                        </th:block>
+
+
+                                        <li th:if="${searchIndex == 0}"
+                                            th:class="${index >= totalPages ? 'disabled' : ''}">
+                                            <a th:if="${index != totalPages}"
+                                               th:href="@{'/job/applies/' + ${index + 1}}" aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                            <a th:if="${index == totalPages}" th:href="@{'/job/applies/' + ${index}}"
+                                               aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li th:if="${index == 0}"
+                                            th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
+                                            <a th:if="${searchIndex != totalPages}"
+                                               th:href="@{'/job/applies/search?' + ${url} + ${searchIndex + 1}}"
+                                               aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                            <a th:if="${searchIndex == totalPages}"
+                                               th:href="@{'/job/applies/search?' + ${url} + ${searchIndex}}"
+                                               aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end pager -->
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+</div>
 
-    </div>
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+<!-- end scroll to top -->
 
-    <!-- BUY TEMPLATE
-    ================================================== -->
-    <div class="buy-theme alt-font d-none d-lg-inline-block"><a href="https://wrapbootstrap.com/theme/job-board-job-portal-html-template-WB0S2FC71" target="_blank"><i class="fas fa-cart-plus"></i><span>Buy Template</span></a></div>
+<!-- all js include start -->
 
-    <div class="all-demo alt-font d-none d-lg-inline-block"><a href="https://www.chitrakootweb.com/contact.html" target="_blank"><i class="far fa-envelope"></i><span>Quick Question?</span></a></div>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
 
-    <!-- start scroll to top -->
-    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
-    <!-- end scroll to top -->
+<script src="/js/applicantListSearch.js"></script>
 
-    <!-- all js include start -->
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
 
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
 
-    <!-- popper js -->
-    <script src="/js/popper.min.js"></script>
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
 
-    <!-- bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
+<!-- search -->
+<script src="/search/search.js"></script>
 
-    <!-- core.min.js -->
-    <script src="/js/core.min.js"></script>
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
 
-    <!-- search -->
-    <script src="/search/search.js"></script>
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
 
-    <!-- custom scripts -->
-    <script src="/js/main.js"></script>
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
 
-    <!-- form plugins js -->
-    <script src="/quform/js/plugins.js"></script>
-
-    <!-- form scripts js -->
-    <script src="/quform/js/scripts.js"></script>
-
-    <!-- all js include end -->
+<!-- all js include end -->
 
 </body>
 

@@ -1,0 +1,18 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0015-add-foreign-key-applicantList-job" author="vmovsisyan">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="applicant_list" columnName="job_id"/>
+            <tableExists tableName="job"/>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="applicant_list"
+                                 baseColumnNames="job_id"
+                                 constraintName="fk_applicant_list_job_id"
+                                 referencedTableName="job"
+                                 referencedColumnNames="id"
+                                 onDelete="RESTRICT"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+</databaseChangeLog>

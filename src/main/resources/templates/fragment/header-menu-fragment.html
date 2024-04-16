@@ -113,7 +113,8 @@
                                 <ul>
                                     <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}" href="/login" class="butn secondary white-hover text-white">Sign In</a></li>
                                     <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}" href="/register" class="butn secondary white-hover text-white">Sign Up</a></li>
-                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null}" href="/profile" class="butn secondary white-hover text-white">My Profile</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null and currentUser.role.name() != 'ADMIN'}" href="/profile" class="butn secondary white-hover text-white">My Profile</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null && currentUser.role.name() == 'ADMIN'}" href="/admin" class="butn secondary white-hover text-white">Admin Panel</a></li>
                                 </ul>
                             </div>
                             <!-- end attribute navigation -->
