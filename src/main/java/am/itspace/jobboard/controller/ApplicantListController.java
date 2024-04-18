@@ -39,26 +39,32 @@ public class ApplicantListController {
             if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/applicant/list/1";
             }
-            int index = Integer.parseInt(indexStr);
 
-            if (index <= 0) {
-                return "redirect:/applicant/list/1";
-            }
+            try {
+                int index = Integer.parseInt(indexStr);
 
-            Resume resume = resumeService.findByUserIdAndIsActiveTrue(user.getId());
-            if (resume != null) {
-                Page<ApplicantList> applicantList = applicantListService.findAllByResumeIdAndIsActiveTrue(resume.getId(), index);
-
-                if (index > applicantList.getTotalPages() && applicantList.getTotalPages() != 0) {
+                if (index <= 0) {
                     return "redirect:/applicant/list/1";
                 }
 
-                addAttributes(modelMap, null, applicantList, 0, index);
-                return "/profile/candidate-applied-job";
-            }
+                Resume resume = resumeService.findByUserIdAndIsActiveTrue(user.getId());
+                if (resume != null) {
+                    Page<ApplicantList> applicantList = applicantListService.findAllByResumeIdAndIsActiveTrue(resume.getId(), index);
 
-            modelMap.addAttribute("createResumeMsg", "For watch apply jobs history, for the first create resume");
-            return "/profile/candidate-applied-job";
+                    if (index > applicantList.getTotalPages() && applicantList.getTotalPages() != 0) {
+                        return "redirect:/applicant/list/1";
+                    }
+
+                    addAttributes(modelMap, null, applicantList, 0, index);
+                    return "/profile/candidate-applied-job";
+                }
+
+                modelMap.addAttribute("createResumeMsg", "For watch apply jobs history, for the first create resume");
+                return "/profile/candidate-applied-job";
+
+            } catch (NumberFormatException e) {
+                return "redirect:/applicant/list/1";
+            }
         }
         return "redirect:/";
     }
@@ -72,34 +78,39 @@ public class ApplicantListController {
                          HttpServletRequest httpServletRequest) {
         User user = springUser.getUser();
         Resume resume = resumeService.findByUserIdAndIsActiveTrue(user.getId());
-        int searchIndex = Integer.parseInt(searchIndexStr);
 
-        String string = httpServletRequest.getQueryString();
-        int length = string.length() - 1;
-        String url = string.substring(0, length);
+        try {
+            int searchIndex = Integer.parseInt(searchIndexStr);
 
-        if (searchIndex <= 0 || searchIndex > Short.MAX_VALUE) {
-            return "redirect:/applicant/list/1";
-        }
+            String string = httpServletRequest.getQueryString();
+            int length = string.length() - 1;
+            String url = string.substring(0, length);
 
-        if (resume != null) {
-            Specification<ApplicantList> applicantListSpecification = ApplicantListSpecification.filterByStatusAndLastDate(status, sendDate, resume.getId(), true);
-            Page<ApplicantList> applicantLists = applicantListService.findAllByResumeIdAndIsActiveTrue(applicantListSpecification, searchIndex, resume.getId());
-
-            if (searchIndex > applicantLists.getTotalPages() && applicantLists.getTotalPages() != 0) {
+            if (searchIndex <= 0 || searchIndex > Short.MAX_VALUE) {
                 return "redirect:/applicant/list/1";
             }
 
-            addAttributes(modelMap, url, applicantLists, searchIndex, 0);
-            modelMap.addAttribute("currentStatus", status);
-            modelMap.addAttribute("currentDate", sendDate);
+            if (resume != null) {
+                Specification<ApplicantList> applicantListSpecification = ApplicantListSpecification.filterByStatusAndLastDate(status, sendDate, resume.getId(), true);
+                Page<ApplicantList> applicantLists = applicantListService.findAllByResumeIdAndIsActiveTrue(applicantListSpecification, searchIndex, resume.getId());
+
+                if (searchIndex > applicantLists.getTotalPages() && applicantLists.getTotalPages() != 0) {
+                    return "redirect:/applicant/list/1";
+                }
+
+                addAttributes(modelMap, url, applicantLists, searchIndex, 0);
+                modelMap.addAttribute("currentStatus", status);
+                modelMap.addAttribute("currentDate", sendDate);
+                return "/profile/candidate-applied-job";
+            }
+
+            modelMap.addAttribute("createResumeMsg", "For watch apply jobs history, for the first create resume");
             return "/profile/candidate-applied-job";
+
+        } catch (NumberFormatException e) {
+            return "redirect:/applicant/list/1";
         }
-
-        modelMap.addAttribute("createResumeMsg", "For watch apply jobs history, for the first create resume");
-        return "/profile/candidate-applied-job";
     }
-
 
     private void addAttributes(ModelMap modelMap, String url, Page<ApplicantList> applicantLists, int searchIndex, int index) {
         modelMap.addAttribute("url", url);

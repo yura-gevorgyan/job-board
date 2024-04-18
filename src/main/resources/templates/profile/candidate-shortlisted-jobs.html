@@ -127,7 +127,7 @@
                                 <div class="alert alert-warning alert-dismissible">
                                     <strong th:text="${createResumeMsg}"></strong>
                                     <button type="button" class="btn btn-outline-warning">
-                                        <a href="/profile/resume">Create Account ?</a>
+                                        <a href="/profile/resume">Create Resume ?</a>
                                     </button>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
@@ -146,7 +146,6 @@
                                             <form action="/job/applies/search" method="get" class="d-flex">
                                                 <input class="form-control border-radius-10 me-2" id="search"
                                                        type="text" name="profession" placeholder="Search">
-                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <select id="status"
                                                         class="form-control form-select border-radius-10 me-2"
                                                         name="status">
@@ -167,15 +166,16 @@
                                                 <select id="date" class="form-control form-select border-radius-10 me-2"
                                                         name="date">
                                                     <option value="">Choose Date</option>
-                                                    <option value="day" th:selected="${currentDate == 'day'}">Last Day
+                                                    <option value="day" th:selected="${currentDate != null && (currentDate == 'day')}">Last Day
                                                     </option>
-                                                    <option value="week" th:selected="${currentDate == 'week'}">Last
+                                                    <option value="week" th:selected="${currentDate != null && (currentDate == 'week')}">Last
                                                         Week
                                                     </option>
-                                                    <option value="month" th:selected="${currentDate == 'month'}">Last
+                                                    <option value="month" th:selected="${currentDate != null && (currentDate == 'month')}">Last
                                                         Month
                                                     </option>
                                                 </select>
+                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <button type="submit" class="not-border"><a
                                                         class="butn secondary text-white">Search</a></button>
                                             </form>
@@ -249,7 +249,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <!-- start pager  -->
-                            <div th:if="${totalPages != 0}" class="text-center mt-6">
+                            <div th:if="${totalPages != 0 && totalPages != null}" class="text-center mt-6">
                                 <div class="pagination text-primary">
                                     <ul>
                                         <li th:if="${searchIndex == 0}"

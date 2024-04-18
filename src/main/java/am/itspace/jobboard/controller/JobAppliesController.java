@@ -9,15 +9,12 @@ import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobAppliesSpecification;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,29 +40,34 @@ public class JobAppliesController {
                 return "redirect:/job/applies/1";
             }
 
-            int index = Integer.parseInt(indexStr);
+            try {
+                int index = Integer.parseInt(indexStr);
 
-            if (resumeService.findByUserIdAndIsActiveTrue(user.getId()) == null) {
-                modelMap.addAttribute("createResumeMsg", "To view applied job history, you need to create a resume first.");
-                return "/profile/candidate-applied-job";
-            }
+                if (resumeService.findByUserIdAndIsActiveTrue(user.getId()) == null) {
+                    modelMap.addAttribute("createResumeMsg", "To view applied job history, you need to create a resume first.");
+                    return "/profile/candidate-shortlisted-jobs";
+                }
 
-            if (index <= 0) {
+                if (index <= 0) {
+                    return "redirect:/job/applies/1";
+                }
+
+                Page<JobApplies> jobApplies = jobAppliesService.findAllByToJobSeekerIdAndIsActiveTrue(user.getId(), index);
+
+                if (jobApplies == null || jobApplies.isEmpty()) {
+                    return "/profile/candidate-applied-job";
+                }
+
+                if (index > jobApplies.getTotalPages() && jobApplies.getTotalPages() != 0) {
+                    return "redirect:/job/applies/1";
+                }
+
+                addAttributes(modelMap, null, jobApplies, 0, index);
+                return "/profile/candidate-shortlisted-jobs";
+
+            } catch (NumberFormatException e) {
                 return "redirect:/job/applies/1";
             }
-
-            Page<JobApplies> jobApplies = jobAppliesService.findAllByToJobSeekerIdAndIsActiveTrue(user.getId(), index);
-
-            if (jobApplies == null || jobApplies.isEmpty()) {
-                return "/profile/candidate-applied-job";
-            }
-
-            if (index > jobApplies.getTotalPages() && jobApplies.getTotalPages() != 0) {
-                return "redirect:/job/applies/1";
-            }
-
-            addAttributes(modelMap, null, jobApplies, 0, index);
-            return "/profile/candidate-shortlisted-jobs";
         }
         return "redirect:/";
     }
@@ -81,28 +83,32 @@ public class JobAppliesController {
 
         User user = springUser.getUser();
         if (user != null && user.getRole() == Role.JOB_SEEKER) {
+            try {
+                int searchIndex = Integer.parseInt(searchIndexStr);
 
-            int searchIndex = Integer.parseInt(searchIndexStr);
+                String string = httpServletRequest.getQueryString();
+                int length = string.length() - 1;
+                String url = string.substring(0, length);
 
-            String string = httpServletRequest.getQueryString();
-            int length = string.length() - 1;
-            String url = string.substring(0, length);
+                if (searchIndex <= 0 || searchIndex > Short.MAX_VALUE) {
+                    return "redirect:/job/applies/1";
+                }
 
-            if (searchIndex <= 0 || searchIndex > Short.MAX_VALUE) {
+                Specification<JobApplies> jobAppliesSpecification = JobAppliesSpecification.filterByStatusAndLastDate(status, sendDate, user.getId(), true);
+                Page<JobApplies> jobApplies = jobAppliesService.findAllByToJobSeekerIdAndIsActiveTrue(jobAppliesSpecification, searchIndex);
+
+                if (searchIndex > jobApplies.getTotalPages() && jobApplies.getTotalPages() != 0) {
+                    return "redirect:/job/applies/1";
+                }
+
+                addAttributes(modelMap, url, jobApplies, searchIndex, 0);
+                modelMap.addAttribute("currentStatus", status);
+                modelMap.addAttribute("currentDate", sendDate);
+                return "/profile/candidate-shortlisted-jobs";
+
+            } catch (NumberFormatException e) {
                 return "redirect:/job/applies/1";
             }
-
-            Specification<JobApplies> jobAppliesSpecification = JobAppliesSpecification.filterByStatusAndLastDate(status, sendDate, user.getId(), true);
-            Page<JobApplies> jobApplies = jobAppliesService.findAllByToJobSeekerIdAndIsActiveTrue(jobAppliesSpecification, searchIndex);
-
-            if (searchIndex > jobApplies.getTotalPages() && jobApplies.getTotalPages() != 0) {
-                return "redirect:/job/applies/1";
-            }
-
-            addAttributes(modelMap, url, jobApplies, searchIndex, 0);
-            modelMap.addAttribute("currentStatus", status);
-            modelMap.addAttribute("currentDate", sendDate);
-            return "/profile/candidate-shortlisted-jobs";
         }
         return "redirect:/";
     }

@@ -98,7 +98,7 @@
                                 <div class="alert alert-warning alert-dismissible">
                                     <strong th:text="${createResumeMsg}"></strong>
                                     <button type="button" class="btn btn-outline-warning">
-                                        <a href="/profile/resume">Create Account ?</a>
+                                        <a href="/profile/resume">Create Resume ?</a>
                                     </button>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
@@ -117,7 +117,6 @@
                                             <form action="/applicant/list/search" method="get" class="d-flex">
                                                 <input class="form-control border-radius-10 me-2" id="search"
                                                        type="text" name="profession" placeholder="Search">
-                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <select id="status"
                                                         class="form-control form-select border-radius-10 me-2"
                                                         name="status">
@@ -138,15 +137,22 @@
                                                 <select id="date" class="form-control form-select border-radius-10 me-2"
                                                         name="date">
                                                     <option value="">Choose Date</option>
-                                                    <option value="day" th:selected="${currentDate == 'day'}">Last Day
+                                                    <option value="day"
+                                                            th:selected="${currentDate != null && (currentDate == 'day')}">
+                                                        Last Day
                                                     </option>
-                                                    <option value="week" th:selected="${currentDate == 'week'}">Last
+                                                    <option value="week"
+                                                            th:selected="${currentDate != null && (currentDate == 'week')}">
+                                                        Last
                                                         Week
                                                     </option>
-                                                    <option value="month" th:selected="${currentDate == 'month'}">Last
+                                                    <option value="month"
+                                                            th:selected="${currentDate != null && (currentDate == 'month')}">
+                                                        Last
                                                         Month
                                                     </option>
                                                 </select>
+                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <button type="submit" class="not-border"><a
                                                         class="butn secondary text-white">Search</a></button>
                                             </form>
@@ -180,8 +186,9 @@
                                                          alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
-                                                    <h5 class="mb-1"><a th:href="@{'/jobs/item/' + ${applicantList.job.id}}"
-                                                                        th:text="${applicantList.job.title}"></a></h5>
+                                                    <h5 class="mb-1"><a
+                                                            th:href="@{'/jobs/item/' + ${applicantList.job.id}}"
+                                                            th:text="${applicantList.job.title}"></a></h5>
                                                     <span class="me-2 display-30 text-muted"
                                                           th:text="${applicantList.job.category.name}"></span>
                                                     <span class="me-2 display-30 text-muted"><i
@@ -193,7 +200,7 @@
                                         <td th:text="${#dates.format(applicantList.sendDate, 'yyyy-MM-dd')}"></td>
                                         <td>
                                             <span th:if="${applicantList.applicantListStatus.name() == 'IN_DURING'}"
-                                                      class="text-warning font-weight-600">In During</span>
+                                                  class="text-warning font-weight-600">In During</span>
                                             <span th:if="${applicantList.applicantListStatus.name() == 'APPROVED'}"
                                                   class="text-success font-weight-600">Approved</span>
                                             <span th:if="${applicantList.applicantListStatus.name() == 'REJECTED'}"
@@ -201,8 +208,11 @@
                                         </td>
                                         <td>
                                             <ul class="action-list">
-                                                <li><a th:href="@{'/jobs/item/' + ${applicantList.job.id}}"><span class="ti-eye"></span></a></li>
-                                                <li><a href="#!" class="delete-applicantList" th:data-applicantList-id="${applicantList.id}"><span class="ti-trash"></span></a></li>
+                                                <li><a th:href="@{'/jobs/item/' + ${applicantList.job.id}}"><span
+                                                        class="ti-eye"></span></a></li>
+                                                <li><a href="#!" class="delete-applicantList"
+                                                       th:data-applicantList-id="${applicantList.id}"><span
+                                                        class="ti-trash"></span></a></li>
                                             </ul>
                                         </td>
                                     </tr>
@@ -215,7 +225,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <!-- start pager  -->
-                            <div th:if="${totalPages != 0}" class="text-center mt-6">
+                            <div th:if="${totalPages != 0 && totalPages != null}" class="text-center mt-6">
                                 <div class="pagination text-primary">
                                     <ul>
                                         <li th:if="${searchIndex == 0}"
@@ -276,7 +286,7 @@
                                             </a>
                                             <a th:if="${searchIndex == totalPages}"
                                                th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
-                                               aria-label="Next">
+                                               aria-label="Next">=
                                                 Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                             </a>
                                         </li>
