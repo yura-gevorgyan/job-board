@@ -5,6 +5,7 @@ import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Role;
+import am.itspace.jobboard.exception.IncorrectDateFormatException;
 import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.ApplicantListService;
 import am.itspace.jobboard.service.ResumeService;
@@ -107,7 +108,7 @@ public class ApplicantListController {
             modelMap.addAttribute("createResumeMsg", "For watch apply jobs history, for the first create resume");
             return "/profile/candidate-applied-job";
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | IncorrectDateFormatException e) {
             return "redirect:/applicant/list/1";
         }
     }

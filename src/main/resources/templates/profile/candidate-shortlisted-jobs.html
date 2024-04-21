@@ -145,7 +145,7 @@
                                         <div class="row align-items-center">
                                             <form action="/job/applies/search" method="get" class="d-flex">
                                                 <input class="form-control border-radius-10 me-2" id="search"
-                                                       type="text" name="profession" placeholder="Search">
+                                                       type="text" placeholder="Search">
                                                 <select id="status"
                                                         class="form-control form-select border-radius-10 me-2"
                                                         name="status">
@@ -206,7 +206,7 @@
                                             <div class="d-xl-flex align-items-center">
                                                 <div class="flex-shrink-0 mb-3 mb-xl-0">
                                                     <img th:src="@{/getImage(picName=${jobApply.job.logoName})}"
-                                                         alt="...">
+                                                         width="80px" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
                                                     <h5 class="mb-1"><a th:href="@{'/jobs/item/' + ${jobApply.job.id}}"
@@ -219,23 +219,27 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td th:text="${#dates.format(jobApply.sendDate, 'yyyy-MM-dd')}"></td>
-                                        <td>
-                                            <span th:if="${jobApply.jobAppliesStatus.name() == 'TOTAL'}"
-                                                  class="text-warning font-weight-600">Total</span>
-                                            <span th:if="${jobApply.jobAppliesStatus.name() == 'APPROVED'}"
-                                                  class="text-success font-weight-600">Approved</span>
-                                            <span th:if="${jobApply.jobAppliesStatus.name() == 'REJECTED'}"
-                                                  class="text-danger font-weight-600">Rejected</span>
+                                        <td th:text="${#dates.format(jobApply.sendDate,'MMM dd, yyyy')}"></td>
+                                        <td class="jobapplies-status">
+                                            <span th:if="${jobApply.jobAppliesStatus != null && jobApply.jobAppliesStatus.name() == 'TOTAL'}"
+                                                  class="text-warning font-weight-600" th:text="${jobApply.jobAppliesStatus.getName()}"></span>
+                                            <span th:if="${jobApply.jobAppliesStatus != null && jobApply.jobAppliesStatus.name() == 'APPROVED'}"
+                                                  class="text-success font-weight-600" th:text="${jobApply.jobAppliesStatus.getName()}"></span>
+                                            <span th:if="${jobApply.jobAppliesStatus != null && jobApply.jobAppliesStatus.name() == 'REJECTED'}"
+                                                  class="text-danger font-weight-600" th:text="${jobApply.jobAppliesStatus.getName()}"></span>
                                         </td>
                                         <td>
                                             <ul class="action-list">
                                                 <li><a th:href="@{'/jobs/item/' + ${jobApply.job.id}}"><span class="ti-eye"></span></a></li>
-                                                <li th:unless="${jobApply.jobAppliesStatus.name() == 'APPROVED' || jobApply.jobAppliesStatus.name() == 'REJECTED' }">
-                                                    <a th:href="@{'/job/applies/approve/' + ${jobApply.id}}"><span class="ti-check"></span></a>
+                                                <li th:if="${jobApply.jobAppliesStatus.name() == 'TOTAL'}">
+                                                    <a href="#!" class="approve-job" th:data-jobapply-id="${jobApply.id}">
+                                                        <span class="ti-check"></span>
+                                                    </a>
                                                 </li>
-                                                <li th:unless="${jobApply.jobAppliesStatus.name() == 'APPROVED' || jobApply.jobAppliesStatus.name() == 'REJECTED' }">
-                                                    <a th:href="@{'/job/applies/reject/' + ${jobApply.id}}"><span class="ti-close"></span></a>
+                                                <li th:if="${jobApply.jobAppliesStatus.name() == 'TOTAL'}">
+                                                    <a href="#!" class="reject-job" th:data-jobapply-id="${jobApply.id}">
+                                                        <span class="ti-close"></span>
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </td>
@@ -326,13 +330,13 @@
     </section>
 </div>
 
-<!-- start scroll to top -->
-<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
-<!-- end scroll to top -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <!-- all js include start -->
 
 <!-- jQuery -->
+<script src="/js/changeJobApplisStatus.js"></script>
+
 <script src="/js/jquery.min.js"></script>
 
 <script src="/js/applicantListSearch.js"></script>

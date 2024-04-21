@@ -4,6 +4,7 @@ import am.itspace.jobboard.entity.JobApplies;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Role;
+import am.itspace.jobboard.exception.IncorrectDateFormatException;
 import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.ResumeService;
@@ -106,25 +107,11 @@ public class JobAppliesController {
                 modelMap.addAttribute("currentDate", sendDate);
                 return "/profile/candidate-shortlisted-jobs";
 
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IncorrectDateFormatException e) {
                 return "redirect:/job/applies/1";
             }
         }
         return "redirect:/";
-    }
-
-    @GetMapping("/approve/{id}")
-    public String approveJobApply(@PathVariable("id") String idStr) {
-        int id = Integer.parseInt(idStr);
-        jobAppliesService.changeStatusApproved(id);
-        return "redirect:/job/applies/1";
-    }
-
-    @GetMapping("/reject/{id}")
-    public String rejectJobApply(@PathVariable("id") String idStr) {
-        int id = Integer.parseInt(idStr);
-        jobAppliesService.changeStatusRejected(id);
-        return "redirect:/job/applies/1";
     }
 
     private void addAttributes(ModelMap modelMap, String url, Page<JobApplies> jobApplies, int searchIndex, int index) {

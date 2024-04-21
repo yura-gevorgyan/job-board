@@ -116,13 +116,13 @@
                                         <div class="row align-items-center">
                                             <form action="/applicant/list/search" method="get" class="d-flex">
                                                 <input class="form-control border-radius-10 me-2" id="search"
-                                                       type="text" name="profession" placeholder="Search">
+                                                       type="text" placeholder="Search">
                                                 <select id="status"
                                                         class="form-control form-select border-radius-10 me-2"
                                                         name="status">
                                                     <option value="0">Choose Status</option>
                                                     <option value="IN_DURING"
-                                                            th:selected="${currentStatus != null && ('IN_DURING' == currentStatus)}">
+                                                            th:selected="${currentStatus != null && ('WAITING' == currentStatus)}">
                                                         In Durring
                                                     </option>
                                                     <option value="APPROVED"
@@ -183,7 +183,7 @@
                                             <div class="d-xl-flex align-items-center">
                                                 <div class="flex-shrink-0 mb-3 mb-xl-0">
                                                     <img th:src="@{/getImage(picName=${applicantList.job.logoName})}"
-                                                         alt="...">
+                                                         width="80px" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
                                                     <h5 class="mb-1"><a
@@ -197,21 +197,21 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td th:text="${#dates.format(applicantList.sendDate, 'yyyy-MM-dd')}"></td>
+                                        <td th:text="${#dates.format(applicantList.sendDate,'MMM dd, yyyy')}"></td>
                                         <td>
-                                            <span th:if="${applicantList.applicantListStatus.name() == 'IN_DURING'}"
-                                                  class="text-warning font-weight-600">In During</span>
-                                            <span th:if="${applicantList.applicantListStatus.name() == 'APPROVED'}"
-                                                  class="text-success font-weight-600">Approved</span>
-                                            <span th:if="${applicantList.applicantListStatus.name() == 'REJECTED'}"
-                                                  class="text-danger font-weight-600">Rejected</span>
+                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
+                                                  class="text-warning font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'APPROVED'}"
+                                                  class="text-success font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'REJECTED'}"
+                                                  class="text-danger font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
                                         </td>
                                         <td>
                                             <ul class="action-list">
                                                 <li><a th:href="@{'/jobs/item/' + ${applicantList.job.id}}"><span
                                                         class="ti-eye"></span></a></li>
-                                                <li><a href="#!" class="delete-applicantList"
-                                                       th:data-applicantList-id="${applicantList.id}"><span
+                                                <li><a href="#!" class="delete-applicantlist"
+                                                       th:data-applicantlist-id="${applicantList.id}"><span
                                                         class="ti-trash"></span></a></li>
                                             </ul>
                                         </td>

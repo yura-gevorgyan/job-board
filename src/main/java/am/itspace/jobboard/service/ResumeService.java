@@ -34,7 +34,8 @@ public interface ResumeService {
     Resume getById(int id);
 
     List<Resume> findTop6();
+
     Resume create(Resume resume, MultipartFile multipartFile);
+
     Resume update(Resume resume, MultipartFile multipartFile);
 }
-

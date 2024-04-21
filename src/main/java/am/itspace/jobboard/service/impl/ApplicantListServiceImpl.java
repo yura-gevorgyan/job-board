@@ -42,7 +42,7 @@ public class ApplicantListServiceImpl implements ApplicantListService {
         applicantList.setResume(resume);
         applicantList.setToEmployer(job.getUser());
         applicantList.setActive(true);
-        applicantList.setApplicantListStatus(ApplicantListStatus.IN_DURING);
+        applicantList.setApplicantListStatus(ApplicantListStatus.WAITING);
         applicantList.setJob(job);
 
         applicantListRepository.save(applicantList);

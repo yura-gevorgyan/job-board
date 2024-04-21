@@ -1,7 +1,6 @@
 $(document).ready(function () {
-    $('.delete-applicantList').on('click', function () {
-        var applicantListId = $(this).data('applicantList-id');
-        console.log("ApplicantListId:", applicantListId);
+    $('.delete-applicantlist').on('click', function () {
+        var applicantListId = $(this).data('applicantlist-id');
         var applicantListDiv = $(this).closest('.single-row');
 
         $.ajax({

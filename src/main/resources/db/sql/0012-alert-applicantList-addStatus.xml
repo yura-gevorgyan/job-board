@@ -9,7 +9,7 @@
             </not>
         </preConditions>
         <addColumn tableName="applicant_list">
-            <column name="status" type="enum('IN_DURING', 'APPROVED', 'REJECTED')" afterColumn="is_active">
+            <column name="status" type="enum('WAITING', 'APPROVED', 'REJECTED')" afterColumn="is_active">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
