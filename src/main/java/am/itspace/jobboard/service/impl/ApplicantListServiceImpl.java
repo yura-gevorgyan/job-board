@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -54,15 +55,32 @@ public class ApplicantListServiceImpl implements ApplicantListService {
     }
 
     @Override
+    public void changeStatusApproved(int id) {
+        Optional<ApplicantList> byId = applicantListRepository.findById(id);
+        byId.ifPresent(applicantList -> {
+            applicantList.setApplicantListStatus(ApplicantListStatus.APPROVED);
+            applicantListRepository.save(applicantList);
+        });
+    }
+
+    @Override
+    public void changeStatusRejected(int id) {
+        Optional<ApplicantList> byId = applicantListRepository.findById(id);
+        byId.ifPresent(applicantList -> {
+            applicantList.setApplicantListStatus(ApplicantListStatus.REJECTED);
+            applicantListRepository.save(applicantList);
+        });
+    }
+
+    @Override
     public Page<ApplicantList> findAllByResumeIdAndIsActiveTrue(int resumeId, int index) {
         return applicantListRepository.findAllByResumeIdAndIsActiveTrue(resumeId, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("sendDate")));
     }
 
     @Override
-    public Page<ApplicantList> findAllByResumeIdAndIsActiveTrue(Specification<ApplicantList> specification, int index, int resumeId) {
-        return applicantListRepository.findAll(specification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("sendDate")));
+    public Page<ApplicantList> findAllByToEmployerId(int toEmployerId, int index) {
+        return applicantListRepository.findAllByToEmployerId(toEmployerId, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("sendDate")));
     }
-
 
     @Override
     public Page<ApplicantList> findAll(Specification<ApplicantList> specification, int index) {

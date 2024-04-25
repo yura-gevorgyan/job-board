@@ -15,8 +15,6 @@ public interface JobAppliesService {
 
     Page<JobApplies> findAllByToJobSeekerIdAndIsActiveTrue(int jobSeekerId, int index);
 
-    Page<JobApplies> findAllByToJobSeekerIdAndIsActiveTrue(Specification<JobApplies> specification,  int index);
-
     Page<JobApplies> findAll(Specification<JobApplies> specification, int index);
 
     JobApplies findById(int id);

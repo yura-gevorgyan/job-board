@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,26 +59,25 @@ public class JobAppliesServiceImpl implements JobAppliesService {
 
     @Override
     public void changeStatusApproved(int id) {
-        JobApplies jobApplies = findById(id);
-        jobApplies.setJobAppliesStatus(JobAppliesStatus.APPROVED);
-        save(jobApplies);
+        Optional<JobApplies> byId = jobAppliesRepository.findById(id);
+        byId.ifPresent(jobApplies -> {
+            jobApplies.setJobAppliesStatus(JobAppliesStatus.APPROVED);
+            save(jobApplies);
+        });
     }
 
     @Override
     public void changeStatusRejected(int id) {
-        JobApplies jobApplies = findById(id);
-        jobApplies.setJobAppliesStatus(JobAppliesStatus.REJECTED);
-        save(jobApplies);
+        Optional<JobApplies> byId = jobAppliesRepository.findById(id);
+        byId.ifPresent(jobApplies -> {
+            jobApplies.setJobAppliesStatus(JobAppliesStatus.REJECTED);
+            save(jobApplies);
+        });
     }
 
     @Override
     public Page<JobApplies> findAllByToJobSeekerIdAndIsActiveTrue(int jobSeekerId, int index) {
         return jobAppliesRepository.findAllByToJobSeekerIdAndIsActiveTrue(jobSeekerId, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("sendDate")));
-    }
-
-    @Override
-    public Page<JobApplies> findAllByToJobSeekerIdAndIsActiveTrue(Specification<JobApplies> specification,  int index) {
-        return jobAppliesRepository.findAll(specification,  PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("sendDate")));
     }
 
     @Override

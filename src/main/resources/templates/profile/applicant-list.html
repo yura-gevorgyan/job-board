@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -33,531 +33,362 @@
     <!-- dashboard css -->
     <link href="/css/dashboard.css" rel="stylesheet">
 
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template">
+    <meta name="description" content="Job Board - Job Portal HTML Template">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- title  -->
+    <title>Job Board - Job Search</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png">
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png">
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css">
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css">
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- core style css -->
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+
 </head>
 
 <body>
 
-    <!-- PAGE LOADING
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
     ================================================== -->
-    <div id="preloader"></div>
+    <header class="header-style2 static-header">
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
 
-    <!-- MAIN WRAPPER
+    <!-- EMPLOYER DASHBOARD
     ================================================== -->
-    <div class="main-wrapper">
-
-        <!-- HEADER
-        ================================================== -->
-        <header class="header-style2 static-header">
-            <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
-        </header>
-
-        <!-- EMPLOYER DASHBOARD
-        ================================================== -->
-        <section class="py-0">
-            <div class="row g-0">
-                <div class="col-lg-3 mb-2-2 mb-lg-0">
-                    <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
-                </div>
-                <div class="col-lg-9">
-                    <div class="dashboard-right-sidebar">
-                        <div class="row mb-2-2">
-                            <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">All Applicants</h3>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="dashboard-title">
-                                    <div class="d-md-flex justify-content-between align-items-center">
-                                        <div class="mb-4 mb-md-0">
-                                            <h4 class="mb-0 h5">Senior Product Designer</h4>
-                                        </div>
-                                        <form action="#!" method="post" enctype="multipart/form-data" onclick="">
-                                            <div class="quform-elements">
-                                                <div class="row align-items-center">
-
-                                                    <!-- Begin Select element -->
-                                                    <div class="col-md-5 mb-4 mb-md-0">
-                                                        <div class="quform-element">
-                                                            <div class="quform-input">
-                                                                <select id="show" class="form-control form-select" name="show">
-                                                                    <option value="">Show</option>
-                                                                    <option value="Show 10">Show 10</option>
-                                                                    <option value="Show 20">Show 20</option>
-                                                                    <option value="Show 30">Show 30</option>
-                                                                    <option value="Show 40">Show 40</option>
-                                                                    <option value="Show 50">Show 50</option>
-                                                                    <option value="Show 60">Show 60</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Select element -->
-
-                                                    <!-- Begin Select element -->
-                                                    <div class="col-md-7">
-                                                        <div class="quform-element">
-                                                            <div class="quform-input">
-                                                                <select id="sortby-month" class="form-control form-select" name="sortby-month">
-                                                                    <option value="">Last 6 Months</option>
-                                                                    <option value="Last 6 Months">Last 6 Months</option>
-                                                                    <option value="Last 12 Months">Last 12 Months</option>
-                                                                    <option value="Last 16 Months">Last 16 Months</option>
-                                                                    <option value="Last 24 Months">Last 24 Months</option>
-                                                                    <option value="Last 5 Year">Last 5 Year</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Select element -->
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+    <section class="py-0">
+        <div class="row g-0">
+            <div class="col-lg-3 mb-2-2 mb-lg-0">
+                <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
+            </div>
+            <div class="col-lg-9">
+                <div class="dashboard-right-sidebar">
+                    <div class="row mb-2-2">
+                        <div class="col-lg-12 mb-1-9">
+                            <h3 class="mb-3">Applied Jobs</h3>
+                            <span th:if="${createJob != null}">
+                                <div class="alert alert-warning alert-dismissible">
+                                    <strong th:text="${createJob}"></strong>
+                                    <button type="button" class="btn btn-outline-warning">
+                                        <a href="/profile/jobs-create">Create job ?</a>
+                                    </button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                 </div>
-                                <div class="dashboard-widget">
-                                    <div class="horizontaltab tab-style1">
-                                        <ul class="resp-tabs-list hor_1">
-                                            <li>
-                                                <div class="tab-box">
-                                                    <h6 class="text-secondary">Total(s): 6</h6>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="tab-box">
-                                                    <h6 class="text-success">Approved: 2</h6>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="tab-box">
-                                                    <h6 class="text-danger">Rejected(s): 4</h6>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="resp-tabs-container hor_1">
-                                            <div>
-                                                <div class="row mt-n1-9">
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/pictureDirectory/candidate-01.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Olle Nurmi</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Sr. Java Developer</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>UK</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Development</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-02.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Selma Kolkkala</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">UI/UX Specialist</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>Australia</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Design</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-03.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Rens Westen</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Research Assistant</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>USA</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">Research</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-04.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">France Maheu</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Digital Marketer</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>UK</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">Marketing</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-05.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Richard Bureau</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Charted Accountant</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>Canada</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Research</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-06.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Uta Fuerst</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Marketing Advisor</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>London</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Marketing</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="row mt-n1-9">
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/pictureDirectory/candidate-01.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Olle Nurmi</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Sr. Java Developer</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>UK</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Development</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-02.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Selma Kolkkala</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">UI/UX Specialist</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>Australia</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Design</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="row mt-n1-9">
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-03.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Rens Westen</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Research Assistant</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>USA</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">Research</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-04.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">France Maheu</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Digital Marketer</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>UK</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">Marketing</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-05.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Richard Bureau</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Charted Accountant</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>Canada</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Research</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xxl-6 mt-1-9">
-                                                        <div class="card-style2">
-                                                            <div class="card-body">
-                                                                <div class="d-sm-flex justify-content-between align-items-center">
-                                                                    <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
-                                                                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                                            <img src="/img/candidate/candidate-06.jpg" alt="..." class="border-radius-50">
-                                                                        </div>
-                                                                        <div class="flex-grow-1 ms-sm-3">
-                                                                            <h5><a href="employer-details.html">Uta Fuerst</a></h5>
-                                                                            <div class="mb-3">
-                                                                                <span class="text-secondary me-2 display-30">Marketing Advisor</span>
-                                                                                <span class="vertical-align-middle display-30"><i class="ti-location-pin pe-2 text-secondary"></i>London</span>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="company-info">App</span>
-                                                                                <span class="company-info">Marketing</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="list-style">
-                                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-check"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-close"></span></a></li>
-                                                                        <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            </span>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="dashboard-title">
+                                <div class="d-md-flex justify-content-between align-items-center">
+                                    <div class="mb-4 mb-md-0">
+                                        <h4 class="mb-0 h5">Local History<span class="text-primary"> Candidates List</span>
+                                        </h4>
+                                    </div>
+                                    <div class="quform-elements">
+                                        <div class="row align-items-center">
+                                            <form action="/applicant/list/search" method="get" class="d-flex">
+                                                <input class="form-control border-radius-10 me-2" id="search"
+                                                       type="text" placeholder="Search">
+                                                <select id="status"
+                                                        class="form-control form-select border-radius-10 me-2"
+                                                        name="status">
+                                                    <option value="0">Choose Status</option>
+                                                    <option value="IN_DURING"
+                                                            th:selected="${currentStatus != null && ('WAITING' == currentStatus)}">
+                                                        In Durring
+                                                    </option>
+                                                    <option value="APPROVED"
+                                                            th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}">
+                                                        Approved
+                                                    </option>
+                                                    <option value="REJECTED"
+                                                            th:selected="${currentStatus != null && ('REJECTED' == currentStatus)}">
+                                                        Rejected
+                                                    </option>
+                                                </select>
+                                                <select id="date" class="form-control form-select border-radius-10 me-2"
+                                                        name="date">
+                                                    <option value="">Choose Date</option>
+                                                    <option value="day"
+                                                            th:selected="${currentDate != null && (currentDate == 'day')}">
+                                                        Last Day
+                                                    </option>
+                                                    <option value="week"
+                                                            th:selected="${currentDate != null && (currentDate == 'week')}">
+                                                        Last
+                                                        Week
+                                                    </option>
+                                                    <option value="month"
+                                                            th:selected="${currentDate != null && (currentDate == 'month')}">
+                                                        Last
+                                                        Month
+                                                    </option>
+                                                </select>
+                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
+                                                <button type="submit" class="not-border"><a
+                                                        class="butn secondary text-white">Search</a></button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <p class="d-inline-block mb-0">© <span class="current-year"></span> Job Board Powered by
-                                    <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary secondary-hover">Chitrakoot Web</a>
-                                </p>
+
+                        <div class="dashboard-widget">
+                            <div class="table-responsive">
+                                        <span style="justify-content: center"
+                                              th:if="${applicantLists == null or applicantListCount == 0}">
+                                               <h2>Job Applies Not found.</h2>
+                                            </span>
+                                <table class="table custome-table2">
+                                    <thead th:if="${applicantLists != null and applicantListCount != 0}">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Job</th>
+                                        <th>Date Applied</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="applicantList : ${applicantLists}" class="single-row">
+                                        <td>
+                                            <div class="d-xl-flex align-items-center">
+                                                <div class="flex-shrink-0 mb-3 mb-xl-0">
+                                                    <img th:src="@{/getImage(picName=${applicantList.resume.picName})}"
+                                                         width="80px" alt="...">
+                                                </div>
+                                                <div class="flex-grow-1 ms-xl-3">
+                                                    <h5 class="mb-1"><a
+                                                            th:href="@{'/resumes/item/' + ${applicantList.resume.id}}"
+                                                            th:text="${applicantList.resume.user.name}"></a></h5>
+                                                    <span class="me-2 display-30 text-muted"
+                                                          th:text="${applicantList.resume.category.name}"></span>
+                                                    <span class="me-2 display-30 text-muted"><i
+                                                            class="ti-location-pin pe-1"
+                                                            th:text="${applicantList.resume.location}"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-xl-flex align-items-center">
+                                                <div class="flex-shrink-0 mb-3 mb-xl-0">
+                                                    <img th:src="@{/getImage(picName=${applicantList.job.logoName})}"
+                                                         width="80px" alt="...">
+                                                </div>
+                                                <div class="flex-grow-1 ms-xl-3">
+                                                    <h5 class="mb-1"><a
+                                                            th:href="@{'/jobs/item/' + ${applicantList.job.id}}"
+                                                            th:text="${applicantList.job.title}"></a></h5>
+                                                    <span class="me-2 display-30 text-muted"
+                                                          th:text="${applicantList.job.category.name}"></span>
+                                                    <span class="me-2 display-30 text-muted"><i
+                                                            class="ti-location-pin pe-1"
+                                                            th:text="${applicantList.job.location}"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td th:text="${#dates.format(applicantList.sendDate,'MMM dd, yyyy')}"></td>
+                                        <td class="jobapplies-status">
+                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
+                                                  class="text-warning font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'APPROVED'}"
+                                                  class="text-success font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'REJECTED'}"
+                                                  class="text-danger font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                        </td>
+                                        <td>
+                                            <ul class="action-list">
+                                                <li><a th:href="@{'/resumes/item/' + ${applicantList.resume.id}}"><span class="ti-eye"></span></a></li>
+                                                <li th:if="${applicantList.applicantListStatus.name() == 'WAITING'}">
+                                                    <a href="#!" class="approve-job" th:data-jobapply-id="${applicantList.id}">
+                                                        <span class="ti-check"></span>
+                                                    </a>
+                                                </li>
+                                                <li th:if="${applicantList.applicantListStatus.name() == 'WAITING'}">
+                                                    <a href="#!" class="reject-job" th:data-jobapply-id="${applicantList.id}">
+                                                        <span class="ti-close"></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- start pager  -->
+                            <div th:if="${totalPages != 0 && totalPages != null}" class="text-center mt-6">
+                                <div class="pagination text-primary">
+                                    <ul>
+                                        <li th:if="${searchIndex == 0}"
+                                            th:class="${index <= 1 ? 'disabled' : ''}">
+                                            <a th:href="@{'/applicant/list/' + ${index - 1}}"
+                                               aria-label="Previous">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                            </a>
+                                        </li>
+                                        <li th:if="${index == 0}"
+                                            th:class="${searchIndex <= 1 ? 'disabled' : ''}">
+                                            <a th:if="${searchIndex == 1}"
+                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
+                                               aria-label="Previous">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                            </a>
+                                            <a th:if="${searchIndex != 1}"
+                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex - 1}}"
+                                               aria-label="Previous">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                            </a>
+                                        </li>
+
+
+                                        <th:block th:if="${searchIndex == 0}"
+                                                  th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                            <li>
+                                                <a th:href="@{'/applicant/list/' + ${pageNum}}"
+                                                   th:text="${pageNum}"></a>
+                                            </li>
+                                        </th:block>
+                                        <th:block th:if="${index == 0}"
+                                                  th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                            <li>
+                                                <a th:href="@{'/applicant/list/search?' + ${url} + ${pageNum}}"
+                                                   th:text="${pageNum}"></a>
+                                            </li>
+                                        </th:block>
+
+
+                                        <li th:if="${searchIndex == 0}"
+                                            th:class="${index >= totalPages ? 'disabled' : ''}">
+                                            <a th:if="${index != totalPages}"
+                                               th:href="@{'/applicant/list/' + ${index + 1}}" aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                            <a th:if="${index == totalPages}" th:href="@{'/applicant/list/' + ${index}}"
+                                               aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li th:if="${index == 0}"
+                                            th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
+                                            <a th:if="${searchIndex != totalPages}"
+                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex + 1}}"
+                                               aria-label="Next">
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                            <a th:if="${searchIndex == totalPages}"
+                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
+                                               aria-label="Next">=
+                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end pager -->
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+</div>
 
-    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- BUY TEMPLATE
-    ================================================== -->
-    <div class="buy-theme alt-font d-none d-lg-inline-block"><a href="https://wrapbootstrap.com/theme/job-board-job-portal-html-template-WB0S2FC71" target="_blank"><i class="fas fa-cart-plus"></i><span>Buy Template</span></a></div>
+<!-- all js include start -->
 
-    <div class="all-demo alt-font d-none d-lg-inline-block"><a href="https://www.chitrakootweb.com/contact.html" target="_blank"><i class="far fa-envelope"></i><span>Quick Question?</span></a></div>
+<script src="/js/ApplicantListChangeStatus.js"></script>
 
-    <!-- start scroll to top -->
-    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
-    <!-- end scroll to top -->
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
 
-    <!-- all js include start -->
+<script src="/js/applicantListDelete.js"></script>
 
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
 
-    <!-- popper js -->
-    <script src="/js/popper.min.js"></script>
+<script src="/js/applicantListSearch.js"></script>
 
-    <!-- bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
 
-    <!-- core.min.js -->
-    <script src="/js/core.min.js"></script>
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
 
-    <!-- search -->
-    <script src="/search/search.js"></script>
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
 
-    <!-- custom scripts -->
-    <script src="/js/main.js"></script>
+<!-- search -->
+<script src="/search/search.js"></script>
 
-    <!-- form plugins js -->
-    <script src="/quform/js/plugins.js"></script>
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
 
-    <!-- form scripts js -->
-    <script src="/quform/js/scripts.js"></script>
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
 
-    <!-- all js include end -->
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
+
+<!-- search -->
+<script src="/search/search.js"></script>
+
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
+
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+
+<!-- all js include end -->
 
 </body>
+
 </html>

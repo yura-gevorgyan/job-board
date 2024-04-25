@@ -10,9 +10,17 @@ import java.util.Date;
 
 public class ApplicantListSpecification {
 
-    public static Specification<ApplicantList> filterByStatusAndLastDate(String status, String date, int resumeId, boolean isActive) {
+    public static Specification<ApplicantList> filterByStatusAndLastDate(String status, String date, int resumeId, int employeeId, boolean isActive) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
+
+            if (resumeId != 0) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("resume").get("id"), resumeId));
+            }
+
+            if (employeeId != 0) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("toEmployer").get("id"), employeeId));
+            }
 
             if (status != null && !status.isEmpty() && !status.equals("0")) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("applicantListStatus"), status));
@@ -31,8 +39,6 @@ public class ApplicantListSpecification {
 
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("sendDate"), calendar.getTime()));
             }
-
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("resume").get("id"), resumeId));
 
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isActive"), isActive));
             return predicate;
