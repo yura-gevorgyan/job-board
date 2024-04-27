@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class UrlSubStringUtil {
+public  class UrlSubStringUtil {
     public static String  removeLastCharacterFromQueryString (HttpServletRequest httpServletRequest) {
         String queryString = httpServletRequest.getQueryString();
         int length = queryString.length() - 1;

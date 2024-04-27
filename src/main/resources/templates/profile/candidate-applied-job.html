@@ -109,7 +109,7 @@
                             <div class="dashboard-title">
                                 <div class="d-md-flex justify-content-between align-items-center">
                                     <div class="mb-4 mb-md-0">
-                                        <h4 class="mb-0 h5">Local History<span class="text-primary"> Apply Jobs</span>
+                                        <h4 class="mb-0 h5">Job Applies<span class="text-primary"> History</span>
                                         </h4>
                                     </div>
                                     <div class="quform-elements">
@@ -143,13 +143,11 @@
                                                     </option>
                                                     <option value="week"
                                                             th:selected="${currentDate != null && (currentDate == 'week')}">
-                                                        Last
-                                                        Week
+                                                        Last Week
                                                     </option>
                                                     <option value="month"
                                                             th:selected="${currentDate != null && (currentDate == 'month')}">
-                                                        Last
-                                                        Month
+                                                        Last Month
                                                     </option>
                                                 </select>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">

@@ -64,7 +64,7 @@ public class JobAppliesController {
                     return "redirect:/job/applies/1";
                 }
 
-                addAttributes(modelMap, null, jobApplies, 0, index);
+                addAttributes(modelMap, null, null, null, jobApplies, 0, index);
                 return "/profile/candidate-shortlisted-jobs";
 
             } catch (NumberFormatException e) {
@@ -100,7 +100,7 @@ public class JobAppliesController {
                     return "redirect:/job/applies/1";
                 }
 
-                addAttributes(modelMap, url, jobApplies, searchIndex, 0);
+                addAttributes(modelMap, status, sendDate, url, jobApplies, searchIndex, 0);
                 modelMap.addAttribute("currentStatus", status);
                 modelMap.addAttribute("currentDate", sendDate);
                 return "/profile/candidate-shortlisted-jobs";
@@ -112,7 +112,7 @@ public class JobAppliesController {
         return "redirect:/";
     }
 
-    private void addAttributes(ModelMap modelMap, String url, Page<JobApplies> jobApplies, int searchIndex, int index) {
+    private void addAttributes(ModelMap modelMap,  String status, String sandeDate, String url, Page<JobApplies> jobApplies, int searchIndex, int index) {
         modelMap.addAttribute("url", url);
         modelMap.addAttribute("jobApplies", jobApplies);
         modelMap.addAttribute("searchIndex", searchIndex);
@@ -120,5 +120,7 @@ public class JobAppliesController {
         modelMap.addAttribute("totalPages", jobApplies.getTotalPages());
         modelMap.addAttribute("jobAppliesCount", jobApplies.getTotalElements());
         modelMap.addAttribute("statuses", ApplicantListStatus.values());
+        modelMap.addAttribute("currentStatus",  status);
+        modelMap.addAttribute("currentDate",  sandeDate);
     }
 }

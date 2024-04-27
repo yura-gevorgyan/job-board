@@ -1,5 +1,6 @@
 package am.itspace.jobboard.entity;
 
+import am.itspace.jobboard.anotation.MinAge;
 import am.itspace.jobboard.entity.enums.Gender;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import jakarta.persistence.Entity;
@@ -11,12 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +32,8 @@ public class Resume {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Past(message = "Invalid date")
+    @MinAge(message = "You must be at least 18 years old")
+    @Past(message = " and Birth Date must contain a past date")
     @NotNull(message = "Birth date can not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;

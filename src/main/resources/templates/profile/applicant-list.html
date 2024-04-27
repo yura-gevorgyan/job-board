@@ -109,7 +109,7 @@
                             <div class="dashboard-title">
                                 <div class="d-md-flex justify-content-between align-items-center">
                                     <div class="mb-4 mb-md-0">
-                                        <h4 class="mb-0 h5">Local History<span class="text-primary"> Candidates List</span>
+                                        <h4 class="mb-0 h5">Candidate<span class="text-primary"> Proposals</span>
                                         </h4>
                                     </div>
                                     <div class="quform-elements">
@@ -121,9 +121,9 @@
                                                         class="form-control form-select border-radius-10 me-2"
                                                         name="status">
                                                     <option value="0">Choose Status</option>
-                                                    <option value="IN_DURING"
+                                                    <option value="WAITING"
                                                             th:selected="${currentStatus != null && ('WAITING' == currentStatus)}">
-                                                        In Durring
+                                                        Waiting
                                                     </option>
                                                     <option value="APPROVED"
                                                             th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}">
@@ -143,13 +143,11 @@
                                                     </option>
                                                     <option value="week"
                                                             th:selected="${currentDate != null && (currentDate == 'week')}">
-                                                        Last
-                                                        Week
+                                                        Last Week
                                                     </option>
                                                     <option value="month"
                                                             th:selected="${currentDate != null && (currentDate == 'month')}">
-                                                        Last
-                                                        Month
+                                                        Last Month
                                                     </option>
                                                 </select>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">

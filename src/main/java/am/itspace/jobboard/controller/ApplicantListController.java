@@ -58,7 +58,7 @@ public class ApplicantListController {
                 if (index > applicantList.getTotalPages() && applicantList.getTotalPages() != 0) {
                     return "redirect:/applicant/list/1";
                 }
-                addAttributesToModel(modelMap, null, applicantList, 0, index);
+                addAttributesToModel(modelMap, null, null, null, applicantList, 0, index);
                 return "/profile/candidate-applied-job";
 
             } else if (user.getRole() == Role.EMPLOYEE || user.getRole() == Role.COMPANY_OWNER) {
@@ -70,7 +70,7 @@ public class ApplicantListController {
                 if (index > applicantList.getTotalPages() && applicantList.getTotalPages() != 0) {
                     return "redirect:/applicant/list/1";
                 }
-                addAttributesToModel(modelMap, null, applicantList, 0, index);
+                addAttributesToModel(modelMap, null, null, null, applicantList, 0, index);
                 return "/profile/applicant-list";
             }
         } catch (NumberFormatException e) {
@@ -104,13 +104,25 @@ public class ApplicantListController {
                 return "redirect:/applicant/list/1";
             }
 
-            addAttributesToModel(modelMap, url, applicantLists, searchIndex, 0);
-            modelMap.addAttribute("currentStatus", status);
-            modelMap.addAttribute("currentDate", sendDate);
-            return "/profile/candidate-applied-job";
+            addAttributesToModel(modelMap, status, sendDate, url, applicantLists, searchIndex, 0);
+            return getViewForUserRole(user.getRole());
 
         } catch (NumberFormatException | IncorrectDateFormatException e) {
             return "redirect:/applicant/list/1";
+        }
+    }
+
+    private String getViewForUserRole(Role role) {
+        switch (role) {
+            case JOB_SEEKER -> {
+                return "/profile/candidate-applied-job";
+            }
+            case EMPLOYEE, COMPANY_OWNER -> {
+                return "/profile/applicant-list";
+            }
+            default -> {
+                return "redirect:/";
+            }
         }
     }
 
@@ -123,7 +135,7 @@ public class ApplicantListController {
         return null;
     }
 
-    private void addAttributesToModel(ModelMap modelMap, String url, Page<ApplicantList> applicantLists, int searchIndex, int index) {
+    private void addAttributesToModel(ModelMap modelMap, String status, String sandeDate, String url, Page<ApplicantList> applicantLists, int searchIndex, int index) {
         modelMap.addAttribute("url", url);
         modelMap.addAttribute("applicantLists", applicantLists);
         modelMap.addAttribute("searchIndex", searchIndex);
@@ -131,5 +143,7 @@ public class ApplicantListController {
         modelMap.addAttribute("totalPages", applicantLists.getTotalPages());
         modelMap.addAttribute("applicantListCount", applicantLists.getTotalElements());
         modelMap.addAttribute("statuses", ApplicantListStatus.values());
+        modelMap.addAttribute("currentStatus", status);
+        modelMap.addAttribute("currentDate", sandeDate);
     }
 }
