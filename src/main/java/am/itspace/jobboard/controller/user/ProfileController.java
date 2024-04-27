@@ -1,6 +1,10 @@
 package am.itspace.jobboard.controller.user;
 
+import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Gender;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
@@ -8,6 +12,7 @@ import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.security.SpringUser;
+import am.itspace.jobboard.service.ApplicantListService;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.ResumeService;
@@ -15,15 +20,20 @@ import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.AddMessageUtil;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -60,10 +70,6 @@ public class ProfileController {
         return "/profile/applicant-list";
     }
 
-    @GetMapping("/job-applies")
-    public String JobApplies() {
-        return "/profile/candidate-shortlisted-jobs";
-    }
 
     @GetMapping("/jobs-create")
     public String createJopPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
@@ -91,11 +97,6 @@ public class ProfileController {
             return "/profile/candidate-profile";
         }
         return "/profile/candidate-profile";
-    }
-
-    @GetMapping("/applied-jobs")
-    public String companySinglePage() {
-        return "/profile/candidate-applied-job";
     }
 
     @GetMapping("/delete")

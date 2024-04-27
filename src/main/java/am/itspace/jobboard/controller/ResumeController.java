@@ -270,18 +270,13 @@ public class ResumeController {
     }
 
     private void addErrorMessage(RedirectAttributes redirectAttributes, BindingResult bindingResult) {
-        StringBuilder errorMsgBuilder = new StringBuilder("Invalid data in the form:");
+        StringBuilder errorMsgBuilder = new StringBuilder("Error: ");
         bindingResult.getFieldErrors().forEach(error -> {
-
-            String fieldName = error.getField();
             String errorMessage = error.getDefaultMessage();
-
             if (errorMessage != null){
-                errorMessage = "Invalid value for " + fieldName;
                 errorMsgBuilder.append(" ").append(errorMessage);
             }
         });
         redirectAttributes.addFlashAttribute("msg", errorMsgBuilder.toString());
     }
 }
-

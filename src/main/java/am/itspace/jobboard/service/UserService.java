@@ -15,6 +15,7 @@ public interface UserService {
     User update(User user);
 
     User findByEmail(String email);
+
     User findByIdAndIsActiveTrue(int id);
 
     int getUserCount();
@@ -28,6 +29,7 @@ public interface UserService {
     int getUserCountOfEmailRole(String email, String role);
 
     Page<User> getUsersFromNToMForSearch(int index, String email, String role);
+
     User confirmEmail(String confirmEmailCode);
 
     User forgotPassword(String email);
@@ -50,4 +52,3 @@ public interface UserService {
 
     User findById(int id);
 }
-

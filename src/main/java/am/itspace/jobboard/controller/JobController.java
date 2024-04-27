@@ -10,6 +10,7 @@ import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.ApplicantListService;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.CompanyService;
+import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobSpecification;
@@ -172,6 +173,7 @@ public class JobController {
         }
     }
 
+
     @GetMapping("/apply/{id}")
     public String jobApply(@PathVariable("id") String idStr, RedirectAttributes redirectAttributes, @AuthenticationPrincipal SpringUser springUser) {
         try {
@@ -190,7 +192,7 @@ public class JobController {
                 return "redirect:/jobs/item/" + id;
             }
 
-            ApplicantList applyJob = applicantListService.findByEmployerIdAndResumeId(job.getUser().getId(), resume.getId());
+            ApplicantList applyJob = applicantListService.findByJobIdAndResumeId(job.getId(), resume.getId());
             if (applyJob != null && applyJob.isActive()) {
                 redirectAttributes.addFlashAttribute("applyJobMsg", "You have already applied this job.");
                 return "redirect:/jobs/item/" + id;

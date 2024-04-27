@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0013-alert-jobApplies-addStatus" author="vmovsisyan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="job_applies" columnName="status"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="job_applies">
+            <column name="status" type="enum('TOTAL', 'APPROVED', 'REJECTED') ">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
