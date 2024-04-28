@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Job List</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -33,270 +33,289 @@
     <!-- dashboard css -->
     <link href="/css/dashboard.css" rel="stylesheet">
 
+    <link href="/css/styles.css" rel="stylesheet">
+
+    <link href="/css/popup.css" rel="stylesheet">
+
 </head>
 
 <body>
 
-    <!-- PAGE LOADING
-    ================================================== -->
-    <div id="preloader"></div>
+<div id="preloader"></div>
 
-    <!-- MAIN WRAPPER
-    ================================================== -->
-    <div class="main-wrapper">
+<div class="main-wrapper">
 
-        <!-- HEADER
-        ================================================== -->
-        <header class="header-style2 static-header">
-            <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
-        </header>
+    <header class="header-style2 static-header">
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
 
-        <!-- EMPLOYER DASHBOARD
-        ================================================== -->
-        <section class="py-0">
-            <div class="row g-0">
-                <div class="col-lg-3 mb-2-2 mb-lg-0">
-                    <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
-                </div>
-                <div class="col-lg-9">
-                    <div class="dashboard-right-sidebar">
-                        <div class="row mb-2-2">
-                            <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">Manage Jobs</h3>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="dashboard-title">
-                                    <div class="d-md-flex justify-content-between align-items-center">
-                                        <div class="mb-4 mb-md-0">
-                                            <h4 class="mb-0 h5">Showing 1–10 of <span class="text-primary">07 Job</span></h4>
-                                        </div>
-                                        <form action="#!" method="post" enctype="multipart/form-data" onclick="">
-                                            <div class="quform-elements">
-                                                <div class="row align-items-center">
 
-                                                    <!-- Begin Select element -->
-                                                    <div class="col-md-5 mb-4 mb-md-0">
-                                                        <div class="quform-element">
-                                                            <div class="quform-input">
-                                                                <select id="show" class="form-control form-select" name="show">
-                                                                    <option value="">Show</option>
-                                                                    <option value="Show 10">Show 10</option>
-                                                                    <option value="Show 20">Show 20</option>
-                                                                    <option value="Show 30">Show 30</option>
-                                                                    <option value="Show 40">Show 40</option>
-                                                                    <option value="Show 50">Show 50</option>
-                                                                    <option value="Show 60">Show 60</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Select element -->
-
-                                                    <!-- Begin Select element -->
-                                                    <div class="col-md-7">
-                                                        <div class="quform-element">
-                                                            <div class="quform-input">
-                                                                <select id="sortby-month" class="form-control form-select" name="sortby-month">
-                                                                    <option value="">Last 6 Months</option>
-                                                                    <option value="Last 6 Months">Last 6 Months</option>
-                                                                    <option value="Last 12 Months">Last 12 Months</option>
-                                                                    <option value="Last 16 Months">Last 16 Months</option>
-                                                                    <option value="Last 24 Months">Last 24 Months</option>
-                                                                    <option value="Last 5 Year">Last 5 Year</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Select element -->
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="dashboard-widget">
-                                    <div class="table-responsive">
-                                        <table class="table custome-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Title</th>
-                                                    <th>Applications</th>
-                                                    <th>Created</th>
-                                                    <th>Expired</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <h6>Software Engineer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Vienna, Australia</span>
-                                                    </td>
-                                                    <td>06+ Applied</td>
-                                                    <td>Oct 15, 2021</td>
-                                                    <td>Nov 20, 2021</td>
-                                                    <td><span class="text-danger font-weight-600">Expired</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>Project Team Leader</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> London, UK</span>
-                                                    </td>
-                                                    <td>07+ Applied</td>
-                                                    <td>Jan 13, 2022</td>
-                                                    <td>Jan 20, 2022</td>
-                                                    <td><span class="text-warning font-weight-600">Pending</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>Application Developer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Toronto, Canada</span>
-                                                    </td>
-                                                    <td>12+ Applied</td>
-                                                    <td>Oct 12, 2021</td>
-                                                    <td>Nov 17, 2021</td>
-                                                    <td><span class="text-danger font-weight-600">Expired</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>Marketing Manager</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Paris, France</span>
-                                                    </td>
-                                                    <td>22+ Applied</td>
-                                                    <td>Nov 16, 2021</td>
-                                                    <td>Jan 10, 2022</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>Charted Accountant</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Montreal, US</span>
-                                                    </td>
-                                                    <td>10+ Applied</td>
-                                                    <td>Nov 13, 2021</td>
-                                                    <td>Jan 07, 2022</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>Sr. Java Developer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Delhi, India</span>
-                                                    </td>
-                                                    <td>20+ Applied</td>
-                                                    <td>Jan 05, 2022</td>
-                                                    <td>Jan 11, 2022</td>
-                                                    <td><span class="text-warning font-weight-600">Pending</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <h6>PHP Developer</h6><span class="text-muted display-30"><i class="ti-location-pin"></i> Montreal, US</span>
-                                                    </td>
-                                                    <td>05+ Applied</td>
-                                                    <td>Nov 09, 2021</td>
-                                                    <td>Jan 02, 2022</td>
-                                                    <td><span class="text-success font-weight-600">Active</span></td>
-                                                    <td>
-                                                        <ul class="action-list">
-                                                            <li><a href="#!"><span class="ti-eye"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-pencil-alt"></span></a></li>
-                                                            <li><a href="#!"><span class="ti-trash"></span></a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+    <section class="py-0">
+        <div class="row g-0">
+            <div class="col-lg-3 mb-2-2 mb-lg-0">
+                <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
+            </div>
+            <div class="col-lg-9">
+                <div class="dashboard-right-sidebar">
+                    <div class="row mb-2-2">
+                        <div class="col-lg-12 mb-1-9">
+                            <h3 class="mb-3">Manage Jobs</h3>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <p class="d-inline-block mb-0">© <span class="current-year"></span> Job Board Powered by
-                                    <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary secondary-hover">Chitrakoot Web</a>
-                                </p>
+                        <div class="col-lg-12">
+                            <div class="dashboard-title">
+                                <div class="d-md-flex justify-content-between align-items-center">
+                                    <div class="mb-4 mb-md-0">
+                                        <h4 class="mb-0 h5">Your Job List...
+                                        </h4>
+                                    </div>
+                                    <form action="/jobs/search-my-jobs" method="get" enctype="multipart/form-data"
+                                          onclick="">
+                                        <div class="quform-elements">
+                                            <div class="row align-items-center">
+
+                                                <div class="attr-nav align-items-lg-center ms-lg-auto">
+                                                    <ul>
+                                                        <li class="search"><label for="longitude"><i
+                                                                class="fas fa-search"></i></label></li>
+                                                        <li><input id="longitude"
+                                                                   class="form-control" type="text"
+                                                                   name="title" placeholder="Enter Job Title"
+                                                                   th:value="${currentTitle}"></li>
+                                                        <li><select class="form-control form-select"
+                                                                    name="currentState">
+                                                            <option selected value="">Select Status</option>
+                                                            <option th:if="${currentState != null}"
+                                                                    th:selected="${currentState.equals('false')}"
+                                                                    value="false">Active
+                                                            </option>
+                                                            <option th:if="${currentState == null}"
+                                                                    value="false">Active
+                                                            </option>
+                                                            <option th:if="${currentState != null}"
+                                                                    th:selected="${currentState.equals('true')}"
+                                                                    value="true">Deleted
+                                                            </option>
+                                                            <option th:if="${currentState == null}"
+                                                                    value="true">Deleted
+                                                            </option>
+                                                        </select></li>
+                                                        <li><select class="form-control form-select"
+                                                                    name="category">
+                                                            <option selected value="">Select Category</option>
+                                                            <option th:each="category : ${categories}"
+                                                                    th:value="${category.id}"
+                                                                    th:text="${category.name}"
+                                                                    th:selected="${currentCategoryId == category.id}"
+                                                            ></option>
+                                                        </select></li>
+                                                        <li class="d-none d-xl-inline-block">
+                                                            <button type="submit" class="not-border"><a
+                                                                    class="butn secondary text-white">
+                                                                Search
+                                                            </a></button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="table-responsive">
+                                    <table class="table custome-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Published</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="job : ${jobs}">
+                                            <td>
+                                                <h6 th:text="${job.title}"></h6><span class="text-muted display-30"><i
+                                                    class="ti-location-pin"></i> <span th:text="${job.location}"></span></span>
+                                            </td>
+                                            <td th:text="${job.category.name}"></td>
+                                            <td th:text="${#dates.format(job.publishedDate,'MMM dd, yyyy')}"></td>
+                                            <td th:if="${job.deleted}"><span
+                                                    class="text-danger font-weight-600">Deleted</span></td>
+                                            <td th:if="${!job.deleted}"><span class="text-success font-weight-600">Active</span>
+                                            </td>
+                                            <td>
+                                                <ul class="action-list">
+                                                    <li th:if="${!job.deleted}"><a
+                                                            th:href="'/jobs/item/' + ${job.id}"><span
+                                                            class="ti-eye"></span></a></li>
+                                                    <li th:if="${!job.deleted}"><a
+                                                            th:href="'/profile/jobs-create?update=' + ${job.id}"><span
+                                                            class="ti-pencil-alt"></span></a></li>
+                                                    <li th:if="${!job.deleted}"><a href="#!"
+                                                                                   th:data-current-job-id="${job.id}"
+                                                                                   class="getElementByClass"><span
+                                                            class="ti-trash"></span></a></li>
+                                                    <li th:if="${job.deleted}"><a href="#!"
+                                                                                  th:data-current-job-id-fd="${job.id}"
+                                                                                  class="getDeletedElementByClass"><span
+                                                            class="fa-solid fa-arrow-rotate-left"></span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- start pager  -->
+                                        <div th:if="${totalPages != 0}" class="text-center mt-6">
+                                            <div class="pagination text-primary">
+                                                <ul>
+                                                    <li th:if="${searchIndex == 0}"
+                                                        th:class="${index <= 1 ? 'disabled' : ''}">
+                                                        <a th:href="@{'/profile/jobs-manage/' + ${index - 1}}"
+                                                           aria-label="Previous">
+                                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                                        </a>
+                                                    </li>
+                                                    <li th:if="${index == 0}"
+                                                        th:class="${searchIndex <= 1 ? 'disabled' : ''}">
+                                                        <a th:if="${searchIndex == 1}"
+                                                           th:href="@{'/jobs/search-my-jobs?' + ${url} + ${searchIndex}}"
+                                                           aria-label="Previous">
+                                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                                        </a>
+                                                        <a th:if="${searchIndex != 1}"
+                                                           th:href="@{'/jobs/search-my-jobs?' + ${url} + ${searchIndex - 1}}"
+                                                           aria-label="Previous">
+                                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                                        </a>
+                                                    </li>
+
+
+                                                    <th:block th:if="${searchIndex == 0}"
+                                                              th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                                        <li>
+                                                            <a th:href="@{'/profile/jobs-manage/' + ${pageNum}}"
+                                                               th:text="${pageNum}"></a>
+                                                        </li>
+                                                    </th:block>
+                                                    <th:block th:if="${index == 0}"
+                                                              th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                                        <li>
+                                                            <a th:href="@{'/jobs/search-my-jobs?' + ${url} + ${pageNum}}"
+                                                               th:text="${pageNum}"></a>
+                                                        </li>
+                                                    </th:block>
+
+
+                                                    <li th:if="${searchIndex == 0}"
+                                                        th:class="${index >= totalPages ? 'disabled' : ''}">
+                                                        <a th:if="${index != totalPages}"
+                                                           th:href="@{'/profile/jobs-manage/' + ${index + 1}}"
+                                                           aria-label="Next">
+                                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                                        </a>
+                                                        <a th:if="${index == totalPages}"
+                                                           th:href="@{'/profile/jobs-manage/' + ${index}}"
+                                                           aria-label="Next">
+                                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li th:if="${index == 0}"
+                                                        th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
+                                                        <a th:if="${searchIndex != totalPages}"
+                                                           th:href="@{'/jobs/search-my-jobs?' + ${url} + ${searchIndex + 1}}"
+                                                           aria-label="Next">
+                                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                                        </a>
+                                                        <a th:if="${searchIndex == totalPages}"
+                                                           th:href="@{'/jobs/search-my-jobs?' + ${url} + ${searchIndex}}"
+                                                           aria-label="Next">
+                                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- end pager -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-    </div>
+        <div id="myModal" class="modal-pop">
+            <div class="modal-content-pop">
+                <span class="close-pop close">&times;</span>
+                <div class="alert-pop">
+                    <strong class="cnt">Are you sure, you want to delete this job?</strong>
+                    <p class="cnt">After deleting, job-seekers will not see your advertisement.</p>
+                </div>
+                <div class="modal-footer-pop">
+                    <button id="deleteBtn" class="deleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- BUY TEMPLATE
-    ================================================== -->
-    <div class="buy-theme alt-font d-none d-lg-inline-block"><a href="https://wrapbootstrap.com/theme/job-board-job-portal-html-template-WB0S2FC71" target="_blank"><i class="fas fa-cart-plus"></i><span>Buy Template</span></a></div>
+        <div id="myModalFD" class="modal-pop">
+            <div class="modal-content-pop">
+                <span class="close-pop close-e">&times;</span>
+                <div class="alert-pop">
+                    <strong class="cnt">Are you sure, you want to return this job advertisement?</strong>
+                    <p class="cnt">After returning, job-seekers will see your advertisement.</p>
+                </div>
+                <div class="modal-footer-pop">
+                    <button id="deleteBtnFD" class="deleteBtnFD">Return</button>
+                </div>
+            </div>
+        </div>
 
-    <div class="all-demo alt-font d-none d-lg-inline-block"><a href="https://www.chitrakootweb.com/contact.html" target="_blank"><i class="far fa-envelope"></i><span>Quick Question?</span></a></div>
+    </section>
 
-    <!-- start scroll to top -->
-    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
-    <!-- end scroll to top -->
+</div>
 
-    <!-- all js include start -->
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
 
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- popper js -->
-    <script src="/js/popper.min.js"></script>
+<!-- end scroll to top -->
 
-    <!-- bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
+<script src="/js/deleteReturnJob.js"></script>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
 
-    <!-- core.min.js -->
-    <script src="/js/core.min.js"></script>
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
 
-    <!-- search -->
-    <script src="/search/search.js"></script>
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
 
-    <!-- custom scripts -->
-    <script src="/js/main.js"></script>
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
 
-    <!-- form plugins js -->
-    <script src="/quform/js/plugins.js"></script>
+<!-- search -->
+<script src="/search/search.js"></script>
 
-    <!-- form scripts js -->
-    <script src="/quform/js/scripts.js"></script>
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
 
-    <!-- all js include end -->
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+
+<!-- all js include end -->
 
 </body>
 </html>

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JobSpecification {
 
-    public static Specification<Job> searchJobs(String title, List<WorkExperience> workExperiences, List<Status> statuses, Category category, double fromSalary, double toSalary, boolean isDeleted) {
+    public static Specification<Job> searchJobs(String title, List<WorkExperience> workExperiences, List<Status> statuses, Category category, double fromSalary, double toSalary, Boolean isDeleted) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
@@ -40,7 +40,9 @@ public class JobSpecification {
                         criteriaBuilder.between(root.get("salary"), fromSalary, toSalary)
                 );
             }
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isDeleted"), isDeleted));
+            if (isDeleted != null) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isDeleted"), isDeleted));
+            }
             return predicate;
         };
     }

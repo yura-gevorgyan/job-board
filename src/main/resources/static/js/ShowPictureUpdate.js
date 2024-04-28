@@ -1,10 +1,24 @@
-document.addEventListener('change', function(event) {
+document.addEventListener('change', function (event) {
     if (event.target && event.target.id === 'picNamee') {
-        var file = event.target.files[0];
+        let file = event.target.files[0];
         if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var previewImage = document.querySelector('.border-radius-50');
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let previewImage = document.querySelector('.border-radius-50');
+                previewImage.setAttribute('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+document.addEventListener('change', function (event) {
+    if (event.target && event.target.id === 'logo') {
+        let file = event.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let previewImage = document.querySelector('.border-radius-50');
                 previewImage.setAttribute('src', e.target.result);
             }
             reader.readAsDataURL(file);

@@ -1,6 +1,8 @@
 package am.itspace.jobboard.service;
 
+import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -46,5 +48,16 @@ public interface JobService {
 
     List<Job> findByUserIdAndIsDeletedFalse(int id);
 
+    void create(Job job, User user, Company company);
+
+    Page<Job> findAll(int index);
+
+    Job findById(int id);
+
+    void update(Job job, Job oldJob);
+
+    void deleteById(Job job);
+
+    void recoverJobById(Job job);
 }
 

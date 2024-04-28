@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Profile</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -63,21 +63,22 @@
                     <div class="dashboard-right-sidebar">
                         <div class="row mb-2-5">
                             <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">Candidate Profile</h3>
+                                <h3 class="mb-3">User Profile</h3>
                             </div>
                             <div class="col-lg-12 mb-2-2">
                                 <div class="dashboard-title">
                                     <h5 class="mb-0">My Profile</h5>
                                 </div>
                                 <div class="dashboard-widget" th:if="${currentUser != null}">
-                                    <form action="/profile/update" method="post" enctype="multipart/form-data" onclick="">
+                                    <form action="/profile/update" method="post" enctype="multipart/form-data"
+                                          onclick="">
                                         <div class="quform-elements">
                                             <div class="row">
 
                                                 <!-- Begin Text input element -->
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label for="name">Full Name</label>
+                                                        <label for="name">Name</label>
                                                         <div class="quform-input">
                                                             <input id="name" class="form-control" type="text"
                                                                    name="name" th:value="${currentUser.name}">
@@ -87,7 +88,7 @@
 
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label for="name">Sur Name</label>
+                                                        <label for="name">Surname</label>
                                                         <div class="quform-input">
                                                             <input id="surname" class="form-control" type="text"
                                                                    name="surname" th:value="${currentUser.surname}">
@@ -109,14 +110,6 @@
                                         </div>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <p class="d-inline-block mb-0">© <span class="current-year"></span> Job Board Powered by
-                                    <a href="https://www.chitrakootweb.com/" target="_blank"
-                                       class="text-primary secondary-hover">Chitrakoot Web</a>
-                                </p>
                             </div>
                         </div>
                     </div>
