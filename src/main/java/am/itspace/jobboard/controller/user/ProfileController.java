@@ -1,10 +1,8 @@
 package am.itspace.jobboard.controller.user;
 
-import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
-import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Gender;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
@@ -12,15 +10,15 @@ import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.security.SpringUser;
-import am.itspace.jobboard.service.ApplicantListService;
 import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyPictureService;
 import am.itspace.jobboard.service.CompanyService;
+import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.AddMessageUtil;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,8 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/profile")
@@ -45,6 +41,8 @@ public class ProfileController {
     private final ResumeService resumeService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final CompanyPictureService companyPictureService;
+    private final JobService jobService;
 
     @GetMapping
     public String employerProfile() {
@@ -58,8 +56,12 @@ public class ProfileController {
         AddMessageUtil.addMessageToModel(msg, modelMap);
 
         if ((springUser != null) && (springUser.getUser().getRole() == Role.COMPANY_OWNER)) {
+            Company companyByUserIdAndIsActiveTrue = companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId());
             modelMap.addAttribute("categories", categoryService.findAll());
-            modelMap.addAttribute("company", companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId()));
+            modelMap.addAttribute("company", companyByUserIdAndIsActiveTrue);
+            if (companyByUserIdAndIsActiveTrue != null) {
+                modelMap.addAttribute("companyPictures", companyPictureService.findAllByCompanyId(companyByUserIdAndIsActiveTrue.getId()));
+            }
             return "/profile/company-profile";
         }
         return "redirect:/";
@@ -72,17 +74,63 @@ public class ProfileController {
 
 
     @GetMapping("/jobs-create")
-    public String createJopPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+    public String createJopPage(@AuthenticationPrincipal SpringUser springUser,
+                                @RequestParam(value = "msg", required = false) String msg,
+                                @RequestParam(value = "update", required = false) String idStr,
+                                ModelMap modelMap) {
+
+        if (msg != null && !msg.isBlank()) {
+            modelMap.addAttribute("msg", msg);
+        }
+
+        if (idStr != null && !idStr.isBlank()) {
+            try {
+                Job byId = jobService.findById(Integer.parseInt(idStr));
+                if (byId == null || byId.getUser().getId() != springUser.getUser().getId()) {
+                    throw new Exception();
+                }
+                modelMap.addAttribute("job", byId);
+            } catch (Exception e) {
+                return "redirect:/profile/jobs-create";
+            }
+        }
+
         modelMap.addAttribute("workExperience", WorkExperience.values());
         modelMap.addAttribute("categories", categoryService.findAll());
         modelMap.addAttribute("status", Status.values());
+
         return "/profile/create-job";
     }
 
-    @GetMapping("/jobs-manage")
-    public String jobManage() {
-        return "/profile/manage-job";
+    @GetMapping("/jobs-manage/{index}")
+    public String jobManage(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        try {
+            if (indexStr == null || indexStr.isEmpty()) {
+                return "redirect:/profile/jobs-manage/1";
+            }
+            int index = Integer.parseInt(indexStr);
+            if (index <= 0) {
+                return "redirect:/profile/jobs-manage/1";
+            }
+
+            Page<Job> jobs = jobService.findAll(index);
+
+            modelMap.put("jobs", jobs);
+            modelMap.put("categories", categoryService.findAll());
+            modelMap.put("totalPages", jobs.getTotalPages());
+            modelMap.put("jobCount", jobs.getNumberOfElements());
+            modelMap.put("index", index);
+            modelMap.put("searchIndex", 0);
+
+            if (index > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
+                return "redirect:/profile/jobs-manage/1";
+            }
+
+
+            return "/profile/manage-job";
+        } catch (NumberFormatException e) {
+            return "redirect:/profile/jobs-manage/1";
+        }
     }
 
     @GetMapping("/resume")

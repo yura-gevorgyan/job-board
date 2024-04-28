@@ -1,5 +1,6 @@
 package am.itspace.jobboard.controller;
 
+import am.itspace.jobboard.entity.Category;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.security.SpringUser;
@@ -9,16 +10,23 @@ import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.specification.CompanySpecification;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -117,6 +125,88 @@ public class CompanyController {
         } catch (NumberFormatException e) {
             return "redirect:/";
         }
+    }
+
+    @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String createCompany(@AuthenticationPrincipal SpringUser springUser,
+                                @Valid @ModelAttribute Company company,
+                                BindingResult bindingResult,
+                                @RequestParam("categoryId") String categoryIdStr,
+                                @RequestParam("logo") MultipartFile logo,
+                                @RequestParam("companyPictures") MultipartFile[] companyPictures,
+                                RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            int errorCount = bindingResult.getErrorCount();
+            if (errorCount > 1) {
+                addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
+            } else if (errorCount == 1) {
+                addFlashAttributes(redirectAttributes, bindingResult.getAllErrors().get(0).getDefaultMessage());
+            }
+            return "redirect:/profile/company";
+        }
+        if (logo.isEmpty() || logo.getSize() < 1) {
+            addFlashAttributes(redirectAttributes, "Company logo is required.");
+            return "redirect:/profile/company";
+        }
+        try {
+            int categoryId = Integer.parseInt(categoryIdStr);
+            Category byId = categoryService.findById(categoryId);
+            if (byId == null) {
+                throw new Exception();
+            }
+            company.setCategory(byId);
+        } catch (Exception e) {
+            addFlashAttributes(redirectAttributes, "Wrong category id for company.");
+        }
+
+        companyService.create(company, springUser.getUser(), logo);
+        companyPictureService.addPictures(company, companyPictures);
+
+        return "redirect:/profile/company";
+    }
+
+    @PostMapping(value = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String updateCompany(@AuthenticationPrincipal SpringUser springUser,
+                                @Valid @ModelAttribute Company company,
+                                BindingResult bindingResult,
+                                @RequestParam("categoryId") String categoryIdStr,
+                                @RequestParam("logo") MultipartFile logo,
+                                @RequestParam("companyPictures") MultipartFile[] companyPictures,
+                                @RequestParam("deletedPictures") String[] deletedPictures,
+                                RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            int errorCount = bindingResult.getErrorCount();
+            if (errorCount > 1) {
+                addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
+            } else if (errorCount == 1) {
+                addFlashAttributes(redirectAttributes, bindingResult.getAllErrors().get(0).getDefaultMessage());
+            }
+            return "redirect:/profile/company";
+        }
+        Company userOldCompany = companyService.findById(company.getId());
+        if (userOldCompany == null || !userOldCompany.getUser().equals(springUser.getUser())) {
+            addFlashAttributes(redirectAttributes, "Wrong company data.");
+            return "redirect:/profile/company";
+        }
+        try {
+            int categoryId = Integer.parseInt(categoryIdStr);
+            Category byId = categoryService.findById(categoryId);
+            if (byId == null) {
+                throw new Exception();
+            }
+            company.setCategory(byId);
+        } catch (Exception e) {
+            addFlashAttributes(redirectAttributes, "Wrong category id for company.");
+        }
+
+        Company updated = companyService.update(userOldCompany, company, springUser.getUser(), logo);
+        companyPictureService.update(updated, companyPictures, deletedPictures);
+
+        return "redirect:/profile/company";
+    }
+
+    private void addFlashAttributes(RedirectAttributes redirectAttributes, String message) {
+        redirectAttributes.addFlashAttribute("msg", message);
     }
 
     private void addAttributes(ModelMap modelMap, String url, Page<Company> companies, int searchIndex, int index) {

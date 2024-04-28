@@ -1,8 +1,10 @@
 package am.itspace.jobboard.service;
 
 import am.itspace.jobboard.entity.Company;
+import am.itspace.jobboard.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CompanyService {
 
@@ -27,6 +29,10 @@ public interface CompanyService {
     Page<Company> findAll(Specification<Company> specification, int index);
 
     Company findById(int id);
+
+    Company create(Company company, User user, MultipartFile logo);
+
+    Company update(Company oldCompany, Company newCompany, User companyOwner, MultipartFile logo);
 
 }
 

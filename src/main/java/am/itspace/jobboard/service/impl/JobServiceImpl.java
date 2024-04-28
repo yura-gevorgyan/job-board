@@ -1,6 +1,8 @@
 package am.itspace.jobboard.service.impl;
 
+import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.repository.JobRepository;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
@@ -11,7 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,13 +74,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @Async
+    @Transactional
     public void blockById(int id) {
         Optional<Job> byId = jobRepository.findById(id);
         if (byId.isPresent()) {
             Job job = byId.get();
-            job.setDeleted(true);
-            jobRepository.save(job);
+            jobRepository.delete(job);
             sendMailService.sendEmailJobDeleted(job.getUser());
         }
     }
@@ -138,5 +141,50 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findAllByUserIdAndIsDeletedFalse(id);
     }
 
+    @Override
+    public void create(Job job, User user, Company company) {
+
+        job.setUser(user);
+        job.setPublishedDate(new Date());
+        job.setDeleted(false);
+        job.setCompany(company);
+        job.setLogoName(company.getLogoName());
+
+        jobRepository.save(job);
+    }
+
+    @Override
+    public Page<Job> findAll(int index) {
+        return jobRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate").descending()));
+    }
+
+    @Override
+    public Job findById(int id) {
+        return jobRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void update(Job job, Job oldJob) {
+
+        job.setUser(oldJob.getUser());
+        job.setPublishedDate(oldJob.getPublishedDate());
+        job.setDeleted(oldJob.isDeleted());
+        job.setCompany(oldJob.getCompany());
+        job.setLogoName(oldJob.getLogoName());
+
+        jobRepository.save(job);
+    }
+
+    @Override
+    public void deleteById(Job job) {
+        job.setDeleted(true);
+        jobRepository.save(job);
+    }
+
+    @Override
+    public void recoverJobById(Job job) {
+        job.setDeleted(false);
+        jobRepository.save(job);
+    }
 }
 

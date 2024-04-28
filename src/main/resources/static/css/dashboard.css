@@ -164,3 +164,11 @@
     border-radius: 50%;
     height: 10px;
 }
+
+.trash-button {
+    border-style: none;
+}
+
+.trash-button:hover {
+    transform: scale(1.2);
+}

@@ -1,25 +1,34 @@
 package am.itspace.jobboard.service.impl;
 
 import am.itspace.jobboard.entity.Company;
+import am.itspace.jobboard.entity.CompanyPicture;
 import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.repository.CompanyPictureRepository;
 import am.itspace.jobboard.repository.CompanyRepository;
 import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
+
+    @Value("${program.pictures.file.path}")
+    private String fileName;
 
     private final CompanyRepository companyRepository;
 
@@ -132,6 +141,36 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company findById(int id) {
         return companyRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    @SneakyThrows
+    public Company create(Company company, User user, MultipartFile logo) {
+        company.setUser(user);
+        company.setActive(true);
+        String logoName = System.currentTimeMillis() + "_" + logo.getOriginalFilename();
+        logo.transferTo(new File(fileName, logoName));
+        company.setLogoName(logoName);
+
+        return companyRepository.save(company);
+    }
+
+    @Override
+    @SneakyThrows
+    public Company update(Company oldCompany, Company newCompany, User companyOwner, MultipartFile logo) {
+        if (!logo.isEmpty() && logo.getSize() > 1 && logo.getOriginalFilename() != null && !logo.getOriginalFilename().isBlank()) {
+            String logoName = System.currentTimeMillis() + "_" + logo.getOriginalFilename();
+            logo.transferTo(new File(fileName, logoName));
+            newCompany.setLogoName(logoName);
+        } else {
+            newCompany.setLogoName(oldCompany.getLogoName());
+        }
+
+        newCompany.setId(oldCompany.getId());
+        newCompany.setActive(true);
+        newCompany.setUser(companyOwner);
+
+        return companyRepository.save(newCompany);
     }
 
 
