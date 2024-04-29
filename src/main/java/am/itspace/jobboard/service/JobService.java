@@ -38,7 +38,7 @@ public interface JobService {
 
     Page<Job> findAllByIsDeletedFalse(int index);
 
-    Page<Job> findAll(Specification<Job> specification, int index);
+    Page<Job> findAll(Specification<Job> specification, int index,int page);
 
     List<Job> findByUserId(int id);
 

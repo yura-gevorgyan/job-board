@@ -162,7 +162,7 @@
                                     <div class="card-body">
                                         <a class="favourite" href="#"><i class="far fa-heart"></i></a>
                                         <div class="popular-jobs-box">
-                                            <img class="mb-4 border-radius-10" src="/img/content/job-06.jpg" alt="...">
+                                            <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${company.logoName}" width="80px" alt="...">
                                             <h4 class="h5"><a th:href="'/companies/item/' + ${company.id}"
                                                               th:text="${company.name}"></a>
                                             </h4>

@@ -2,6 +2,7 @@ package am.itspace.jobboard.specification;
 
 import am.itspace.jobboard.entity.Category;
 import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import jakarta.persistence.criteria.Join;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class JobSpecification {
 
-    public static Specification<Job> searchJobs(String title, List<WorkExperience> workExperiences, List<Status> statuses, Category category, double fromSalary, double toSalary, Boolean isDeleted) {
+    public static Specification<Job> searchJobs(String title, List<WorkExperience> workExperiences, List<Status> statuses, Category category, User user, double fromSalary, double toSalary, Boolean isDeleted) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
@@ -32,6 +33,11 @@ public class JobSpecification {
             if (category != null) {
                 Join<Job, Category> categoryJoin = root.join("category", JoinType.INNER);
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(categoryJoin, category));
+            }
+
+            if (user != null) {
+                Join<Job, Category> userJoin = root.join("user", JoinType.INNER);
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(userJoin, user));
             }
 
             if (fromSalary >= 0 && toSalary >= fromSalary) {

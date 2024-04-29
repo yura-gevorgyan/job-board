@@ -67,7 +67,7 @@
                             <div class="col-lg-9 mb-4 mb-lg-0">
                                 <div class="text-center text-lg-start d-lg-flex align-items-center">
                                     <div class="flex-shrink-0 mb-4 mb-lg-0">
-                                        <img th:src="'/download/picture/' + ${company.logoName}" style="width: 150px;"
+                                        <img th:src="'/download/picture/' + ${company.logoName}" style="width: 100px;"
                                              alt="...">
                                     </div>
                                     <div class="flex-grow-1 ms-lg-4">
@@ -82,10 +82,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3" th:if="${currentUser != null && company.user.id != currentUser.id}">
                                 <div class="row">
                                     <div class="col-12">
-                                        <a th:href="'/profile/message/' + ${company.user.id}" class="butn secondary mb-3 w-100 text-center">Send Message</a>
+                                        <a th:href="'/profile/message/' + ${company.user.id}" class="butn w-100 text-center mt-1-9">Send Message</a>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                                     <h4>Company Information :</h4>
                                     <div class="d-flex align-items-center mb-1-9">
                                         <div class="flex-shrink-0" style="width: 100px">
-                                            <img th:src="'/download/picture/' + ${company.logoName}" alt="...">
+                                            <img th:src="'/download/picture/' + ${company.logoName}" alt="..." width="70px">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h5 th:text="${company.name}"></h5>
@@ -157,7 +157,7 @@
                                                     th:text="${company.activeJobs}"></p></li>
                                     </ul>
                                     <a th:if="${company.website != null && !company.website.isEmpty()}" th:text="${company.website}"
-                                       th:href="${company.website}" target="_blank"
+                                       th:href="${'https://' + company.website}" target="_blank"
                                        class="butn w-100 text-center mt-1-9"></a>
                                 </div>
                             </div>

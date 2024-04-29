@@ -117,7 +117,7 @@
                                            th:id="${status.name()}" th:value="${status.toString()}"
                                            th:checked="${currentStatus != null && currentStatus.contains(status)}">
                                     <label class="form-check-label mb-0" th:for="${status.name()}"
-                                           th:text="${status.toString().replace('_',' ').toLowerCase()}"></label>
+                                           th:text="${status.getName()}"></label>
                                 </div>
                             </div>
                             <div class="sidebar-title">Experience</div>
@@ -127,7 +127,7 @@
                                            th:id="${experience.name()}" th:value="${experience.toString()}"
                                            th:checked="${currentExperience != null && currentExperience.contains(experience)}">
                                     <label class="form-check-label mb-0" th:for="${experience.name()}"
-                                           th:text="${experience.toString().replace('_',' ').toLowerCase()}"></label>
+                                           th:text="${experience.getExperience()}"></label>
                                 </div>
                             </div>
                             <li class="d-none d-xl-inline-block">
@@ -228,7 +228,7 @@
                                                 <i class="far fa-money-bill-alt pe-2 text-secondary"></i>
                                                 <span class="me-2" th:text="${job.salary + '$'}"></span>
                                                 <span class="company-info radius-10"
-                                                      th:text="${job.status.toString().replace('_',' ').toLowerCase()}">Full Time</span>
+                                                      th:text="${job.status.getName()}">Full Time</span>
                                             </div>
                                         </div>
                                         <a th:href="@{'/jobs/item/' + ${job.id}}" class="butn butn-md">Apply Job</a>

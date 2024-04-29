@@ -122,7 +122,7 @@
                                            th:checked="${currentExperience != null && currentExperience.contains(experience)}"
                                            id="fresher">
                                     <label class="form-check-label mb-0" for="fresher"
-                                           th:text="${experience.toString().replace('_',' ').toLowerCase()}">Fresher</label>
+                                           th:text="${experience.getExperience()}">Fresher</label>
                                 </div>
                             </div>
                                 <li class="d-none d-xl-inline-block">
@@ -213,7 +213,7 @@
                                                                 th:text="${resume.location}"></th:block></span>
                                                         <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
                                                                 class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                                th:text="${resume.workExperience.toString().replace('_',' ').toLowerCase()}"></th:block></span>
+                                                                th:text="${resume.workExperience.getExperience()}"></th:block></span>
                                                         <span th:if="${resume.expectedSalary != null}"><i
                                                                 class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
                                                                 th:text="${'$' + resume.expectedSalary}"></th:block></span>
