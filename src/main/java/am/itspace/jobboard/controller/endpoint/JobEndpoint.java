@@ -1,4 +1,4 @@
-package am.itspace.jobboard.controller;
+package am.itspace.jobboard.controller.endpoint;
 
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;

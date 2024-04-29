@@ -59,5 +59,7 @@ public interface JobService {
     void deleteById(Job job);
 
     void recoverJobById(Job job);
+
+    Page<Job> findAllByUserId(int index,int userId);
 }
 

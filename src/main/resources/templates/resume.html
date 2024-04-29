@@ -162,12 +162,12 @@
                                                 <button id="openModalBtn" type="submit" class="not-border">
                                                     <input type="hidden" name="page" th:value="${1}">
 
-                                                    <a th:if="${(currentUser == null || (currentUser.role.name().equals('JOB_SEEKER') ||( userJobs == null || userJobs.isEmpty() )) )}"
+                                                    <a th:if="${(currentUser == null || (currentUser.role.name().equals('JOB_SEEKER')) )}"
                                                        th:href="@{'/resumes/apply/' + ${resume.id}}"
                                                        class="butn mb-3 w-100 text-center">Apply For Job</a>
 
-                                                    <a href="#!" th:if="${currentUser != null && ( (currentUser.role.name().equals('EMPLOYEE') ||
-                                                    currentUser.role.name().equals('COMPANY_OWNER') ) && ( userJobs != null && !userJobs.isEmpty() ) ) }"
+                                                    <a href="#!" th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
+                                                    currentUser.role.name().equals('COMPANY_OWNER'))) }"
                                                        class="butn mb-3 w-100 text-center user-jobs"
                                                        th:data-user-id="${currentUser.id}"
                                                        th:data-resume-id="${resume.id}">Apply For Job</a>
@@ -288,13 +288,13 @@
             </div>
 
             <div id="myModal" class="modal-pop"
-                 th:if="${currentUser != null && ( (currentUser.role.name().equals('EMPLOYEE') ||
-                                                    currentUser.role.name().equals('COMPANY_OWNER') ) && ( userJobs != null && !userJobs.isEmpty() ) ) }">
+                 th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
+                                                    currentUser.role.name().equals('COMPANY_OWNER')))}">
 
                 <!-- Modal content -->
                 <div class="modal-content-pop">
                      <span>
-                            <div class="alert alert-primary alert-dismissible">
+                            <div class="alert alert-primary alert-dismissible ">
                                 <strong>Please choose Job.</strong>
                             </div>
                     </span>

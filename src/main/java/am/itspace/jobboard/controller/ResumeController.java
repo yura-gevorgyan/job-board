@@ -137,13 +137,7 @@ public class ResumeController {
             if (resume != null) {
                 modelMap.addAttribute("resume", resume);
                 modelMap.addAttribute("resumes", resumeService.findTop6());
-                if (springUser != null) {
-                    List<Job> jobs = jobService.findByUserIdAndIsDeletedFalse(springUser.getUser().getId());
-                    modelMap.addAttribute("totalPages", (int) Math.ceil((double) jobs.size() / 4));
-                    modelMap.addAttribute("pageSize", 4);
-                    modelMap.addAttribute("currentPage", 1);
-                    modelMap.addAttribute("userJobs", jobs);
-                }
+
                 return "resume";
             } else {
                 return "redirect:/resumes/1";
@@ -163,13 +157,6 @@ public class ResumeController {
 
             if (springUser == null || springUser.getUser().getRole() == Role.JOB_SEEKER) {
                 redirectAttributes.addFlashAttribute("errorMsg", "You cannot apply for this resume.");
-                return "redirect:/resumes/item/" + id;
-            }
-
-            List<Job> byUserId = jobService.findByUserIdAndIsDeletedFalse(springUser.getUser().getId());
-
-            if (byUserId == null || byUserId.isEmpty()) {
-                redirectAttributes.addFlashAttribute("jobMsg", "You should create Resume, for applying this job.");
                 return "redirect:/resumes/item/" + id;
             }
 

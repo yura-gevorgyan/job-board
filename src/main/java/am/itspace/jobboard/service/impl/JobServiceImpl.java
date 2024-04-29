@@ -186,5 +186,10 @@ public class JobServiceImpl implements JobService {
         job.setDeleted(false);
         jobRepository.save(job);
     }
+
+    @Override
+    public Page<Job> findAllByUserId(int index , int userId) {
+        return jobRepository.findByUserId(PageRequest.of(index-1,20).withSort(Sort.by("publishedDate").descending()),userId);
+    }
 }
 

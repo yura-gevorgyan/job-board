@@ -50,6 +50,21 @@ $(document).ready(function () {
             url: url,
             method: 'GET',
         success: function (response) {
+                console.log(response)
+                if (!response.content.length && searchQuery === ''){
+                    let element = document.querySelector(".modal-content-pop");
+                    element.innerHTML = ``;
+
+                    element.innerHTML = `
+                     <span>
+                            <div style="display: flex; justify-content: center" class="alert alert-warning alert-dismissible ">
+                                <strong>Please create Job for apply this resume !!!</strong>
+                            </div>
+                    </span>
+                    
+                    <a href="/profile/jobs-create" class="butn mb-3 w-100 text-center">Create Job</a>
+                    `;
+                }
             // Clear existing content
             $('.user-jobs-popup').empty();
             // Append new job divs

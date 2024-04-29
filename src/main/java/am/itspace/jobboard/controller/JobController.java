@@ -145,6 +145,7 @@ public class JobController {
                                @RequestParam(value = "category", required = false, defaultValue = "0") String categoryIdStr,
                                @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
                                @RequestParam(value = "currentState", required = false, defaultValue = "") String currentState,
+                               @AuthenticationPrincipal SpringUser springUser,
                                ModelMap modelMap,
                                HttpServletRequest httpServletRequest) {
         try {
@@ -155,7 +156,7 @@ public class JobController {
                 isDeleted = Boolean.parseBoolean(currentState);
             }
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, null, null,
-                    categoryService.findById(categoryId), null,0, Double.MAX_VALUE, isDeleted);
+                    categoryService.findById(categoryId),springUser.getUser(),0, Double.MAX_VALUE, isDeleted);
             Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex,20);
             if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
                 return "redirect:/profile/jobs-manage/1";
@@ -317,6 +318,7 @@ public class JobController {
             }
 
             Resume resume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
+
             if (resume == null || !resume.isActive()) {
                 redirectAttributes.addFlashAttribute("resumeMsg", "Create your Resume, for applying this job.");
                 return "redirect:/jobs/item/" + id;

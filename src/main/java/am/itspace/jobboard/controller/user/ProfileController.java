@@ -16,10 +16,12 @@ import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.UserService;
+import am.itspace.jobboard.specification.JobSpecification;
 import am.itspace.jobboard.util.AddMessageUtil;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -103,7 +105,7 @@ public class ProfileController {
     }
 
     @GetMapping("/jobs-manage/{index}")
-    public String jobManage(@PathVariable("index") String indexStr, ModelMap modelMap) {
+    public String jobManage(@PathVariable("index") String indexStr, ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
         try {
             if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/profile/jobs-manage/1";
@@ -113,7 +115,7 @@ public class ProfileController {
                 return "redirect:/profile/jobs-manage/1";
             }
 
-            Page<Job> jobs = jobService.findAll(index);
+            Page<Job> jobs = jobService.findAllByUserId(index,springUser.getUser().getId());
 
             modelMap.put("jobs", jobs);
             modelMap.put("categories", categoryService.findAll());
