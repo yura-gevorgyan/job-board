@@ -116,9 +116,9 @@ public class JobController {
             }
 
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, experienceList, statusList,
-                    categoryService.findById(categoryId), fromSalary, toSalary, null);
+                    categoryService.findById(categoryId),null, fromSalary, toSalary, null);
 
-            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex);
+            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex,20);
 
 
             if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
@@ -155,8 +155,8 @@ public class JobController {
                 isDeleted = Boolean.parseBoolean(currentState);
             }
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, null, null,
-                    categoryService.findById(categoryId), 0, Double.MAX_VALUE, isDeleted);
-            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex);
+                    categoryService.findById(categoryId), null,0, Double.MAX_VALUE, isDeleted);
+            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex,20);
             if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
                 return "redirect:/profile/jobs-manage/1";
             }
@@ -215,7 +215,7 @@ public class JobController {
 
         jobService.create(job, springUser.getUser(), company);
 
-        return "redirect:/profile/jobs-manage";
+        return "redirect:/profile/jobs-manage/1";
     }
 
     @PostMapping("/update")

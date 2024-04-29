@@ -117,8 +117,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Page<Job> findAll(Specification<Job> specification, int index) {
-        return jobRepository.findAll(specification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
+    public Page<Job> findAll(Specification<Job> specification, int index, int page) {
+        return jobRepository.findAll(specification, PageRequest.of(index - 1, page).withSort(Sort.by("publishedDate")));
     }
 
     @Override

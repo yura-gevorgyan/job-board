@@ -166,9 +166,11 @@
                                                        th:href="@{'/resumes/apply/' + ${resume.id}}"
                                                        class="butn mb-3 w-100 text-center">Apply For Job</a>
 
-                                                    <a th:if="${currentUser != null && ( (currentUser.role.name().equals('EMPLOYEE') ||
+                                                    <a href="#!" th:if="${currentUser != null && ( (currentUser.role.name().equals('EMPLOYEE') ||
                                                     currentUser.role.name().equals('COMPANY_OWNER') ) && ( userJobs != null && !userJobs.isEmpty() ) ) }"
-                                                       class="butn mb-3 w-100 text-center">Apply For Job</a>
+                                                       class="butn mb-3 w-100 text-center user-jobs"
+                                                       th:data-user-id="${currentUser.id}"
+                                                       th:data-resume-id="${resume.id}">Apply For Job</a>
 
                                                 </button>
 
@@ -210,10 +212,10 @@
                                             </li>
                                             <li><span>Experience</span>
                                                 <th:block
-                                                        th:text="${' ' + resume.workExperience.toString().replace('_',' ').toLowerCase()}"></th:block>
+                                                        th:text="${' ' + resume.workExperience.getExperience()}"></th:block>
                                             </li>
                                             <li><span>Gender</span>
-                                                <th:block th:text="${' ' + resume.gender.toString()}"></th:block>
+                                                <th:block th:text="${' ' + resume.gender.getName()}"></th:block>
                                             </li>
                                             <li><span>Profession</span>
                                                 <th:block th:text="${' ' + resume.profession}"></th:block>
@@ -240,8 +242,8 @@
                                         <br>
                                         <div class="col-md-12">
                                             <div class="quform-submit-inner">
-                                                <button class="butn border-0" type="submit"><span>Send Message</span>
-                                                </button>
+                                                <a th:href="'/profile/message/' + ${resume.user.id}"><button class="butn border-0" type="submit"><span>Send Message</span>
+                                                </button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -296,53 +298,24 @@
                                 <strong>Please choose Job.</strong>
                             </div>
                     </span>
-                    <br>
-                    <div id="jobAdvertisements">
-                        <div class="row mt-n1-9">
-                            <div class="quform-element form-group" style="width: 30%">
-                                <div class="quform-input">
-                                    <input class="form-control border-radius-10" id="search"
-                                           type="text" name="profession" placeholder="search keywords">
-                                </div>
-                            </div>
-                            <li class="d-none d-xl-inline-block">
-                                <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                <button type="submit" class="not-border"><a class="butn secondary text-white">
-                                    Search Job
-                                </a></button>
-                            </li>
-                            <div th:each="job, iterStat : ${userJobs}" class="col-md-6 mt-1-9 job-advertisement"
-                                 th:classappend="${iterStat.index > 3 ? 'hide-after-fourth' : ''}">
-                                <div class="card card-style10">
-                                    <div class="card-body">
-                                        <span class="popular-jobs-status"
-                                                th:text="${job.status.toString().replace('_',' ').toLowerCase()}"></span>
-                                        <div class="popular-jobs-box">
-                                            <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${job.logoName}}" width="80px" alt="...">
-                                            <h4 class="h5" th:text="${job.title}"></h4>
-                                            <p class="text-muted font-weight-500" th:text="${job.category.name}"></p>
-                                        </div>
-                                        <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
-                                                class="fas fa-map-marker-alt pe-2 text-secondary"></i><span
-                                                th:text="${job.location}"></span></span>
-                                        <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
-                                                class="far fa-clock pe-2 text-secondary"></i><span
-                                                th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></span></span>
-                                        <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                th:text="${job.workExperience.toString().replace('_',' ').toLowerCase()}"></th:block></span>
-                                    </div>
-                                    <a th:href="'/resumes/apply/' + ${resume.id} + '?jobId=' + ${job.id}" class="butn butn-apply">Choose this Job</a>
-                                </div>
-                            </div>
+                    <div class="quform-element form-group" style="width: 30%">
+                        <div class="quform-input">
+                            <input class="form-control border-radius-10 search"
+                                   type="text" name="profession" placeholder="search job">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row mt-n1-9 user-jobs-popup ">
                         </div>
 
                         <div id="pagination" class="text-primary" style="display: flex;justify-content: center;margin-top: 3%;margin-bottom: 2%">
-                            <button id="prevBtn">Prev</button>
-                            <span id="currentPage" th:text="${currentPage}">1</span> / <span id="totalPages" th:text="${totalPages}">1</span>
-                            <button id="nextBtn">Next</button>
+                            <button class="prevBtn">Prev</button>
+                            <span class="currentPage" th:text="${currentPage}">1</span> / <span class="totalPages" th:text="${totalPages}">1</span>
+                            <button class="nextBtn">Next</button>
                         </div>
 
-                        <span class="close">&times;</span>
+                        <span class="close"></span>
                     </div>
                 </div>
             </div>
@@ -533,9 +506,6 @@
     <!-- core.min.js -->
     <script src="/js/core.min.js"></script>
 
-    <!-- search -->
-    <script src="/search/search.js"></script>
-
     <!-- custom scripts -->
     <script src="/js/main.js"></script>
 
@@ -546,10 +516,11 @@
     <script src="/quform/js/scripts.js"></script>
 
     <script src="/js/popup.js"></script>
-    <!-- all js include end -->
-    <script src="/js/pagination.js"></script>
 
-    <script src="/js/search.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="/js/userJobs.js"></script>
+    <!-- all js include end -->
 </body>
 
 </html>

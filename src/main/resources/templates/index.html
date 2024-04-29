@@ -96,7 +96,7 @@
                     <div class="row" th:if="${currentUser != null && (currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER'))}">
                         <div class="col-lg-12">
                             <ul class="banner-searches mb-0 p-0">
-                                <li th:each="category : ${categories}">
+                                <li th:each="category : ${firstCategories}">
                                     <h6 class="text-white"><a
                                             th:href="@{'/resumes/search?category=' + ${category.id} + '&searchIndexStr=1'}"
                                             th:text="${category.name}"></a></h6>
@@ -107,7 +107,7 @@
                     <div class="row" th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER')}">
                         <div class="col-lg-12">
                             <ul class="banner-searches mb-0 p-0">
-                                <li th:each="category : ${categories}">
+                                <li th:each="category : ${firstCategories}">
                                     <h6 class="text-white"><a
                                             th:href="@{'/jobs/search?category=' + ${category.id} + '&searchIndexStr=1'}"
                                             th:text="${category.name}"></a></h6>
@@ -133,7 +133,7 @@
                 <div th:each="job : ${jobs}" class="card card-style10">
                     <div class="card-body">
                         <span class="popular-jobs-status"
-                              th:text="${job.status.toString().replace('_',' ').toLowerCase()}">Full Time</span>
+                              th:text="${job.status.getName()}"></span>
                         <a class="favourite" href="#"><i class="far fa-heart"></i></a>
                         <div class="popular-jobs-box">
                             <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${job.logoName}"
@@ -147,6 +147,7 @@
                         <i class="far fa-clock pe-2 text-secondary"></i>
                         <span class="border-end border-color-extra-light-gray pe-2 me-2"
                               th:text="${job.salary + '$'}"></span>
+                        <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${job.workExperience.getExperience()}"></th:block></span>
                         <br>
                     </div>
                     <a th:href="'/jobs/item/' + ${job.id}" class="butn butn-apply">Apply Now</a>
@@ -170,10 +171,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <div class="categories-icon">
-                                        <img th:src="'/download/picture/' + ${category.picName}" alt="...">
-                                    </div>
-                                    <div class="hover-icon">
+                                    <div>
                                         <img th:src="'/download/picture/' + ${category.picName}" alt="...">
                                     </div>
                                 </div>
@@ -204,10 +202,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <div class="categories-icon">
-                                        <img th:src="'/download/picture/' + ${category.picName}" alt="...">
-                                    </div>
-                                    <div class="hover-icon">
+                                    <div>
                                         <img th:src="'/download/picture/' + ${category.picName}" alt="...">
                                     </div>
                                 </div>

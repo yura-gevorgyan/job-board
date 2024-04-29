@@ -36,8 +36,6 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     int countByCompanyIdAndIsDeletedFalse(int companyId);
 
-    List<Job> findTop6ByIsDeletedFalseOrderByPublishedDateDesc();
-
     @Query(value = "SELECT * FROM job where is_deleted = false ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<Job> findRandomJobs(int limit);
 

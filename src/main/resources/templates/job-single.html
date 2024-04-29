@@ -98,14 +98,14 @@
 
                                                 <span class="job-detail-info"><i
                                                         class="ti-briefcase text-primary pe-2"></i><th:block
-                                                        th:text="${job.status.toString().replace('_',' ')}"></th:block></span>
+                                                        th:text="${job.status.getName()}"></th:block></span>
                                             </h4>
                                             <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
                                                     th:text="${job.category.name}"></th:block></span>
                                             <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
                                                     th:text="${job.location}"></th:block></span>
                                             <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
-                                                    th:text="${job.workExperience.toString().replace('_',' ')}"></th:block></span>
+                                                    th:text="${job.workExperience.getExperience()}"></th:block></span>
                                             <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
                                                     th:text="${'$' + job.salary}"></th:block></span>
                                         </div>
@@ -147,7 +147,7 @@
                                                 <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
                                                     <h5 class="display-29 display-xl-28">Experience</h5>
                                                     <span class="font-weight-500 text-primary display-30"
-                                                          th:text="${job.workExperience.toString().replace('_',' ')}"></span>
+                                                          th:text="${job.workExperience.getExperience()}"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-md-4 mt-3">
@@ -256,16 +256,16 @@
                         <div class="recent-jobs owl-carousel owl-theme">
                             <div class="card card-style10" th:each="singleJob : ${jobs} ">
                                 <div class="card-body">
-                                    <span class="popular-jobs-status" th:text="${singleJob.status.toString().replace('_',' ')}"></span>
+                                    <span class="popular-jobs-status" th:text="${singleJob.status.getName()}"></span>
                                     <a class="favourite" href="#"><i class="far fa-heart"></i></a>
                                     <div class="popular-jobs-box">
-                                        <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 70px;" alt="...">
+                                        <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;" alt="...">
                                         <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}" th:text="${job.title}"></a></h4>
                                         <p class="text-muted font-weight-500" th:text="${singleJob.category.name}"></p>
                                     </div>
                                     <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block th:text="${job.location}"></th:block></span>
                                     <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="far fa-clock pe-2 text-secondary"></i><th:block th:text="${'$' + job.salary}"></th:block></span>
-                                    <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${singleJob.workExperience.toString().replace('_',' ').toLowerCase()}"></th:block></span>
+                                    <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${singleJob.workExperience.getExperience()}"></th:block></span>
                                 </div>
                                 <a th:href="@{'/jobs/item/' + ${singleJob.id}}" class="butn butn-apply">Watch Now</a>
                             </div>
