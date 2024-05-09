@@ -1,7 +1,6 @@
 package am.itspace.jobboard.service.impl;
 
 import am.itspace.jobboard.entity.Company;
-import am.itspace.jobboard.entity.CompanyPicture;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.repository.CompanyPictureRepository;
@@ -9,6 +8,7 @@ import am.itspace.jobboard.repository.CompanyRepository;
 import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
+import am.itspace.jobboard.util.PictureUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,12 +31,10 @@ public class CompanyServiceImpl implements CompanyService {
     private String fileName;
 
     private final CompanyRepository companyRepository;
-
     private final CompanyPictureRepository companyPictureRepository;
-
     private final JobService jobService;
-
     private final SendMailService sendMailService;
+    private final PictureUtil pictureUtil;
 
     private static final int PAGE_SIZE = 20;
 
@@ -148,9 +146,7 @@ public class CompanyServiceImpl implements CompanyService {
     public Company create(Company company, User user, MultipartFile logo) {
         company.setUser(user);
         company.setActive(true);
-        String logoName = System.currentTimeMillis() + "_" + logo.getOriginalFilename();
-        logo.transferTo(new File(fileName, logoName));
-        company.setLogoName(logoName);
+        pictureUtil.processImageUpload(company, logo, fileName);
 
         return companyRepository.save(company);
     }
@@ -158,20 +154,33 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @SneakyThrows
     public Company update(Company oldCompany, Company newCompany, User companyOwner, MultipartFile logo) {
-        if (!logo.isEmpty() && logo.getSize() > 1 && logo.getOriginalFilename() != null && !logo.getOriginalFilename().isBlank()) {
-            String logoName = System.currentTimeMillis() + "_" + logo.getOriginalFilename();
-            logo.transferTo(new File(fileName, logoName));
-            newCompany.setLogoName(logoName);
-        } else {
-            newCompany.setLogoName(oldCompany.getLogoName());
-        }
 
         newCompany.setId(oldCompany.getId());
         newCompany.setActive(true);
         newCompany.setUser(companyOwner);
 
+        if (!logo.isEmpty() && logo.getSize() > 1 && logo.getOriginalFilename() != null
+                && !logo.getOriginalFilename().isBlank()
+                && !newCompany.getLogoName().equals(logo.getOriginalFilename())) {
+
+            PictureUtil.deletePicture(fileName, oldCompany.getLogoName());
+            pictureUtil.processImageUpload(newCompany, logo, fileName);
+
+        } else {
+            newCompany.setLogoName(oldCompany.getLogoName());
+        }
+
+        if (newCompany.equals(oldCompany)) {
+            return oldCompany;
+        }
+
+        List<Job> jobs = jobService.findAllByCompanyIdAndIsDeletedFalse(newCompany.getId());
+        jobs.parallelStream()
+                .forEach(job -> {
+                    job.setLogoName(newCompany.getLogoName());
+                    jobService.save(job);
+                });
+
         return companyRepository.save(newCompany);
     }
-
-
 }

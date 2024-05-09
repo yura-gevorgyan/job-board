@@ -3,8 +3,11 @@ package am.itspace.jobboard.service;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.security.SpringUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -48,18 +51,27 @@ public interface JobService {
 
     List<Job> findByUserIdAndIsDeletedFalse(int id);
 
+    List<Job> findAllByCompanyIdAndIsDeletedFalse(int companyId);
+
     void create(Job job, User user, Company company);
 
     Page<Job> findAll(int index);
 
     Job findById(int id);
 
-    void update(Job job, Job oldJob);
+    Job findByIdAndIsDeletedFalse(int id);
+
+    Job updateForEmployee(Job job, Job oldJob, int categoryId, String statusStr, String experienceStr, MultipartFile multipartFile);
+
+    Job updateForCompanyOwner(Job job,  int categoryId, String statusStr, String experienceStr);
 
     void deleteById(Job job);
 
     void recoverJobById(Job job);
 
+    void createJobForCompanyOwner(Company company, Job job, User user, String categoryIdStr, String statusStr, String experienceStr) throws Exception;
+
+    void createJobForEmployee(Job job, User user, String categoryIdStr, String statusStr, String experienceStr, MultipartFile multipartFile);
+
     Page<Job> findAllByUserId(int index,int userId);
 }
-

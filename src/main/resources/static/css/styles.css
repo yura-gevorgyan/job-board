@@ -4169,6 +4169,15 @@ h2.resp-accordion.resp-tab-active {
 
 .social-icons-list li .facebook {
     background-color: #3b5998
+
+}
+
+.social-icons-list li .google {
+    background-color: #ffffff
+}
+
+.social-icons-list li .github {
+    background-color: #000000
 }
 
 .social-icons-list li .twitter {

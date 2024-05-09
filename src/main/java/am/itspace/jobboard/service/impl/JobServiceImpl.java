@@ -1,12 +1,23 @@
 package am.itspace.jobboard.service.impl;
 
+import am.itspace.jobboard.entity.Category;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.entity.enums.Role;
+import am.itspace.jobboard.entity.enums.Status;
+import am.itspace.jobboard.entity.enums.WorkExperience;
+import am.itspace.jobboard.exception.CategoryNotFoundException;
 import am.itspace.jobboard.repository.JobRepository;
+import am.itspace.jobboard.security.SpringUser;
+import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
+import am.itspace.jobboard.util.PictureUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,6 +25,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -26,8 +39,13 @@ public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
 
     private final SendMailService sendMailService;
+    private final CategoryService categoryService;
+    private final PictureUtil pictureUtil;
 
     private final int PAGE_SIZE = 20;
+
+    @Value("${program.pictures.file.path}")
+    private String uploadDirectoryJob;
 
     @Override
     public int getJobCount() {
@@ -142,6 +160,11 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public List<Job> findAllByCompanyIdAndIsDeletedFalse(int companyId) {
+        return jobRepository.findAllByCompanyIdAndIsDeletedFalse(companyId);
+    }
+
+    @Override
     public void create(Job job, User user, Company company) {
 
         job.setUser(user);
@@ -164,15 +187,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void update(Job job, Job oldJob) {
-
-        job.setUser(oldJob.getUser());
-        job.setPublishedDate(oldJob.getPublishedDate());
-        job.setDeleted(oldJob.isDeleted());
-        job.setCompany(oldJob.getCompany());
-        job.setLogoName(oldJob.getLogoName());
-
-        jobRepository.save(job);
+    public Job findByIdAndIsDeletedFalse(int id) {
+        return jobRepository.findByIdAndIsDeletedFalse(id).orElse(null);
     }
 
     @Override
@@ -187,9 +203,116 @@ public class JobServiceImpl implements JobService {
         jobRepository.save(job);
     }
 
+    @SneakyThrows
     @Override
-    public Page<Job> findAllByUserId(int index , int userId) {
-        return jobRepository.findByUserId(PageRequest.of(index-1,20).withSort(Sort.by("publishedDate").descending()),userId);
+    public void createJobForCompanyOwner(Company company, Job job, User user, String categoryIdStr, String statusStr, String experienceStr) {
+        try {
+            int categoryId = Integer.parseInt(categoryIdStr);
+            Category category = categoryService.findById(categoryId);
+
+            if (category != null) {
+                job.setCategory(category);
+                job.setStatus(Status.valueOf(statusStr));
+                job.setWorkExperience(WorkExperience.valueOf(experienceStr));
+                create(job, user, company);
+
+            } else throw new Exception();
+
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException();
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public void createJobForEmployee(Job job, User user, String categoryIdStr, String statusStr, String experienceStr, MultipartFile multipartFile) {
+        try {
+
+            int categoryId = Integer.parseInt(categoryIdStr);
+            Category category = categoryService.findById(categoryId);
+
+            if (category != null) {
+                job.setCategory(category);
+                job.setStatus(Status.valueOf(statusStr));
+                job.setWorkExperience(WorkExperience.valueOf(experienceStr));
+
+                pictureUtil.processImageUpload(job, multipartFile, uploadDirectoryJob);
+
+                job.setUser(user);
+                job.setPublishedDate(new Date());
+                job.setDeleted(false);
+                job.setCompany(null);
+                save(job);
+
+            } else throw new Exception();
+
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException();
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public Job updateForEmployee(Job job, Job oldJob, int categoryId, String statusStr, String experienceStr, MultipartFile multipartFile) {
+        if (oldJob != null) {
+
+            Category category = categoryService.findById(categoryId);
+            if (category != null) {
+
+                job.setUser(oldJob.getUser());
+                job.setPublishedDate(oldJob.getPublishedDate());
+                job.setDeleted(oldJob.isDeleted());
+                job.setCategory(category);
+                job.setStatus(Status.valueOf(statusStr));
+                job.setWorkExperience(WorkExperience.valueOf(experienceStr));
+                job.setCompany(null);
+
+                if (!multipartFile.isEmpty() && !job.getLogoName().equals(multipartFile.getOriginalFilename())) {
+                    PictureUtil.deletePicture(uploadDirectoryJob, oldJob.getLogoName());
+                    pictureUtil.processImageUpload(job, multipartFile, uploadDirectoryJob);
+                } else {
+                    job.setLogoName(oldJob.getLogoName());
+                }
+
+                if (job.equals(oldJob)) {
+                    return oldJob;
+                }
+                return jobRepository.save(job);
+            }
+            throw new CategoryNotFoundException();
+        }
+        return null;
+    }
+
+    @Override
+    public Job updateForCompanyOwner(Job job,  int categoryId, String statusStr, String experienceStr) {
+        Job oldJob = findByIdAndIsDeletedFalse(job.getId());
+        if (oldJob != null) {
+
+            Category category = categoryService.findById(categoryId);
+            if (category != null) {
+
+                job.setUser(oldJob.getUser());
+                job.setPublishedDate(oldJob.getPublishedDate());
+                job.setDeleted(oldJob.isDeleted());
+                job.setStatus(Status.valueOf(statusStr));
+                job.setWorkExperience(WorkExperience.valueOf(experienceStr));
+                job.setCategory(category);
+                job.setCompany(oldJob.getCompany());
+                job.setLogoName(job.getCompany().getLogoName());
+
+                if (job.equals(oldJob)) {
+                    return oldJob;
+                }
+                return jobRepository.save(job);
+            }
+            throw new CategoryNotFoundException();
+        }
+        return null;
+    }
+
+    @Override
+    public Page<Job> findAllByUserId(int index, int userId) {
+        return jobRepository.findByUserId(PageRequest.of(index - 1, 20).withSort(Sort.by("publishedDate").descending()), userId);
     }
 }
-

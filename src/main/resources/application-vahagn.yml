@@ -1,8 +1,28 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 795196252551295
+            client-secret: 5198b22db606f483f96518a497927fad
+          google:
+            client-id: 74863290846-i5sth07msc4s0puqgouv0gpf5r9thrvn.apps.googleusercontent.com
+            client-secret: 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
+          github:
+            client-id: Ov23lig3egIP6yJerRhP
+            client-secret: 11652e81207f3788c372fbf598b2eeb58dc35f6f
+
   datasource:
     url: jdbc:mysql://localhost:3306/job_board
     username: root
     password: root
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -14,6 +34,7 @@ spring:
           auth: true
           starttls:
             enable: true
+
   liquibase:
     change-log: classpath*:db/change-log.xml
 
