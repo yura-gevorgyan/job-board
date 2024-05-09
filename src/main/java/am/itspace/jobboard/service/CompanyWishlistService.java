@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface CompanyWishlistService {
 
-    Page<CompanyWishlist> findByUserid(int index, int id);
+    Page<CompanyWishlist> findByUserId(int index, int id);
 
     void save(Company company, User user);
 
     void delete(Company company, User user);
 
-    List<CompanyWishlist> findAllByUserid(int id);
+    List<CompanyWishlist> findAllByUserId(int id);
 }

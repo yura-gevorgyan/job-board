@@ -20,12 +20,12 @@ public class JobWishlistServiceImpl implements JobWishlistService {
     private final JobWishlistRepository jobWishlistRepository;
 
     @Override
-    public Page<JobWishlist> findByUserid(int index, int id) {
+    public Page<JobWishlist> findByUserId(int index, int id) {
         return jobWishlistRepository.findAllByUserId(PageRequest.of(index - 1,20),id);
     }
 
     @Override
-    public List<JobWishlist> findAllByUserid(int id) {
+    public List<JobWishlist> findAllByUserId(int id) {
         return jobWishlistRepository.findByUserId(id);
     }
 

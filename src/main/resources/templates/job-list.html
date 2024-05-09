@@ -44,11 +44,12 @@
             height: 40px;
             width: 40px;
             line-height: 40px;
-            border: 1px solid #eeeeee;
+            border: 1px solid white;
             border-radius: 100%;
             transition: all 0.3s ease-in-out;
             font-size: 14px;
             color: #969696;
+            background: white;
         }
 
         .favourite:hover {
@@ -265,7 +266,7 @@
                                                        th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
                                                 </button>
 
-                                                <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white">
+                                                <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
                                                     <a class="favourite wishList" href="#!"
                                                        th:data-job-id="${'a' + job.id}"><i
                                                             class="far fa-heart"></i></a>
@@ -273,16 +274,17 @@
 
                                             </th:block>
                                             <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
-                                                    style="border: white">
+                                                    style="border: white;background: white">
                                                 <a class="favourite wishList" href="#!"
                                                    th:data-job-id="${'a' + job.id}"><i
                                                         class="far fa-heart"></i></a>
                                             </button>
 
                                             <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
-                                                    style="border: white"><a class="favourite" href="#!"><i
+                                                    style="border: white;background: white"><a class="favourite"href="#!"><i
                                                     class="far fa-heart"></i></a>
                                             </button>
+
                                         <a th:href="@{'/jobs/item/' + ${job.id}}" class="butn butn-md">Apply Job</a>
                                         </div>
                                     </div>

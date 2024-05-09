@@ -46,15 +46,15 @@
             display: inline-block;
             left: 25px;
             top: 25px;
-            transform: translateX(-50%);
             height: 40px;
             width: 40px;
             line-height: 40px;
-            border: 1px solid #eeeeee;
+            border: 1px solid white;
             border-radius: 100%;
             transition: all 0.3s ease-in-out;
             font-size: 14px;
             color: #969696;
+            background: white;
         }
 
         .favourite:hover {
@@ -262,7 +262,7 @@
                                                     </button>
 
                                                     <button th:if="${!#lists.contains(favoritesResumes,resume)}"
-                                                            style="border: white">
+                                                            style="border: white;background: white">
                                                         <a class="favourite wishList" href="#!"
                                                            th:data-resume-id="${'a' + resume.id}"><i
                                                                 class="far fa-heart"></i></a>
@@ -270,7 +270,7 @@
                                                 </th:block>
 
                                                 <button th:if="${currentUser != null  &&  (favoritesResumes == null || favoritesResumes.isEmpty())}"
-                                                        style="border: white"><a
+                                                        style="border: white;background: white"><a
                                                         class="favourite wishList" href="#!"
                                                         th:data-resume-id="${'a' + resume.id}"><i
                                                         class="far fa-heart"></i></a>
@@ -278,7 +278,7 @@
 
                                                 <button class="openModalBtn" type="submit"
                                                         th:if="${currentUser == null}"
-                                                        style="border: white"><a class="favourite" href="#!"><i
+                                                        style="border: white;background: white"><a class="favourite" href="#!"><i
                                                         class="far fa-heart"></i></a>
                                                 </button>
 

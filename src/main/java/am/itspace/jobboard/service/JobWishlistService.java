@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface JobWishlistService {
 
-    Page<JobWishlist> findByUserid(int index, int id);
+    Page<JobWishlist> findByUserId(int index, int id);
 
-    List<JobWishlist> findAllByUserid(int id);
+    List<JobWishlist> findAllByUserId(int id);
 
     void save(Job job, User user);
 

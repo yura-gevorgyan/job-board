@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ResumeWishlistService {
 
-    Page<ResumeWishlist> findByUserid(int index, int id);
+    Page<ResumeWishlist> findByUserId(int index, int id);
 
     void save(Resume resume, User user);
 
     void delete(Resume resume, User user);
 
-    List<ResumeWishlist> findAllByUserid(int id);
+    List<ResumeWishlist> findAllByUserId(int id);
 }

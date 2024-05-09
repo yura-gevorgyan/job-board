@@ -20,7 +20,7 @@ public class CompanyWishlistServiceImpl implements CompanyWishlistService {
     private final CompanyWishlistRepository companyWishlistRepository;
 
     @Override
-    public Page<CompanyWishlist> findByUserid(int index, int id) {
+    public Page<CompanyWishlist> findByUserId(int index, int id) {
         return companyWishlistRepository.findAllByUserId(PageRequest.of(index - 1, 20), id);
     }
 
@@ -45,7 +45,7 @@ public class CompanyWishlistServiceImpl implements CompanyWishlistService {
     }
 
     @Override
-    public List<CompanyWishlist> findAllByUserid(int id) {
+    public List<CompanyWishlist> findAllByUserId(int id) {
         return companyWishlistRepository.findAllByUserId(id);
     }
 

@@ -54,7 +54,7 @@ public class ResumeController {
             }
 
             if (springUser != null) {
-                List<ResumeWishlist> resumeWishlist = resumeWishlistService.findAllByUserid(springUser.getUser().getId());
+                List<ResumeWishlist> resumeWishlist = resumeWishlistService.findAllByUserId(springUser.getUser().getId());
                 List<Resume> resumeList = new ArrayList<>();
                 for (ResumeWishlist wishlist : resumeWishlist) {
                     resumeList.add(wishlist.getResume());
@@ -126,7 +126,7 @@ public class ResumeController {
             modelMap.addAttribute("currentExperience", experienceList);
 
             if (springUser != null) {
-                List<ResumeWishlist> resumeWishlist = resumeWishlistService.findAllByUserid(springUser.getUser().getId());
+                List<ResumeWishlist> resumeWishlist = resumeWishlistService.findAllByUserId(springUser.getUser().getId());
                 List<Resume> resumeList = new ArrayList<>();
                 for (ResumeWishlist wishlist : resumeWishlist) {
                     resumeList.add(wishlist.getResume());
@@ -275,7 +275,7 @@ public class ResumeController {
                     return "redirect:/resumes/favorites/1";
                 }
 
-                Page<ResumeWishlist> byUserid = resumeWishlistService.findByUserid(index, springUser.getUser().getId());
+                Page<ResumeWishlist> byUserid = resumeWishlistService.findByUserId(index, springUser.getUser().getId());
 
                 if (index > byUserid.getTotalPages() && byUserid.getTotalPages() != 0) {
                     return "redirect:/resumes/favorites/1";

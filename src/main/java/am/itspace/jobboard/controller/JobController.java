@@ -57,7 +57,7 @@ public class JobController {
             }
 
             if (springUser != null) {
-                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserid(springUser.getUser().getId());
+                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
                 List<Job> jobList = new ArrayList<>();
                 for (JobWishlist jobWishlist : jobWishlists) {
                     jobList.add(jobWishlist.getJob());
@@ -124,7 +124,7 @@ public class JobController {
             }
 
             if (springUser != null) {
-                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserid(springUser.getUser().getId());
+                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
                 List<Job> jobList = new ArrayList<>();
                 for (JobWishlist jobWishlist : jobWishlists) {
                     jobList.add(jobWishlist.getJob());
@@ -264,7 +264,7 @@ public class JobController {
     }
 
     @GetMapping("/item/{id}")
-    public String singleJobPage(@PathVariable("id") String idStr, ModelMap modelMap) {
+    public String singleJobPage(@PathVariable("id") String idStr, ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
 
         try {
             int id = Integer.parseInt(idStr);
@@ -272,6 +272,15 @@ public class JobController {
             if (job != null) {
                 modelMap.addAttribute("job", job);
                 modelMap.addAttribute("jobs", jobService.findTop6());
+
+                if (springUser != null) {
+                    List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
+                    List<Job> jobList = new ArrayList<>();
+                    for (JobWishlist jobWishlist : jobWishlists) {
+                        jobList.add(jobWishlist.getJob());
+                    }
+                    modelMap.addAttribute("favoritesJobs", jobList);
+                }
                 return "job-single";
             } else {
                 return "redirect:/jobs/1";
@@ -364,7 +373,7 @@ public class JobController {
                     return "redirect:/jobs/favorites/1";
                 }
 
-                Page<JobWishlist> byUserid = jobWishlistService.findByUserid(index, springUser.getUser().getId());
+                Page<JobWishlist> byUserid = jobWishlistService.findByUserId(index, springUser.getUser().getId());
 
                 if (index > byUserid.getTotalPages() && byUserid.getTotalPages() != 0) {
                     return "redirect:/jobs/favorites/1";

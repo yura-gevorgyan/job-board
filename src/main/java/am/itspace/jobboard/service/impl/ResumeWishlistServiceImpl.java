@@ -20,7 +20,7 @@ public class ResumeWishlistServiceImpl implements ResumeWishlistService {
     private final ResumeWishlistRepository resumeWishlistRepository;
 
     @Override
-    public Page<ResumeWishlist> findByUserid(int index, int id) {
+    public Page<ResumeWishlist> findByUserId(int index, int id) {
         return resumeWishlistRepository.findAllByUserId(PageRequest.of(index - 1, 20), id);
     }
 
@@ -45,7 +45,7 @@ public class ResumeWishlistServiceImpl implements ResumeWishlistService {
     }
 
     @Override
-    public List<ResumeWishlist> findAllByUserid(int id) {
+    public List<ResumeWishlist> findAllByUserId(int id) {
         return resumeWishlistRepository.findByUserId(id);
     }
 

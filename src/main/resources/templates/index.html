@@ -32,6 +32,30 @@
     <!-- core style css -->
     <link href="/css/styles.css" rel="stylesheet">
 
+    <style>
+        .favourite {
+            display: inline-block;
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            height: 40px;
+            width: 40px;
+            line-height: 40px;
+            border: 1px solid white;
+            border-radius: 100%;
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+            color: #969696;
+            background: white;
+        }
+
+        .favourite:hover {
+            color: #ffffff;
+            background: #e74c3c;
+            border: 1px solid #e74c3c
+        }
+    </style>
+
 </head>
 
 <body>
@@ -119,6 +143,8 @@
                 </div>
             </div>
         </div>
+
+
     </section>
 
     <!-- RECENT JOBS
@@ -134,7 +160,34 @@
                     <div class="card-body">
                         <span class="popular-jobs-status"
                               th:text="${job.status.getName()}"></span>
-                        <a class="favourite" href="#"><i class="far fa-heart"></i></a>
+                        <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
+
+                            <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
+                                <a class="favourite wishList"
+                                   style="background-color: #e74c3c; color: white"
+                                   href="#!"
+                                   th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
+                            </button>
+
+                            <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
+                                <a class="favourite wishList" href="#!"
+                                   th:data-job-id="${'a' + job.id}"><i
+                                        class="far fa-heart"></i></a>
+                            </button>
+
+                        </th:block>
+                        <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
+                                style="border: white;background: white">
+                            <a class="favourite wishList" href="#!"
+                               th:data-job-id="${'a' + job.id}"><i
+                                    class="far fa-heart"></i></a>
+                        </button>
+
+                        <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
+                                style="border: white;background: white"><a class="favourite" href="/login"><i
+                                class="far fa-heart"></i></a>
+                        </button>
+
                         <div class="popular-jobs-box">
                             <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${job.logoName}"
                                  style="width: 80px" width="80px" alt="...">
@@ -154,6 +207,7 @@
                 </div>
             </div>
         </div>
+
     </section>
 
     <!-- JOB CATEGORIES
@@ -782,7 +836,6 @@
         </div>
     </footer>
 
-
 </div>
 
 <!-- start scroll to top -->
@@ -814,6 +867,10 @@
 
 <!-- form scripts js -->
 <script src="/quform/js/scripts.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="/js/jobWishlist.js"></script>
 
 <!-- all js include end -->
 

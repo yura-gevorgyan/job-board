@@ -31,11 +31,8 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
-
     private final CategoryService categoryService;
-
     private final JobService jobService;
-
     private final CompanyPictureService companyPictureService;
     private final CompanyWishlistService companyWishlistService;
 
@@ -57,7 +54,7 @@ public class CompanyController {
             }
 
             if (springUser != null) {
-                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserid(springUser.getUser().getId());
+                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserId(springUser.getUser().getId());
                 List<Company> companyList = new ArrayList<>();
                 for (CompanyWishlist companyWishlist : companyWishlists) {
                     companyList.add(companyWishlist.getCompany());
@@ -103,7 +100,7 @@ public class CompanyController {
             modelMap.addAttribute("currentCategoryId", categoryId);
 
             if (springUser != null) {
-                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserid(springUser.getUser().getId());
+                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserId(springUser.getUser().getId());
                 List<Company> companyList = new ArrayList<>();
                 for (CompanyWishlist companyWishlist : companyWishlists) {
                     companyList.add(companyWishlist.getCompany());
@@ -237,7 +234,7 @@ public class CompanyController {
                     return "redirect:/companies/favorites/1";
                 }
 
-                Page<CompanyWishlist> byUserid = companyWishlistService.findByUserid(index, springUser.getUser().getId());
+                Page<CompanyWishlist> byUserid = companyWishlistService.findByUserId(index, springUser.getUser().getId());
 
                 if (index > byUserid.getTotalPages() && byUserid.getTotalPages() != 0) {
                     return "redirect:/companies/favorites/1";
