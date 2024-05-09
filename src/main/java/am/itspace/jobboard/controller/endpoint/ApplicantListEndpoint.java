@@ -18,12 +18,6 @@ public class ApplicantListEndpoint {
 
     private final ApplicantListService applicantListService;
 
-    @DeleteMapping("/delete/{applicantListId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteApplicantList(@PathVariable int applicantListId) {
-        applicantListService.deleteById(applicantListId);
-    }
-
     @PostMapping("/approve/{applicantListId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveJobApply(@PathVariable("applicantListId") int id) {
@@ -34,5 +28,11 @@ public class ApplicantListEndpoint {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void rejectJobApply(@PathVariable("applicantListId") int id) {
         applicantListService.changeStatusRejected(id);
+    }
+
+    @DeleteMapping("/delete/{applicantListId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteApplicantList(@PathVariable int applicantListId) {
+        applicantListService.deleteById(applicantListId);
     }
 }

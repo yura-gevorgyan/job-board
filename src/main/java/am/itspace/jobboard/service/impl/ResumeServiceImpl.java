@@ -29,6 +29,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final SendMailService sendMailService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final PictureUtil pictureUtil;
 
     private final int PAGE_SIZE = 20;
 
@@ -127,7 +128,7 @@ public class ResumeServiceImpl implements ResumeService {
     @SneakyThrows
     @Override
     public Resume create(Resume resume, MultipartFile multipartFile) {
-        PictureUtil.processImageUploadResume(resume, multipartFile, uploadDirectoryResume);
+        pictureUtil.processImageUpload(resume, multipartFile, uploadDirectoryResume);
         resume.setCreatedDate(new Date());
         resume.setActive(true);
         return resumeRepository.save(resume);
@@ -138,7 +139,6 @@ public class ResumeServiceImpl implements ResumeService {
     public Resume update(Resume resume, MultipartFile multipartFile) {
         Optional<Resume> byId = resumeRepository.findByIdAndIsActiveTrue(resume.getId());
         if (byId.isPresent()) {
-
             Resume originalResume = byId.get();
             resume.setCategory(categoryService.findById(resume.getCategory().getId()));
             resume.setUser(userService.findByIdAndIsActiveTrue(resume.getUser().getId()));
@@ -147,7 +147,7 @@ public class ResumeServiceImpl implements ResumeService {
 
             if (!multipartFile.isEmpty() && !resume.getPicName().equals(multipartFile.getOriginalFilename())) {
                 PictureUtil.deletePicture(uploadDirectoryResume, originalResume.getPicName());
-                PictureUtil.processImageUploadResume(resume, multipartFile, uploadDirectoryResume);
+                pictureUtil.processImageUpload(resume, multipartFile, uploadDirectoryResume);
             } else {
                 resume.setPicName(originalResume.getPicName());
             }
@@ -155,8 +155,9 @@ public class ResumeServiceImpl implements ResumeService {
             if (resume.equals(originalResume)){
                 return originalResume;
             }
+            return resumeRepository.save(resume);
         }
-        return resumeRepository.save(resume);
+        return null;
     }
 
     @Override

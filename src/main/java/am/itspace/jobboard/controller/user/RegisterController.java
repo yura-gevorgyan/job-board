@@ -5,7 +5,6 @@ import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.service.UserService;
-import am.itspace.jobboard.util.AddMessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

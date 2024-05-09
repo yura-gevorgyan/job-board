@@ -23163,6 +23163,16 @@ textarea.form-control-lg {
     content: "\e741"
 }
 
+.ti-google:before {
+    color: white;
+    content: "\f1a0";
+}
+
+.ti-github:before {
+    color: white;
+    content: "\e73f";
+}
+
 .ti-dropbox:before {
     content: "\e742"
 }

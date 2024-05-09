@@ -10,6 +10,7 @@ import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.specification.ResumeSpecification;
+import am.itspace.jobboard.util.PictureUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static am.itspace.jobboard.util.AddErrorMessageUtil.addErrorMessage;
 
 @Controller
 @RequiredArgsConstructor
@@ -214,6 +217,10 @@ public class ResumeController {
                 resume.getWorkExperience().toString().isEmpty()) {
             redirectAttributes.addFlashAttribute("msg", "Please fill all required fields.");
             return "redirect:/profile/resume";
+
+        } else if (!PictureUtil.isFileSizeValid(multipartFile)) {
+            redirectAttributes.addFlashAttribute("msg", "The resume logo must be a maximum of 10MB in size.");
+            return "redirect:/profile/resume";
         }
 
         resume.setUser(springUser.getUser());
@@ -348,16 +355,5 @@ public class ResumeController {
         modelMap.addAttribute("categories", categoryService.findAll());
         modelMap.addAttribute("statuses", Status.values());
         modelMap.addAttribute("experiences", WorkExperience.values());
-    }
-
-    private void addErrorMessage(RedirectAttributes redirectAttributes, BindingResult bindingResult) {
-        StringBuilder errorMsgBuilder = new StringBuilder("Error: ");
-        bindingResult.getFieldErrors().forEach(error -> {
-            String errorMessage = error.getDefaultMessage();
-            if (errorMessage != null){
-                errorMsgBuilder.append(" ").append(errorMessage);
-            }
-        });
-        redirectAttributes.addFlashAttribute("msg", errorMsgBuilder.toString());
     }
 }

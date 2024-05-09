@@ -45,7 +45,8 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 
     List<Job> findAllByUserIdAndIsDeletedFalse(int id);
 
-    Page<Job> findByUserId(Pageable pageable,int userId);
+    List<Job> findAllByCompanyIdAndIsDeletedFalse(int companyId);
 
+    Page<Job> findByUserId(Pageable pageable,int userId);
 }
 

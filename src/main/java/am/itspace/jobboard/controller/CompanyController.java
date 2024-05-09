@@ -7,6 +7,7 @@ import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.specification.CompanySpecification;
+import am.itspace.jobboard.util.PictureUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -160,7 +163,12 @@ public class CompanyController {
         if (logo.isEmpty() || logo.getSize() < 1) {
             addFlashAttributes(redirectAttributes, "Company logo is required.");
             return "redirect:/profile/company";
+
+        } else if (!PictureUtil.isFileSizeValid(logo)) {
+            addFlashAttributes(redirectAttributes, "The company logo must be a maximum of 10MB in size.");
+            return "redirect:/profile/company";
         }
+
         try {
             int categoryId = Integer.parseInt(categoryIdStr);
             Category byId = categoryService.findById(categoryId);
@@ -196,6 +204,7 @@ public class CompanyController {
             }
             return "redirect:/profile/company";
         }
+
         Company userOldCompany = companyService.findById(company.getId());
         if (userOldCompany == null || !userOldCompany.getUser().equals(springUser.getUser())) {
             addFlashAttributes(redirectAttributes, "Wrong company data.");
@@ -311,6 +320,3 @@ public class CompanyController {
         modelMap.addAttribute("categories", categoryService.findAll());
     }
 }
-
-
-

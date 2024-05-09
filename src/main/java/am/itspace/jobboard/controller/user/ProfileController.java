@@ -16,12 +16,10 @@ import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.UserService;
-import am.itspace.jobboard.specification.JobSpecification;
-import am.itspace.jobboard.util.AddMessageUtil;
+import am.itspace.jobboard.util.AddErrorMessageUtil;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -55,7 +53,7 @@ public class ProfileController {
     public String companyProfilePage(
             @RequestParam(value = "msg", required = false) String msg, ModelMap modelMap,
             @AuthenticationPrincipal SpringUser springUser) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+        AddErrorMessageUtil.addMessageToModel(msg, modelMap);
 
         if ((springUser != null) && (springUser.getUser().getRole() == Role.COMPANY_OWNER)) {
             Company companyByUserIdAndIsActiveTrue = companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId());
@@ -138,7 +136,7 @@ public class ProfileController {
     @GetMapping("/resume")
     public String createCompanyPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap,
                                     @AuthenticationPrincipal SpringUser springUser) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+        AddErrorMessageUtil.addMessageToModel(msg, modelMap);
         if (springUser != null) {
             modelMap.addAttribute("categories", categoryService.findAll());
             modelMap.addAttribute("gender", Gender.values());
@@ -160,7 +158,7 @@ public class ProfileController {
 
     @GetMapping("/change-password")
     public String changePasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
-        AddMessageUtil.addMessageToModel(msg, modelMap);
+        AddErrorMessageUtil.addMessageToModel(msg, modelMap);
         return "/profile/candidate-change-password";
     }
 

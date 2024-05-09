@@ -1,11 +1,13 @@
 package am.itspace.jobboard.controller;
 
 import am.itspace.jobboard.entity.*;
+import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.specification.JobSpecification;
+import am.itspace.jobboard.util.PictureUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import java.util.List;
 
 import static am.itspace.jobboard.entity.enums.Role.COMPANY_OWNER;
 import static am.itspace.jobboard.entity.enums.Role.JOB_SEEKER;
+import static am.itspace.jobboard.util.AddErrorMessageUtil.addErrorMessage;
 
 @Controller
 @RequiredArgsConstructor
@@ -114,9 +118,9 @@ public class JobController {
             }
 
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, experienceList, statusList,
-                    categoryService.findById(categoryId),null, fromSalary, toSalary, null);
+                    categoryService.findById(categoryId), null, fromSalary, toSalary, null);
 
-            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex,20);
+            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex, 20);
 
 
             if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
@@ -163,8 +167,8 @@ public class JobController {
                 isDeleted = Boolean.parseBoolean(currentState);
             }
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, null, null,
-                    categoryService.findById(categoryId),springUser.getUser(),0, Double.MAX_VALUE, isDeleted);
-            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex,20);
+                    categoryService.findById(categoryId), springUser.getUser(), 0, Double.MAX_VALUE, isDeleted);
+            Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex, 20);
             if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
                 return "redirect:/profile/jobs-manage/1";
             }
@@ -191,76 +195,150 @@ public class JobController {
                             @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
                             @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
                             @RequestParam(value = "experience", defaultValue = "") String experienceStr,
+                            @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
                             RedirectAttributes redirectAttributes) {
 
-        Company company = companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId());
-        if (springUser.getUser().getRole() == COMPANY_OWNER && company == null) {
-            addFlashAttributes(redirectAttributes, "Create company, if you want to publish a job.");
-            return "redirect:/profile/company";
-        }
+        User user = springUser.getUser();
+
         if (bindingResult.hasErrors()) {
-            int errorCount = bindingResult.getErrorCount();
-            if (errorCount > 1) {
+            bindingResults(bindingResult, redirectAttributes);
+            return "redirect:/profile/jobs-create";
+        }
+
+        if (user != null && user.getRole() == Role.EMPLOYEE) {
+            try {
+
+                if (multipartFile != null && !multipartFile.isEmpty()) {
+                    jobService.createJobForEmployee(job, user, categoryIdStr, statusStr, experienceStr, multipartFile);
+                    return "redirect:/profile/jobs-manage/1";
+
+                } else if (!PictureUtil.isFileSizeValid(multipartFile)) {
+                    addFlashAttributes(redirectAttributes, "The job logo must be a maximum of 10MB in size.");
+                    return "redirect:/profile/jobs-create";
+                }
+
+                addFlashAttributes(redirectAttributes, "Invalid job logo.");
+                return "redirect:/profile/jobs-create";
+
+            } catch (Exception e) {
                 addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
-            } else if (errorCount == 1) {
-                addFlashAttributes(redirectAttributes, bindingResult.getAllErrors().get(0).getDefaultMessage());
+                return "redirect:/profile/jobs-create";
             }
-            return "redirect:/profile/jobs-create";
         }
-        try {
-            int categoryId = Integer.parseInt(categoryIdStr);
-            Category byId = categoryService.findById(categoryId);
-            if (byId == null) {
-                throw new Exception();
-            }
-            job.setCategory(byId);
-            job.setStatus(Status.valueOf(statusStr));
-            job.setWorkExperience(WorkExperience.valueOf(experienceStr));
-        } catch (Exception e) {
-            addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
-            return "redirect:/profile/jobs-create";
-        }
-
-        jobService.create(job, springUser.getUser(), company);
-
-        return "redirect:/profile/jobs-manage/1";
+        return "redirect:/";
     }
 
-    @PostMapping("/update")
-    public String updateJob(@Valid @ModelAttribute Job job,
+    @PostMapping("/create/company")
+    public String createJobForCompany(@AuthenticationPrincipal SpringUser springUser,
+                                      @Valid @ModelAttribute Job job,
+                                      BindingResult bindingResult,
+                                      @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
+                                      @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
+                                      @RequestParam(value = "experience", defaultValue = "") String experienceStr,
+                                      RedirectAttributes redirectAttributes) {
+        User user = springUser.getUser();
+
+        if (bindingResult.hasErrors()) {
+            bindingResults(bindingResult, redirectAttributes);
+            return "redirect:/profile/jobs-create";
+        }
+
+        if (user != null && user.getRole() == COMPANY_OWNER) {
+            try {
+
+                Company company = companyService.findCompanyByUserIdAndIsActiveTrue(user.getId());
+                if (company != null) {
+                    jobService.createJobForCompanyOwner(company, job, user, categoryIdStr, statusStr, experienceStr);
+                    return "redirect:/profile/jobs-manage/1";
+                }
+
+                addFlashAttributes(redirectAttributes, "Create company, if you want to publish a job.");
+                return "redirect:/profile/company";
+
+            } catch (Exception e) {
+                addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
+                return "redirect:/profile/jobs-create";
+            }
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/update/company")
+    public String updateJobCompany(@AuthenticationPrincipal SpringUser springUser,
+                            @Valid @ModelAttribute Job job,
                             BindingResult bindingResult,
                             @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
                             @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
                             @RequestParam(value = "experience", defaultValue = "") String experienceStr,
                             RedirectAttributes redirectAttributes) {
 
+        User user = springUser.getUser();
+
         if (bindingResult.hasErrors()) {
-            int errorCount = bindingResult.getErrorCount();
-            if (errorCount > 1) {
-                addFlashAttributes(redirectAttributes, "You should fill all the fields, by right way.");
-            } else if (errorCount == 1) {
-                addFlashAttributes(redirectAttributes, bindingResult.getAllErrors().get(0).getDefaultMessage());
-            }
-            return "redirect:/profile/jobs-create";
-        }
-        Job oldJob = jobService.findById(job.getId());
-        try {
-            int categoryId = Integer.parseInt(categoryIdStr);
-            Category byId = categoryService.findById(categoryId);
-            if (byId == null || oldJob == null) {
-                throw new Exception();
-            }
-            job.setCategory(byId);
-            job.setStatus(Status.valueOf(statusStr));
-            job.setWorkExperience(WorkExperience.valueOf(experienceStr));
-        } catch (Exception e) {
-            addFlashAttributes(redirectAttributes, "You should fill all the fields, by right way.");
+            bindingResults(bindingResult, redirectAttributes);
+            redirectAttributes.addFlashAttribute("job", jobService.findByIdAndIsDeletedFalse(job.getId()));
             return "redirect:/profile/jobs-create";
         }
 
-        jobService.update(job, oldJob);
+        if (user != null && user.getRole() == COMPANY_OWNER) {
+            try {
 
-        return "redirect:/profile/jobs-manage/1";
+                int categoryId = Integer.parseInt(categoryIdStr);
+                jobService.updateForCompanyOwner(job, categoryId, statusStr, experienceStr);
+                return "redirect:/profile/jobs-manage/1";
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("job", jobService.findByIdAndIsDeletedFalse(job.getId()));
+                addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
+                return "redirect:/profile/jobs-create";
+            }
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/update")
+    public String updateJob(@AuthenticationPrincipal SpringUser springUser,
+                            @Valid @ModelAttribute Job job,
+                            BindingResult bindingResult,
+                            @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
+                            @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
+                            @RequestParam(value = "experience", defaultValue = "") String experienceStr,
+                            @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
+                            RedirectAttributes redirectAttributes) {
+
+        User user = springUser.getUser();
+
+        if (bindingResult.hasErrors()) {
+            bindingResults(bindingResult, redirectAttributes);
+            redirectAttributes.addFlashAttribute("job", jobService.findByIdAndIsDeletedFalse(job.getId()));
+            return "redirect:/profile/jobs-create";
+        }
+
+        if (user != null && user.getRole() == Role.EMPLOYEE) {
+            try {
+                int categoryId = Integer.parseInt(categoryIdStr);
+
+                Job oldJob = jobService.findByIdAndIsDeletedFalse(job.getId());
+
+                if ((multipartFile != null && !multipartFile.isEmpty()) || oldJob.getLogoName().equals(job.getLogoName())) {
+                    jobService.updateForEmployee(job, oldJob, categoryId, statusStr, experienceStr, multipartFile);
+                    return "redirect:/profile/jobs-manage/1";
+
+                } else if (!PictureUtil.isFileSizeValid(multipartFile)) {
+                    addFlashAttributes(redirectAttributes, "The job logo must be a maximum of 10MB in size.");
+                    return "redirect:/profile/jobs-create";
+                }
+
+                addFlashAttributes(redirectAttributes, "Invalid job logo.");
+                return "redirect:/profile/jobs-create";
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("job", jobService.findByIdAndIsDeletedFalse(job.getId()));
+                addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
+                return "redirect:/profile/jobs-create";
+            }
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/item/{id}")
@@ -289,7 +367,6 @@ public class JobController {
             return "redirect:/jobs/1";
         }
     }
-
 
     @PostMapping("/delete/{id}")
     public ResponseEntity<?> deleteJob(@PathVariable("id") String idStr, @AuthenticationPrincipal SpringUser springUser) {
@@ -446,6 +523,15 @@ public class JobController {
         modelMap.addAttribute("categories", categoryService.findAll());
         modelMap.addAttribute("statuses", Status.values());
         modelMap.addAttribute("experiences", WorkExperience.values());
+    }
+
+    private void bindingResults(BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        int errorCount = bindingResult.getErrorCount();
+        if (errorCount > 1) {
+            addFlashAttributes(redirectAttributes, "You should fill all the fields by right way.");
+        } else if (errorCount == 1) {
+            addErrorMessage(redirectAttributes, bindingResult);
+        }
     }
 
     private void addFlashAttributes(RedirectAttributes redirectAttributes, String message) {

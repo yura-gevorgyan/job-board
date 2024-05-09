@@ -19,7 +19,6 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailService userDetailService;
 
-
     //ToDo Security
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -30,13 +29,14 @@ public class SecurityConfig {
 
                         .anyRequest().permitAll()
                 )
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .defaultSuccessUrl("/login/success")
                         .failureUrl("/login?error=true")
                 )
                 .rememberMe(rememberMe -> rememberMe
-                        // Saving user dates in cookise during in one week
+                        // Saving user dates in cookies during in one week
                         .tokenValiditySeconds(604800)
                 )
                 .logout(logout -> logout
