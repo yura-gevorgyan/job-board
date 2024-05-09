@@ -37,6 +37,9 @@
 
     <link href="/css/dashboard.css" rel="stylesheet">
 
+    <link href="/css/popup.css" rel="stylesheet">
+
+
     <style>
         .hide-after-fourth {
             display: none;
@@ -72,6 +75,29 @@
         #pagination button[disabled] {
             background-color: #ccc;
             cursor: not-allowed;
+        }
+
+
+        .favourite {
+            display: inline-block;
+            position: absolute;
+            left: 25px;
+            top: 25px;
+            height: 40px;
+            width: 40px;
+            line-height: 40px;
+            border: 1px solid white;
+            border-radius: 100%;
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+            color: #969696;
+            background: white;
+        }
+
+        .favourite:hover {
+            color: #ffffff;
+            background: #e74c3c;
+            border: 1px solid #e74c3c
         }
     </style>
 
@@ -122,13 +148,6 @@
                                         aria-label="Close"></button>
                             </div>
                     </span>
-                    <span th:if="${jobMsg != null}">
-                            <div class="alert alert-dark alert-dismissible">
-                                <strong th:text="${jobMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                    </span>
 
                     <div class="col-lg-12">
                         <div class="p-1-6 p-lg-1-9 border border-color-extra-light-gray border-radius-10">
@@ -159,7 +178,7 @@
                                         <div class="col-12">
                                             <li class="d-none d-xl-inline-block">
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                                <button id="openModalBtn" type="submit" class="not-border">
+                                                <button  type="submit" class="not-border openModalBtn">
                                                     <input type="hidden" name="page" th:value="${1}">
 
                                                     <a th:if="${(currentUser == null || (currentUser.role.name().equals('JOB_SEEKER')) )}"
@@ -258,8 +277,37 @@
                         <div class="featured-candidate owl-carousel owl-theme">
                             <div class="card card-style7 radius-10" th:each="resumeList : ${resumes}">
                                 <div class="card-body">
-                                    <a class="candidate-favourite" href="#!"><i class="far fa-heart"></i></a>
-                                    <img th:src="@{'/download/picture/' + ${resumeList.picName}}" width="80px"
+                                    <th:block
+                                            th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
+
+                                        <button th:if="${#lists.contains(favoritesResumes,resume)}"
+                                                style="border: white">
+                                            <a class="favourite wishList"
+                                               style="background-color: #e74c3c; color: white"
+                                               href="#!"
+                                               th:data-resume-id="${resume.id}"><i class="far fa-heart"></i></a>
+                                        </button>
+
+                                        <button th:if="${!#lists.contains(favoritesResumes,resume)}"
+                                                style="border: white;background: white">
+                                            <a class="favourite wishList" href="#!"
+                                               th:data-resume-id="${'a' + resume.id}"><i
+                                                    class="far fa-heart"></i></a>
+                                        </button>
+                                    </th:block>
+
+                                    <button th:if="${currentUser != null  &&  (favoritesResumes == null || favoritesResumes.isEmpty())}"
+                                            style="border: white;background: white"><a
+                                            class="favourite wishList" href="#!"
+                                            th:data-resume-id="${'a' + resume.id}"><i
+                                            class="far fa-heart"></i></a>
+                                    </button>
+
+                                    <button class="openModalBtn" type="submit"
+                                            th:if="${currentUser == null}"
+                                            style="border: white;background: white"><a class="favourite" href="/login"><i
+                                            class="far fa-heart"></i></a>
+                                    </button>                                    <img th:src="@{'/download/picture/' + ${resumeList.picName}}" width="80px"
                                          class="border-radius-50 mb-3" alt="...">
                                     <div class="candidate-info">
                                         <h4 class="h5"><a th:href="@{'/resumes/item/' + ${resumeList.id}}">
@@ -319,6 +367,7 @@
                     </div>
                 </div>
             </div>
+
         </section>
 
         <!-- FOOTER
@@ -520,6 +569,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script src="/js/userJobs.js"></script>
+
+    <script src="/js/resumeWishlist.js"></script>
+
+    <script src="/js/popup.js"></script>
+
     <!-- all js include end -->
 </body>
 

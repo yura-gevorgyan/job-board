@@ -33,6 +33,8 @@
     <!-- core style css -->
     <link href="/css/styles.css" rel="stylesheet">
 
+    <link href="/css/popup.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -257,7 +259,33 @@
                             <div class="card card-style10" th:each="singleJob : ${jobs} ">
                                 <div class="card-body">
                                     <span class="popular-jobs-status" th:text="${singleJob.status.getName()}"></span>
-                                    <a class="favourite" href="#"><i class="far fa-heart"></i></a>
+                                    <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
+
+                                        <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
+                                            <a class="favourite wishList"
+                                               style="background-color: #e74c3c; color: white"
+                                               href="#!"
+                                               th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
+                                        </button>
+
+                                        <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
+                                            <a class="favourite wishList" href="#!"
+                                               th:data-job-id="${'a' + job.id}"><i
+                                                    class="far fa-heart"></i></a>
+                                        </button>
+
+                                    </th:block>
+                                    <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
+                                            style="border: white;background: white">
+                                        <a class="favourite wishList" href="#!"
+                                           th:data-job-id="${'a' + job.id}"><i
+                                                class="far fa-heart"></i></a>
+                                    </button>
+
+                                    <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
+                                            style="border: white;background: white"><a class="favourite" href="#!"><i
+                                            class="far fa-heart"></i></a>
+                                    </button>
                                     <div class="popular-jobs-box">
                                         <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;" alt="...">
                                         <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}" th:text="${job.title}"></a></h4>
@@ -273,6 +301,20 @@
                     </div>
                 </div>
             </div>
+
+            <div id="myModal" class="modal-pop" th:if="${currentUser == null}">
+                <!-- Modal content -->
+                <div class="modal-content-pop">
+                       <span>
+                            <div class="alert alert-dark alert-dismissible ">
+                                <strong>Please login or register in order to add to favorites.</strong>
+                            </div>
+                       </span>
+                    <a href="/login" class="butn mb-3 w-100 text-center">Login</a>
+                    <span class="close"></span>
+                </div>
+            </div>
+
         </section>
 
         <!-- FOOTER
@@ -469,6 +511,12 @@
 
     <!-- form scripts js -->
     <script src="/quform/js/scripts.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="/js/jobWishlist.js"></script>
+
+    <script src="/js/popup.js"></script>
 
     <!-- all js include end -->
 

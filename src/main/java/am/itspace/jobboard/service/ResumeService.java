@@ -38,4 +38,6 @@ public interface ResumeService {
     Resume create(Resume resume, MultipartFile multipartFile);
 
     Resume update(Resume resume, MultipartFile multipartFile);
+
+    Resume findById(int id);
 }

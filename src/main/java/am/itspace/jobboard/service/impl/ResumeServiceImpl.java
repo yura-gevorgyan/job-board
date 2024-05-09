@@ -158,4 +158,9 @@ public class ResumeServiceImpl implements ResumeService {
         }
         return resumeRepository.save(resume);
     }
+
+    @Override
+    public Resume findById(int id) {
+        return resumeRepository.findById(id).orElse(null);
+    }
 }

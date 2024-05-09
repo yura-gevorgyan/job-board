@@ -28,7 +28,7 @@
 
     <!-- quform css -->
     <link rel="stylesheet" href="/quform/css/base.css">
-
+    <link href="/css/popup.css" rel="stylesheet">
     <!-- core style css -->
     <link href="/css/styles.css" rel="stylesheet">
 
@@ -160,7 +160,35 @@
                             <div th:each="company : ${companies}" class="col-md-6 mt-1-9">
                                 <div class="card card-style10">
                                     <div class="card-body">
-                                        <a class="favourite" href="#"><i class="far fa-heart"></i></a>
+                                        <th:block
+                                                th:if="${favoritesCompanies != null && !favoritesCompanies.isEmpty()}">
+                                            <button th:if="${#lists.contains(favoritesCompanies,company)}"
+                                                    style="border: white">
+                                                <a class="favourite wishList"
+                                                   style="background-color: #e74c3c; color: white"
+                                                   href="#!"
+                                                   th:data-company-id="${company.id}"><i class="far fa-heart"></i></a>
+                                            </button>
+
+                                            <button th:if="${!#lists.contains(favoritesCompanies,company)}"
+                                                    style="border: white">
+                                                <a class="favourite wishList" href="#!"
+                                                   th:data-company-id="${'a' + company.id}"><i
+                                                        class="far fa-heart"></i></a>
+                                            </button>
+                                        </th:block>
+
+                                        <button th:if="${currentUser != null && (favoritesCompanies == null || favoritesCompanies.isEmpty())}"
+                                                style="border: white">
+                                            <a class="favourite wishList" href="#!"
+                                               th:data-company-id="${'a' + company.id}"><i class="far fa-heart"></i></a>
+                                        </button>
+
+                                        <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
+                                                style="border: white"><a class="favourite" href="#!"><i
+                                                class="far fa-heart"></i></a>
+                                        </button>
+
                                         <div class="popular-jobs-box">
                                             <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${company.logoName}" width="80px" alt="...">
                                             <h4 class="h5"><a th:href="'/companies/item/' + ${company.id}"
@@ -250,6 +278,19 @@
                     </div>
                 </div>
                 <!-- end job-grid right -->
+            </div>
+        </div>
+
+        <div id="myModal" class="modal-pop" th:if="${currentUser == null}">
+            <!-- Modal content -->
+            <div class="modal-content-pop">
+                       <span>
+                            <div class="alert alert-dark alert-dismissible ">
+                                <strong>Please login or register in order to add to favorites.</strong>
+                            </div>
+                       </span>
+                <a href="/login" class="butn mb-3 w-100 text-center">Login</a>
+                <span class="close"></span>
             </div>
         </div>
     </section>
@@ -455,6 +496,10 @@
 
 <!-- custom scripts -->
 <script src="/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="/js/companyWishlist.js"></script>
+<script src="/js/popup.js"></script>
 
 <!-- form plugins js -->
 <script src="/quform/js/plugins.js"></script>

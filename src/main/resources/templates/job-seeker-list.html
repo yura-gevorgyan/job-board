@@ -32,8 +32,37 @@
 
     <!-- core style css -->
     <link href="/css/styles.css" rel="stylesheet">
+
+    <link href="/css/popup.css" rel="stylesheet">
+
     <link href="/css/dashboard.css" rel="stylesheet">
 
+    <style>
+        .hide-after-fourth {
+            display: none;
+        }
+
+        .favourite {
+            display: inline-block;
+            left: 25px;
+            top: 25px;
+            height: 40px;
+            width: 40px;
+            line-height: 40px;
+            border: 1px solid white;
+            border-radius: 100%;
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+            color: #969696;
+            background: white;
+        }
+
+        .favourite:hover {
+            color: #ffffff;
+            background: #e74c3c;
+            border: 1px solid #e74c3c
+        }
+    </style>
 
 </head>
 
@@ -221,7 +250,38 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-3 text-center text-md-end">
-                                                <input type="hidden" name="indexStr" th:value="${'1'}">
+                                                <th:block
+                                                        th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
+
+                                                    <button th:if="${#lists.contains(favoritesResumes,resume)}"
+                                                            style="border: white">
+                                                        <a class="favourite wishList"
+                                                           style="background-color: #e74c3c; color: white"
+                                                           href="#!"
+                                                           th:data-resume-id="${resume.id}"><i class="far fa-heart"></i></a>
+                                                    </button>
+
+                                                    <button th:if="${!#lists.contains(favoritesResumes,resume)}"
+                                                            style="border: white;background: white">
+                                                        <a class="favourite wishList" href="#!"
+                                                           th:data-resume-id="${'a' + resume.id}"><i
+                                                                class="far fa-heart"></i></a>
+                                                    </button>
+                                                </th:block>
+
+                                                <button th:if="${currentUser != null  &&  (favoritesResumes == null || favoritesResumes.isEmpty())}"
+                                                        style="border: white;background: white"><a
+                                                        class="favourite wishList" href="#!"
+                                                        th:data-resume-id="${'a' + resume.id}"><i
+                                                        class="far fa-heart"></i></a>
+                                                </button>
+
+                                                <button class="openModalBtn" type="submit"
+                                                        th:if="${currentUser == null}"
+                                                        style="border: white;background: white"><a class="favourite" href="#!"><i
+                                                        class="far fa-heart"></i></a>
+                                                </button>
+
                                                 <a th:href="@{'/resumes/item/' + ${resume.id}}" class="butn butn-md">See Profile</a>
                                             </div>
                                         </div>
@@ -294,7 +354,21 @@
                     </div>
                     <!-- end candidate-list right -->
                 </div>
+
+                <div id="myModal" class="modal-pop" th:if="${currentUser == null}">
+                    <!-- Modal content -->
+                    <div class="modal-content-pop">
+                       <span>
+                            <div class="alert alert-dark alert-dismissible ">
+                                <strong>Please login or register in order to add to favorites.</strong>
+                            </div>
+                       </span>
+                        <a href="/login" class="butn mb-3 w-100 text-center">Login</a>
+                        <span class="close"></span>
+                    </div>
+                </div>
             </div>
+
         </section>
 
         <!-- FOOTER
@@ -472,6 +546,12 @@
 
     <!-- jQuery -->
     <script src="/js/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="/js/resumeWishlist.js"></script>
+
+    <script src="/js/popup.js"></script>
 
     <!-- popper js -->
     <script src="/js/popper.min.js"></script>

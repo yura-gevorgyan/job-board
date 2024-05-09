@@ -3,30 +3,24 @@ package am.itspace.jobboard.controller;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.JobApplies;
 import am.itspace.jobboard.entity.Resume;
+import am.itspace.jobboard.entity.ResumeWishlist;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.security.SpringUser;
-import am.itspace.jobboard.service.CategoryService;
-import am.itspace.jobboard.service.JobAppliesService;
-import am.itspace.jobboard.service.JobService;
-import am.itspace.jobboard.service.ResumeService;
+import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.specification.ResumeSpecification;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -42,9 +36,10 @@ public class ResumeController {
     private final CategoryService categoryService;
     private final JobService jobService;
     private final JobAppliesService jobAppliesService;
+    private final ResumeWishlistService resumeWishlistService;
 
     @GetMapping("/{index}")
-    public String resumesPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
+    public String resumesPage(@PathVariable("index") String indexStr, ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
         try {
             int index = Integer.parseInt(indexStr);
 
@@ -56,6 +51,15 @@ public class ResumeController {
 
             if (index > resumes.getTotalPages() && resumes.getTotalPages() != 0) {
                 return "redirect:/resumes/1";
+            }
+
+            if (springUser != null) {
+                List<ResumeWishlist> resumeWishlist = resumeWishlistService.findAllByUserId(springUser.getUser().getId());
+                List<Resume> resumeList = new ArrayList<>();
+                for (ResumeWishlist wishlist : resumeWishlist) {
+                    resumeList.add(wishlist.getResume());
+                }
+                modelMap.addAttribute("favoritesResumes", resumeList);
             }
 
             addAttributes(modelMap, resumes, index, 0, null);
@@ -76,7 +80,8 @@ public class ResumeController {
                                @RequestParam(value = "fromSalary", required = false, defaultValue = "0") String fromSalaryStr,
                                @RequestParam(value = "toSalary", required = false, defaultValue = "100000000") String toSalaryStr,
                                HttpServletRequest httpServletRequest,
-                               ModelMap modelMap) {
+                               ModelMap modelMap,
+                               @AuthenticationPrincipal SpringUser springUser) {
 
         List<WorkExperience> experienceList = new ArrayList<>();
 
@@ -119,6 +124,16 @@ public class ResumeController {
             modelMap.addAttribute("currentGender", genderStr);
             modelMap.addAttribute("currentToSalary", (int) toSalary);
             modelMap.addAttribute("currentExperience", experienceList);
+
+            if (springUser != null) {
+                List<ResumeWishlist> resumeWishlist = resumeWishlistService.findAllByUserId(springUser.getUser().getId());
+                List<Resume> resumeList = new ArrayList<>();
+                for (ResumeWishlist wishlist : resumeWishlist) {
+                    resumeList.add(wishlist.getResume());
+                }
+                modelMap.addAttribute("favoritesResumes", resumeList);
+            }
+
             return "job-seeker-list";
 
         } catch (IllegalArgumentException e) {
@@ -242,6 +257,85 @@ public class ResumeController {
 
         resumeService.update(resume, multipartFile);
         return "redirect:/profile/resume";
+    }
+
+    @GetMapping("/favorites/{index}")
+    public String favoritesJobs(@PathVariable("index") String indexStr,
+                                ModelMap modelMap,
+                                @AuthenticationPrincipal SpringUser springUser) {
+        if (springUser != null) {
+            try {
+                if (indexStr == null || indexStr.isEmpty()) {
+                    return "redirect:/resumes/favorites/1";
+                }
+
+                int index = Integer.parseInt(indexStr);
+
+                if (index <= 0) {
+                    return "redirect:/resumes/favorites/1";
+                }
+
+                Page<ResumeWishlist> byUserid = resumeWishlistService.findByUserId(index, springUser.getUser().getId());
+
+                if (index > byUserid.getTotalPages() && byUserid.getTotalPages() != 0) {
+                    return "redirect:/resumes/favorites/1";
+                }
+
+                modelMap.addAttribute("favoritesResumes", byUserid);
+                modelMap.addAttribute("index", index);
+                modelMap.addAttribute("totalPages", byUserid.getTotalPages());
+
+                return "favorites-resumes";
+
+            } catch (NumberFormatException e) {
+                return "redirect:/jobs/favorites/1";
+            }
+
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/favorites/add/{idStr}")
+    public ResponseEntity<?> addWishlist(@PathVariable("idStr") String idStr,
+                                         @AuthenticationPrincipal SpringUser springUser) {
+        if (springUser != null) {
+            try {
+                int id = Integer.parseInt(idStr);
+
+                Resume resume = resumeService.findById(id);
+
+                if (resume != null && resume.isActive()) {
+                    resumeWishlistService.save(resume, springUser.getUser());
+                    return ResponseEntity.ok().build();
+                }
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/favorites/delete/{idStr}")
+    public ResponseEntity<?> deleteWishlist(@PathVariable("idStr") String idStr,
+                                            @AuthenticationPrincipal SpringUser springUser) {
+
+        if (springUser != null) {
+            try {
+                int id = Integer.parseInt(idStr);
+
+                Resume resume = resumeService.findById(id);
+
+                if (resume != null && resume.isActive()) {
+                    resumeWishlistService.delete(resume, springUser.getUser());
+                    return ResponseEntity.ok().build();
+                }
+
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     private void addAttributes(ModelMap modelMap, Page<Resume> resumes, int index, int searchIndex, String url) {

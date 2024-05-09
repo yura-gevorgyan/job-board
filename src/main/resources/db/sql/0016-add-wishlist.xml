@@ -1,0 +1,48 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0016-add-wishlist" author="YGevorgyan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="job_wishlist"/>
+            </not>
+        </preConditions>
+        <createTable tableName="job_wishlist">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="job_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_job_wishlist_job_id" references="job(id)"/>
+            </column>
+            <column name="user_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_job_wishlist_user_id" references="user(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="company_wishlist">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_company_wishlist_company_id" references="company(id)"/>
+            </column>
+            <column name="user_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_company_wishlist_user_id" references="user(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="resume_wishlist">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="resume_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_resume_wishlist_resume_id" references="resume(id)"/>
+            </column>
+            <column name="user_id" type="int(11)">
+                <constraints nullable="false" foreignKeyName="fk_resume_wishlist_user_id" references="user(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
