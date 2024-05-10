@@ -166,12 +166,18 @@
                                                 <select id="date" class="form-control form-select border-radius-10 me-2"
                                                         name="date">
                                                     <option value="">Choose Date</option>
-                                                    <option value="day" th:selected="${currentDate != null && (currentDate == 'day')}">Last Day
+                                                    <option value="day"
+                                                            th:selected="${currentDate != null && (currentDate == 'day')}">
+                                                        Last Day
                                                     </option>
-                                                    <option value="week" th:selected="${currentDate != null && (currentDate == 'week')}">Last
+                                                    <option value="week"
+                                                            th:selected="${currentDate != null && (currentDate == 'week')}">
+                                                        Last
                                                         Week
                                                     </option>
-                                                    <option value="month" th:selected="${currentDate != null && (currentDate == 'month')}">Last
+                                                    <option value="month"
+                                                            th:selected="${currentDate != null && (currentDate == 'month')}">
+                                                        Last
                                                         Month
                                                     </option>
                                                 </select>
@@ -222,22 +228,28 @@
                                         <td th:text="${#dates.format(jobApply.sendDate,'MMM dd, yyyy')}"></td>
                                         <td class="jobapplies-status">
                                             <span th:if="${jobApply.jobAppliesStatus != null && jobApply.jobAppliesStatus.name() == 'TOTAL'}"
-                                                  class="text-warning font-weight-600" th:text="${jobApply.jobAppliesStatus.getName()}"></span>
+                                                  class="text-warning font-weight-600"
+                                                  th:text="${jobApply.jobAppliesStatus.getName()}"></span>
                                             <span th:if="${jobApply.jobAppliesStatus != null && jobApply.jobAppliesStatus.name() == 'APPROVED'}"
-                                                  class="text-success font-weight-600" th:text="${jobApply.jobAppliesStatus.getName()}"></span>
+                                                  class="text-success font-weight-600"
+                                                  th:text="${jobApply.jobAppliesStatus.getName()}"></span>
                                             <span th:if="${jobApply.jobAppliesStatus != null && jobApply.jobAppliesStatus.name() == 'REJECTED'}"
-                                                  class="text-danger font-weight-600" th:text="${jobApply.jobAppliesStatus.getName()}"></span>
+                                                  class="text-danger font-weight-600"
+                                                  th:text="${jobApply.jobAppliesStatus.getName()}"></span>
                                         </td>
                                         <td>
                                             <ul class="action-list">
-                                                <li><a th:href="@{'/jobs/item/' + ${jobApply.job.id}}"><span class="ti-eye"></span></a></li>
+                                                <li><a th:href="@{'/jobs/item/' + ${jobApply.job.id}}"><span
+                                                        class="ti-eye"></span></a></li>
                                                 <li th:if="${jobApply.jobAppliesStatus.name() == 'TOTAL'}">
-                                                    <a href="#!" class="approve-job" th:data-jobapply-id="${jobApply.id}">
+                                                    <a href="#!" class="approve-job"
+                                                       th:data-jobapply-id="${jobApply.id}">
                                                         <span class="ti-check"></span>
                                                     </a>
                                                 </li>
                                                 <li th:if="${jobApply.jobAppliesStatus.name() == 'TOTAL'}">
-                                                    <a href="#!" class="reject-job" th:data-jobapply-id="${jobApply.id}">
+                                                    <a href="#!" class="reject-job"
+                                                       th:data-jobapply-id="${jobApply.id}">
                                                         <span class="ti-close"></span>
                                                     </a>
                                                 </li>

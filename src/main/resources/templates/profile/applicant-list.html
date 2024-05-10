@@ -164,7 +164,7 @@
                             <div class="table-responsive">
                                         <span style="justify-content: center"
                                               th:if="${applicantLists == null or applicantListCount == 0}">
-                                               <h2>Job Applies Not found.</h2>
+                                               <h2>Job applies are not found.</h2>
                                             </span>
                                 <table class="table custome-table2">
                                     <thead th:if="${applicantLists != null and applicantListCount != 0}">
@@ -217,22 +217,28 @@
                                         <td th:text="${#dates.format(applicantList.sendDate,'MMM dd, yyyy')}"></td>
                                         <td class="jobapplies-status">
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
-                                                  class="text-warning font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  class="text-warning font-weight-600"
+                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'APPROVED'}"
-                                                  class="text-success font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  class="text-success font-weight-600"
+                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'REJECTED'}"
-                                                  class="text-danger font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  class="text-danger font-weight-600"
+                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                         </td>
                                         <td>
                                             <ul class="action-list">
-                                                <li><a th:href="@{'/resumes/item/' + ${applicantList.resume.id}}"><span class="ti-eye"></span></a></li>
+                                                <li><a th:href="@{'/resumes/item/' + ${applicantList.resume.id}}"><span
+                                                        class="ti-eye"></span></a></li>
                                                 <li th:if="${applicantList.applicantListStatus.name() == 'WAITING'}">
-                                                    <a href="#!" class="approve-job" th:data-jobapply-id="${applicantList.id}">
+                                                    <a href="#!" class="approve-job"
+                                                       th:data-jobapply-id="${applicantList.id}">
                                                         <span class="ti-check"></span>
                                                     </a>
                                                 </li>
                                                 <li th:if="${applicantList.applicantListStatus.name() == 'WAITING'}">
-                                                    <a href="#!" class="reject-job" th:data-jobapply-id="${applicantList.id}">
+                                                    <a href="#!" class="reject-job"
+                                                       th:data-jobapply-id="${applicantList.id}">
                                                         <span class="ti-close"></span>
                                                     </a>
                                                 </li>

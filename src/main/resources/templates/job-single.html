@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Job Single Page</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -39,486 +39,513 @@
 
 <body>
 
-    <!-- PAGE LOADING
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
     ================================================== -->
-    <div id="preloader"></div>
+    <header>
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
 
-    <!-- MAIN WRAPPER
+
+    <!-- JOB DETAILS 2
     ================================================== -->
-    <div class="main-wrapper">
+    <section>
 
-        <!-- HEADER
-        ================================================== -->
-        <header>
-            <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
-        </header>
-
-
-        <!-- JOB DETAILS 2
-        ================================================== -->
-        <section>
-
-            <div class="container">
-                <div class="row mb-2-5 mb-lg-2-9">
+        <div class="container">
+            <div class="row mb-2-5 mb-lg-2-9">
                         <span th:if="${errorMsg != null}">
                             <div class="alert alert-danger alert-dismissible">
                                 <strong th:text="${errorMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
                         </span>
-                    <span th:if="${msg != null}">
+                <span th:if="${msg != null}">
                             <div class="alert alert-success alert-dismissible">
                                 <strong th:text="${msg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
                     </span>
-                    <span th:if="${applyJobMsg != null}">
+                <span th:if="${applyJobMsg != null}">
                             <div class="alert alert-warning alert-dismissible">
                                 <strong th:text="${applyJobMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
                     </span>
-                    <span th:if="${resumeMsg != null}">
+                <span th:if="${resumeMsg != null}">
                             <div class="alert alert-dark alert-dismissible">
                                 <strong th:text="${resumeMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
                     </span>
-                    <div class="col-lg-12">
-                        <div class="p-1-6 p-md-1-9 border border-color-extra-light-gray border-radius-10">
-                            <div class="row align-items-center">
-                                <div class="col-lg-9 mb-4 mb-lg-0">
-                                    <div class="d-lg-flex align-items-center text-center text-lg-start">
-                                        <div class="flex-shrink-0 mb-4 mb-lg-0">
-                                            <img th:src="@{'/download/picture/' + ${job.logoName}}" style="width: 80px"
-                                                 alt="..."
-                                                 class="border-radius-10">
-                                        </div>
-                                        <div class="flex-grow-1 ms-lg-4">
-                                            <h4 class="mb-3">
-                                                <th:block th:text="${job.title}"></th:block>
+                <div class="col-lg-12">
+                    <div class="p-1-6 p-md-1-9 border border-color-extra-light-gray border-radius-10">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9 mb-4 mb-lg-0">
+                                <div class="d-lg-flex align-items-center text-center text-lg-start">
+                                    <div class="flex-shrink-0 mb-4 mb-lg-0">
+                                        <img th:src="@{'/download/picture/' + ${job.logoName}}" style="width: 80px"
+                                             alt="..."
+                                             class="border-radius-10">
+                                    </div>
+                                    <div class="flex-grow-1 ms-lg-4">
+                                        <h4 class="mb-3">
+                                            <th:block th:text="${job.title}"></th:block>
 
-                                                <span class="job-detail-info"><i
-                                                        class="ti-briefcase text-primary pe-2"></i><th:block
-                                                        th:text="${job.status.getName()}"></th:block></span>
-                                            </h4>
-                                            <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                    th:text="${job.category.name}"></th:block></span>
-                                            <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
-                                                    th:text="${job.location}"></th:block></span>
-                                            <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
-                                                    th:text="${job.workExperience.getExperience()}"></th:block></span>
-                                            <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
-                                                    th:text="${'$' + job.salary}"></th:block></span>
-                                        </div>
+                                            <span class="job-detail-info"><i
+                                                    class="ti-briefcase text-primary pe-2"></i><th:block
+                                                    th:text="${job.status.getName()}"></th:block></span>
+                                        </h4>
+                                        <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
+                                                th:text="${job.category.name}"></th:block></span>
+                                        <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
+                                                th:text="${job.location}"></th:block></span>
+                                        <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
+                                                th:text="${job.workExperience.getExperience()}"></th:block></span>
+                                        <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
+                                                th:text="${'$' + job.salary}"></th:block></span>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="row">
-                                        <div class="text-center mb-3">Published Date: <strong
-                                                th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></strong>
-                                        </div>
-                                        <div class="col-12">
-                                            <a th:href="@{'/jobs/apply/' + ${job.id}}" class="butn mb-3 w-100 text-center">Apply For Job</a>
-                                        </div>
-                                        <div class="col-12">
-                                            <a href="#!" class="butn w-100 text-center">Shortlist</a>
-                                        </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    <div class="text-center mb-3">Published Date: <strong
+                                            th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></strong>
+                                    </div>
+                                    <div class="col-12">
+                                        <a th:href="@{'/jobs/apply/' + ${job.id}}" class="butn mb-3 w-100 text-center">Apply
+                                            For Job</a>
+                                    </div>
+                                    <div class="col-12">
+                                        <a href="#!" class="butn w-100 text-center">Shortlist</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2-2 mb-lg-2-5 pb-2-2 pb-lg-2-5 border-bottom border-color-extra-light-gray">
-                    <div class="col-lg-8 mb-2-2 mb-lg-0">
-                        <div class="pe-lg-1-6 pe-xl-1-9">
-                            <div class="row">
-                                <div class="col-lg-12 mb-2-2">
-                                    <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
-                                        <h4 class="mb-3">Job Details :</h4>
-                                        <div class="row mt-n3">
-                                            <div class="col-sm-6 col-md-4 mt-3">
-                                                <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
-                                                    <h5 class="display-29 display-xl-28">Offered Salary</h5>
-                                                    <span class="font-weight-500 text-primary display-30"
-                                                          th:text="${'$' + job.salary}"></span>
-                                                </div>
+            </div>
+            <div class="row mb-2-2 mb-lg-2-5 pb-2-2 pb-lg-2-5 border-bottom border-color-extra-light-gray">
+                <div class="col-lg-8 mb-2-2 mb-lg-0">
+                    <div class="pe-lg-1-6 pe-xl-1-9">
+                        <div class="row">
+                            <div class="col-lg-12 mb-2-2">
+                                <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
+                                    <h4 class="mb-3">Job Details :</h4>
+                                    <div class="row mt-n3">
+                                        <div class="col-sm-6 col-md-4 mt-3">
+                                            <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
+                                                <h5 class="display-29 display-xl-28">Offered Salary</h5>
+                                                <span class="font-weight-500 text-primary display-30"
+                                                      th:text="${'$' + job.salary}"></span>
                                             </div>
-                                            <div class="col-sm-6 col-md-4 mt-3">
-                                                <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
-                                                    <h5 class="display-29 display-xl-28">Experience</h5>
-                                                    <span class="font-weight-500 text-primary display-30"
-                                                          th:text="${job.workExperience.getExperience()}"></span>
-                                                </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4 mt-3">
+                                            <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
+                                                <h5 class="display-29 display-xl-28">Experience</h5>
+                                                <span class="font-weight-500 text-primary display-30"
+                                                      th:text="${job.workExperience.getExperience()}"></span>
                                             </div>
-                                            <div class="col-sm-6 col-md-4 mt-3">
-                                                <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
-                                                    <h5 class="display-29 display-xl-28">Industry</h5>
-                                                    <span class="font-weight-500 text-primary display-30"
-                                                          th:text="${job.category.name}"></span>
-                                                </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4 mt-3">
+                                            <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
+                                                <h5 class="display-29 display-xl-28">Industry</h5>
+                                                <span class="font-weight-500 text-primary display-30"
+                                                      th:text="${job.category.name}"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 mb-2-2">
-                                    <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
-                                        <h4 class="mb-3">Job Description :</h4>
-                                        <p class="mb-0" th:utext="${job.description}"></p>
-                                    </div>
+                            </div>
+                            <div class="col-lg-12 mb-2-2">
+                                <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
+                                    <h4 class="mb-3">Job Description :</h4>
+                                    <p class="mb-0" th:utext="${job.description}"></p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="job-details-sidebar">
-                            <div class="widget" th:if="${job.company != null}">
-                                <div class="card border border-color-extra-light-gray border-radius-10">
-                                    <div class="card-body p-4">
-                                        <div class="d-flex align-items-center mb-1-9">
-                                            <div class="flex-shrink-0">
-                                                <img th:src="@{'/download/picture/' + ${job.company.logoName}}"
-                                                     style="width: 100px" alt="..." class="border-radius-10">
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <h5 class="mb-1" th:text="${job.company.name}"></h5>
-                                                <a th:href="@{'/companies/item/' + ${job.company.id}}"
-                                                   class="font-weight-600">View Company Profile</a>
-                                            </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="job-details-sidebar">
+                        <div class="widget" th:if="${job.company != null}">
+                            <div class="card border border-color-extra-light-gray border-radius-10">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-center mb-1-9">
+                                        <div class="flex-shrink-0">
+                                            <img th:src="@{'/download/picture/' + ${job.company.logoName}}"
+                                                 style="width: 100px" alt="..." class="border-radius-10">
                                         </div>
-                                        <ul class="list-style5">
-                                            <li><span>Industry</span>
-                                                <th:block th:text="${' ' + job.company.category.name}"></th:block>
-                                            </li>
-                                            <li><span>Founded In</span>
-                                                <th:block
-                                                        th:text="${#dates.format(job.company.foundedDate,'dd MMMM yyyy')}"></th:block>
-                                            </li>
-                                            <li th:if="${job.company.phone != null && !job.company.phone.isEmpty()}"><span>Phone</span>
-                                                <th:block th:text="${job.company.phone}"></th:block>
-                                            </li>
-                                            <li th:if="${job.company.email != null && !job.company.email.isEmpty()}"><span>Email</span>
-                                                <th:block th:text="${job.company.email}"></th:block>
-                                            </li>
-                                            <li th:if="${job.company.website != null && !job.company.website.isEmpty()}"><span>Website</span>
-                                                <th:block th:text="${job.company.website}"></th:block>
-                                            </li>
-                                            <li><span>Address</span>
-                                                <th:block th:text="${job.company.location}"></th:block>
-                                            </li>
-                                        </ul>
-                                        <a th:if="${job.company.website != null && !job.company.website.isEmpty()}" th:href="${job.company.website}" class="butn w-100 text-center mt-1-9">
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5 class="mb-1" th:text="${job.company.name}"></h5>
+                                            <a th:href="@{'/companies/item/' + ${job.company.id}}"
+                                               class="font-weight-600">View Company Profile</a>
+                                        </div>
+                                    </div>
+                                    <ul class="list-style5">
+                                        <li><span>Industry</span>
+                                            <th:block th:text="${' ' + job.company.category.name}"></th:block>
+                                        </li>
+                                        <li><span>Founded In</span>
+                                            <th:block
+                                                    th:text="${#dates.format(job.company.foundedDate,'dd MMMM yyyy')}"></th:block>
+                                        </li>
+                                        <li th:if="${job.company.phone != null && !job.company.phone.isEmpty()}"><span>Phone</span>
+                                            <th:block th:text="${job.company.phone}"></th:block>
+                                        </li>
+                                        <li th:if="${job.company.email != null && !job.company.email.isEmpty()}"><span>Email</span>
+                                            <th:block th:text="${job.company.email}"></th:block>
+                                        </li>
+                                        <li th:if="${job.company.website != null && !job.company.website.isEmpty()}">
+                                            <span>Website</span>
                                             <th:block th:text="${job.company.website}"></th:block>
-                                        </a>
-                                    </div>
+                                        </li>
+                                        <li><span>Address</span>
+                                            <th:block th:text="${job.company.location}"></th:block>
+                                        </li>
+                                    </ul>
+                                    <a th:if="${job.company.website != null && !job.company.website.isEmpty()}"
+                                       th:href="${job.company.website}" class="butn w-100 text-center mt-1-9">
+                                        <th:block th:text="${job.company.website}"></th:block>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="widget" th:if="${job.company == null}">
-                                <div class="card border border-color-extra-light-gray border-radius-10">
-                                    <div class="card-body p-4">
-                                        <div class="d-flex align-items-center mb-1-9">
-                                            <div class="flex-shrink-0">
-                                                <img th:src="@{'/download/picture/' + ${job.user}}"
-                                                     style="width: 100px" alt="..." class="border-radius-10">
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <h5 class="mb-1" th:text="${job.user.name +' ' +  job.user.surname}"></h5>
-                                                <a th:href="@{'/resumes/item/' + ${job.user.id}}"
-                                                   class="font-weight-600">View Employer Profile</a>
-                                            </div>
-                                        </div>
-                                        <ul class="list-style5">
-                                            <li><span>Email</span>
-                                                <th:block th:text="${job.user.email}"></th:block>
-                                            </li>
-                                            <li><span>Register Date</span>
-                                                <th:block
-                                                        th:text="${#dates.format(job.user.registerDate,'dd MMMM yyyy')}"></th:block>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget">
-                                <div class="card border border-color-extra-light-gray border-radius-10">
-                                    <div class="card-body p-4">
-                                        <h4>Location</h4>
-                                        <iframe class="map-h250" id="gmap_canvas" src="https://maps.google.com/maps?q=london&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+                        <div class="widget" th:if="${job.company == null}">
+                            <div class="card border border-color-extra-light-gray border-radius-10">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-center mb-1-9">
+                                        <div class="flex-shrink-0">
+                                            <img th:src="@{'/download/picture/' + ${job.user}}"
+                                                 style="width: 100px" alt="..." class="border-radius-10">
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5 class="mb-1" th:text="${job.user.name +' ' +  job.user.surname}"></h5>
+                                            <span class="font-weight-600">Employer Profile Data</span>
+                                        </div>
+                                    </div>
+                                    <ul class="list-style5">
+                                        <li><span>Email</span>
+                                            <th:block th:text="${job.user.email}"></th:block>
+                                        </li>
+                                        <li><span>RegisterDate</span>
+                                            <th:block
+                                                    th:text="${#dates.format(job.user.registerDate,'dd MMMM yyyy')}"></th:block>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <div class="card border border-color-extra-light-gray border-radius-10">
+                                <div class="card-body p-4">
+                                    <h4>Location</h4>
+                                    <iframe class="map-h250" id="gmap_canvas"
+                                            src="https://maps.google.com/maps?q=london&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="row" >
-                    <div class="col-lg-12" >
-                        <h4 class="mb-4">Related Jobs :</h4>
-                        <div class="recent-jobs owl-carousel owl-theme">
-                            <div class="card card-style10" th:each="singleJob : ${jobs} ">
-                                <div class="card-body">
-                                    <span class="popular-jobs-status" th:text="${singleJob.status.getName()}"></span>
-                                    <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb-4">Related Jobs :</h4>
+                    <div class="recent-jobs owl-carousel owl-theme">
+                        <div class="card card-style10" th:each="singleJob : ${jobs} ">
+                            <div class="card-body">
+                                <span class="popular-jobs-status" th:text="${singleJob.status.getName()}"></span>
+                                <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
 
-                                        <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
-                                            <a class="favourite wishList"
-                                               style="background-color: #e74c3c; color: white"
-                                               href="#!"
-                                               th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
-                                        </button>
+                                    <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
+                                        <a class="favourite wishList"
+                                           style="background-color: #e74c3c; color: white"
+                                           href="#!"
+                                           th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
+                                    </button>
 
-                                        <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
-                                            <a class="favourite wishList" href="#!"
-                                               th:data-job-id="${'a' + job.id}"><i
-                                                    class="far fa-heart"></i></a>
-                                        </button>
-
-                                    </th:block>
-                                    <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
+                                    <button th:if="${!#lists.contains(favoritesJobs,job)}"
                                             style="border: white;background: white">
                                         <a class="favourite wishList" href="#!"
                                            th:data-job-id="${'a' + job.id}"><i
                                                 class="far fa-heart"></i></a>
                                     </button>
 
-                                    <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
-                                            style="border: white;background: white"><a class="favourite" href="#!"><i
+                                </th:block>
+                                <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
+                                        style="border: white;background: white">
+                                    <a class="favourite wishList" href="#!"
+                                       th:data-job-id="${'a' + job.id}"><i
                                             class="far fa-heart"></i></a>
-                                    </button>
-                                    <div class="popular-jobs-box">
-                                        <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;" alt="...">
-                                        <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}" th:text="${job.title}"></a></h4>
-                                        <p class="text-muted font-weight-500" th:text="${singleJob.category.name}"></p>
-                                    </div>
-                                    <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block th:text="${job.location}"></th:block></span>
-                                    <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="far fa-clock pe-2 text-secondary"></i><th:block th:text="${'$' + job.salary}"></th:block></span>
-                                    <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${singleJob.workExperience.getExperience()}"></th:block></span>
+                                </button>
+
+                                <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
+                                        style="border: white;background: white"><a class="favourite" href="#!"><i
+                                        class="far fa-heart"></i></a>
+                                </button>
+                                <div class="popular-jobs-box">
+                                    <img class="mb-4 border-radius-10"
+                                         th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;"
+                                         alt="...">
+                                    <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}"
+                                                      th:text="${job.title}"></a></h4>
+                                    <p class="text-muted font-weight-500" th:text="${singleJob.category.name}"></p>
                                 </div>
-                                <a th:href="@{'/jobs/item/' + ${singleJob.id}}" class="butn butn-apply">Watch Now</a>
+                                <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
+                                        class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block
+                                        th:text="${job.location}"></th:block></span>
+                                <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
+                                        class="far fa-clock pe-2 text-secondary"></i><th:block
+                                        th:text="${'$' + job.salary}"></th:block></span>
+                                <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block
+                                        th:text="${singleJob.workExperience.getExperience()}"></th:block></span>
                             </div>
+                            <a th:href="@{'/jobs/item/' + ${singleJob.id}}" class="butn butn-apply">Watch Now</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="myModal" class="modal-pop" th:if="${currentUser == null}">
-                <!-- Modal content -->
-                <div class="modal-content-pop">
+        <div id="myModal" class="modal-pop" th:if="${currentUser == null}">
+            <!-- Modal content -->
+            <div class="modal-content-pop">
                        <span>
                             <div class="alert alert-dark alert-dismissible ">
                                 <strong>Please login or register in order to add to favorites.</strong>
                             </div>
                        </span>
-                    <a href="/login" class="butn mb-3 w-100 text-center">Login</a>
-                    <span class="close"></span>
-                </div>
+                <a href="/login" class="butn mb-3 w-100 text-center">Login</a>
+                <span class="close"></span>
             </div>
+        </div>
 
-        </section>
+    </section>
 
-        <!-- FOOTER
-        ================================================== -->
-        <footer class="pt-0">
-            <div class="container border-bottom border-color-light-white py-2-5 py-md-6 mb-6 mb-md-8 mb-lg-10">
-                <div class="row justify-content-center align-items-center mt-n1-9">
-                    <div class="col-xl-6 mt-1-9">
-                        <div class="d-sm-flex align-items-center">
-                            <div class="flex-shrink-0 mb-1-6 mb-sm-0">
-                                <a href="index.html" class="footer-logo"><img src="/img/logos/logo-white.png" alt="..."></a>
-                            </div>
-                            <div class="flex-grow-1 border-sm-start border-color-light-white ms-sm-4 ps-sm-4 border-width-2">
-                                <p class="mb-0 display-30 text-white opacity9 w-lg-95">Create a free account to discover lots of Jobs & Career Opportunities around you!</p>
-                            </div>
+    <!-- FOOTER
+    ================================================== -->
+    <footer class="pt-0">
+        <div class="container border-bottom border-color-light-white py-2-5 py-md-6 mb-6 mb-md-8 mb-lg-10">
+            <div class="row justify-content-center align-items-center mt-n1-9">
+                <div class="col-xl-6 mt-1-9">
+                    <div class="d-sm-flex align-items-center">
+                        <div class="flex-shrink-0 mb-1-6 mb-sm-0">
+                            <a href="index.html" class="footer-logo"><img src="/img/logos/logo-white.png" alt="..."></a>
                         </div>
-                    </div>
-                    <div class="col-xl-6 mt-1-9">
-                        <div class="row">
-                            <div class="col-sm-4 mb-1-9 mb-sm-0">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="/img/icons/icon-09.png" alt="...">
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h3 class="h2 mb-1 countup font-weight-700 text-white">1327</h3>
-                                        <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Posted</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 mb-1-9 mb-sm-0">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="/img/icons/icon-10.png" alt="...">
-                                    </div>
-                                    <div class="flex-grow-1 ms-4">
-                                        <h3 class="h2 mb-1 countup font-weight-700 text-white">150</h3>
-                                        <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Filled</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="/img/icons/icon-11.png" alt="...">
-                                    </div>
-                                    <div class="flex-grow-1 ms-4">
-                                        <h3 class="h2 mb-1 countup font-weight-700 text-white">220</h3>
-                                        <p class="mb-0 font-weight-600 text-white opacity9 display-30">Companies</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="flex-grow-1 border-sm-start border-color-light-white ms-sm-4 ps-sm-4 border-width-2">
+                            <p class="mb-0 display-30 text-white opacity9 w-lg-95">Create a free account to discover
+                                lots of Jobs & Career Opportunities around you!</p>
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-6 mt-1-9">
+                    <div class="row">
+                        <div class="col-sm-4 mb-1-9 mb-sm-0">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="/img/icons/icon-09.png" alt="...">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h3 class="h2 mb-1 countup font-weight-700 text-white">1327</h3>
+                                    <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Posted</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 mb-1-9 mb-sm-0">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="/img/icons/icon-10.png" alt="...">
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h3 class="h2 mb-1 countup font-weight-700 text-white">150</h3>
+                                    <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Filled</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="/img/icons/icon-11.png" alt="...">
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h3 class="h2 mb-1 countup font-weight-700 text-white">220</h3>
+                                    <p class="mb-0 font-weight-600 text-white opacity9 display-30">Companies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="container">
-                <div class="row mt-n2-6">
-                    <div class="col-sm-6 col-lg-3 mt-2-6">
-                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Contact Us</h3>
-                        <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly customers and seek 15.8 million CV in our database.</p>
-                        <ul class="contact-list">
-                            <li class="d-flex"><span class="fa fa-home pe-3 text-white"></span><a href="#!">66 Guild Street 512B, Great North Town.</a></li>
-                            <li class="d-flex"><span class="fa fa-phone-alt pe-3 text-white"></span><a href="#!">(+44) 123 456 789</a></li>
-                            <li class="d-flex"><span class="fa fa-envelope pe-3 text-white"></span><a href="#!">info@example.com</a></li>
+        </div>
+        <div class="container">
+            <div class="row mt-n2-6">
+                <div class="col-sm-6 col-lg-3 mt-2-6">
+                    <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Contact Us</h3>
+                    <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly
+                        customers and seek 15.8 million CV in our database.</p>
+                    <ul class="contact-list">
+                        <li class="d-flex"><span class="fa fa-home pe-3 text-white"></span><a href="#!">66 Guild Street
+                            512B, Great North Town.</a></li>
+                        <li class="d-flex"><span class="fa fa-phone-alt pe-3 text-white"></span><a href="#!">(+44) 123
+                            456 789</a></li>
+                        <li class="d-flex"><span class="fa fa-envelope pe-3 text-white"></span><a href="#!">info@example.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-lg-2 mt-2-6">
+                    <div class="ps-sm-1-9">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Information</h3>
+                        <ul class="footer-list-style1">
+                            <li><a href="aboutus.html">About us</a></li>
+                            <li><a href="blog-grid.html">Blog</a></li>
+                            <li><a href="how-it-works.html">Our Process</a></li>
+                            <li><a href="pricing-plans.html">Our Pricing</a></li>
+                            <li><a href="contact-us.html">Contact Us</a></li>
                         </ul>
                     </div>
-                    <div class="col-sm-6 col-lg-2 mt-2-6">
-                        <div class="ps-sm-1-9">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Information</h3>
-                            <ul class="footer-list-style1">
-                                <li><a href="aboutus.html">About us</a></li>
-                                <li><a href="blog-grid.html">Blog</a></li>
-                                <li><a href="how-it-works.html">Our Process</a></li>
-                                <li><a href="pricing-plans.html">Our Pricing</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col-sm-6 col-lg-2 mt-2-6">
+                    <div class="ps-lg-1-9">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Candidates</h3>
+                        <ul class="footer-list-style1">
+                            <li><a href="profile/candidate-applied-job.html">Applied Job</a></li>
+                            <li><a href="candidate-cv-manager.html">CV Manager</a></li>
+                            <li><a href="profile/candidate-shortlisted-jobs.html">Shortlisted Jobs</a></li>
+                            <li><a href="profile/candidate-job-alerts.html">Job Alerts</a></li>
+                            <li><a href="candidate-dashboard.html">Dashboard</a></li>
+                        </ul>
                     </div>
-                    <div class="col-sm-6 col-lg-2 mt-2-6">
-                        <div class="ps-lg-1-9">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Candidates</h3>
-                            <ul class="footer-list-style1">
-                                <li><a href="profile/candidate-applied-job.html">Applied Job</a></li>
-                                <li><a href="candidate-cv-manager.html">CV Manager</a></li>
-                                <li><a href="profile/candidate-shortlisted-jobs.html">Shortlisted Jobs</a></li>
-                                <li><a href="profile/candidate-job-alerts.html">Job Alerts</a></li>
-                                <li><a href="candidate-dashboard.html">Dashboard</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col-sm-6 col-lg-2 mt-2-6">
+                    <div class="ps-sm-1-9 ps-lg-2-2 ps-xl-2-5">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Employers</h3>
+                        <ul class="footer-list-style1">
+                            <li><a href="employer-packages.html">Job Packages</a></li>
+                            <li><a href="profile/company-profile.html">Company Profile</a></li>
+                            <li><a href="profile/manage-job.html">Manage Job</a></li>
+                            <li><a href="employer-resume-alerts.html">Resume Alerts</a></li>
+                            <li><a href="profile/create-job.html">Post a Job</a></li>
+                        </ul>
                     </div>
-                    <div class="col-sm-6 col-lg-2 mt-2-6">
-                        <div class="ps-sm-1-9 ps-lg-2-2 ps-xl-2-5">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Employers</h3>
-                            <ul class="footer-list-style1">
-                                <li><a href="employer-packages.html">Job Packages</a></li>
-                                <li><a href="profile/company-profile.html">Company Profile</a></li>
-                                <li><a href="profile/manage-job.html">Manage Job</a></li>
-                                <li><a href="employer-resume-alerts.html">Resume Alerts</a></li>
-                                <li><a href="profile/create-job.html">Post a Job</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-3 mt-2-6">
-                        <div class="ps-lg-2-2 ps-xl-2-5">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Join Newsletter</h3>
-                            <p class="text-white mb-4">Subscribe to get the latest jobs posted, candidates...</p>
-                            <form class="quform newsletter-form" action="quform/newsletter-two.php" method="post" enctype="multipart/form-data" onclick="">
-                                <div class="quform-elements">
-                                    <div class="row">
-                                        <!-- Begin Text input element -->
-                                        <div class="col-md-12">
-                                            <div class="quform-element">
-                                                <div class="quform-input">
-                                                    <input class="form-control" id="email_address" type="text" name="email_address" placeholder="Subscribe with us">
-                                                </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 mt-2-6">
+                    <div class="ps-lg-2-2 ps-xl-2-5">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Join Newsletter</h3>
+                        <p class="text-white mb-4">Subscribe to get the latest jobs posted, candidates...</p>
+                        <form class="quform newsletter-form" action="quform/newsletter-two.php" method="post"
+                              enctype="multipart/form-data" onclick="">
+                            <div class="quform-elements">
+                                <div class="row">
+                                    <!-- Begin Text input element -->
+                                    <div class="col-md-12">
+                                        <div class="quform-element">
+                                            <div class="quform-input">
+                                                <input class="form-control" id="email_address" type="text"
+                                                       name="email_address" placeholder="Subscribe with us">
                                             </div>
                                         </div>
-                                        <!-- End Text input element -->
-
-                                        <!-- Begin Submit button -->
-                                        <div class="col-md-12">
-                                            <div class="quform-submit-inner">
-                                                <button class="btn btn-white text-primary m-0" type="submit"><span><i class="fas fa-paper-plane text-primary"></i></span></button>
-                                            </div>
-                                            <div class="quform-loading-wrap text-start"><span class="quform-loading"></span></div>
-                                        </div>
-                                        <!-- End Submit button -->
                                     </div>
+                                    <!-- End Text input element -->
+
+                                    <!-- Begin Submit button -->
+                                    <div class="col-md-12">
+                                        <div class="quform-submit-inner">
+                                            <button class="btn btn-white text-primary m-0" type="submit"><span><i
+                                                    class="fas fa-paper-plane text-primary"></i></span></button>
+                                        </div>
+                                        <div class="quform-loading-wrap text-start"><span class="quform-loading"></span>
+                                        </div>
+                                    </div>
+                                    <!-- End Submit button -->
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="footer-bar borders-top border-color-light-white">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7 text-center text-md-start mt-3 mt-md-0 order-2 order-md-1">
-                            <p class="d-inline-block text-white mb-0">&copy; <span class="current-year"></span> Job Board Powered by
-                                <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary white-hover">Chitrakoot Web</a>
-                            </p>
-                        </div>
-                        <div class="col-md-5 text-center text-md-end order-1 order-md-2">
-                            <p class="text-white d-inline-block mb-0 align-middle">Follow Us :</p>
-                            <ul class="footer-social-style1">
-                                <li>
-                                    <a href="#!"><i class="fab fa-facebook-f"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><i class="fab fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><i class="fab fa-youtube"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><i class="fab fa-linkedin-in"></i></a>
-                                </li>
-                            </ul>
-                        </div>
+        </div>
+        <div class="footer-bar borders-top border-color-light-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 text-center text-md-start mt-3 mt-md-0 order-2 order-md-1">
+                        <p class="d-inline-block text-white mb-0">&copy; <span class="current-year"></span> Job Board
+                            Powered by
+                            <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary white-hover">Chitrakoot
+                                Web</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 text-center text-md-end order-1 order-md-2">
+                        <p class="text-white d-inline-block mb-0 align-middle">Follow Us :</p>
+                        <ul class="footer-social-style1">
+                            <li>
+                                <a href="#!"><i class="fab fa-facebook-f"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="fab fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="fab fa-youtube"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="fab fa-linkedin-in"></i></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-    </div>
+</div>
 
-    <!-- start scroll to top -->
-    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
-    <!-- end scroll to top -->
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+<!-- end scroll to top -->
 
-    <!-- all js include start -->
+<!-- all js include start -->
 
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
 
-    <!-- popper js -->
-    <script src="/js/popper.min.js"></script>
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
 
-    <!-- bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
 
-    <!-- core.min.js -->
-    <script src="/js/core.min.js"></script>
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
 
-    <!-- search -->
-    <script src="/search/search.js"></script>
+<!-- search -->
+<script src="/search/search.js"></script>
 
-    <!-- custom scripts -->
-    <script src="/js/main.js"></script>
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
 
-    <!-- form plugins js -->
-    <script src="/quform/js/plugins.js"></script>
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
 
-    <!-- form scripts js -->
-    <script src="/quform/js/scripts.js"></script>
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="/js/jobWishlist.js"></script>
+<script src="/js/jobWishlist.js"></script>
 
-    <script src="/js/popup.js"></script>
+<script src="/js/popup.js"></script>
 
-    <!-- all js include end -->
+<!-- all js include end -->
 
 </body>
 

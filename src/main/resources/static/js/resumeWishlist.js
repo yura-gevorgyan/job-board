@@ -3,8 +3,8 @@ $(document).ready(function () {
     $('.wishList').on('click', function (e) {
         e.preventDefault();
         console.log("aaaaa")
-        var resumeId = $(this).data('resume-id');
-        var $row = $(this).closest('a');
+        let resumeId = $(this).data('resume-id');
+        let $row = $(this).closest('a');
 
         if (resumeId[0] === 'a') {
             resumeId = resumeId.slice(1)
@@ -47,8 +47,8 @@ $(document).ready(function () {
     $('.delete-favourite-resume').on('click', function (e) {
         e.preventDefault();
         console.log("aaaaa")
-        var resumeId = $(this).data('resume-id');
-        var $row = $(this).closest('.single-resume');
+        let resumeId = $(this).data('resume-id');
+        let $row = $(this).closest('.single-resume');
 
         $.ajax({
             url: '/resumes/favorites/delete/' + resumeId,
@@ -66,15 +66,15 @@ $(document).ready(function () {
 });
 
 $(function () {
-    var searchInput = document.getElementById('search');
+    let searchInput = document.getElementById('search');
 
     // Add event listener for input
     searchInput.addEventListener('input', function () {
-        var filter = searchInput.value.toLowerCase();
-        var resumeCards = document.querySelectorAll('.single-resume');
+        let filter = searchInput.value.toLowerCase();
+        let resumeCards = document.querySelectorAll('.single-resume');
 
         resumeCards.forEach(function (resumeCard) {
-            var resumeTitle = resumeCard.querySelector('h4').innerText.toLowerCase();
+            let resumeTitle = resumeCard.querySelector('h4').innerText.toLowerCase();
             if (resumeTitle.includes(filter)) {
                 resumeCard.style.display = 'block';
             } else {

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Job Applies</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -164,7 +164,7 @@
                             <div class="table-responsive">
                                         <span style="justify-content: center"
                                               th:if="${applicantLists == null or applicantListCount == 0}">
-                                               <h2>Job Applies Not found.</h2>
+                                               <h2>Job applies are not found.</h2>
                                             </span>
                                 <table class="table custome-table2">
                                     <thead th:if="${applicantLists != null and applicantListCount != 0}">
@@ -198,11 +198,14 @@
                                         <td th:text="${#dates.format(applicantList.sendDate,'MMM dd, yyyy')}"></td>
                                         <td>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
-                                                  class="text-warning font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  class="text-warning font-weight-600"
+                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'APPROVED'}"
-                                                  class="text-success font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  class="text-success font-weight-600"
+                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'REJECTED'}"
-                                                  class="text-danger font-weight-600" th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  class="text-danger font-weight-600"
+                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                         </td>
                                         <td>
                                             <ul class="action-list">

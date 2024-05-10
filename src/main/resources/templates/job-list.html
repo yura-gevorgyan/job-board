@@ -235,7 +235,8 @@
                                         <div class="d-lg-flex align-items-center mb-4 mb-lg-0">
                                             <div class="flex-shrink-0">
                                                 <div class="job-company-logo radius-10">
-                                                    <img th:src="'/download/picture/' + ${job.logoName}" width="80px" alt="..."
+                                                    <img th:src="'/download/picture/' + ${job.logoName}" width="80px"
+                                                         alt="..."
                                                          class="border-radius-10">
                                                 </div>
                                             </div>
@@ -259,14 +260,16 @@
                                         <div class="col-md-3 text-center text-md-end">
                                             <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
 
-                                                <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
+                                                <button th:if="${#lists.contains(favoritesJobs,job)}"
+                                                        style="background-color: white; border: none">
                                                     <a class="favourite wishList"
                                                        style="background-color: #e74c3c; color: white"
                                                        href="#!"
                                                        th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
                                                 </button>
 
-                                                <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
+                                                <button th:if="${!#lists.contains(favoritesJobs,job)}"
+                                                        style="border: white;background: white">
                                                     <a class="favourite wishList" href="#!"
                                                        th:data-job-id="${'a' + job.id}"><i
                                                             class="far fa-heart"></i></a>
@@ -281,11 +284,12 @@
                                             </button>
 
                                             <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
-                                                    style="border: white;background: white"><a class="favourite"href="#!"><i
+                                                    style="border: white;background: white"><a class="favourite"
+                                                                                               href="#!"><i
                                                     class="far fa-heart"></i></a>
                                             </button>
 
-                                        <a th:href="@{'/jobs/item/' + ${job.id}}" class="butn butn-md">Apply Job</a>
+                                            <a th:href="@{'/jobs/item/' + ${job.id}}" class="butn butn-md">Apply Job</a>
                                         </div>
                                     </div>
 
@@ -339,20 +343,24 @@
 
                                             <li th:if="${searchIndex == 0}"
                                                 th:class="${index >= totalPages ? 'disabled' : ''}">
-                                                <a th:if="${index != totalPages}" th:href="@{'/jobs/' + ${index + 1}}" aria-label="Next">
+                                                <a th:if="${index != totalPages}" th:href="@{'/jobs/' + ${index + 1}}"
+                                                   aria-label="Next">
                                                     Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                 </a>
-                                                <a th:if="${index == totalPages}" th:href="@{'/jobs/' + ${index}}" aria-label="Next">
+                                                <a th:if="${index == totalPages}" th:href="@{'/jobs/' + ${index}}"
+                                                   aria-label="Next">
                                                     Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                 </a>
                                             </li>
                                             <li th:if="${index == 0}"
                                                 th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
-                                                <a th:if="${searchIndex != totalPages}" th:href="@{'/jobs/search?' + ${url} + ${searchIndex + 1}}"
+                                                <a th:if="${searchIndex != totalPages}"
+                                                   th:href="@{'/jobs/search?' + ${url} + ${searchIndex + 1}}"
                                                    aria-label="Next">
                                                     Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                 </a>
-                                                <a th:if="${searchIndex == totalPages}" th:href="@{'/jobs/search?' + ${url} + ${searchIndex}}"
+                                                <a th:if="${searchIndex == totalPages}"
+                                                   th:href="@{'/jobs/search?' + ${url} + ${searchIndex}}"
                                                    aria-label="Next">=
                                                     Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                 </a>

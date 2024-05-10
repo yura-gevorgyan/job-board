@@ -4,14 +4,11 @@ import am.itspace.jobboard.entity.Category;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.CategoryNotFoundException;
 import am.itspace.jobboard.repository.JobRepository;
-import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.CategoryService;
-import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.util.PictureUtil;
@@ -26,7 +23,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -285,7 +281,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job updateForCompanyOwner(Job job,  int categoryId, String statusStr, String experienceStr) {
+    public Job updateForCompanyOwner(Job job, int categoryId, String statusStr, String experienceStr) {
         Job oldJob = findByIdAndIsDeletedFalse(job.getId());
         if (oldJob != null) {
 

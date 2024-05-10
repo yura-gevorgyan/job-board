@@ -51,7 +51,7 @@ public class ApplicantListController {
 
             if (user.getRole() == Role.JOB_SEEKER) {
                 if (resumeService.findByUserIdAndIsActiveTrue(user.getId()) == null) {
-                    modelMap.addAttribute("createResumeMsg", "To view applied jobs history, please create a resume first");
+                    modelMap.addAttribute("createResumeMsg", "To view applied jobs history, please create a resume.");
                     return "/profile/candidate-applied-job";
                 }
                 Page<ApplicantList> applicantList = applicantListService.findAllByResumeIdAndIsActiveTrue(resumeService.findByUserIdAndIsActiveTrue(user.getId()).getId(), index);
@@ -63,7 +63,7 @@ public class ApplicantListController {
 
             } else if (user.getRole() == Role.EMPLOYEE || user.getRole() == Role.COMPANY_OWNER) {
                 if (jobService.findByUserIdAndIsDeletedFalse(user.getId()) == null || jobService.findByUserIdAndIsDeletedFalse(user.getId()).isEmpty()) {
-                    modelMap.addAttribute("createJob", "To view candidates, please create a job first");
+                    modelMap.addAttribute("createJob", "To view candidates, please create a job.");
                     return "/profile/applicant-list";
                 }
                 Page<ApplicantList> applicantList = applicantListService.findAllByToEmployerId(user.getId(), index);

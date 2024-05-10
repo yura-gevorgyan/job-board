@@ -103,7 +103,7 @@ public class ProfileController {
     }
 
     @GetMapping("/jobs-manage/{index}")
-    public String jobManage(@PathVariable("index") String indexStr, ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
+    public String jobManage(@PathVariable("index") String indexStr, ModelMap modelMap, @AuthenticationPrincipal SpringUser springUser) {
         try {
             if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/profile/jobs-manage/1";
@@ -113,7 +113,7 @@ public class ProfileController {
                 return "redirect:/profile/jobs-manage/1";
             }
 
-            Page<Job> jobs = jobService.findAllByUserId(index,springUser.getUser().getId());
+            Page<Job> jobs = jobService.findAllByUserId(index, springUser.getUser().getId());
 
             modelMap.put("jobs", jobs);
             modelMap.put("categories", categoryService.findAll());

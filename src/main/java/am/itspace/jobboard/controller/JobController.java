@@ -1,11 +1,21 @@
 package am.itspace.jobboard.controller;
 
-import am.itspace.jobboard.entity.*;
+import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Company;
+import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.JobWishlist;
+import am.itspace.jobboard.entity.Resume;
+import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.security.SpringUser;
-import am.itspace.jobboard.service.*;
+import am.itspace.jobboard.service.ApplicantListService;
+import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyService;
+import am.itspace.jobboard.service.JobService;
+import am.itspace.jobboard.service.JobWishlistService;
+import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobSpecification;
 import am.itspace.jobboard.util.PictureUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +29,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -265,12 +281,12 @@ public class JobController {
 
     @PostMapping("/update/company")
     public String updateJobCompany(@AuthenticationPrincipal SpringUser springUser,
-                            @Valid @ModelAttribute Job job,
-                            BindingResult bindingResult,
-                            @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
-                            @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
-                            @RequestParam(value = "experience", defaultValue = "") String experienceStr,
-                            RedirectAttributes redirectAttributes) {
+                                   @Valid @ModelAttribute Job job,
+                                   BindingResult bindingResult,
+                                   @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
+                                   @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
+                                   @RequestParam(value = "experience", defaultValue = "") String experienceStr,
+                                   RedirectAttributes redirectAttributes) {
 
         User user = springUser.getUser();
 
@@ -342,7 +358,7 @@ public class JobController {
     }
 
     @GetMapping("/item/{id}")
-    public String singleJobPage(@PathVariable("id") String idStr, ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
+    public String singleJobPage(@PathVariable("id") String idStr, ModelMap modelMap, @AuthenticationPrincipal SpringUser springUser) {
 
         try {
             int id = Integer.parseInt(idStr);
