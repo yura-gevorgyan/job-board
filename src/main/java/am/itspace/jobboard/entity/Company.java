@@ -55,7 +55,6 @@ public class Company implements UploadAble {
     private User user;
 
     @ManyToOne
-    @NotNull(message = "Category can not be null")
     private Category category;
 
     @Transient
