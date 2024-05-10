@@ -46,7 +46,6 @@ $(document).ready(function () {
 
     $('.delete-favourite-company').on('click', function (e) {
         e.preventDefault();
-        console.log("aaaaa")
         var companyId = $(this).data('company-id');
         var $row = $(this).closest('.single-company');
 

@@ -32,9 +32,9 @@ public class Company implements UploadAble {
     @Length(max = 4000)
     private String description;
 
-    @NotBlank(message = "Location is required.")
-    @Length(max = 30)
-    private String location;
+    @ManyToOne
+    @NotNull(message = "Country must not be null")
+    private Country country;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date foundedDate;
@@ -55,6 +55,7 @@ public class Company implements UploadAble {
     private User user;
 
     @ManyToOne
+    @NotNull(message = "Category can not be null")
     private Category category;
 
     @Transient

@@ -10,12 +10,7 @@ import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.security.SpringUser;
-import am.itspace.jobboard.service.CategoryService;
-import am.itspace.jobboard.service.CompanyPictureService;
-import am.itspace.jobboard.service.CompanyService;
-import am.itspace.jobboard.service.JobService;
-import am.itspace.jobboard.service.ResumeService;
-import am.itspace.jobboard.service.UserService;
+import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.util.AddErrorMessageUtil;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -43,6 +34,7 @@ public class ProfileController {
     private final PasswordEncoder passwordEncoder;
     private final CompanyPictureService companyPictureService;
     private final JobService jobService;
+    private final CountryService countryService;
 
     @GetMapping
     public String employerProfile() {
@@ -59,6 +51,7 @@ public class ProfileController {
             Company companyByUserIdAndIsActiveTrue = companyService.findCompanyByUserIdAndIsActiveTrue(springUser.getUser().getId());
             modelMap.addAttribute("categories", categoryService.findAll());
             modelMap.addAttribute("company", companyByUserIdAndIsActiveTrue);
+            modelMap.addAttribute("countries", countryService.findAll());
             if (companyByUserIdAndIsActiveTrue != null) {
                 modelMap.addAttribute("companyPictures", companyPictureService.findAllByCompanyId(companyByUserIdAndIsActiveTrue.getId()));
             }
@@ -95,6 +88,7 @@ public class ProfileController {
             }
         }
 
+        modelMap.addAttribute("countries", countryService.findAll());
         modelMap.addAttribute("workExperience", WorkExperience.values());
         modelMap.addAttribute("categories", categoryService.findAll());
         modelMap.addAttribute("status", Status.values());
@@ -141,6 +135,7 @@ public class ProfileController {
             modelMap.addAttribute("categories", categoryService.findAll());
             modelMap.addAttribute("gender", Gender.values());
             modelMap.addAttribute("workExperience", WorkExperience.values());
+            modelMap.addAttribute("countries", countryService.findAll());
             modelMap.addAttribute("resume", resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId()));
             return "/profile/candidate-profile";
         }

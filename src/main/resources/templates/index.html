@@ -196,7 +196,7 @@
                         </div>
                         <i class="fas fa-map-marker-alt pe-2 text-secondary"></i>
                         <span class="border-end border-color-extra-light-gray pe-2 me-2"
-                              th:text="${job.location}"></span>
+                              th:text="${job.country.countryName}"></span>
                         <i class="far fa-clock pe-2 text-secondary"></i>
                         <span class="border-end border-color-extra-light-gray pe-2 me-2"
                               th:text="${job.salary + '$'}"></span>
@@ -276,112 +276,6 @@
 
     <!-- JOB LOCATION
     ================================================== -->
-    <section>
-        <div class="container">
-            <div class="section-heading4">
-                <span>Around the world</span>
-                <h2>Featured Job Locations</h2>
-            </div>
-            <div class="row mt-n1-9">
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-01.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">USA</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">Boston</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">15 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-02.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">Australia</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">Vienna</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">08 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-03.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">Russia</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">Nizhny</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">18 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-04.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">Germany</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">Dresden</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">10 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-05.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">Thailand</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">Bangkok</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">05 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-06.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">United Kingdom</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">London</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">12 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-07.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">Canada</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">Toronto</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">06 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3 mt-1-9">
-                    <div class="card card-style12">
-                        <img src="/img/content/location-08.jpg" alt="..." class="border-radius-10">
-                        <div class="location-title">Mumbai</div>
-                        <div class="card-body">
-                            <h4 class="mb-3"><a href="job-details.html" class="text-white">India</a></h4>
-                            <div class="job-position">
-                                <a href="job-details.html">15 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- TOP COMPANY
     ================================================== -->
@@ -392,7 +286,7 @@
                 <h2>Top Rated Companies</h2>
             </div>
             <div class="row mt-n1-9">
-                <div class="col-md-6 mt-1-9">
+                <div class="col-md-6 mt-1-9" th:each="entry : ${companies.entrySet()}">
                     <div class="border border-color-extra-light-gray border-radius-10 bg-white px-4 py-1-9 position-relative overflow-hidden text-center text-xl-start h-100">
 
                         <div class="row align-items-center">
@@ -400,197 +294,20 @@
                                 <div class="d-xl-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img src="/img/content/company-01.jpg" alt="...">
+                                            <img th:src="'/download/picture/' + ${entry.key.logoName}" width="60px" alt="...">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a href="employer-details.html">Conzio construction</a></h4>
-                                        <div class="display-31 text-warning mb-3">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="bg-primary px-2 py-1 ms-2 display-31 text-white font-weight-600 border-radius-10">4.0</span>
-                                        </div>
+                                        <h4 class="h5 mb-3"><a th:href="@{'/companies/item/' + ${entry.key.id}}" th:text="${entry.key.name}">Conzio construction</a></h4>
                                         <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>Marketing</li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>Boston, USA</li>
+                                            <li><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${entry.key.category.name}"></th:block></li>
+                                            <li><i class="ti-location-pin pe-2 text-secondary"></i><th:block th:text="${entry.key.country.countryName}"></th:block></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 text-xl-end">
-                                <a href="employer-details.html" class="butn butn-md radius">08 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-1-9">
-                    <div class="border border-color-extra-light-gray border-radius-10 bg-white px-4 py-1-9 position-relative overflow-hidden text-center text-xl-start h-100">
-                        <div class="featured-lable">Featured</div>
-                        <div class="row align-items-center">
-                            <div class="col-xl-9 mb-4 mb-xl-0">
-                                <div class="d-block d-xl-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img src="/img/content/company-02.jpg" alt="...">
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a href="employer-details.html">Midway Overline</a></h4>
-                                        <div class="display-31 text-warning mb-3">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="bg-primary px-2 py-1 ms-2 display-31 text-white font-weight-600 border-radius-10">5.0</span>
-                                        </div>
-                                        <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>PHP Developer</li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>Toronto, Canada</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 text-xl-end">
-                                <a href="employer-details.html" class="butn butn-md radius">05 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-1-9">
-                    <div class="border border-color-extra-light-gray border-radius-10 bg-white px-4 py-1-9 position-relative overflow-hidden text-center text-xl-start h-100">
-                        <div class="featured-lable">Featured</div>
-                        <div class="row align-items-center">
-                            <div class="col-xl-9 mb-4 mb-xl-0">
-                                <div class="d-block d-xl-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img src="/pictureDirectory/company-03.jpg" alt="...">
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a href="employer-details.html">Ktone Software</a></h4>
-                                        <div class="display-31 text-warning mb-3">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="bg-primary px-2 py-1 ms-2 display-31 text-white font-weight-600 border-radius-10">5.0</span>
-                                        </div>
-                                        <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>Accounting</li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>London, UK</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 text-xl-end">
-                                <a href="employer-details.html" class="butn butn-md radius">02 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-1-9">
-                    <div class="border border-color-extra-light-gray border-radius-10 bg-white px-4 py-1-9 position-relative overflow-hidden text-center text-xl-start h-100">
-                        <div class="row align-items-center">
-                            <div class="col-xl-9 mb-4 mb-xl-0">
-                                <div class="d-block d-xl-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img src="/pictureDirectory/company-04.jpg" alt="...">
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a href="employer-details.html">Alpha Kem</a></h4>
-                                        <div class="display-31 text-warning mb-3">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="bg-primary px-2 py-1 ms-2 display-31 text-white font-weight-600 border-radius-10">5.0</span>
-                                        </div>
-                                        <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>Content Writer</li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>Nizhny, Russia</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 text-xl-end">
-                                <a href="employer-details.html" class="butn butn-md radius">03 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-1-9">
-                    <div class="border border-color-extra-light-gray border-radius-10 bg-white px-4 py-1-9 position-relative overflow-hidden text-center text-xl-start h-100">
-                        <div class="featured-lable">Featured</div>
-                        <div class="row align-items-center">
-                            <div class="col-xl-9 mb-4 mb-xl-0">
-                                <div class="d-block d-xl-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img src="/img/content/company-05.jpg" alt="...">
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a href="employer-details.html">Waft Technologies</a></h4>
-                                        <div class="display-31 text-warning mb-3">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="bg-primary px-2 py-1 ms-2 display-31 text-white font-weight-600 border-radius-10">4.0</span>
-                                        </div>
-                                        <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>Software Engineer</li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>Utrecht, Netherlands
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 text-xl-end">
-                                <a href="employer-details.html" class="butn butn-md radius">02 Jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-1-9">
-                    <div class="border border-color-extra-light-gray border-radius-10 bg-white px-4 py-1-9 position-relative overflow-hidden text-center text-xl-start h-100">
-                        <div class="row align-items-center">
-                            <div class="col-xl-9 mb-4 mb-xl-0">
-                                <div class="d-block d-xl-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img src="/img/content/company-06.jpg" alt="...">
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a href="employer-details.html">Sai Web Infotech</a></h4>
-                                        <div class="display-31 text-warning mb-3">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="bg-primary px-2 py-1 ms-2 display-31 text-white font-weight-600 border-radius-10">5.0</span>
-                                        </div>
-                                        <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>Full-Stack Developer
-                                            </li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>Vienna, Australia
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 text-xl-end">
-                                <a href="employer-details.html" class="butn butn-md radius">03 Jobs</a>
+                                <a th:href="@{'/companies/item/' + ${entry.key.id}}" class="butn butn-md radius" th:text="${entry.value} + ' Jobs'"></a>
                             </div>
                         </div>
                     </div>

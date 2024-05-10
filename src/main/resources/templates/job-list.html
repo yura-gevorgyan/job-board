@@ -246,7 +246,7 @@
                                                 <i class="ti-briefcase pe-2 text-secondary"></i>
                                                 <span class="me-2" th:text="${job.category.name}"></span>
                                                 <i class="ti-location-pin pe-2 text-secondary"></i>
-                                                <span class="me-2" th:text="${job.location}"></span>
+                                                <span class="me-2" th:text="${job.country.countryName}"></span>
                                                 <i class="ti-time pe-2 text-secondary"></i>
                                                 <span class="me-2"
                                                       th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></span>
@@ -361,7 +361,7 @@
                                                 </a>
                                                 <a th:if="${searchIndex == totalPages}"
                                                    th:href="@{'/jobs/search?' + ${url} + ${searchIndex}}"
-                                                   aria-label="Next">=
+                                                   aria-label="Next">
                                                     Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                 </a>
                                             </li>

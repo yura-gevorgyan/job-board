@@ -164,7 +164,7 @@
                                             <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
                                                     th:text="${resume.profession}"></th:block></span>
                                             <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
-                                                    th:text="${resume.location}"></th:block></span>
+                                                    th:text="${resume.country.countryName}"></th:block></span>
                                             <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
                                                     th:text="${#dates.format(resume.createdDate,'dd MMMM yyyy')}"></th:block></span>
                                             <span th:if="${resume.expectedSalary != null}"><i
@@ -255,7 +255,7 @@
                                                 <th:block th:text="${' ' + resume.user.email}"></th:block>
                                             </li>
                                             <li><span>Address</span>
-                                                <th:block th:text="${' ' + resume.location}"></th:block>
+                                                <th:block th:text="${' ' + resume.country.countryName}"></th:block>
                                             </li>
                                         </ul>
                                         <br>
@@ -320,7 +320,7 @@
                                     <div class="d-flex justify-content-between mb-3">
                                         <span><i
                                                 class="ti-location-pin text-secondary me-2 display-31 display-sm-30"></i><strong
-                                                th:text="${resumeList.location}"></strong></span>
+                                                th:text="${resumeList.country.countryName}"></strong></span>
                                         <span><i
                                                 class="far fa-money-bill-alt text-secondary me-2 display-31 display-sm-30"></i><strong
                                                 th:text="${'$' + resumeList.expectedSalary}"></strong></span>
