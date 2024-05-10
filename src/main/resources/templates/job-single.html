@@ -109,7 +109,7 @@
                                         <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
                                                 th:text="${job.category.name}"></th:block></span>
                                         <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
-                                                th:text="${job.location}"></th:block></span>
+                                                th:text="${job.country.countryName}"></th:block></span>
                                         <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
                                                 th:text="${job.workExperience.getExperience()}"></th:block></span>
                                         <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
@@ -211,7 +211,7 @@
                                             <th:block th:text="${job.company.website}"></th:block>
                                         </li>
                                         <li><span>Address</span>
-                                            <th:block th:text="${job.company.location}"></th:block>
+                                            <th:block th:text="${job.company.country.countryName}"></th:block>
                                         </li>
                                     </ul>
                                     <a th:if="${job.company.website != null && !job.company.website.isEmpty()}"
@@ -246,16 +246,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget">
-                            <div class="card border border-color-extra-light-gray border-radius-10">
-                                <div class="card-body p-4">
-                                    <h4>Location</h4>
-                                    <iframe class="map-h250" id="gmap_canvas"
-                                            src="https://maps.google.com/maps?q=london&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -304,7 +294,7 @@
                                 </div>
                                 <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
                                         class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block
-                                        th:text="${job.location}"></th:block></span>
+                                        th:text="${job.country.countryName}"></th:block></span>
                                 <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
                                         class="far fa-clock pe-2 text-secondary"></i><th:block
                                         th:text="${'$' + job.salary}"></th:block></span>

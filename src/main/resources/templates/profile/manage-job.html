@@ -140,7 +140,7 @@
                                         <tr th:each="job : ${jobs}">
                                             <td>
                                                 <h6 th:text="${job.title}"></h6><span class="text-muted display-30"><i
-                                                    class="ti-location-pin"></i> <span th:text="${job.location}"></span></span>
+                                                    class="ti-location-pin"></i> <span th:text="${job.country.countryName}"></span></span>
                                             </td>
                                             <td th:text="${job.category.name}"></td>
                                             <td th:text="${#dates.format(job.publishedDate,'MMM dd, yyyy')}"></td>

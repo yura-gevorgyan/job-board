@@ -45,7 +45,6 @@ $(document).ready(function () {
 
     $('.delete-favourite-job').on('click', function (e) {
         e.preventDefault();
-        console.log("aaaaa")
         var jobId = $(this).data('job-id');
         var $row = $(this).closest('.single-job');
 

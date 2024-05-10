@@ -3,19 +3,8 @@ package am.itspace.jobboard.entity;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.util.UploadAble;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -46,9 +35,9 @@ public class Job implements UploadAble {
     @Enumerated(EnumType.STRING)
     private WorkExperience workExperience;
 
-    @NotBlank(message = "Location is required.")
-    @Length(max = 30)
-    private String location;
+    @ManyToOne
+    @NotNull(message = "Country must not be null")
+    private Country country;
 
     @Min(value = 0, message = "Salary must be at least 0.")
     @Max(value = 100000000, message = "Salary must be at most 10000000.")
@@ -66,6 +55,7 @@ public class Job implements UploadAble {
     private User user;
 
     @ManyToOne
+    @NotNull(message = "Category can not be null")
     private Category category;
 
     @ManyToOne

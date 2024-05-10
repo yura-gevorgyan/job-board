@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Seeker List</title>
+    <title>Job Board - Job Portal HTML Template</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -252,7 +252,7 @@
                                                           th:text="${resume.profession}"></span>
                                                     <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
                                                             class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block
-                                                            th:text="${resume.location}"></th:block></span>
+                                                            th:text="${resume.country.countryName}"></th:block></span>
                                                     <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
                                                             class="ti-briefcase pe-2 text-secondary"></i><th:block
                                                             th:text="${resume.workExperience.getExperience()}"></th:block></span>

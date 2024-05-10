@@ -1,9 +1,11 @@
 package am.itspace.jobboard.controller;
 
+import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.JobWishlist;
 import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.JobWishlistService;
 import am.itspace.jobboard.util.PictureUtil;
@@ -19,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +33,7 @@ public class MainController {
     private final CategoryService categoryService;
     private final JobService jobService;
     private final JobWishlistService jobWishlistService;
+    private final CompanyService companyService;
 
     @Value("${program.pictures.file.path}")
     private String uploadDirectory;
@@ -38,6 +44,17 @@ public class MainController {
         modelMap.addAttribute("categories", categoryService.findTop(9));
         modelMap.addAttribute("jobs", jobService.findTop6());
 
+        List<Company> randomCompanies = companyService.findRandomCompanies(6);
+
+        Map<Company, Integer> companyIntegerHashMap = randomCompanies.stream()
+                .collect(Collectors.toMap(
+                        company -> company,
+                        company -> jobService.getCountByCompanyId(company.getId())
+                ));
+
+        modelMap.addAttribute("companies", companyIntegerHashMap);
+
+
         if (springUser != null) {
             List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
             List<Job> jobList = new ArrayList<>();
@@ -46,6 +63,7 @@ public class MainController {
             }
             modelMap.addAttribute("favoritesJobs", jobList);
         }
+
         return "index";
     }
 

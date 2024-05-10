@@ -3,9 +3,11 @@ package am.itspace.jobboard.service;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.security.SpringUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public interface JobService {
 
     Page<Job> findAllByIsDeletedFalse(int index);
 
-    Page<Job> findAll(Specification<Job> specification, int index, int page);
+    Page<Job> findAll(Specification<Job> specification, int index,int page);
 
     List<Job> findByUserId(int id);
 
@@ -61,7 +63,7 @@ public interface JobService {
 
     Job updateForEmployee(Job job, Job oldJob, int categoryId, String statusStr, String experienceStr, MultipartFile multipartFile);
 
-    Job updateForCompanyOwner(Job job, int categoryId, String statusStr, String experienceStr);
+    Job updateForCompanyOwner(Job job,  int categoryId, String statusStr, String experienceStr);
 
     void deleteById(Job job);
 
@@ -71,5 +73,6 @@ public interface JobService {
 
     void createJobForEmployee(Job job, User user, String categoryIdStr, String statusStr, String experienceStr, MultipartFile multipartFile);
 
-    Page<Job> findAllByUserId(int index, int userId);
+    Page<Job> findAllByUserId(int index,int userId);
+
 }

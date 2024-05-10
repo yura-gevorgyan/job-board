@@ -43,8 +43,9 @@ public class Resume implements UploadAble {
     @Size(max = 50, message = "Profession length must be less than or equal to 50 characters")
     private String phone;
 
-    @Size(max = 50, message = "Profession length must be less than or equal to 50 characters")
-    private String location;
+    @ManyToOne
+    @NotNull(message = "Country must not be null")
+    private Country country;
 
     @NotNull(message = "Gender can not be null")
     @Enumerated(value = EnumType.STRING)

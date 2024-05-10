@@ -46,7 +46,6 @@ $(document).ready(function () {
 
     $('.delete-favourite-resume').on('click', function (e) {
         e.preventDefault();
-        console.log("aaaaa")
         let resumeId = $(this).data('resume-id');
         let $row = $(this).closest('.single-resume');
 

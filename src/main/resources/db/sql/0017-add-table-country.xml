@@ -1,0 +1,1008 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0017-add-table-country" author="YGevrgyan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="country"/>
+            </not>
+        </preConditions>
+        <createTable tableName="country">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="country_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_code" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="country">
+            <column name="country_name" value="Afghanistan"/>
+            <column name="phone_code" value="+93"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Albania"/>
+            <column name="phone_code" value="+355"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Algeria"/>
+            <column name="phone_code" value="+213"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Andorra"/>
+            <column name="phone_code" value="+376"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Angola"/>
+            <column name="phone_code" value="+244"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Antigua and Barbuda"/>
+            <column name="phone_code" value="+1-268"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Argentina"/>
+            <column name="phone_code" value="+54"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Armenia"/>
+            <column name="phone_code" value="+374"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Australia"/>
+            <column name="phone_code" value="+61"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Austria"/>
+            <column name="phone_code" value="+43"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Azerbaijan"/>
+            <column name="phone_code" value="+994"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bahamas"/>
+            <column name="phone_code" value="+1-242"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bahrain"/>
+            <column name="phone_code" value="+973"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bangladesh"/>
+            <column name="phone_code" value="+880"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Barbados"/>
+            <column name="phone_code" value="+1-246"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Belarus"/>
+            <column name="phone_code" value="+375"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Belgium"/>
+            <column name="phone_code" value="+32"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Belize"/>
+            <column name="phone_code" value="+501"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Benin"/>
+            <column name="phone_code" value="+229"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bhutan"/>
+            <column name="phone_code" value="+975"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bolivia"/>
+            <column name="phone_code" value="+591"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bosnia and Herzegovina"/>
+            <column name="phone_code" value="+387"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Botswana"/>
+            <column name="phone_code" value="+267"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Brazil"/>
+            <column name="phone_code" value="+55"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Brunei"/>
+            <column name="phone_code" value="+673"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Bulgaria"/>
+            <column name="phone_code" value="+359"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Burkina Faso"/>
+            <column name="phone_code" value="+226"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Burundi"/>
+            <column name="phone_code" value="+257"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Cambodia"/>
+            <column name="phone_code" value="+855"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Cameroon"/>
+            <column name="phone_code" value="+237"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Canada"/>
+            <column name="phone_code" value="+1"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Cape Verde"/>
+            <column name="phone_code" value="+238"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Central African Republic"/>
+            <column name="phone_code" value="+236"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Chad"/>
+            <column name="phone_code" value="+235"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Chile"/>
+            <column name="phone_code" value="+56"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="China"/>
+            <column name="phone_code" value="+86"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Colombia"/>
+            <column name="phone_code" value="+57"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Comoros"/>
+            <column name="phone_code" value="+269"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Congo (Democratic Republic of the)"/>
+            <column name="phone_code" value="+243"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Congo (Republic of the)"/>
+            <column name="phone_code" value="+242"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Costa Rica"/>
+            <column name="phone_code" value="+506"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Croatia"/>
+            <column name="phone_code" value="+385"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Cuba"/>
+            <column name="phone_code" value="+53"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Cyprus"/>
+            <column name="phone_code" value="+357"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Czech Republic"/>
+            <column name="phone_code" value="+420"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Denmark"/>
+            <column name="phone_code" value="+45"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Djibouti"/>
+            <column name="phone_code" value="+253"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Dominica"/>
+            <column name="phone_code" value="+1-767"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Dominican Republic"/>
+            <column name="phone_code" value="+1-809, +1-829, +1-849"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="East Timor"/>
+            <column name="phone_code" value="+670"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Ecuador"/>
+            <column name="phone_code" value="+593"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Egypt"/>
+            <column name="phone_code" value="+20"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="El Salvador"/>
+            <column name="phone_code" value="+503"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Equatorial Guinea"/>
+            <column name="phone_code" value="+240"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Eritrea"/>
+            <column name="phone_code" value="+291"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Estonia"/>
+            <column name="phone_code" value="+372"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Eswatini"/>
+            <column name="phone_code" value="+268"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Ethiopia"/>
+            <column name="phone_code" value="+251"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Fiji"/>
+            <column name="phone_code" value="+679"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Finland"/>
+            <column name="phone_code" value="+358"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="France"/>
+            <column name="phone_code" value="+33"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Gabon"/>
+            <column name="phone_code" value="+241"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Gambia"/>
+            <column name="phone_code" value="+220"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Georgia"/>
+            <column name="phone_code" value="+995"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Germany"/>
+            <column name="phone_code" value="+49"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Ghana"/>
+            <column name="phone_code" value="+233"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Greece"/>
+            <column name="phone_code" value="+30"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Grenada"/>
+            <column name="phone_code" value="+1-473"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Guatemala"/>
+            <column name="phone_code" value="+502"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Guinea"/>
+            <column name="phone_code" value="+224"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Guinea-Bissau"/>
+            <column name="phone_code" value="+245"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Guyana"/>
+            <column name="phone_code" value="+592"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Haiti"/>
+            <column name="phone_code" value="+509"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Honduras"/>
+            <column name="phone_code" value="+504"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Hungary"/>
+            <column name="phone_code" value="+36"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Iceland"/>
+            <column name="phone_code" value="+354"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="India"/>
+            <column name="phone_code" value="+91"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Indonesia"/>
+            <column name="phone_code" value="+62"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Iran"/>
+            <column name="phone_code" value="+98"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Iraq"/>
+            <column name="phone_code" value="+964"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Ireland"/>
+            <column name="phone_code" value="+353"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Israel"/>
+            <column name="phone_code" value="+972"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Italy"/>
+            <column name="phone_code" value="+39"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Ivory Coast"/>
+            <column name="phone_code" value="+225"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Jamaica"/>
+            <column name="phone_code" value="+1-876"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Japan"/>
+            <column name="phone_code" value="+81"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Jordan"/>
+            <column name="phone_code" value="+962"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Kazakhstan"/>
+            <column name="phone_code" value="+7"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Kenya"/>
+            <column name="phone_code" value="+254"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Kiribati"/>
+            <column name="phone_code" value="+686"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Kosovo"/>
+            <column name="phone_code" value="+383"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Kuwait"/>
+            <column name="phone_code" value="+965"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Kyrgyzstan"/>
+            <column name="phone_code" value="+996"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Laos"/>
+            <column name="phone_code" value="+856"/>
+        </insert>
+        <insert tableName="country">
+            <column name="country_name" value="Latvia"/>
+            <column name="phone_code" value="+371"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Lebanon"/>
+            <column name="phone_code" value="+961"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Lesotho"/>
+            <column name="phone_code" value="+266"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Liberia"/>
+            <column name="phone_code" value="+231"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Libya"/>
+            <column name="phone_code" value="+218"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Liechtenstein"/>
+            <column name="phone_code" value="+423"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Lithuania"/>
+            <column name="phone_code" value="+370"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Luxembourg"/>
+            <column name="phone_code" value="+352"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Madagascar"/>
+            <column name="phone_code" value="+261"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Malawi"/>
+            <column name="phone_code" value="+265"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Malaysia"/>
+            <column name="phone_code" value="+60"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Maldives"/>
+            <column name="phone_code" value="+960"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Mali"/>
+            <column name="phone_code" value="+223"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Malta"/>
+            <column name="phone_code" value="+356"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Marshall Islands"/>
+            <column name="phone_code" value="+692"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Mauritania"/>
+            <column name="phone_code" value="+222"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Mauritius"/>
+            <column name="phone_code" value="+230"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Mexico"/>
+            <column name="phone_code" value="+52"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Micronesia"/>
+            <column name="phone_code" value="+691"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Moldova"/>
+            <column name="phone_code" value="+373"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Monaco"/>
+            <column name="phone_code" value="+377"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Mongolia"/>
+            <column name="phone_code" value="+976"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Montenegro"/>
+            <column name="phone_code" value="+382"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Morocco"/>
+            <column name="phone_code" value="+212"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Mozambique"/>
+            <column name="phone_code" value="+258"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Myanmar"/>
+            <column name="phone_code" value="+95"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Namibia"/>
+            <column name="phone_code" value="+264"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Nauru"/>
+            <column name="phone_code" value="+674"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Nepal"/>
+            <column name="phone_code" value="+977"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Netherlands"/>
+            <column name="phone_code" value="+31"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="New Zealand"/>
+            <column name="phone_code" value="+64"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Nicaragua"/>
+            <column name="phone_code" value="+505"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Niger"/>
+            <column name="phone_code" value="+227"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Nigeria"/>
+            <column name="phone_code" value="+234"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="North Korea"/>
+            <column name="phone_code" value="+850"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="North Macedonia"/>
+            <column name="phone_code" value="+389"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Norway"/>
+            <column name="phone_code" value="+47"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Oman"/>
+            <column name="phone_code" value="+968"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Pakistan"/>
+            <column name="phone_code" value="+92"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Palau"/>
+            <column name="phone_code" value="+680"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Palestine"/>
+            <column name="phone_code" value="+970"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Panama"/>
+            <column name="phone_code" value="+507"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Papua New Guinea"/>
+            <column name="phone_code" value="+675"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Paraguay"/>
+            <column name="phone_code" value="+595"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Peru"/>
+            <column name="phone_code" value="+51"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Philippines"/>
+            <column name="phone_code" value="+63"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Poland"/>
+            <column name="phone_code" value="+48"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Portugal"/>
+            <column name="phone_code" value="+351"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Qatar"/>
+            <column name="phone_code" value="+974"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Romania"/>
+            <column name="phone_code" value="+40"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Russia"/>
+            <column name="phone_code" value="+7"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Rwanda"/>
+            <column name="phone_code" value="+250"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Saint Kitts and Nevis"/>
+            <column name="phone_code" value="+1-869"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Saint Lucia"/>
+            <column name="phone_code" value="+1-758"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Saint Vincent and the Grenadines"/>
+            <column name="phone_code" value="+1-784"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Samoa"/>
+            <column name="phone_code" value="+685"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="San Marino"/>
+            <column name="phone_code" value="+378"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Sao Tome and Principe"/>
+            <column name="phone_code" value="+239"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Saudi Arabia"/>
+            <column name="phone_code" value="+966"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Senegal"/>
+            <column name="phone_code" value="+221"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Serbia"/>
+            <column name="phone_code" value="+381"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Seychelles"/>
+            <column name="phone_code" value="+248"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Sierra Leone"/>
+            <column name="phone_code" value="+232"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Singapore"/>
+            <column name="phone_code" value="+65"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Slovakia"/>
+            <column name="phone_code" value="+421"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Slovenia"/>
+            <column name="phone_code" value="+386"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Solomon Islands"/>
+            <column name="phone_code" value="+677"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Somalia"/>
+            <column name="phone_code" value="+252"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="South Africa"/>
+            <column name="phone_code" value="+27"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="South Korea"/>
+            <column name="phone_code" value="+82"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="South Sudan"/>
+            <column name="phone_code" value="+211"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Spain"/>
+            <column name="phone_code" value="+34"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Sri Lanka"/>
+            <column name="phone_code" value="+94"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Sudan"/>
+            <column name="phone_code" value="+249"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Suriname"/>
+            <column name="phone_code" value="+597"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Sweden"/>
+            <column name="phone_code" value="+46"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Switzerland"/>
+            <column name="phone_code" value="+41"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Syria"/>
+            <column name="phone_code" value="+963"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Taiwan"/>
+            <column name="phone_code" value="+886"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Tajikistan"/>
+            <column name="phone_code" value="+992"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Tanzania"/>
+            <column name="phone_code" value="+255"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Thailand"/>
+            <column name="phone_code" value="+66"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Togo"/>
+            <column name="phone_code" value="+228"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Tonga"/>
+            <column name="phone_code" value="+676"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Trinidad and Tobago"/>
+            <column name="phone_code" value="+1-868"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Tunisia"/>
+            <column name="phone_code" value="+216"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Turkey"/>
+            <column name="phone_code" value="+90"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Turkmenistan"/>
+            <column name="phone_code" value="+993"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Tuvalu"/>
+            <column name="phone_code" value="+688"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Uganda"/>
+            <column name="phone_code" value="+256"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Ukraine"/>
+            <column name="phone_code" value="+380"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="United Arab Emirates"/>
+            <column name="phone_code" value="+971"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="United Kingdom"/>
+            <column name="phone_code" value="+44"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="United States"/>
+            <column name="phone_code" value="+1"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Uruguay"/>
+            <column name="phone_code" value="+598"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Uzbekistan"/>
+            <column name="phone_code" value="+998"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Vanuatu"/>
+            <column name="phone_code" value="+678"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Vatican City"/>
+            <column name="phone_code" value="+379"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Venezuela"/>
+            <column name="phone_code" value="+58"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Vietnam"/>
+            <column name="phone_code" value="+84"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Yemen"/>
+            <column name="phone_code" value="+967"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Zambia"/>
+            <column name="phone_code" value="+260"/>
+        </insert>
+
+        <insert tableName="country">
+            <column name="country_name" value="Zimbabwe"/>
+            <column name="phone_code" value="+263"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
