@@ -47,7 +47,7 @@
 
     <!-- HEADER
     ================================================== -->
-    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <th:block th:insert="~{fragment/header-menu-fragment::header}"/>
 
     <section class="py-0">
         <div class="row g-0">
@@ -78,21 +78,25 @@
                                                     <label for="job-title">Category Name</label>
                                                     <div class="quform-input">
                                                         <input type="hidden" name="id" th:value="${category.id}">
-                                                        <input id="job-title" class="form-control" type="text" th:value="${category.name}"
+                                                        <input id="job-title" class="form-control" type="text"
+                                                               th:value="${category.name}"
                                                                name="name" placeholder="Enter New Category Name">
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row mt-n1-9" style="width: 40%">
-                                                <div class="col-md-6 col-lg-4 mt-1-9" style="display: flex; justify-content: center">
+                                                <div class="col-md-6 col-lg-4 mt-1-9"
+                                                     style="display: flex; justify-content: center">
                                                     <div class="card card-style11">
                                                         <div class="card-body">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="flex-shrink-0">
                                                                     <div class="categories-icon">
                                                                         <img th:src="'/download/picture/' + ${category.picName}"
-                                                                             alt="...">
+                                                                             alt="..."
+                                                                             class="border-radius-50"
+                                                                             style="border-radius: 1%">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -105,12 +109,12 @@
                                             <div class="col-md-12">
                                                 <div class="quform-element form-group">
                                                     <div class="quform-input">
-                                                        <label for="resume">New File Attachment (Not Required)</label>
+                                                        <label for="picNamee">New File Attachment (Not Required)</label>
                                                         <div class="custom-file">
-                                                            <input class="custom-file-input" type="file" id="resume"
+                                                            <input class="custom-file-input" type="file" id="picNamee"
                                                                    name="pic_name">
-                                                            <label class="custom-file-label" data-browse="Browse">Choose New
-                                                                Category Picture</label>
+                                                            <label class="custom-file-label" data-browse="Browse">
+                                                                Choose New Category Picture</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -149,6 +153,8 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
+
+<script src="/js/ShowPictureUpdate.js"></script>
 
 <!-- popper js -->
 <script src="/js/popper.min.js"></script>

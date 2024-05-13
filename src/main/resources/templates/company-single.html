@@ -82,12 +82,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3" th:if="${currentUser != null && company.user.id != currentUser.id}">
-                                <div class="row">
+
+                            <div class="col-lg-3" th:if="${(currentUser != null) && (company.user.id != currentUser.id)}">
+                                <div class="row"
+                                     th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                     <div class="col-12">
-                                        <a th:href="'/profile/message/' + ${company.user.id}" class="butn w-100 text-center mt-1-9">Send Message</a>
+                                        <a th:href="'/profile/message/' + ${company.user.id}"
+                                           class="butn w-100 text-center mt-1-9">Message</a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -126,7 +130,8 @@
                                     <h4>Company Information :</h4>
                                     <div class="d-flex align-items-center mb-1-9">
                                         <div class="flex-shrink-0" style="width: 100px">
-                                            <img th:src="'/download/picture/' + ${company.logoName}" alt="..." width="70px">
+                                            <img th:src="'/download/picture/' + ${company.logoName}" alt="..."
+                                                 width="70px">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h5 th:text="${company.name}"></h5>
@@ -141,10 +146,12 @@
                                             <p
                                                     th:text="${#dates.format(company.foundedDate, 'yyyy-MM-dd')}"></p>
                                         </li>
-                                        <li th:if="${company.phone != null && !company.phone.isEmpty()}"><span>Phone</span>
+                                        <li th:if="${company.phone != null && !company.phone.isEmpty()}">
+                                            <span>Phone</span>
                                             <p
                                                     th:text="${company.phone}"></p></li>
-                                        <li th:if="${company.email != null && !company.email.isEmpty()}"><span>Email</span>
+                                        <li th:if="${company.email != null && !company.email.isEmpty()}">
+                                            <span>Email</span>
                                             <p
                                                     th:text="${company.email}"></p></li>
                                         <li th:if="${company.website != null && !company.website.isEmpty()}"><span>Website</span>
@@ -156,7 +163,8 @@
                                             <p
                                                     th:text="${company.activeJobs}"></p></li>
                                     </ul>
-                                    <a th:if="${company.website != null && !company.website.isEmpty()}" th:text="${company.website}"
+                                    <a th:if="${company.website != null && !company.website.isEmpty()}"
+                                       th:text="${company.website}"
                                        th:href="${'https://' + company.website}" target="_blank"
                                        class="butn w-100 text-center mt-1-9"></a>
                                 </div>

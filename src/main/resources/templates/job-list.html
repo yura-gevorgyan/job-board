@@ -257,7 +257,8 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-md-3 text-center text-md-end">
+                                        <div class="col-md-3 text-center text-md-end"
+                                             th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                             <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
 
                                                 <button th:if="${#lists.contains(favoritesJobs,job)}"

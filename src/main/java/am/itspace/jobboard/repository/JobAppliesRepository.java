@@ -20,5 +20,7 @@ public interface JobAppliesRepository extends JpaRepository<JobApplies, Integer>
 
     Page<JobApplies> findAll(Specification<JobApplies> specification, Pageable pageable);
 
-    Optional<JobApplies> findByJobIdAndToJobSeekerIdAndIsActiveTrue(int jobId,int UserId);
+    Optional<JobApplies> findByJobIdAndToJobSeekerIdAndIsActiveTrue(int jobId, int UserId);
+
+    void deleteAllByJobId(int id);
 }

@@ -1,7 +1,9 @@
 package am.itspace.jobboard.service.impl;
 
 import am.itspace.jobboard.entity.Resume;
+import am.itspace.jobboard.repository.ApplicantListRepository;
 import am.itspace.jobboard.repository.ResumeRepository;
+import am.itspace.jobboard.repository.ResumeWishlistRepository;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.SendMailService;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -30,6 +33,8 @@ public class ResumeServiceImpl implements ResumeService {
     private final CategoryService categoryService;
     private final UserService userService;
     private final PictureUtil pictureUtil;
+    private final ApplicantListRepository applicantListRepository;
+    private final ResumeWishlistRepository resumeWishlistRepository;
 
     private final int PAGE_SIZE = 20;
 
@@ -58,48 +63,22 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Page<Resume> getResumesFromNToM(int index) {
+    public Page<Resume> findAllResumes(int index) {
         return resumeRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("createdDate")));
     }
 
     @Override
-    public int getTotalPagesOfSearch(int categoryId, String userEmail) {
-        long totalCount = getResumeCountOfCategoryUserEmail(categoryId, userEmail);
-        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
+    public Page<Resume> findAllResumes(Specification<Resume> resumeSpecification, int index) {
+        return resumeRepository.findAll(resumeSpecification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("createdDate")));
     }
 
-    @Override
-    public int getResumeCountOfCategoryUserEmail(int categoryId, String userEmail) {
-        if (categoryId <= 0 && (userEmail == null || userEmail.trim().isEmpty())) {
-            return 0;
-        }
-        if (categoryId <= 0) {
-            return resumeRepository.countByUserEmailContaining(userEmail);
-        }
-        if (userEmail == null || userEmail.trim().isEmpty()) {
-            return resumeRepository.countByCategoryId(categoryId);
-        }
-        return resumeRepository.countByUserEmailContainingAndCategoryId(userEmail, categoryId);
-    }
-
-    @Override
-    public Page<Resume> getResumesFromNToMForSearch(int index, int categoryId, String userEmail) {
-        if (categoryId <= 0 && (userEmail == null || userEmail.trim().isEmpty())) {
-            return null;
-        }
-        if (categoryId <= 0) {
-            return resumeRepository.findAllByUserEmailContaining(PageRequest.of(index - 1, PAGE_SIZE), userEmail);
-        }
-        if (userEmail == null || userEmail.trim().isEmpty()) {
-            return resumeRepository.findAllByCategoryId(PageRequest.of(index - 1, PAGE_SIZE), categoryId);
-        }
-        return resumeRepository.findAllByUserEmailContainingAndCategoryId(PageRequest.of(index - 1, PAGE_SIZE), userEmail, categoryId);
-    }
-
+    @Transactional
     @Override
     public void deleteById(int id) {
         Optional<Resume> byId = resumeRepository.findById(id);
         if (byId.isPresent()) {
+            applicantListRepository.deleteAllByResumeId(id);
+            resumeWishlistRepository.deleteAllByResumeId(id);
             sendMailService.sendEmailResumeDeleted(byId.get().getUser());
             resumeRepository.deleteById(id);
         }
@@ -152,7 +131,7 @@ public class ResumeServiceImpl implements ResumeService {
                 resume.setPicName(originalResume.getPicName());
             }
 
-            if (resume.equals(originalResume)){
+            if (resume.equals(originalResume)) {
                 return originalResume;
             }
             return resumeRepository.save(resume);

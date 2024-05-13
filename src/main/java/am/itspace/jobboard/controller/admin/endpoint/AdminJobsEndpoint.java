@@ -3,6 +3,7 @@ package am.itspace.jobboard.controller.admin.endpoint;
 import am.itspace.jobboard.service.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +18,16 @@ public class AdminJobsEndpoint {
     private final JobService jobService;
 
     @PostMapping("/block/{jobId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void blockJob(@PathVariable int jobId) {
+    public ResponseEntity<Void> blockJob(@PathVariable int jobId) {
         jobService.blockById(jobId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/unlock/{jobId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void unlockJob(@PathVariable int jobId) {
+    public ResponseEntity<Void> unlockJob(@PathVariable int jobId) {
         jobService.unlockById(jobId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
 

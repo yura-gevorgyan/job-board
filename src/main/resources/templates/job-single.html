@@ -117,7 +117,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3"
+                                 th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                 <div class="row">
                                     <div class="text-center mb-3">Published Date: <strong
                                             th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></strong>
@@ -126,8 +127,8 @@
                                         <a th:href="@{'/jobs/apply/' + ${job.id}}" class="butn mb-3 w-100 text-center">Apply
                                             For Job</a>
                                     </div>
-                                    <div class="col-12">
-                                        <a href="#!" class="butn w-100 text-center">Shortlist</a>
+                                    <div class="col-12" th:if="${(currentUser != null) && (job.user.id != currentUser.id)}">
+                                        <a th:href="'/profile/message/' + ${job.user.id}" class="butn w-100 text-center">Message</a>
                                     </div>
                                 </div>
                             </div>
@@ -273,17 +274,21 @@
                                     </button>
 
                                 </th:block>
-                                <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
-                                        style="border: white;background: white">
-                                    <a class="favourite wishList" href="#!"
-                                       th:data-job-id="${'a' + job.id}"><i
-                                            class="far fa-heart"></i></a>
-                                </button>
 
-                                <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
-                                        style="border: white;background: white"><a class="favourite" href="#!"><i
-                                        class="far fa-heart"></i></a>
-                                </button>
+                                <div th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
+                                    <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
+                                            style="border: white;background: white">
+                                        <a class="favourite wishList" href="#!"
+                                           th:data-job-id="${'a' + job.id}"><i
+                                                class="far fa-heart"></i></a>
+                                    </button>
+
+                                    <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
+                                            style="border: white;background: white"><a class="favourite" href="#!"><i
+                                            class="far fa-heart"></i></a>
+                                    </button>
+                                </div>
+
                                 <div class="popular-jobs-box">
                                     <img class="mb-4 border-radius-10"
                                          th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;"

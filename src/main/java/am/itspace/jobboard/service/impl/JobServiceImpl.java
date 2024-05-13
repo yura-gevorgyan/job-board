@@ -7,7 +7,10 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.CategoryNotFoundException;
+import am.itspace.jobboard.repository.ApplicantListRepository;
+import am.itspace.jobboard.repository.JobAppliesRepository;
 import am.itspace.jobboard.repository.JobRepository;
+import am.itspace.jobboard.repository.JobWishlistRepository;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
@@ -37,6 +40,9 @@ public class JobServiceImpl implements JobService {
     private final SendMailService sendMailService;
     private final CategoryService categoryService;
     private final PictureUtil pictureUtil;
+    private final ApplicantListRepository applicantListRepository;
+    private final JobAppliesRepository jobAppliesRepository;
+    private final JobWishlistRepository jobWishlistRepository;
 
     private final int PAGE_SIZE = 20;
 
@@ -53,13 +59,6 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findTop4ByOrderByPublishedDateDesc();
     }
 
-
-    //Page size configuration
-    @Override
-    public Page<Job> getJobsFromNToM(int index) {
-        return jobRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
-    }
-
     @Override
     public int getTotalPages() {
         long totalCount = jobRepository.count();
@@ -67,19 +66,13 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int getTotalPagesOfSearch(String title) {
-        long totalCount = jobRepository.countByTitleContaining(title);
-        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
+    public Page<Job> findAllJobs(int index) {
+        return jobRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
     }
 
     @Override
-    public int getJobCountOfTitle(String title) {
-        return jobRepository.countByTitleContaining(title);
-    }
-
-    @Override
-    public Page<Job> getJobsFromNToMForSearch(int index, String title) {
-        return jobRepository.findAllByTitleContaining(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")), title);
+    public Page<Job> findAllJobs(Specification<Job> specification, int index) {
+        return jobRepository.findAll(specification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("publishedDate")));
     }
 
     @Override
@@ -93,6 +86,9 @@ public class JobServiceImpl implements JobService {
         Optional<Job> byId = jobRepository.findById(id);
         if (byId.isPresent()) {
             Job job = byId.get();
+            jobAppliesRepository.deleteAllByJobId(job.getId());
+            jobWishlistRepository.deleteAllByJobId(job.getId());
+            applicantListRepository.deleteAllByJobId(job.getId());
             jobRepository.delete(job);
             sendMailService.sendEmailJobDeleted(job.getUser());
         }

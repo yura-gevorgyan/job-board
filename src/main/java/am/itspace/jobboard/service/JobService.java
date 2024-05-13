@@ -17,15 +17,11 @@ public interface JobService {
 
     List<Job> getLast4Jobs();
 
-    Page<Job> getJobsFromNToM(int index);
-
     int getTotalPages();
 
-    int getTotalPagesOfSearch(String title);
+    Page<Job> findAllJobs(int index);
 
-    int getJobCountOfTitle(String title);
-
-    Page<Job> getJobsFromNToMForSearch(int index, String title);
+    Page<Job> findAllJobs(Specification<Job> specification, int index);
 
     int getCountByCompanyId(int id);
 

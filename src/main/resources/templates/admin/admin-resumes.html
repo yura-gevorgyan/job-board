@@ -48,7 +48,7 @@
 
     <!-- HEADER
     ================================================== -->
-    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <th:block th:insert="~{fragment/header-menu-fragment::header}"/>
     <!-- EMPLOYER DASHBOARD
     ================================================== -->
     <section class="py-0">
@@ -88,8 +88,8 @@
                                                 <li class="search"><i class="fas fa-search"></i></li>
                                                 <li><input style="width: 150px" id="longitude" class="form-control"
                                                            type="text"
-                                                           name="email" placeholder="J. Seeker Email"
-                                                           th:value="${email}"></li>
+                                                           name="profession" placeholder="Profession"
+                                                           th:value="${profession}"></li>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <li class="d-none d-xl-inline-block">
                                                     <button type="submit" class="not-border"><a
@@ -112,11 +112,12 @@
                                             <div class="d-sm-flex justify-content-between align-items-center">
                                                 <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
                                                     <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                        <img src="/img/candidate/candidate-05.jpg" alt="..."
+                                                        <img th:src="'/download/picture/' + ${resume.picName}"
+                                                             style="width: 80px" alt="..."
                                                              class="border-radius-50">
                                                     </div>
                                                     <div class="flex-grow-1 ms-sm-3">
-                                                        <h5><a href="employer-details.html"
+                                                        <h5><a th:href="${'/resumes/item/' + resume.id}"
                                                                th:text="${resume.user.name} + ' ' + ${resume.user.surname}"></a>
                                                         </h5>
                                                         <div class="mb-3">
@@ -137,7 +138,8 @@
                                                     </div>
                                                 </div>
                                                 <ul class="action-list">
-                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a th:href="${'/resumes/item/' + resume.id}"><span
+                                                            class="ti-eye"></span></a></li>
                                                     <li><a href="#!" class="delete-resume"
                                                            th:data-resume-id="${resume.id}"><span
                                                             class="ti-trash"></span></a>
@@ -166,7 +168,7 @@
                                     </li>
                                     <li th:if="${index == 0}"
                                         th:class="${searchIndex <= 1 ? 'disabled' : ''}">
-                                        <a th:href="@{'/admin/resumes/search?category=' + ${category} + '&email=' + ${email} + '&searchIndexStr=' + ${searchIndex - 1}}"
+                                        <a th:href="@{'/admin/resumes/search?category=' + ${category} + '&profession=' + ${profession} + '&searchIndexStr=' + ${searchIndex - 1}}"
                                            aria-label="Previous">
                                             <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
                                         </a>
@@ -183,7 +185,7 @@
                                     <th:block th:if="${index == 0}"
                                               th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
                                         <li>
-                                            <a th:href="@{'/admin/resumes/search?category=' + ${category} + '&email=' + ${email} + '&searchIndexStr=' + ${pageNum}}"
+                                            <a th:href="@{'/admin/resumes/search?category=' + ${category} + '&profession=' + ${profession} + '&searchIndexStr=' + ${pageNum}}"
                                                th:text="${pageNum}"></a>
                                         </li>
                                     </th:block>
@@ -198,7 +200,7 @@
                                     </li>
                                     <li th:if="${index == 0}"
                                         th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
-                                        <a th:href="@{'/admin/resumes/search?category=' + ${category} + '&email=' + ${email} + '&searchIndexStr=' + ${searchIndex + 1}}"
+                                        <a th:href="@{'/admin/resumes/search?category=' + ${category} + '&profession=' + ${profession} + '&searchIndexStr=' + ${searchIndex + 1}}"
                                            aria-label="Next">
                                             Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
                                         </a>

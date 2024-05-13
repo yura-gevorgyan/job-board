@@ -1,6 +1,5 @@
 package am.itspace.jobboard.repository;
 
-import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.JobWishlist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,8 @@ public interface JobWishlistRepository extends JpaRepository<JobWishlist, Intege
 
     List<JobWishlist> findByUserId(int id);
 
-    JobWishlist findByJobIdAndUserId(int jobId,int userId);
+    JobWishlist findByJobIdAndUserId(int jobId, int userId);
+
+    void deleteAllByJobId(int id);
 
 }

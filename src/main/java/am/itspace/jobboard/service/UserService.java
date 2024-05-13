@@ -3,6 +3,7 @@ package am.itspace.jobboard.service;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,15 +21,9 @@ public interface UserService {
 
     int getUserCount();
 
-    int getTotalPages();
+    Page<User> findAllUsers(int index);
 
-    Page<User> getUsersFromNToM(int index);
-
-    int getTotalPagesOfSearch(String email, String role);
-
-    int getUserCountOfEmailRole(String email, String role);
-
-    Page<User> getUsersFromNToMForSearch(int index, String email, String role);
+    Page<User> findAllUsers(Specification<User> specification, int index);
 
     User confirmEmail(String confirmEmailCode);
 

@@ -47,7 +47,7 @@
 
     <!-- HEADER
     ================================================== -->
-    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <th:block th:insert="~{fragment/header-menu-fragment::header}"/>
     <!-- EMPLOYER DASHBOARD
     ================================================== -->
     <section class="py-0">
@@ -117,7 +117,7 @@
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="mb-0"><span th:text="${user.email}"></span><br><span
                                                 style="font-size: 80%" class="green"
-                                                th:text="${user.role.name().replace('_',' ')}"></span></h6>
+                                                th:text="${user.role.name}"></span></h6>
                                     </div>
                                 </div>
                             </div>
@@ -153,11 +153,11 @@
                                                 <div class="d-sm-flex justify-content-between align-items-center">
                                                     <div class="d-sm-flex text-center text-sm-start mb-4 mb-sm-0">
                                                         <div class="flex-shrink-0 mb-3 mb-sm-0">
-                                                            <img src="/pictureDirectory/candidate-01.jpg" alt="..."
+                                                            <img th:src="'/download/picture/' + ${resume.picName}" style="width: 80px" alt="..."
                                                                  class="border-radius-50">
                                                         </div>
                                                         <div class="flex-grow-1 ms-sm-3">
-                                                            <h5><a href="employer-details.html"
+                                                            <h5><a th:href="'/resumes/item/' + ${resume.id}"
                                                                    th:text="${resume.user.name} + ' ' + ${resume.user.surname}"></a>
                                                             </h5>
                                                             <div class="mb-3">
@@ -174,7 +174,7 @@
                                                         </div>
                                                     </div>
                                                     <ul class="list-style">
-                                                        <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                        <li><a th:href="'/resumes/item/' + ${resume.id}"><span class="ti-eye"></span></a></li>
                                                         <li><a href="#!" class="delete-resume"
                                                                th:data-resume-id="${resume.id}"><span class="ti-trash"></span></a>
                                                         </li>

@@ -5,6 +5,7 @@ import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.repository.CompanyPictureRepository;
 import am.itspace.jobboard.repository.CompanyRepository;
+import am.itspace.jobboard.repository.CompanyWishlistRepository;
 import am.itspace.jobboard.service.CompanyService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.SendMailService;
@@ -14,6 +15,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final JobService jobService;
     private final SendMailService sendMailService;
     private final PictureUtil pictureUtil;
+    private final CompanyWishlistRepository companyWishlistRepository;
 
     private static final int PAGE_SIZE = 20;
 
@@ -49,58 +52,21 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Page<Company> getCompaniesFromNToM(int index) {
-        Page<Company> all = companyRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE));
-        for (Company company : all) {
+    public Page<Company> findAllCompanies(int index) {
+        Page<Company> companies = companyRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("foundedDate")));
+        for (Company company : companies) {
             company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
         }
-        return all;
+        return companies;
     }
 
     @Override
-    public int getTotalPagesOfSearch(int categoryId, String name) {
-        long totalCount = getCompanyCountOfCategoryName(categoryId, name);
-        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
-    }
-
-    @Override
-    public int getCompanyCountOfCategoryName(int categoryId, String name) {
-        if (categoryId <= 0 && (name == null || name.trim().isEmpty())) {
-            return 0;
-        }
-        if (categoryId <= 0) {
-            return companyRepository.countByNameContaining(name);
-        }
-        if (name == null || name.trim().isEmpty()) {
-            return companyRepository.countByCategoryId(categoryId);
-        }
-        return companyRepository.countByNameContainingAndCategoryId(name, categoryId);
-    }
-
-    @Override
-    public Page<Company> getCompaniesFromNToMForSearch(int index, int categoryId, String name) {
-        if (categoryId <= 0 && (name == null || name.trim().isEmpty())) {
-            return null;
-        }
-        if (categoryId <= 0) {
-            Page<Company> all = companyRepository.findAllByNameContaining(PageRequest.of(index - 1, PAGE_SIZE), name);
-            for (Company company : all) {
-                company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
-            }
-            return all;
-        }
-        if (name == null || name.trim().isEmpty()) {
-            Page<Company> all = companyRepository.findAllByCategoryId(PageRequest.of(index - 1, PAGE_SIZE), categoryId);
-            for (Company company : all) {
-                company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
-            }
-            return all;
-        }
-        Page<Company> all = companyRepository.findAllByNameContainingAndCategoryId(PageRequest.of(index - 1, PAGE_SIZE), name, categoryId);
-        for (Company company : all) {
+    public Page<Company> findAllCompanies(Specification<Company> companySpecification, int index) {
+        Page<Company> companies = companyRepository.findAll(companySpecification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("foundedDate")));
+        for (Company company : companies) {
             company.setActiveJobs(jobService.getCountByCompanyId(company.getId()));
         }
-        return all;
+        return companies;
     }
 
     @Override
@@ -120,6 +86,7 @@ public class CompanyServiceImpl implements CompanyService {
                 jobService.save(job);
             }
             companyPictureRepository.deleteAllByCompanyId(company.getId());
+            companyWishlistRepository.deleteAllByCompanyId(company.getId());
             sendMailService.sendEmailCompanyDeleted(company.getUser());
             companyRepository.delete(company);
         }

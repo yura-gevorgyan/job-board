@@ -1,8 +1,13 @@
 package am.itspace.jobboard.controller.admin;
 
+import am.itspace.jobboard.entity.Category;
+import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.ResumeService;
+import am.itspace.jobboard.specification.ResumeSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,64 +26,75 @@ public class AdminResumeController {
 
     @GetMapping("/{indexStr}")
     public String getResumesPage(@PathVariable String indexStr, ModelMap modelMap) {
-        int totalPages = resumeService.getTotalPages();
-        int index;
         try {
-            index = Integer.parseInt(indexStr);
-            if (index <= 0 || (index > totalPages && totalPages != 0)) {
+            if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/admin/resumes/1";
             }
-        } catch (NumberFormatException e) {
+            int index = Integer.parseInt(indexStr);
+            if (index <= 0) {
+                return "redirect:/admin/resumes/1";
+            }
+
+            Page<Resume> resumes = resumeService.findAllResumes(index);
+
+            if (index > resumes.getTotalPages() && resumes.getTotalPages() != 0) {
+                return "redirect:/admin/resumes/1";
+            }
+
+            modelMap.put("page", "resumes");
+
+            modelMap.put("index", index);
+            modelMap.put("searchIndex", 0);
+            modelMap.put("totalPages", resumes.getTotalPages());
+            modelMap.put("categories", categoryService.findAll());
+            modelMap.put("resumeCount", resumes.getNumberOfElements());
+            modelMap.put("resumes", resumes);
+
+        } catch (Exception e) {
             return "redirect:/admin/resumes/1";
         }
-
-        modelMap.put("page", "resumes");
-
-        modelMap.put("index", index);
-        modelMap.put("searchIndex", 0);
-        modelMap.put("totalPages", totalPages);
-        modelMap.put("categories", categoryService.findAll());
-        modelMap.put("resumeCount", resumeService.getResumeCount());
-        modelMap.put("resumes", resumeService.getResumesFromNToM(index));
         return "admin/admin-resumes";
     }
 
     @GetMapping("/search")
     public String getAdminSearchJobPage(@RequestParam(value = "searchIndexStr", defaultValue = "1") String searchIndexStr,
-                                        @RequestParam(value = "email") String email,
-                                        @RequestParam(value = "category", defaultValue = "") String categoryIdStr, ModelMap modelMap) {
-        int categoryId;
+                                        @RequestParam(value = "profession", defaultValue = "") String profession,
+                                        @RequestParam(value = "category", defaultValue = "0") String categoryIdStr,
+                                        ModelMap modelMap) {
         try {
-            categoryId = Integer.parseInt(categoryIdStr);
-        } catch (NumberFormatException e) {
-            categoryId = 0;
-        }
-        int totalPagesOfSearchCategoryName = resumeService.getTotalPagesOfSearch(categoryId, email);
-        int searchIndex;
+            int searchIndex = Integer.parseInt(searchIndexStr);
+            int categoryId = Integer.parseInt(categoryIdStr);
+            if (searchIndex <= 0) {
+                throw new Exception();
+            }
+            Category category;
+            category = categoryService.findById(categoryId);
+            if (category != null) {
+                modelMap.put("category", category.getId());
+            } else {
+                modelMap.put("category", "");
+            }
 
-        modelMap.put("page", "resumes");
+            Specification<Resume> resumeSpecification = ResumeSpecification.searchResumes(profession, null, null, category, 0, Double.MAX_VALUE, null);
+            Page<Resume> resumes = resumeService.findAllResumes(resumeSpecification, searchIndex);
 
-        try {
-            searchIndex = Integer.parseInt(searchIndexStr);
-            if (searchIndex <= 0 || searchIndex > totalPagesOfSearchCategoryName) {
+            if (searchIndex > resumes.getTotalPages() && resumes.getTotalPages() != 0) {
                 return "redirect:/admin/resumes/1";
             }
-        } catch (NumberFormatException e) {
+
+            modelMap.put("page", "resumes");
+
+            modelMap.put("index", 0);
+            modelMap.put("searchIndex", searchIndex);
+            modelMap.put("profession", profession);
+            modelMap.put("totalPages", resumes.getTotalPages());
+            modelMap.put("resumeCount", resumes.getNumberOfElements());
+            modelMap.put("resumes", resumes);
+            modelMap.put("categories", categoryService.findAll());
+
+            return "admin/admin-resumes";
+        } catch (Exception e) {
             return "redirect:/admin/resumes/1";
         }
-
-        modelMap.put("index", 0);
-        modelMap.put("searchIndex", searchIndex);
-        modelMap.put("email", email);
-        if (categoryService.exists(categoryId)) {
-            modelMap.put("category", categoryId);
-        } else {
-            modelMap.put("category", "");
-        }
-        modelMap.put("categories", categoryService.findAll());
-        modelMap.put("totalPages", totalPagesOfSearchCategoryName);
-        modelMap.put("resumeCount", resumeService.getResumeCountOfCategoryUserEmail(categoryId, email));
-        modelMap.put("resumes", resumeService.getResumesFromNToMForSearch(searchIndex, categoryId, email));
-        return "admin/admin-resumes";
     }
 }
