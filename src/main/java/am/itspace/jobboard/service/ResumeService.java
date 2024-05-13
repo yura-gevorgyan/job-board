@@ -17,13 +17,9 @@ public interface ResumeService {
 
     int getTotalPages();
 
-    Page<Resume> getResumesFromNToM(int index);
+    Page<Resume> findAllResumes(int index);
 
-    int getTotalPagesOfSearch(int categoryId, String userEmail);
-
-    int getResumeCountOfCategoryUserEmail(int categoryId, String userEmail);
-
-    Page<Resume> getResumesFromNToMForSearch(int searchIndex, int categoryId, String userEmail);
+    Page<Resume> findAllResumes(Specification<Resume> resumeSpecification, int index);
 
     void deleteById(int id);
 

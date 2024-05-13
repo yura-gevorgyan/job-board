@@ -83,13 +83,13 @@
         <div class="container pb-sm-6 pb-md-8 pb-lg-12">
             <div class="row align-items-center justify-content-center text-center pt-sm-7">
                 <div class="col-xl-9 col-xxl-7 mb-1-9 mb-lg-0">
-                    <div th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER')}">
+                    <div th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER') || currentUser.role.name().equals('ADMIN')}">
                         <h1 class="text-white display-sm-14 display-lg-10">Find The Best Job</h1>
                         <p class="text-white mb-1-9 mb-md-2-9">Find perfect job for build your skills. Have many job in
                             this platform.</p>
                     </div>
                     <div class="banner-4-form mb-2-9"
-                         th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER')}">
+                         th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER') || currentUser.role.name().equals('ADMIN')}">
                         <form action="/jobs/search" method="get">
                             <div class="input-group">
                                 <input type="text" name="title" class="form-control" placeholder="Job title, Keyword"
@@ -108,7 +108,8 @@
                          th:if="${currentUser != null && (currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER'))}">
                         <form action="/resumes/search" method="get">
                             <div class="input-group">
-                                <input type="text" name="profession" class="form-control" placeholder="Job title, Keyword"
+                                <input type="text" name="profession" class="form-control"
+                                       placeholder="Job title, Keyword"
                                        aria-label="Job title, Keyword" aria-describedby="button-addon2">
                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                 <button class="butn" type="submit" id="button-addon2">Find Resume</button>
@@ -117,7 +118,8 @@
                     </div>
                     <!-- Job Search Form -->
                     <!-- Popular Search -->
-                    <div class="row" th:if="${currentUser != null && (currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER'))}">
+                    <div class="row"
+                         th:if="${currentUser != null && (currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER'))}">
                         <div class="col-lg-12">
                             <ul class="banner-searches mb-0 p-0">
                                 <li th:each="category : ${firstCategories}">
@@ -128,7 +130,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="row" th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER')}">
+                    <div class="row"
+                         th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER')  || currentUser.role.name().equals('ADMIN')}">
                         <div class="col-lg-12">
                             <ul class="banner-searches mb-0 p-0">
                                 <li th:each="category : ${firstCategories}">
@@ -149,7 +152,7 @@
 
     <!-- RECENT JOBS
     ================================================== -->
-    <section>
+    <section th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
         <div class="container">
             <div class="section-heading4">
                 <span>Recent Jobs</span>
@@ -169,7 +172,8 @@
                                    th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
                             </button>
 
-                            <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
+                            <button th:if="${!#lists.contains(favoritesJobs,job)}"
+                                    style="border: white;background: white">
                                 <a class="favourite wishList" href="#!"
                                    th:data-job-id="${'a' + job.id}"><i
                                         class="far fa-heart"></i></a>
@@ -200,7 +204,8 @@
                         <i class="far fa-clock pe-2 text-secondary"></i>
                         <span class="border-end border-color-extra-light-gray pe-2 me-2"
                               th:text="${job.salary + '$'}"></span>
-                        <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${job.workExperience.getExperience()}"></th:block></span>
+                        <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block
+                                th:text="${job.workExperience.getExperience()}"></th:block></span>
                         <br>
                     </div>
                     <a th:href="'/jobs/item/' + ${job.id}" class="butn butn-apply">Apply Now</a>
@@ -294,20 +299,27 @@
                                 <div class="d-xl-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="text-center text-xl-start mb-4 mb-xl-0">
-                                            <img th:src="'/download/picture/' + ${entry.key.logoName}" width="60px" alt="...">
+                                            <img th:src="'/download/picture/' + ${entry.key.logoName}" width="60px"
+                                                 alt="...">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 border-xl-start border-color-extra-light-gray ms-xl-4 ps-xl-4">
-                                        <h4 class="h5 mb-3"><a th:href="@{'/companies/item/' + ${entry.key.id}}" th:text="${entry.key.name}">Conzio construction</a></h4>
+                                        <h4 class="h5 mb-3"><a th:href="@{'/companies/item/' + ${entry.key.id}}"
+                                                               th:text="${entry.key.name}">Conzio construction</a></h4>
                                         <ul class="list-style2 mb-0">
-                                            <li><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${entry.key.category.name}"></th:block></li>
-                                            <li><i class="ti-location-pin pe-2 text-secondary"></i><th:block th:text="${entry.key.country.countryName}"></th:block></li>
+                                            <li><i class="ti-briefcase pe-2 text-secondary"></i>
+                                                <th:block th:text="${entry.key.category.name}"></th:block>
+                                            </li>
+                                            <li><i class="ti-location-pin pe-2 text-secondary"></i>
+                                                <th:block th:text="${entry.key.country.countryName}"></th:block>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 text-xl-end">
-                                <a th:href="@{'/companies/item/' + ${entry.key.id}}" class="butn butn-md radius" th:text="${entry.value} + ' Jobs'"></a>
+                                <a th:href="@{'/companies/item/' + ${entry.key.id}}" class="butn butn-md radius"
+                                   th:text="${entry.value} + ' Jobs'"></a>
                             </div>
                         </div>
                     </div>
@@ -316,135 +328,7 @@
         </div>
     </section>
 
-    <!-- TESTIMONIAL
-    ================================================== -->
 
-    <!-- EXTRA
-    ================================================== -->
-
-    <!-- BLOG
-    ================================================== -->
-    <section>
-        <div class="container">
-            <div class="section-heading4">
-                <span>Our Blogs</span>
-                <h2>Recent News Article</h2>
-            </div>
-            <div class="row mt-n1-9">
-                <div class="col-xl-6 mt-1-9">
-                    <div class="d-block d-md-flex border border-color-extra-light-gray bg-white border-radius-10 p-3 h-100">
-                        <div class="col-md-5 bg-img cover-background border-radius-10 min-height-250"
-                             data-background="/img/blog/blog-01.jpg"></div>
-                        <div class="col-md-7">
-                            <div class="px-md-1-9 pt-4 pb-2 py-md-4">
-                                <ul class="list-style2 mb-3">
-                                    <li><a href="#!">18 Apr, 2022</a></li>
-                                    <li><a href="#!">Comment</a>(<span>12</span>)</li>
-                                </ul>
-                                <h4 class="h5 mb-3"><a href="blog-details.html">How To Make A Perfect Cv That Attracts
-                                    The Attention...</a></h4>
-                                <p class="mb-3">A job ravenously at the same time as Far plenty that one rank beheld
-                                    after outside.</p>
-                                <div class="border-top border-color-extra-light-gray d-flex justify-content-between align-items-center pt-3">
-                                    <div>
-                                        <img class="border-radius-50 me-2 vertical-align-middle w-40px"
-                                             src="/img/avatar/avatar-01.jpg" alt="...">
-                                        <h6 class="mb-0 d-inline-block display-30 font-weight-500">Siemon Smelt</h6>
-                                    </div>
-                                    <a href="blog-details.html" class="font-weight-600">Read More<i
-                                            class="fas fa-long-arrow-alt-right align-middle ms-2 display-30"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 mt-1-9">
-                    <div class="d-block d-md-flex border border-color-extra-light-gray bg-white border-radius-10 p-3 h-100">
-                        <div class="col-md-5 bg-img cover-background border-radius-10 min-height-250"
-                             data-background="/img/blog/blog-02.jpg"></div>
-                        <div class="col-md-7">
-                            <div class="px-md-1-9 pt-4 pb-2 py-md-4px-md-1-9 pt-4 pb-2 py-md-4">
-                                <ul class="list-style2 mb-3">
-                                    <li><a href="#!">15 Apr, 2022</a></li>
-                                    <li><a href="#!">Comment</a>(<span>08</span>)</li>
-                                </ul>
-                                <h4 class="h5 mb-3"><a href="blog-details.html">Points To Be Considered Before Accept
-                                    Job Offer!...</a></h4>
-                                <p class="mb-3">A job ravenously at the same time as Far plenty that one rank beheld
-                                    after outside.</p>
-                                <div class="border-top border-color-extra-light-gray d-flex justify-content-between align-items-center pt-3">
-                                    <div>
-                                        <img class="border-radius-50 me-2 vertical-align-middle w-40px"
-                                             src="/img/avatar/avatar-02.jpg" alt="...">
-                                        <h6 class="mb-0 d-inline-block display-30 font-weight-500">Johanna Hoch</h6>
-                                    </div>
-                                    <a href="blog-details.html" class="font-weight-500">Read More<i
-                                            class="fas fa-long-arrow-alt-right align-middle ms-2 display-30"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 mt-1-9">
-                    <div class="d-block d-md-flex border border-color-extra-light-gray bg-white border-radius-10 p-3 h-100">
-                        <div class="col-md-5 bg-img cover-background border-radius-10 min-height-250"
-                             data-background="/img/blog/blog-03.jpg"></div>
-                        <div class="col-md-7">
-                            <div class="px-md-1-9 pt-4 pb-2 py-md-4">
-                                <ul class="list-style2 mb-3">
-                                    <li><a href="#!">14 Apr, 2022</a></li>
-                                    <li><a href="#!">Comment</a>(<span>10</span>)</li>
-                                </ul>
-                                <h4 class="h5 mb-3"><a href="blog-details.html">Most Powerful Thing You've Self Coaching
-                                    Scholars...</a></h4>
-                                <p class="mb-3">A job ravenously at the same time as Far plenty that one rank beheld
-                                    after outside.</p>
-                                <div class="border-top border-color-extra-light-gray d-flex justify-content-between align-items-center pt-3">
-                                    <div>
-                                        <img class="border-radius-50 me-2 vertical-align-middle w-40px"
-                                             src="/img/avatar/avatar-03.jpg" alt="...">
-                                        <h6 class="mb-0 d-inline-block display-30 font-weight-500">Arnaud Brian</h6>
-                                    </div>
-                                    <a href="blog-details.html" class="font-weight-500">Read More<i
-                                            class="fas fa-long-arrow-alt-right align-middle ms-2 display-30"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 mt-1-9">
-                    <div class="d-block d-md-flex border border-color-extra-light-gray bg-white border-radius-10 p-3 h-100">
-                        <div class="col-md-5 bg-img cover-background border-radius-10 min-height-250"
-                             data-background="/img/blog/blog-04.jpg"></div>
-                        <div class="col-md-7">
-                            <div class="px-md-1-9 pt-4 pb-2 py-md-4">
-                                <ul class="list-style2">
-                                    <li><a href="#!">11 Apr, 2022</a></li>
-                                    <li><a href="#!">Comment</a>(<span>05</span>)</li>
-                                </ul>
-                                <h4 class="h5 mb-3"><a href="blog-details.html">Job Interview Tips For Older
-                                    Workers...</a></h4>
-                                <p class="mb-3">A job ravenously at the same time as Far plenty that one rank beheld
-                                    after outside.</p>
-                                <div class="border-top border-color-extra-light-gray d-flex justify-content-between align-items-center pt-3">
-                                    <div>
-                                        <img class="border-radius-50 me-2 vertical-align-middle w-40px"
-                                             src="/img/avatar/avatar-04.jpg" alt="...">
-                                        <h6 class="mb-0 d-inline-block display-30 font-weight-500">Yolande Quirion</h6>
-                                    </div>
-                                    <a href="blog-details.html" class="font-weight-500">Read More<i
-                                            class="fas fa-long-arrow-alt-right align-middle ms-2 display-30"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER
-    ================================================== -->
     <footer>
         <div class="container">
             <div class="row mt-n2-6">

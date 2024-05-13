@@ -44,11 +44,12 @@
         .hide-after-fourth {
             display: none;
         }
-             /* Pagination style */
-         #pagination {
-             margin-top: 20px;
-             font-size: 16px;
-         }
+
+        /* Pagination style */
+        #pagination {
+            margin-top: 20px;
+            font-size: 16px;
+        }
 
         #pagination button {
             padding: 6px 10px;
@@ -105,28 +106,28 @@
 
 <body>
 
-    <!-- PAGE LOADING
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
     ================================================== -->
-    <div id="preloader"></div>
+    <header>
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
 
-    <!-- MAIN WRAPPER
+    <!-- PAGE TITLE
     ================================================== -->
-    <div class="main-wrapper">
 
-        <!-- HEADER
-        ================================================== -->
-        <header>
-            <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
-        </header>
-
-        <!-- PAGE TITLE
-        ================================================== -->
-
-        <!-- CANDIDATE DETAILS
-        ================================================== -->
-        <section>
-            <div class="container">
-                <div class="row mb-2-5 mb-lg-2-9">
+    <!-- CANDIDATE DETAILS
+    ================================================== -->
+    <section>
+        <div class="container">
+            <div class="row mb-2-5 mb-lg-2-9">
                      <span th:if="${errorMsg != null}">
                             <div class="alert alert-danger alert-dismissible">
                                 <strong th:text="${errorMsg}"></strong>
@@ -134,14 +135,14 @@
                                         aria-label="Close"></button>
                             </div>
                      </span>
-                    <span th:if="${msg != null}">
+                <span th:if="${msg != null}">
                             <div class="alert alert-success alert-dismissible">
                                 <strong th:text="${msg}"></strong>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                                         aria-label="Close"></button>
                             </div>
                     </span>
-                    <span th:if="${applyResumeMsg != null}">
+                <span th:if="${applyResumeMsg != null}">
                             <div class="alert alert-warning alert-dismissible">
                                 <strong th:text="${applyResumeMsg}"></strong>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -149,58 +150,59 @@
                             </div>
                     </span>
 
-                    <div class="col-lg-12">
-                        <div class="p-1-6 p-lg-1-9 border border-color-extra-light-gray border-radius-10">
-                            <div class="row align-items-center">
-                                <div class="col-lg-9 mb-4 mb-lg-0">
-                                    <div class="text-center text-lg-start d-lg-flex align-items-center">
-                                        <div class="flex-shrink-0 mb-4 mb-lg-0">
-                                            <img th:src="@{'/download/picture/' + ${resume.picName}}" width="80px"
-                                                 class="border-radius-50" alt="...">
-                                        </div>
-                                        <div class="flex-grow-1 ms-lg-4">
-                                            <h4 class="mb-3"
-                                                th:text="${resume.user.name + ' ' + resume.user.surname}"></h4>
-                                            <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                    th:text="${resume.profession}"></th:block></span>
-                                            <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
-                                                    th:text="${resume.country.countryName}"></th:block></span>
-                                            <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
-                                                    th:text="${#dates.format(resume.createdDate,'dd MMMM yyyy')}"></th:block></span>
-                                            <span th:if="${resume.expectedSalary != null}"><i
-                                                    class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
-                                                    th:text="${'$' + resume.expectedSalary}"></th:block></span>
-                                        </div>
+                <div class="col-lg-12">
+                    <div class="p-1-6 p-lg-1-9 border border-color-extra-light-gray border-radius-10">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9 mb-4 mb-lg-0">
+                                <div class="text-center text-lg-start d-lg-flex align-items-center">
+                                    <div class="flex-shrink-0 mb-4 mb-lg-0">
+                                        <img th:src="@{'/download/picture/' + ${resume.picName}}" width="80px"
+                                             class="border-radius-50" alt="...">
+                                    </div>
+                                    <div class="flex-grow-1 ms-lg-4">
+                                        <h4 class="mb-3"
+                                            th:text="${resume.user.name + ' ' + resume.user.surname}"></h4>
+                                        <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
+                                                th:text="${resume.profession}"></th:block></span>
+                                        <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
+                                                th:text="${resume.country.countryName}"></th:block></span>
+                                        <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
+                                                th:text="${#dates.format(resume.createdDate,'dd MMMM yyyy')}"></th:block></span>
+                                        <span th:if="${resume.expectedSalary != null}"><i
+                                                class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
+                                                th:text="${'$' + resume.expectedSalary}"></th:block></span>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <li class="d-none d-xl-inline-block">
-                                                <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                                <button  type="submit" class="not-border openModalBtn">
-                                                    <input type="hidden" name="page" th:value="${1}">
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="hidden" name="searchIndexStr" th:value="${1}">
 
-                                                    <a th:if="${(currentUser == null || (currentUser.role.name().equals('JOB_SEEKER')) )}"
-                                                       th:href="@{'/resumes/apply/' + ${resume.id}}"
-                                                       class="butn mb-3 w-100 text-center">Apply For Job</a>
+                                        <button type="submit" class="not-border openModalBtn" style="width: 100%;">
+                                            <input type="hidden" name="page" th:value="${1}">
 
-                                                    <a href="#!" th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
+                                            <a th:if="${(currentUser == null || (currentUser.role.name().equals('JOB_SEEKER')) )}"
+                                               th:href="@{'/resumes/apply/' + ${resume.id}}"
+                                               class="butn mb-3 w-100 text-center">Apply For Job</a>
+
+                                            <a href="#!" th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
                                                     currentUser.role.name().equals('COMPANY_OWNER'))) }"
-                                                       class="butn mb-3 w-100 text-center user-jobs"
-                                                       th:data-user-id="${currentUser.id}"
-                                                       th:data-resume-id="${resume.id}">Apply For Job</a>
+                                               class="butn mb-3 w-100 text-center user-jobs"
+                                               th:data-user-id="${currentUser.id}"
+                                               th:data-resume-id="${resume.id}">Apply For Job</a>
 
-                                                </button>
+                                        </button>
 
-                                            </li>
-
-                                            <div class="col-12">
-                                                <button type="button" class="not-border">
-                                                    <a href="#!" class="butn mb-3 w-100 text-center">Download CV</a>
-                                                </button>
+                                        <div th:if="${(currentUser != null) && (resume.user.id != currentUser.id)}">
+                                            <div class="col-12"
+                                                 th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
+                                                <a th:href="'/profile/message/' + ${resume.user.id}"
+                                                   class="butn w-100 text-center">Message</a>
                                             </div>
                                         </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -259,12 +261,6 @@
                                             </li>
                                         </ul>
                                         <br>
-                                        <div class="col-md-12">
-                                            <div class="quform-submit-inner">
-                                                <a th:href="'/profile/message/' + ${resume.user.id}"><button class="butn border-0" type="submit"><span>Send Message</span>
-                                                </button></a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -296,18 +292,23 @@
                                         </button>
                                     </th:block>
 
-                                    <button th:if="${currentUser != null  &&  (favoritesResumes == null || favoritesResumes.isEmpty())}"
-                                            style="border: white;background: white"><a
-                                            class="favourite wishList" href="#!"
-                                            th:data-resume-id="${'a' + resume.id}"><i
-                                            class="far fa-heart"></i></a>
-                                    </button>
+                                    <div th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
+                                        <button th:if="${currentUser != null  &&  (favoritesResumes == null || favoritesResumes.isEmpty())}"
+                                                style="border: white;background: white"><a
+                                                class="favourite wishList" href="#!"
+                                                th:data-resume-id="${'a' + resume.id}"><i
+                                                class="far fa-heart"></i></a>
+                                        </button>
 
-                                    <button class="openModalBtn" type="submit"
-                                            th:if="${currentUser == null}"
-                                            style="border: white;background: white"><a class="favourite" href="/login"><i
-                                            class="far fa-heart"></i></a>
-                                    </button>                                    <img th:src="@{'/download/picture/' + ${resumeList.picName}}" width="80px"
+                                        <button class="openModalBtn" type="submit"
+                                                th:if="${currentUser == null}"
+                                                style="border: white;background: white"><a class="favourite"
+                                                                                           href="/login"><i
+                                                class="far fa-heart"></i></a>
+                                        </button>
+                                    </div>
+
+                                    <img th:src="@{'/download/picture/' + ${resumeList.picName}}" style="width: 90px;"
                                          class="border-radius-50 mb-3" alt="...">
                                     <div class="candidate-info">
                                         <h4 class="h5"><a th:href="@{'/resumes/item/' + ${resumeList.id}}">
@@ -332,249 +333,262 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
 
-            <div id="myModal" class="modal-pop"
-                 th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
+        <div id="myModal" class="modal-pop"
+             th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
                                                     currentUser.role.name().equals('COMPANY_OWNER')))}">
 
-                <!-- Modal content -->
-                <div class="modal-content-pop">
+            <!-- Modal content -->
+            <div class="modal-content-pop">
                      <span>
                             <div class="alert alert-primary alert-dismissible ">
                                 <strong>Please choose Job.</strong>
                             </div>
                     </span>
-                    <div class="quform-element form-group" style="width: 30%">
-                        <div class="quform-input">
-                            <input class="form-control border-radius-10 search"
-                                   type="text" name="profession" placeholder="search job">
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="row mt-n1-9 user-jobs-popup ">
-                        </div>
-
-                        <div id="pagination" class="text-primary" style="display: flex;justify-content: center;margin-top: 3%;margin-bottom: 2%">
-                            <button class="prevBtn">Prev</button>
-                            <span class="currentPage" th:text="${currentPage}">1</span> / <span class="totalPages" th:text="${totalPages}">1</span>
-                            <button class="nextBtn">Next</button>
-                        </div>
-
-                        <span class="close"></span>
+                <div class="quform-element form-group" style="width: 30%">
+                    <div class="quform-input">
+                        <input class="form-control border-radius-10 search"
+                               type="text" name="profession" placeholder="search job">
                     </div>
                 </div>
-            </div>
 
-        </section>
-
-        <!-- FOOTER
-        ================================================== -->
-        <footer class="pt-0">
-            <div class="container border-bottom border-color-light-white py-2-5 py-md-6 mb-6 mb-md-8 mb-lg-10">
-                <div class="row justify-content-center align-items-center mt-n1-9">
-                    <div class="col-xl-6 mt-1-9">
-                        <div class="d-sm-flex align-items-center">
-                            <div class="flex-shrink-0 mb-1-6 mb-sm-0">
-                                <a href="index.html" class="footer-logo"><img src="/img/logos/logo-white.png" alt="..."></a>
-                            </div>
-                            <div class="flex-grow-1 border-sm-start border-color-light-white ms-sm-4 ps-sm-4 border-width-2">
-                                <p class="mb-0 display-30 text-white opacity9 w-lg-95">Create a free account to discover lots of Jobs & Career Opportunities around you!</p>
-                            </div>
-                        </div>
+                <div>
+                    <div class="row mt-n1-9 user-jobs-popup ">
                     </div>
-                    <div class="col-xl-6 mt-1-9">
-                        <div class="row">
-                            <div class="col-sm-4 mb-1-9 mb-sm-0">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="/img/icons/icon-09.png" alt="...">
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h3 class="h2 mb-1 countup font-weight-700 text-white">1327</h3>
-                                        <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Posted</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 mb-1-9 mb-sm-0">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="/img/icons/icon-10.png" alt="...">
-                                    </div>
-                                    <div class="flex-grow-1 ms-4">
-                                        <h3 class="h2 mb-1 countup font-weight-700 text-white">150</h3>
-                                        <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Filled</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="/img/icons/icon-11.png" alt="...">
-                                    </div>
-                                    <div class="flex-grow-1 ms-4">
-                                        <h3 class="h2 mb-1 countup font-weight-700 text-white">220</h3>
-                                        <p class="mb-0 font-weight-600 text-white opacity9 display-30">Companies</p>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <div id="pagination" class="text-primary"
+                         style="display: flex;justify-content: center;margin-top: 3%;margin-bottom: 2%">
+                        <button class="prevBtn">Prev</button>
+                        <span class="currentPage" th:text="${currentPage}">1</span> / <span class="totalPages"
+                                                                                            th:text="${totalPages}">1</span>
+                        <button class="nextBtn">Next</button>
+                    </div>
+
+                    <span class="close"></span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- FOOTER
+    ================================================== -->
+    <footer class="pt-0">
+        <div class="container border-bottom border-color-light-white py-2-5 py-md-6 mb-6 mb-md-8 mb-lg-10">
+            <div class="row justify-content-center align-items-center mt-n1-9">
+                <div class="col-xl-6 mt-1-9">
+                    <div class="d-sm-flex align-items-center">
+                        <div class="flex-shrink-0 mb-1-6 mb-sm-0">
+                            <a href="index.html" class="footer-logo"><img src="/img/logos/logo-white.png" alt="..."></a>
+                        </div>
+                        <div class="flex-grow-1 border-sm-start border-color-light-white ms-sm-4 ps-sm-4 border-width-2">
+                            <p class="mb-0 display-30 text-white opacity9 w-lg-95">Create a free account to discover
+                                lots of Jobs & Career Opportunities around you!</p>
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-6 mt-1-9">
+                    <div class="row">
+                        <div class="col-sm-4 mb-1-9 mb-sm-0">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="/img/icons/icon-09.png" alt="...">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h3 class="h2 mb-1 countup font-weight-700 text-white">1327</h3>
+                                    <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Posted</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 mb-1-9 mb-sm-0">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="/img/icons/icon-10.png" alt="...">
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h3 class="h2 mb-1 countup font-weight-700 text-white">150</h3>
+                                    <p class="mb-0 font-weight-600 text-white opacity9 display-30">Job Filled</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="/img/icons/icon-11.png" alt="...">
+                                </div>
+                                <div class="flex-grow-1 ms-4">
+                                    <h3 class="h2 mb-1 countup font-weight-700 text-white">220</h3>
+                                    <p class="mb-0 font-weight-600 text-white opacity9 display-30">Companies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="container">
-                <div class="row mt-n2-6">
-                    <div class="col-sm-6 col-lg-3 mt-2-6">
-                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Contact Us</h3>
-                        <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly customers and seek 15.8 million CV in our database.</p>
-                        <ul class="contact-list">
-                            <li class="d-flex"><span class="fa fa-home pe-3 text-white"></span><a href="#!">66 Guild Street 512B, Great North Town.</a></li>
-                            <li class="d-flex"><span class="fa fa-phone-alt pe-3 text-white"></span><a href="#!">(+44) 123 456 789</a></li>
-                            <li class="d-flex"><span class="fa fa-envelope pe-3 text-white"></span><a href="#!">info@example.com</a></li>
+        </div>
+        <div class="container">
+            <div class="row mt-n2-6">
+                <div class="col-sm-6 col-lg-3 mt-2-6">
+                    <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Contact Us</h3>
+                    <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly
+                        customers and seek 15.8 million CV in our database.</p>
+                    <ul class="contact-list">
+                        <li class="d-flex"><span class="fa fa-home pe-3 text-white"></span><a href="#!">66 Guild Street
+                            512B, Great North Town.</a></li>
+                        <li class="d-flex"><span class="fa fa-phone-alt pe-3 text-white"></span><a href="#!">(+44) 123
+                            456 789</a></li>
+                        <li class="d-flex"><span class="fa fa-envelope pe-3 text-white"></span><a href="#!">info@example.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-lg-2 mt-2-6">
+                    <div class="ps-sm-1-9">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Information</h3>
+                        <ul class="footer-list-style1">
+                            <li><a href="aboutus.html">About us</a></li>
+                            <li><a href="blog-grid.html">Blog</a></li>
+                            <li><a href="how-it-works.html">Our Process</a></li>
+                            <li><a href="pricing-plans.html">Our Pricing</a></li>
+                            <li><a href="contact-us.html">Contact Us</a></li>
                         </ul>
                     </div>
-                    <div class="col-sm-6 col-lg-2 mt-2-6">
-                        <div class="ps-sm-1-9">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Information</h3>
-                            <ul class="footer-list-style1">
-                                <li><a href="aboutus.html">About us</a></li>
-                                <li><a href="blog-grid.html">Blog</a></li>
-                                <li><a href="how-it-works.html">Our Process</a></li>
-                                <li><a href="pricing-plans.html">Our Pricing</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col-sm-6 col-lg-2 mt-2-6">
+                    <div class="ps-lg-1-9">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Candidates</h3>
+                        <ul class="footer-list-style1">
+                            <li><a href="profile/candidate-applied-job.html">Applied Job</a></li>
+                            <li><a href="candidate-cv-manager.html">CV Manager</a></li>
+                            <li><a href="profile/candidate-shortlisted-jobs.html">Shortlisted Jobs</a></li>
+                            <li><a href="profile/candidate-job-alerts.html">Job Alerts</a></li>
+                            <li><a href="candidate-dashboard.html">Dashboard</a></li>
+                        </ul>
                     </div>
-                    <div class="col-sm-6 col-lg-2 mt-2-6">
-                        <div class="ps-lg-1-9">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Candidates</h3>
-                            <ul class="footer-list-style1">
-                                <li><a href="profile/candidate-applied-job.html">Applied Job</a></li>
-                                <li><a href="candidate-cv-manager.html">CV Manager</a></li>
-                                <li><a href="profile/candidate-shortlisted-jobs.html">Shortlisted Jobs</a></li>
-                                <li><a href="profile/candidate-job-alerts.html">Job Alerts</a></li>
-                                <li><a href="candidate-dashboard.html">Dashboard</a></li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col-sm-6 col-lg-2 mt-2-6">
+                    <div class="ps-sm-1-9 ps-lg-2-2 ps-xl-2-5">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Employers</h3>
+                        <ul class="footer-list-style1">
+                            <li><a href="employer-packages.html">Job Packages</a></li>
+                            <li><a href="profile/company-profile.html">Company Profile</a></li>
+                            <li><a href="profile/manage-job.html">Manage Job</a></li>
+                            <li><a href="employer-resume-alerts.html">Resume Alerts</a></li>
+                            <li><a href="profile/create-job.html">Post a Job</a></li>
+                        </ul>
                     </div>
-                    <div class="col-sm-6 col-lg-2 mt-2-6">
-                        <div class="ps-sm-1-9 ps-lg-2-2 ps-xl-2-5">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Employers</h3>
-                            <ul class="footer-list-style1">
-                                <li><a href="employer-packages.html">Job Packages</a></li>
-                                <li><a href="profile/company-profile.html">Company Profile</a></li>
-                                <li><a href="profile/manage-job.html">Manage Job</a></li>
-                                <li><a href="employer-resume-alerts.html">Resume Alerts</a></li>
-                                <li><a href="profile/create-job.html">Post a Job</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-3 mt-2-6">
-                        <div class="ps-lg-2-2 ps-xl-2-5">
-                            <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Join Newsletter</h3>
-                            <p class="text-white mb-4">Subscribe to get the latest jobs posted, candidates...</p>
-                            <form class="quform newsletter-form" action="quform/newsletter-two.php" method="post" enctype="multipart/form-data" onclick="">
-                                <div class="quform-elements">
-                                    <div class="row">
-                                        <!-- Begin Text input element -->
-                                        <div class="col-md-12">
-                                            <div class="quform-element">
-                                                <div class="quform-input">
-                                                    <input class="form-control" id="email_address" type="text" name="email_address" placeholder="Subscribe with us">
-                                                </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 mt-2-6">
+                    <div class="ps-lg-2-2 ps-xl-2-5">
+                        <h3 class="h5 mb-1-6 mb-lg-1-9 text-white">Join Newsletter</h3>
+                        <p class="text-white mb-4">Subscribe to get the latest jobs posted, candidates...</p>
+                        <form class="quform newsletter-form" action="quform/newsletter-two.php" method="post"
+                              enctype="multipart/form-data" onclick="">
+                            <div class="quform-elements">
+                                <div class="row">
+                                    <!-- Begin Text input element -->
+                                    <div class="col-md-12">
+                                        <div class="quform-element">
+                                            <div class="quform-input">
+                                                <input class="form-control" id="email_address" type="text"
+                                                       name="email_address" placeholder="Subscribe with us">
                                             </div>
                                         </div>
-                                        <!-- End Text input element -->
-
-                                        <!-- Begin Submit button -->
-                                        <div class="col-md-12">
-                                            <div class="quform-submit-inner">
-                                                <button class="btn btn-white text-primary m-0" type="submit"><span><i class="fas fa-paper-plane text-primary"></i></span></button>
-                                            </div>
-                                            <div class="quform-loading-wrap text-start"><span class="quform-loading"></span></div>
-                                        </div>
-                                        <!-- End Submit button -->
                                     </div>
+                                    <!-- End Text input element -->
+
+                                    <!-- Begin Submit button -->
+                                    <div class="col-md-12">
+                                        <div class="quform-submit-inner">
+                                            <button class="btn btn-white text-primary m-0" type="submit"><span><i
+                                                    class="fas fa-paper-plane text-primary"></i></span></button>
+                                        </div>
+                                        <div class="quform-loading-wrap text-start"><span class="quform-loading"></span>
+                                        </div>
+                                    </div>
+                                    <!-- End Submit button -->
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="footer-bar borders-top border-color-light-white">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7 text-center text-md-start mt-3 mt-md-0 order-2 order-md-1">
-                            <p class="d-inline-block text-white mb-0">&copy; <span class="current-year"></span> Job Board Powered by
-                                <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary white-hover">Chitrakoot Web</a>
-                            </p>
-                        </div>
-                        <div class="col-md-5 text-center text-md-end order-1 order-md-2">
-                            <p class="text-white d-inline-block mb-0 align-middle">Follow Us :</p>
-                            <ul class="footer-social-style1">
-                                <li>
-                                    <a href="#!"><i class="fab fa-facebook-f"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><i class="fab fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><i class="fab fa-youtube"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><i class="fab fa-linkedin-in"></i></a>
-                                </li>
-                            </ul>
-                        </div>
+        </div>
+        <div class="footer-bar borders-top border-color-light-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 text-center text-md-start mt-3 mt-md-0 order-2 order-md-1">
+                        <p class="d-inline-block text-white mb-0">&copy; <span class="current-year"></span> Job Board
+                            Powered by
+                            <a href="https://www.chitrakootweb.com/" target="_blank" class="text-primary white-hover">Chitrakoot
+                                Web</a>
+                        </p>
+                    </div>
+                    <div class="col-md-5 text-center text-md-end order-1 order-md-2">
+                        <p class="text-white d-inline-block mb-0 align-middle">Follow Us :</p>
+                        <ul class="footer-social-style1">
+                            <li>
+                                <a href="#!"><i class="fab fa-facebook-f"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="fab fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="fab fa-youtube"></i></a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="fab fa-linkedin-in"></i></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-    </div>
+</div>
 
-    <!-- BUY TEMPLATE
-    ================================================== -->
-    <!-- start scroll to top -->
-    <a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
-    <!-- end scroll to top -->
+<!-- BUY TEMPLATE
+================================================== -->
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+<!-- end scroll to top -->
 
-    <!-- all js include start -->
+<!-- all js include start -->
 
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
 
-    <!-- popper js -->
-    <script src="/js/popper.min.js"></script>
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
 
-    <!-- bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
 
-    <!-- core.min.js -->
-    <script src="/js/core.min.js"></script>
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
 
-    <!-- custom scripts -->
-    <script src="/js/main.js"></script>
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
 
-    <!-- form plugins js -->
-    <script src="/quform/js/plugins.js"></script>
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
 
-    <!-- form scripts js -->
-    <script src="/quform/js/scripts.js"></script>
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
 
-    <script src="/js/popup.js"></script>
+<script src="/js/popup.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="/js/userJobs.js"></script>
+<script src="/js/userJobs.js"></script>
 
-    <script src="/js/resumeWishlist.js"></script>
+<script src="/js/resumeWishlist.js"></script>
 
-    <script src="/js/popup.js"></script>
+<script src="/js/popup.js"></script>
 
-    <!-- all js include end -->
+<!-- all js include end -->
 </body>
 
 </html>

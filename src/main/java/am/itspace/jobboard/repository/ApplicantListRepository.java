@@ -25,4 +25,8 @@ public interface ApplicantListRepository extends JpaRepository<ApplicantList, In
     Optional<ApplicantList> findByToEmployerIdAndResumeIdAndIsActiveTrue(int employerId, int resumeId);
 
     Optional<ApplicantList> findByJobIdAndResumeIdAndIsActiveTrue(int jobId, int resumeId);
+
+    void deleteAllByResumeId(int id);
+
+    void deleteAllByJobId(int id);
 }

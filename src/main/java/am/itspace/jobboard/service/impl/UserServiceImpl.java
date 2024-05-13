@@ -16,7 +16,6 @@ import am.itspace.jobboard.repository.ChatroomRepository;
 import am.itspace.jobboard.repository.CompanyRepository;
 import am.itspace.jobboard.repository.JobAppliesRepository;
 import am.itspace.jobboard.repository.JobRepository;
-import am.itspace.jobboard.repository.MessageRepository;
 import am.itspace.jobboard.repository.ResumeRepository;
 import am.itspace.jobboard.repository.UserRepository;
 import am.itspace.jobboard.service.SendMailService;
@@ -26,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
     private final JobAppliesRepository jobAppliesRepository;
     private final ResumeRepository resumeRepository;
     private final ChatroomRepository chatroomRepository;
+
+    private static final int PAGE_SIZE = 20;
 
     @Override
     public User register(User user, String confirmPassword, Role role) {
@@ -121,69 +123,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getTotalPages() {
-        int pageSize = 20;
-        long totalCount = userRepository.count();
-        return (int) Math.ceil((double) totalCount / pageSize);
+    public Page<User> findAllUsers(int index) {
+        return userRepository.findAll(PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("registerDate")));
     }
 
     @Override
-    public Page<User> getUsersFromNToM(int index) {
-        int pageSize = 20;
-        return userRepository.findAll(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")));
-    }
-
-    @Override
-    public int getTotalPagesOfSearch(String email, String role) {
-        int pageSize = 20;
-        long totalCount = getUserCountOfEmailRole(email, role);
-        return (int) Math.ceil((double) totalCount / pageSize);
-    }
-
-    @Override
-    public int getUserCountOfEmailRole(String email, String role) {
-        Role roleEnum;
-        if ((email == null || email.trim().isEmpty()) && (role == null || role.trim().isEmpty())) {
-            return 0;
-        }
-        if (email == null || email.trim().isEmpty()) {
-            try {
-                roleEnum = Role.valueOf(role);
-                return userRepository.countByRole(roleEnum);
-            } catch (IllegalArgumentException e) {
-                return 0;
-            }
-        }
-        if (role == null || role.trim().isEmpty()) {
-            return userRepository.countByEmailContaining(email);
-        }
-        try {
-            roleEnum = Role.valueOf(role);
-            return userRepository.countByEmailContainingAndRole(email, roleEnum);
-        } catch (IllegalArgumentException ignored) {
-            return 0;
-        }
-    }
-
-    @Override
-    public Page<User> getUsersFromNToMForSearch(int index, String email, String role) {
-        int pageSize = 20;
-        Role roleEnum;
-        if ((email == null || email.trim().isEmpty()) && (role == null || role.trim().isEmpty())) {
-            return null;
-        }
-        if (email == null || email.trim().isEmpty()) {
-            try {
-                roleEnum = Role.valueOf(role);
-                return userRepository.findAllByRole(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")), roleEnum);
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-        if (role == null || role.trim().isEmpty()) {
-            return userRepository.findAllByEmailContaining(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")), email);
-        }
-        return userRepository.findAllByEmailContainingAndRole(PageRequest.of(index - 1, pageSize).withSort(Sort.by("registerDate")), email, Role.valueOf(role));
+    public Page<User> findAllUsers(Specification<User> specification, int index) {
+        return userRepository.findAll(specification, PageRequest.of(index - 1, PAGE_SIZE).withSort(Sort.by("registerDate")));
     }
 
     @Override

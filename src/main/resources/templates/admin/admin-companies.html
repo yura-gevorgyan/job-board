@@ -49,7 +49,7 @@
 
     <!-- HEADER
     ================================================== -->
-    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <th:block th:insert="~{fragment/header-menu-fragment::header}"/>
     <!-- EMPLOYER DASHBOARD
     ================================================== -->
     <section class="py-0">
@@ -88,7 +88,8 @@
                                                 <li class="search"><i class="fas fa-search"></i></li>
                                                 <li><input style="width: 150px" id="longitude" class="form-control"
                                                            type="text"
-                                                           name="name" placeholder="Enter Company Name" th:value="${name}"></li>
+                                                           name="name" placeholder="Enter Company Name"
+                                                           th:value="${name}"></li>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <li class="d-none d-xl-inline-block">
                                                     <button type="submit" class="not-border"><a
@@ -120,10 +121,12 @@
                                         <td>
                                             <div class="d-xl-flex align-items-center">
                                                 <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                    <img src="/img/content/company-01.jpg" alt="...">
+                                                    <img th:src="'/download/picture/' + ${company.logoName}"
+                                                         style="width: 80px" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
-                                                    <h5 class="mb-1"><a href="#!" th:text="${company.name}"></a></h5>
+                                                    <h5 class="mb-1"><a th:href="'/companies/item/' + ${company.id}"
+                                                                        th:text="${company.name}"></a></h5>
                                                     <span class="me-2 display-30 text-muted"
                                                           th:text="${company.category.name}"></span>
                                                     <span class="me-2 display-30 text-muted"><i
@@ -132,18 +135,21 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><span style="font-size: 130%; margin-left: 16%" class="text-danger font-weight-600"
+                                        <td><span style="font-size: 130%; margin-left: 16%"
+                                                  class="text-danger font-weight-600"
                                                   th:text="${company.activeJobs}"></span></td>
                                         <td th:text="${company.email}"></td>
                                         <td><span class="text-success font-weight-600"
                                                   th:text="${company.user.email}"></span></td>
                                         <td>
-                                            <span th:if="${company.active}" class="text-success font-weight-600">Active</span>
+                                            <span th:if="${company.active}"
+                                                  class="text-success font-weight-600">Active</span>
                                             <span th:if="${!company.active}" class="text-danger font-weight-600">Not Active</span>
                                         </td>
                                         <td>
                                             <ul class="action-list">
-                                                <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                <li><a th:href="'/companies/item/' + ${company.id}"><span
+                                                        class="ti-eye"></span></a></li>
                                                 <li><a href="#!" class="delete-company"
                                                        th:data-company-id="${company.id}"><span
                                                         class="ti-trash"></span></a>

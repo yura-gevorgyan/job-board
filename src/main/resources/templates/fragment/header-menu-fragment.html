@@ -29,7 +29,8 @@
                                 <li><a href="/jobs/1" style="color: black">Jobs</a></li>
                                 <li><a href="/resumes/1" style="color: black">Resumes</a></li>
                                 <li><a href="/companies/1" style="color: black">Companies</a></li>
-                                <li><a style="color: black">Wishlist</a>
+                                <li th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
+                                    <a style="color: black">Wishlist</a>
                                     <ul>
                                         <li><a href="/jobs/favorites/1">Favorite Jobs</a>
                                         </li>
@@ -60,7 +61,8 @@
                                     </li>
                                     <li class="d-none d-xl-inline-block"><a
                                             th:if="${currentUser != null && currentUser.role.name() == 'ADMIN'}"
-                                            href="/admin" class="butn secondary white-hover text-white">Admin Panel</a>
+                                            href="/admin"
+                                            class="butn secondary white-hover text-white">Configurations</a>
                                     </li>
                                 </ul>
                             </div>

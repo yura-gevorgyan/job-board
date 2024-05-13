@@ -3,8 +3,6 @@ package am.itspace.jobboard.specification;
 import am.itspace.jobboard.entity.Category;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.Resume;
-import am.itspace.jobboard.entity.enums.Gender;
-import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -15,7 +13,7 @@ import java.util.List;
 
 public class ResumeSpecification {
 
-    public static Specification<Resume> searchResumes(String profession, List<WorkExperience> workExperiences, String gender, Category category, double fromSalary, double toSalary, boolean isActive) {
+    public static Specification<Resume> searchResumes(String profession, List<WorkExperience> workExperiences, String gender, Category category, double fromSalary, double toSalary, Boolean isActive) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
@@ -42,7 +40,9 @@ public class ResumeSpecification {
                         criteriaBuilder.between(root.get("expectedSalary"), fromSalary, toSalary)
                 );
             }
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isActive"), isActive));
+            if (isActive != null) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isActive"), isActive));
+            }
             return predicate;
         };
     }

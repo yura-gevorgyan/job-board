@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,7 +20,8 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String getCategoriesPage(@RequestParam(value = "error", required = false) String error, ModelMap modelMap) {
+    public String getCategoriesPage(@RequestParam(value = "error", required = false) String error,
+                                    ModelMap modelMap) {
         if (error != null) {
             modelMap.put("error", error);
         }
@@ -31,21 +33,26 @@ public class AdminCategoryController {
     }
 
     @PostMapping("/add")
-    public String addCategory(@RequestParam("pic_name") MultipartFile multipartFile, @RequestParam("name") String name) {
+    public String addCategory(@RequestParam("pic_name") MultipartFile multipartFile,
+                              @RequestParam("name") String name,
+                              RedirectAttributes redirectAttributes) {
         if (name == null || name.trim().isEmpty() || categoryService.existsByName(name)) {
-            String error = "Wrong value of name, or name already exists !";
-            return "redirect:/admin/categories?error=" + error;
+            String error = "Wrong name of category, or name already exists.";
+            redirectAttributes.addFlashAttribute("error", error);
+            return "redirect:/admin/categories";
         }
         if (multipartFile == null || multipartFile.isEmpty() || multipartFile.getSize() < 1) {
-            String error = "Wrong picture of category !";
-            return "redirect:/admin/categories?error=" + error;
+            String error = "Wrong picture of category.";
+            redirectAttributes.addFlashAttribute("error", error);
+            return "redirect:/admin/categories";
         }
         categoryService.save(name, multipartFile);
         return "redirect:/admin/categories";
     }
 
     @GetMapping("/{idStr}")
-    public String updateCategory(@PathVariable("idStr") String idStr, ModelMap modelMap) {
+    public String updateCategory(@PathVariable("idStr") String idStr,
+                                 ModelMap modelMap) {
         int categoryId;
         try {
             if (idStr == null) {
@@ -66,11 +73,15 @@ public class AdminCategoryController {
     }
 
     @PostMapping("/update")
-    public String updateCategory(@RequestParam("pic_name") MultipartFile multipartFile, @RequestParam("name") String name, @RequestParam("id") String idStr) {
+    public String updateCategory(@RequestParam("pic_name") MultipartFile multipartFile,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("id") String idStr,
+                                 RedirectAttributes redirectAttributes) {
         int id;
         if (name == null || name.trim().isEmpty() || idStr == null || idStr.trim().isEmpty()) {
-            String error = "Wrong value of name, or name already exists !";
-            return "redirect:/admin/categories?error=" + error;
+            String error = "Wrong name of category, or name already exists.";
+            redirectAttributes.addFlashAttribute("error", error);
+            return "redirect:/admin/categories";
         }
         try {
             id = Integer.parseInt(idStr);
@@ -78,8 +89,9 @@ public class AdminCategoryController {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            String error = "Category by this id, doest exist !";
-            return "redirect:/admin/categories?error=" + error;
+            String error = "Category by this id, doest exist.";
+            redirectAttributes.addFlashAttribute("error", error);
+            return "redirect:/admin/categories";
         }
         categoryService.update(id, name, multipartFile);
         return "redirect:/admin/categories";

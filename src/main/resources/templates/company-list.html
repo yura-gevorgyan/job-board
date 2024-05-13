@@ -178,6 +178,7 @@
                                             </button>
                                         </th:block>
 
+                                        <div th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                         <button th:if="${currentUser != null && (favoritesCompanies == null || favoritesCompanies.isEmpty())}"
                                                 style="border: white">
                                             <a class="favourite wishList" href="#!"
@@ -188,6 +189,7 @@
                                                 style="border: white"><a class="favourite" href="#!"><i
                                                 class="far fa-heart"></i></a>
                                         </button>
+                                        </div>
 
                                         <div class="popular-jobs-box">
                                             <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${company.logoName}" width="80px" alt="...">

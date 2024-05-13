@@ -9,7 +9,7 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 public class CompanySpecification {
-    public static Specification<Company> searchCompanies(String name, Category category, boolean isActive) {
+    public static Specification<Company> searchCompanies(String name, Category category, Boolean isActive) {
         return ((root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
@@ -20,7 +20,9 @@ public class CompanySpecification {
                 Join<Company, Category> categoryJoin = root.join("category", JoinType.INNER);
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(categoryJoin, category));
             }
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isActive"), isActive));
+            if (isActive != null) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("isActive"), isActive));
+            }
             return predicate;
         });
     }

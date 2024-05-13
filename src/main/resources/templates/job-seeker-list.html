@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- title  -->
-    <title>Job Board - Job Portal HTML Template</title>
+    <title>Job Board - Resume List</title>
 
     <!-- favicon -->
     <link rel="shortcut icon" href="/img/logos/favicon.png">
@@ -38,9 +38,6 @@
     <link href="/css/dashboard.css" rel="stylesheet">
 
     <style>
-        .hide-after-fourth {
-            display: none;
-        }
 
         .favourite {
             display: inline-block;
@@ -262,7 +259,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 text-center text-md-end">
+                                        <div class="col-md-3 text-center text-md-end" th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                             <th:block
                                                     th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
 

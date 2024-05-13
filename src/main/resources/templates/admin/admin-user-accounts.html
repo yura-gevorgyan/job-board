@@ -48,7 +48,7 @@
 
     <!-- HEADER
     ================================================== -->
-    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <th:block th:insert="~{fragment/header-menu-fragment::header}"/>
     <!-- EMPLOYER DASHBOARD
     ================================================== -->
     <section class="py-0">
@@ -74,9 +74,15 @@
                                                 <select id="category" class="form-control form-select border-radius-10"
                                                         name="role">
                                                     <option value="">Choose Role</option>
-                                                    <option value="JOB_SEEKER">Job Seeker</option>
-                                                    <option value="EMPLOYEE">Employee</option>
-                                                    <option value="COMPANY_OWNER">Company Owner</option>
+                                                    <option th:selected="${role == 'JOB_SEEKER'}" value="JOB_SEEKER">Job
+                                                        Seeker
+                                                    </option>
+                                                    <option th:selected="${role == 'EMPLOYEE'}" value="EMPLOYEE">
+                                                        Employee
+                                                    </option>
+                                                    <option th:selected="${role == 'COMPANY_OWNER'}"
+                                                            value="COMPANY_OWNER">Company Owner
+                                                    </option>
                                                 </select>
                                             </li>
                                             <li class="search"><i class="fas fa-search"></i></li>
@@ -113,9 +119,10 @@
                                             <td th:text="${user.email}"></td>
                                             <td th:text="${user.name} + ' ' + ${user.surname}"></td>
                                             <td><span class="text-orange"
-                                                      th:text="${user.role.name().replace('_',' ')}"></span></td>
+                                                      th:text="${user.role.name}"></span></td>
 
-                                            <td th:if="${!user.activated}"><span class="text-danger font-weight-600">Not Activated</span></td>
+                                            <td th:if="${!user.activated}"><span class="text-danger font-weight-600">Not Activated</span>
+                                            </td>
                                             <td th:if="${user.activated}"><span class="text-success font-weight-600">Activated</span>
 
                                             <td class="user-status">
@@ -125,7 +132,7 @@
 
                                             <td th:text="${#dates.format(user.registerDate,'MMM dd, yyyy HH:mm:ss')}"></td>
                                             <td>
-                                                <ul class="action-list" style="display: flex; justify-content: center">
+                                                <ul class="action-list" style="display: flex; justify-content: center" th:if="${!user.role.name.equals('Admin')}">
                                                     <li th:hidden="${user.deleted}"><a href="#!" class="block-user"
                                                                                        th:data-user-id="${user.id}"><span
                                                             class="fa-solid fa-lock"></span></a></li>

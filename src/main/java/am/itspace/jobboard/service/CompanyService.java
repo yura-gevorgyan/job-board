@@ -14,13 +14,9 @@ public interface CompanyService {
 
     int getTotalPages();
 
-    Page<Company> getCompaniesFromNToM(int index);
+    Page<Company> findAllCompanies(int index);
 
-    int getTotalPagesOfSearch(int categoryId, String name);
-
-    int getCompanyCountOfCategoryName(int categoryId, String name);
-
-    Page<Company> getCompaniesFromNToMForSearch(int index, int categoryId, String name);
+    Page<Company> findAllCompanies(Specification<Company> companySpecification, int index);
 
     Company findCompanyByUserIdAndIsActiveTrue(int userId);
 

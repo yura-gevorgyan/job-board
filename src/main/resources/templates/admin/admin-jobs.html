@@ -49,7 +49,7 @@
 
     <!-- HEADER
     ================================================== -->
-    <th:block th:insert="~{admin/adminfragment/header-fragment::header}"/>
+    <th:block th:insert="~{fragment/header-menu-fragment::header}"/>
     <!-- EMPLOYER DASHBOARD
     ================================================== -->
     <section class="py-0">
@@ -118,10 +118,12 @@
                                             <td>
                                                 <div class="d-xl-flex align-items-center">
                                                     <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                        <img src="/img/content/company-01.jpg" alt="...">
+                                                        <img th:src="'/download/picture/' + ${job.logoName}"
+                                                             style="width: 80px;" alt="...">
                                                     </div>
                                                     <div class="flex-grow-1 ms-xl-3">
-                                                        <h5 class="mb-1"><a href="#!" th:text="${job.title}"></a></h5>
+                                                        <h5 class="mb-1"><a th:href="'/jobs/item/' + ${job.id}"
+                                                                            th:text="${job.title}"></a></h5>
                                                         <span class="me-2 display-30 text-muted"
                                                               th:text="${job.category.name}"></span>
                                                         <span class="me-2 display-30 text-muted"><i
@@ -137,15 +139,16 @@
                                             </td>
                                             <td>
                                                 <ul class="action-list">
-                                                    <li><a href="#!"><span class="ti-eye"></span></a></li>
+                                                    <li><a th:href="'/jobs/item/' + ${job.id}"><span
+                                                            class="ti-eye"></span></a></li>
                                                     <li style="margin-left: 15%" th:hidden="${job.deleted}">
                                                         <a href="#!" class="block-job" th:data-job-id="${job.id}">
-                                                            <span class="fa-solid fa-lock"></span>
+                                                            <span class="fa-solid fa-trash"></span>
                                                         </a>
                                                     </li>
                                                     <li style="margin-left: 15%" th:hidden="${!job.deleted}">
                                                         <a href="#!" class="unlock-job" th:data-job-id="${job.id}">
-                                                            <span class="fa-solid fa-lock-open"></span>
+                                                            <span class="fa-solid fa-rotate-left"></span>
                                                         </a>
                                                     </li>
                                                 </ul>

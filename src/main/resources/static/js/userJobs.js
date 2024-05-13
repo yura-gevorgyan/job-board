@@ -24,10 +24,10 @@ $(document).ready(function () {
             <h4 class="h5">${job.title}</h4>
             <p class="text-muted font-weight-500">${job.category.name}</p>
         </div>
-        <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="fas fa-map-marker-alt pe-2 text-secondary"></i><span>${job.location}</span></span>
+        <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="fas fa-map-marker-alt pe-2 text-secondary"></i><span>${job.country.countryName}</span></span>
         <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="far fa-clock pe-2 text-secondary"></i><span>${job.publishedDate.substring(0, 10)}</span></span>
         <br>
-        <span><i class="ti-briefcase pe-2 text-secondary"></i>${job.workExperience.replaceAll('_', ' ').toLowerCase()}</span>
+        <span><i class="ti-briefcase pe-2 text-secondary"></i>${job.workExperience.replaceAll('_', ' ').toUpperCase()}</span>
        
         <a href="/resumes/apply/${resumeId}?jobId=${job.id}" class="butn butn-apply">Choose this Job</a>
     `;
