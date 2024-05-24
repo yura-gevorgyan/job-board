@@ -46,4 +46,6 @@ public interface UserService {
     List<User> findUserFriendsHavingChatWith(int currentUserId);
 
     User findById(int id);
+
+    void updateOAuth2User(User user);
 }

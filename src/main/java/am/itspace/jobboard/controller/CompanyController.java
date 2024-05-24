@@ -3,11 +3,16 @@ package am.itspace.jobboard.controller;
 import am.itspace.jobboard.entity.Category;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.CompanyWishlist;
+import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
-import am.itspace.jobboard.security.SpringUser;
-import am.itspace.jobboard.service.*;
+import am.itspace.jobboard.service.CategoryService;
+import am.itspace.jobboard.service.CompanyPictureService;
+import am.itspace.jobboard.service.CompanyService;
+import am.itspace.jobboard.service.CompanyWishlistService;
+import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.specification.CompanySpecification;
 import am.itspace.jobboard.util.PictureUtil;
+import am.itspace.jobboard.security.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +20,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,9 +46,12 @@ public class CompanyController {
     private final JobService jobService;
     private final CompanyPictureService companyPictureService;
     private final CompanyWishlistService companyWishlistService;
+    private final SecurityService securityService;
 
     @GetMapping("/{index}")
-    public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap, @AuthenticationPrincipal SpringUser springUser) {
+    public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
         try {
             if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/companies/1";
@@ -56,8 +67,8 @@ public class CompanyController {
                 return "redirect:/companies/1";
             }
 
-            if (springUser != null) {
-                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserId(springUser.getUser().getId());
+            if (user != null) {
+                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserId(user.getId());
                 List<Company> companyList = new ArrayList<>();
                 for (CompanyWishlist companyWishlist : companyWishlists) {
                     companyList.add(companyWishlist.getCompany());
@@ -77,9 +88,10 @@ public class CompanyController {
     public String jobSearch(@RequestParam(value = "name", required = false) String name,
                             @RequestParam(value = "category", required = false, defaultValue = "0") String categoryIdStr,
                             @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
-                            @AuthenticationPrincipal SpringUser springUser,
                             HttpServletRequest httpServletRequest,
                             ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
         try {
             int searchIndex = Integer.parseInt(searchIndexStr);
             int categoryId = Integer.parseInt(categoryIdStr);
@@ -102,8 +114,8 @@ public class CompanyController {
             modelMap.addAttribute("currentName", name);
             modelMap.addAttribute("currentCategoryId", categoryId);
 
-            if (springUser != null) {
-                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserId(springUser.getUser().getId());
+            if (user != null) {
+                List<CompanyWishlist> companyWishlists = companyWishlistService.findAllByUserId(user.getId());
                 List<Company> companyList = new ArrayList<>();
                 for (CompanyWishlist companyWishlist : companyWishlists) {
                     companyList.add(companyWishlist.getCompany());
@@ -117,7 +129,8 @@ public class CompanyController {
     }
 
     @GetMapping("/item/{id}")
-    public String getSingleCompanyPage(@AuthenticationPrincipal SpringUser springUser, @PathVariable("id") String idStr, ModelMap modelMap) {
+    public String getSingleCompanyPage(@PathVariable("id") String idStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
         int id;
         try {
             id = Integer.parseInt(idStr);
@@ -126,9 +139,9 @@ public class CompanyController {
                 throw new NumberFormatException();
             }
             if (!company.isActive()) {
-                if (springUser == null) {
+                if (user == null) {
                     throw new NumberFormatException();
-                } else if (!springUser.getUser().getRole().equals(Role.ADMIN)) {
+                } else if (!user.getRole().equals(Role.ADMIN)) {
                     throw new NumberFormatException();
                 }
             }
@@ -144,13 +157,14 @@ public class CompanyController {
     }
 
     @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String createCompany(@AuthenticationPrincipal SpringUser springUser,
-                                @Valid @ModelAttribute Company company,
+    public String createCompany(@Valid @ModelAttribute Company company,
                                 BindingResult bindingResult,
                                 @RequestParam("categoryId") String categoryIdStr,
                                 @RequestParam("logo") MultipartFile logo,
                                 @RequestParam("companyPictures") MultipartFile[] companyPictures,
                                 RedirectAttributes redirectAttributes) {
+        User user = securityService.getCurrentUser();
+
         if (bindingResult.hasErrors()) {
             int errorCount = bindingResult.getErrorCount();
             if (errorCount > 1) {
@@ -180,21 +194,22 @@ public class CompanyController {
             addFlashAttributes(redirectAttributes, "Wrong category id for company.");
         }
 
-        companyService.create(company, springUser.getUser(), logo);
+        companyService.create(company, user, logo);
         companyPictureService.addPictures(company, companyPictures);
 
         return "redirect:/profile/company";
     }
 
     @PostMapping(value = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String updateCompany(@AuthenticationPrincipal SpringUser springUser,
-                                @Valid @ModelAttribute Company company,
+    public String updateCompany(@Valid @ModelAttribute Company company,
                                 BindingResult bindingResult,
                                 @RequestParam("categoryId") String categoryIdStr,
                                 @RequestParam("logo") MultipartFile logo,
                                 @RequestParam("companyPictures") MultipartFile[] companyPictures,
                                 @RequestParam("deletedPictures") String[] deletedPictures,
                                 RedirectAttributes redirectAttributes) {
+        User user = securityService.getCurrentUser();
+
         if (bindingResult.hasErrors()) {
             int errorCount = bindingResult.getErrorCount();
             if (errorCount > 1) {
@@ -206,7 +221,7 @@ public class CompanyController {
         }
 
         Company userOldCompany = companyService.findById(company.getId());
-        if (userOldCompany == null || !userOldCompany.getUser().equals(springUser.getUser())) {
+        if (userOldCompany == null || !userOldCompany.getUser().equals(user)) {
             addFlashAttributes(redirectAttributes, "Wrong company data.");
             return "redirect:/profile/company";
         }
@@ -221,17 +236,17 @@ public class CompanyController {
             addFlashAttributes(redirectAttributes, "Wrong category id for company.");
         }
 
-        Company updated = companyService.update(userOldCompany, company, springUser.getUser(), logo);
+        Company updated = companyService.update(userOldCompany, company, user, logo);
         companyPictureService.update(updated, companyPictures, deletedPictures);
 
         return "redirect:/profile/company";
     }
 
     @GetMapping("/favorites/{index}")
-    public String favoritesJobs(@PathVariable("index") String indexStr,
-                                ModelMap modelMap,
-                                @AuthenticationPrincipal SpringUser springUser) {
-        if (springUser != null) {
+    public String favoritesJobs(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
+        if (user != null) {
             try {
                 if (indexStr == null || indexStr.isEmpty()) {
                     return "redirect:/companies/favorites/1";
@@ -243,7 +258,7 @@ public class CompanyController {
                     return "redirect:/companies/favorites/1";
                 }
 
-                Page<CompanyWishlist> byUserid = companyWishlistService.findByUserId(index, springUser.getUser().getId());
+                Page<CompanyWishlist> byUserid = companyWishlistService.findByUserId(index, user.getId());
 
                 if (index > byUserid.getTotalPages() && byUserid.getTotalPages() != 0) {
                     return "redirect:/companies/favorites/1";
@@ -265,16 +280,17 @@ public class CompanyController {
     }
 
     @PostMapping("/favorites/add/{idStr}")
-    public ResponseEntity<?> addWishlist(@PathVariable("idStr") String idStr,
-                                         @AuthenticationPrincipal SpringUser springUser) {
-        if (springUser != null) {
+    public ResponseEntity<?> addWishlist(@PathVariable("idStr") String idStr) {
+        User user = securityService.getCurrentUser();
+
+        if (user != null) {
             try {
                 int id = Integer.parseInt(idStr);
 
                 Company company = companyService.findById(id);
 
                 if (company != null && company.isActive()) {
-                    companyWishlistService.save(company, springUser.getUser());
+                    companyWishlistService.save(company, user);
                     return ResponseEntity.ok().build();
                 }
             } catch (NumberFormatException e) {
@@ -285,17 +301,17 @@ public class CompanyController {
     }
 
     @DeleteMapping("/favorites/delete/{idStr}")
-    public ResponseEntity<?> deleteWishlist(@PathVariable("idStr") String idStr,
-                                            @AuthenticationPrincipal SpringUser springUser) {
+    public ResponseEntity<?> deleteWishlist(@PathVariable("idStr") String idStr) {
+        User user = securityService.getCurrentUser();
 
-        if (springUser != null) {
+        if (user != null) {
             try {
                 int id = Integer.parseInt(idStr);
 
                 Company company = companyService.findById(id);
 
                 if (company != null && company.isActive()) {
-                    companyWishlistService.delete(company, springUser.getUser());
+                    companyWishlistService.delete(company, user);
                     return ResponseEntity.ok().build();
                 }
 

@@ -3,15 +3,27 @@ spring:
     oauth2:
       client:
         registration:
+
           facebook:
-            client-id: 795196252551295
-            client-secret: 5198b22db606f483f96518a497927fad
+            client-id: 967542614813689
+            client-secret: 0d8886e762df1a9d3c367d42a511e44e
+            scope:
+              - email
+              - public_profile
+
           google:
             client-id: 74863290846-i5sth07msc4s0puqgouv0gpf5r9thrvn.apps.googleusercontent.com
             client-secret: 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
+            scope:
+
           github:
-            client-id: Ov23lig3egIP6yJerRhP
-            client-secret: 11652e81207f3788c372fbf598b2eeb58dc35f6f
+            client-id: Iv23liY4Ut6dEhMdlyrq
+            client-secret: ffcc7e3dce0bb4f3d8d46aee086c9629772d493c
+            scope:
+              - email
+              - user:email
+
+
 
   datasource:
     url: jdbc:mysql://localhost:3306/job_board
@@ -42,3 +54,11 @@ program:
   pictures:
     file:
       path: C:\Users\aperk\IdeaProjects\job-bord\programfiles
+
+password:
+  user-password: "
+ ÎÑ∑∂∫∆ƒ©˙¬˚µ≤≥÷œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙©∆˜˙¬˚µ≤≥÷Ω≈ç√∫~µ≤≥÷Ω∫ƒ∆∑´®
+ †¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫
+  $2a$10$qZYpy6yba88mXIYzAldIYu8U8EbJ4G/xxifzj2xzYcHVYskYwxpkm
+  ç√∫~µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫
+  "
