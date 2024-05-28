@@ -127,7 +127,7 @@
                                                 <label>
                                                     <div class="quform-input">
                                                         <select class="form-control form-select" name="role">
-                                                            <option value="" disabled selected>Choose type</option> <!-- Добавленный элемент -->
+                                                            <option value="" disabled selected>Choose type</option>
                                                             <option th:each="role : ${roles}" th:value="${role}" th:text="${role.getName()}"></option>
                                                         </select>
                                                     </div>

@@ -66,7 +66,7 @@ public class OAuth2Config {
                 .scope("email", "public_profile")
                 .authorizationUri("https://www.facebook.com/dialog/oauth")
                 .tokenUri("https://graph.facebook.com/v3.3/oauth/access_token")
-                .userInfoUri("https://graph.facebook.com/v3.3/me?fields=id,name,email") // изменение здесь
+                .userInfoUri("https://graph.facebook.com/v3.3/me?fields=id,name,email")
                 .userNameAttributeName("id")
                 .clientName("Facebook")
                 .build();

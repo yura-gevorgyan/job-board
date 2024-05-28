@@ -97,7 +97,7 @@
                                                 <i class="ti-user"></i>
                                             </div>
                                             <input type="text" class="form-control border-radius-10" name="surname"
-                                                   th:value="${currentUser != null ? currentUser.getSurname() : ''}"
+                                                   th:value="${currentUser != null ? currentUser.getSurname() : ' '}"
                                                    placeholder="Surname" id="surname" required>
                                         </div>
                                     </div>
@@ -112,9 +112,10 @@
                                                     <select class="form-control form-select" name="role">
                                                         <option value="" disabled selected>Choose type</option>
                                                         <option th:each="role : ${roles}"
-                                                                th:selected="${currentUser.getRole.getName()}"
                                                                 th:value="${role}"
-                                                                th:text="${role.getName()}"></option>
+                                                                th:text="${role.getName()}"
+                                                                th:selected="${role.getName().equals(currentUser.role.getName())}">
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </label>

@@ -3,7 +3,6 @@ spring:
     oauth2:
       client:
         registration:
-
           facebook:
             client-id: 967542614813689
             client-secret: 0d8886e762df1a9d3c367d42a511e44e
@@ -17,13 +16,11 @@ spring:
             scope:
 
           github:
-            client-id: Iv23liY4Ut6dEhMdlyrq
-            client-secret: ffcc7e3dce0bb4f3d8d46aee086c9629772d493c
+            client-id: Ov23li9yjofRhQGEAqyY
+            client-secret: f0f680ae58ec6d5140c034367b5297f015d88603
             scope:
-              - email
+              - read:user
               - user:email
-
-
 
   datasource:
     url: jdbc:mysql://localhost:3306/job_board
@@ -56,9 +53,7 @@ program:
       path: C:\Users\aperk\IdeaProjects\job-bord\programfiles
 
 password:
-  user-password: "
- ÎÑ∑∂∫∆ƒ©˙¬˚µ≤≥÷œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙©∆˜˙¬˚µ≤≥÷Ω≈ç√∫~µ≤≥÷Ω∫ƒ∆∑´®
- †¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫
-  $2a$10$qZYpy6yba88mXIYzAldIYu8U8EbJ4G/xxifzj2xzYcHVYskYwxpkm
-  ç√∫~µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫
-  "
+  user-password: "$2a$10$93TR3YWe4YTMfkgTV/6IÎÑ∑∂∫∆ƒ©˙¬˚µ≤≥÷œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙
+                  †¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫
+                  $2a$10$qZYpy6yba88mXIYzAldIYu8U8EbJ4G/xxifzj2xzYcHVYskYwxpkm
+                  ç√∫~µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫"

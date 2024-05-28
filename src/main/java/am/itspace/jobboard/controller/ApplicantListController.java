@@ -84,10 +84,12 @@ public class ApplicantListController {
                          @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
                          ModelMap modelMap,
                          HttpServletRequest httpServletRequest) {
+
         User user = securityService.getCurrentUser();
         Resume resume = resumeService.findByUserIdAndIsActiveTrue(user.getId());
 
         try {
+
             int searchIndex = Integer.parseInt(searchIndexStr);
             String url = UrlSubStringUtil.removeLastCharacterFromQueryString(httpServletRequest);
 

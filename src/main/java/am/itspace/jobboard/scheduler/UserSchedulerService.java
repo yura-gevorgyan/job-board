@@ -32,7 +32,6 @@ public class UserSchedulerService {
                 .filter(user -> user.getRegisterDate() != null &&
                         user.getRegisterDate().before(oneMinuteAgo) &&
                         !user.getPassword().equals(passwordProperties.getUserPassword()))
-
                 .forEach(user -> {
                     userService.delete(user);
                     sendMailService.send(user.getEmail(), "Account Deletion Notice", "Your account has been deleted because it was not confirmed. Please register again.");

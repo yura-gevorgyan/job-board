@@ -1,6 +1,5 @@
 package am.itspace.jobboard.security;
 
-import am.itspace.jobboard.config.PasswordProperties;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.service.UserService;
 import jakarta.servlet.ServletException;
