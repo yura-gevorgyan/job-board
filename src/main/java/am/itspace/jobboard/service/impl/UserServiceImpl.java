@@ -29,7 +29,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +55,8 @@ public class UserServiceImpl implements UserService {
     private static final int PAGE_SIZE = 20;
 
     @Override
-    public User register(User user, String confirmPassword, Role role) {
+    public User
+    register(User user, String confirmPassword, Role role) {
         Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
 
         if (byEmail.isPresent()) {
@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(cacheNames = "findByEmail")
+//    @Cacheable(cacheNames = "findByEmail", key = "#email")
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
@@ -163,6 +163,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findUserByPasswordAndIsActivatedFalse(String password) {
+        return userRepository.findUserByPasswordAndActivatedFalse(password);
+    }
+
+    @Override
+//    @CacheEvict(cacheNames = "findByEmail", key = "#user.email")
     public void delete(User user) {
         userRepository.delete(user);
     }
@@ -271,11 +277,8 @@ public class UserServiceImpl implements UserService {
 
             existingUser.setName(user.getName());
             existingUser.setSurname(user.getSurname());
-            existingUser.setPassword(existingUser.getPassword());
             existingUser.setRole(user.getRole());
             existingUser.setActivated(true);
-            existingUser.setDeleted(false);
-            existingUser.setRegisterDate(new Date());
             userRepository.save(existingUser);
 
         }, () -> {

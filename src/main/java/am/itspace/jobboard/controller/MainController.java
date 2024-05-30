@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final UserService userService;
     private final JobWishlistService jobWishlistService;
     private final MainService mainService;
     private final SecurityService securityService;

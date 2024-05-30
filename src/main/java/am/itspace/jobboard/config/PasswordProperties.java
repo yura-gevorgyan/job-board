@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "password")
 public class PasswordProperties {
-    private String userPassword;
+    private String oAuth2UserPassword;
 }

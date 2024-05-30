@@ -2,7 +2,6 @@ package am.itspace.jobboard.scheduler;
 
 import am.itspace.jobboard.config.PasswordProperties;
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +30,31 @@ public class UserSchedulerService {
         unconfirmedUsers.stream()
                 .filter(user -> user.getRegisterDate() != null &&
                         user.getRegisterDate().before(oneMinuteAgo) &&
-                        !user.getPassword().equals(passwordProperties.getUserPassword()))
+                        !user.getPassword().equals(passwordProperties.getOAuth2UserPassword()))
                 .forEach(user -> {
                     userService.delete(user);
-                    sendMailService.send(user.getEmail(), "Account Deletion Notice", "Your account has been deleted because it was not confirmed. Please register again.");
+                    sendMailService.send(user.getEmail(),
+                            "Account Deletion Notice",
+                            "Your account has been deleted because it was not confirmed. Please register again.");
+                });
+    }
+
+    @Scheduled(cron = "0 * * * * ?")
+    @Transactional
+    public void activeOAuth2Users() {
+
+        List<User> unactivatedOAuth2Users = userService.findUserByPasswordAndIsActivatedFalse(passwordProperties.getOAuth2UserPassword());
+        Date oneMinuteAgo = new Date(System.currentTimeMillis() - 60000);
+
+        unactivatedOAuth2Users.stream()
+                .filter(user -> user.getRegisterDate() != null &&
+                        user.getRegisterDate().before(oneMinuteAgo))
+                .forEach(user -> {
+                    user.setActivated(true);
+                    userService.save(user);
+                    sendMailService.send(user.getEmail(),
+                            "Account Activation Notice",
+                            "Your account has activated and your type is finally Job Seeker because you don't select yor type after login with social media.");
                 });
     }
 }

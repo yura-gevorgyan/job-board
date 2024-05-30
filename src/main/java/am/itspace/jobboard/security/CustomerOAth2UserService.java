@@ -58,10 +58,10 @@ public class CustomerOAth2UserService extends DefaultOAuth2UserService {
                     .name(firstName)
                     .surname(surname)
                     .email(email)
-                    .password(passwordProperties.getUserPassword())
+                    .password(passwordProperties.getOAuth2UserPassword())
                     .role(Role.JOB_SEEKER)
                     .registerDate(new Date())
-                    .activated(true)
+                    .activated(false)
                     .isDeleted(false)
                     .build();
             existingUser = userService.save(existingUser);

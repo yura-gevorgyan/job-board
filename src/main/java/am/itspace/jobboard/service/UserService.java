@@ -35,6 +35,8 @@ public interface UserService {
 
     List<User> findUserByActivated(boolean isActive);
 
+    List<User> findUserByPasswordAndIsActivatedFalse(String password);
+
     void delete(User user);
 
     List<User> getLast4Users();

@@ -1,13 +1,11 @@
 package am.itspace.jobboard.security;
 
 import am.itspace.jobboard.entity.User;
-import am.itspace.jobboard.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -17,14 +15,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final UserService userService;
+    private final SecurityService securityService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oAuth2User.getAttribute("email");
-        User user = userService.findByEmail(email);
+        User user = securityService.getCurrentUser();
 
         if (user != null && user.isActivated() && !user.isDeleted()) {
             getRedirectStrategy().sendRedirect(request, response, "/");
