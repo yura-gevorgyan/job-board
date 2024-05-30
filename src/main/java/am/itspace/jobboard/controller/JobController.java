@@ -9,7 +9,6 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
-import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.ApplicantListService;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.CompanyService;
@@ -18,6 +17,7 @@ import am.itspace.jobboard.service.JobWishlistService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobSpecification;
 import am.itspace.jobboard.util.PictureUtil;
+import am.itspace.jobboard.security.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -57,10 +56,12 @@ public class JobController {
     private final ResumeService resumeService;
     private final ApplicantListService applicantListService;
     private final JobWishlistService jobWishlistService;
+    private final SecurityService securityService;
 
     @GetMapping("/{index}")
-    public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap,
-                          @AuthenticationPrincipal SpringUser springUser) {
+    public String jobPage(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
         try {
             if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/jobs/1";
@@ -76,8 +77,8 @@ public class JobController {
                 return "redirect:/jobs/1";
             }
 
-            if (springUser != null) {
-                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
+            if (user != null) {
+                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(user.getId());
                 List<Job> jobList = new ArrayList<>();
                 for (JobWishlist jobWishlist : jobWishlists) {
                     jobList.add(jobWishlist.getJob());
@@ -86,8 +87,8 @@ public class JobController {
             }
 
             addAttributes(modelMap, null, jobs, 0, index);
-
             return "job-list";
+
         } catch (NumberFormatException e) {
             return "redirect:/jobs/1";
         }
@@ -102,8 +103,9 @@ public class JobController {
                             @RequestParam(value = "fromSalary", required = false, defaultValue = "0") String fromSalaryStr,
                             @RequestParam(value = "toSalary", required = false, defaultValue = "100000000") String toSalaryStr,
                             HttpServletRequest httpServletRequest,
-                            ModelMap modelMap,
-                            @AuthenticationPrincipal SpringUser springUser) {
+                            ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
         List<Status> statusList = new ArrayList<>();
         List<WorkExperience> experienceList = new ArrayList<>();
 
@@ -143,8 +145,8 @@ public class JobController {
                 return "redirect:/jobs/1";
             }
 
-            if (springUser != null) {
-                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
+            if (user != null) {
+                List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(user.getId());
                 List<Job> jobList = new ArrayList<>();
                 for (JobWishlist jobWishlist : jobWishlists) {
                     jobList.add(jobWishlist.getJob());
@@ -172,9 +174,10 @@ public class JobController {
                                @RequestParam(value = "category", required = false, defaultValue = "0") String categoryIdStr,
                                @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
                                @RequestParam(value = "currentState", required = false, defaultValue = "") String currentState,
-                               @AuthenticationPrincipal SpringUser springUser,
                                ModelMap modelMap,
                                HttpServletRequest httpServletRequest) {
+        User user = securityService.getCurrentUser();
+
         try {
             int categoryId = Integer.parseInt(categoryIdStr);
             int searchIndex = Integer.parseInt(searchIndexStr);
@@ -183,7 +186,7 @@ public class JobController {
                 isDeleted = Boolean.parseBoolean(currentState);
             }
             Specification<Job> jobSpecification = JobSpecification.searchJobs(title, null, null,
-                    categoryService.findById(categoryId), springUser.getUser(), 0, Double.MAX_VALUE, isDeleted);
+                    categoryService.findById(categoryId), user, 0, Double.MAX_VALUE, isDeleted);
             Page<Job> jobs = jobService.findAll(jobSpecification, searchIndex, 20);
             if (searchIndex > jobs.getTotalPages() && jobs.getTotalPages() != 0) {
                 return "redirect:/profile/jobs-manage/1";
@@ -205,16 +208,14 @@ public class JobController {
     }
 
     @PostMapping("/create")
-    public String createJob(@AuthenticationPrincipal SpringUser springUser,
-                            @Valid @ModelAttribute Job job,
+    public String createJob(@Valid @ModelAttribute Job job,
                             BindingResult bindingResult,
                             @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
                             @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
                             @RequestParam(value = "experience", defaultValue = "") String experienceStr,
                             @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
                             RedirectAttributes redirectAttributes) {
-
-        User user = springUser.getUser();
+        User user = securityService.getCurrentUser();
 
         if (bindingResult.hasErrors()) {
             bindingResults(bindingResult, redirectAttributes);
@@ -245,14 +246,13 @@ public class JobController {
     }
 
     @PostMapping("/create/company")
-    public String createJobForCompany(@AuthenticationPrincipal SpringUser springUser,
-                                      @Valid @ModelAttribute Job job,
+    public String createJobForCompany(@Valid @ModelAttribute Job job,
                                       BindingResult bindingResult,
                                       @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
                                       @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
                                       @RequestParam(value = "experience", defaultValue = "") String experienceStr,
                                       RedirectAttributes redirectAttributes) {
-        User user = springUser.getUser();
+        User user = securityService.getCurrentUser();
 
         if (bindingResult.hasErrors()) {
             bindingResults(bindingResult, redirectAttributes);
@@ -280,15 +280,13 @@ public class JobController {
     }
 
     @PostMapping("/update/company")
-    public String updateJobCompany(@AuthenticationPrincipal SpringUser springUser,
-                                   @Valid @ModelAttribute Job job,
+    public String updateJobCompany(@Valid @ModelAttribute Job job,
                                    BindingResult bindingResult,
                                    @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
                                    @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
                                    @RequestParam(value = "experience", defaultValue = "") String experienceStr,
                                    RedirectAttributes redirectAttributes) {
-
-        User user = springUser.getUser();
+        User user = securityService.getCurrentUser();
 
         if (bindingResult.hasErrors()) {
             bindingResults(bindingResult, redirectAttributes);
@@ -313,16 +311,14 @@ public class JobController {
     }
 
     @PostMapping("/update")
-    public String updateJob(@AuthenticationPrincipal SpringUser springUser,
-                            @Valid @ModelAttribute Job job,
+    public String updateJob(@Valid @ModelAttribute Job job,
                             BindingResult bindingResult,
                             @RequestParam(value = "categoryId", defaultValue = "") String categoryIdStr,
                             @RequestParam(value = "jobStatus", defaultValue = "") String statusStr,
                             @RequestParam(value = "experience", defaultValue = "") String experienceStr,
                             @RequestParam(value = "picture", required = false) MultipartFile multipartFile,
                             RedirectAttributes redirectAttributes) {
-
-        User user = springUser.getUser();
+        User user = securityService.getCurrentUser();
 
         if (bindingResult.hasErrors()) {
             bindingResults(bindingResult, redirectAttributes);
@@ -358,7 +354,8 @@ public class JobController {
     }
 
     @GetMapping("/item/{id}")
-    public String singleJobPage(@PathVariable("id") String idStr, ModelMap modelMap, @AuthenticationPrincipal SpringUser springUser) {
+    public String singleJobPage(@PathVariable("id") String idStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
 
         try {
             int id = Integer.parseInt(idStr);
@@ -367,8 +364,8 @@ public class JobController {
                 modelMap.addAttribute("job", job);
                 modelMap.addAttribute("jobs", jobService.findTop6());
 
-                if (springUser != null) {
-                    List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(springUser.getUser().getId());
+                if (user != null) {
+                    List<JobWishlist> jobWishlists = jobWishlistService.findAllByUserId(user.getId());
                     List<Job> jobList = new ArrayList<>();
                     for (JobWishlist jobWishlist : jobWishlists) {
                         jobList.add(jobWishlist.getJob());
@@ -385,11 +382,13 @@ public class JobController {
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<?> deleteJob(@PathVariable("id") String idStr, @AuthenticationPrincipal SpringUser springUser) {
+    public ResponseEntity<?> deleteJob(@PathVariable("id") String idStr) {
+        User user = securityService.getCurrentUser();
+
         try {
             int id = Integer.parseInt(idStr);
             Job byId = jobService.findById(id);
-            if (byId == null || byId.getUser().getId() != springUser.getUser().getId()) {
+            if (byId == null || byId.getUser().getId() != user.getId()) {
                 throw new Exception();
             }
             jobService.deleteById(byId);
@@ -400,11 +399,13 @@ public class JobController {
     }
 
     @PostMapping("/return/{id}")
-    public ResponseEntity<?> returnJob(@PathVariable("id") String idStr, @AuthenticationPrincipal SpringUser springUser) {
+    public ResponseEntity<?> returnJob(@PathVariable("id") String idStr) {
+        User user = securityService.getCurrentUser();
+
         try {
             int id = Integer.parseInt(idStr);
             Job byId = jobService.findById(id);
-            if (byId == null || byId.getUser().getId() != springUser.getUser().getId()) {
+            if (byId == null || byId.getUser().getId() != user.getId()) {
                 throw new Exception();
             }
             jobService.recoverJobById(byId);
@@ -415,18 +416,20 @@ public class JobController {
     }
 
     @GetMapping("/apply/{id}")
-    public String jobApply(@PathVariable("id") String idStr, RedirectAttributes redirectAttributes, @AuthenticationPrincipal SpringUser springUser) {
+    public String jobApply(@PathVariable("id") String idStr, RedirectAttributes redirectAttributes) {
+        User user = securityService.getCurrentUser();
+
         try {
             int id = Integer.parseInt(idStr);
             Job job = jobService.getJobById(id);
 
-            if (springUser == null || springUser.getUser().getRole() != JOB_SEEKER) {
+            if (user == null || user.getRole() != JOB_SEEKER) {
 
                 redirectAttributes.addFlashAttribute("errorMsg", "You cannot apply for this job.");
                 return "redirect:/jobs/item/" + id;
             }
 
-            Resume resume = resumeService.findByUserIdAndIsActiveTrue(springUser.getUser().getId());
+            Resume resume = resumeService.findByUserIdAndIsActiveTrue(user.getId());
 
             if (resume == null || !resume.isActive()) {
                 redirectAttributes.addFlashAttribute("resumeMsg", "Create your Resume, for applying this job.");
@@ -451,10 +454,10 @@ public class JobController {
     }
 
     @GetMapping("/favorites/{index}")
-    public String favoritesJobs(@PathVariable("index") String indexStr,
-                                ModelMap modelMap,
-                                @AuthenticationPrincipal SpringUser springUser) {
-        if (springUser != null) {
+    public String favoritesJobs(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
+        if (user != null) {
             try {
                 if (indexStr == null || indexStr.isEmpty()) {
                     return "redirect:/jobs/favorites/1";
@@ -466,7 +469,7 @@ public class JobController {
                     return "redirect:/jobs/favorites/1";
                 }
 
-                Page<JobWishlist> byUserid = jobWishlistService.findByUserId(index, springUser.getUser().getId());
+                Page<JobWishlist> byUserid = jobWishlistService.findByUserId(index, user.getId());
 
                 if (index > byUserid.getTotalPages() && byUserid.getTotalPages() != 0) {
                     return "redirect:/jobs/favorites/1";
@@ -488,16 +491,17 @@ public class JobController {
     }
 
     @PostMapping("/favorites/add/{idStr}")
-    public ResponseEntity<?> addWishlist(@PathVariable("idStr") String idStr,
-                                         @AuthenticationPrincipal SpringUser springUser) {
-        if (springUser != null) {
+    public ResponseEntity<?> addWishlist(@PathVariable("idStr") String idStr) {
+        User user = securityService.getCurrentUser();
+
+        if (user != null) {
             try {
                 int id = Integer.parseInt(idStr);
 
                 Job job = jobService.findById(id);
 
                 if (job != null && !job.isDeleted()) {
-                    jobWishlistService.save(job, springUser.getUser());
+                    jobWishlistService.save(job, user);
                     return ResponseEntity.ok().build();
                 }
             } catch (NumberFormatException e) {
@@ -508,17 +512,17 @@ public class JobController {
     }
 
     @DeleteMapping("/favorites/delete/{idStr}")
-    public ResponseEntity<?> deleteWishlist(@PathVariable("idStr") String idStr,
-                                            @AuthenticationPrincipal SpringUser springUser) {
+    public ResponseEntity<?> deleteWishlist(@PathVariable("idStr") String idStr) {
+        User user = securityService.getCurrentUser();
 
-        if (springUser != null) {
+        if (user != null) {
             try {
                 int id = Integer.parseInt(idStr);
 
                 Job job = jobService.findById(id);
 
                 if (job != null && !job.isDeleted()) {
-                    jobWishlistService.delete(job, springUser.getUser());
+                    jobWishlistService.delete(job, user);
                     return ResponseEntity.ok().build();
                 }
 

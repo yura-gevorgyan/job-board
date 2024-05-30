@@ -35,6 +35,8 @@ public interface UserService {
 
     List<User> findUserByActivated(boolean isActive);
 
+    List<User> findUserByPasswordAndIsActivatedFalse(String password);
+
     void delete(User user);
 
     List<User> getLast4Users();
@@ -46,4 +48,6 @@ public interface UserService {
     List<User> findUserFriendsHavingChatWith(int currentUserId);
 
     User findById(int id);
+
+    void updateOAuth2User(User user);
 }

@@ -7,17 +7,16 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.IncorrectDateFormatException;
-import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.ApplicantListService;
 import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.ApplicantListSpecification;
+import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.util.UrlSubStringUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,17 +32,17 @@ public class ApplicantListController {
     private final ApplicantListService applicantListService;
     private final ResumeService resumeService;
     private final JobService jobService;
+    private final SecurityService securityService;
 
     @GetMapping("/{index}")
-    public String appliedJobs(@PathVariable("index") String indexStr,
-                              @AuthenticationPrincipal SpringUser springUser,
-                              ModelMap modelMap) {
-        User user = springUser.getUser();
+    public String appliedJobs(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+
         if (indexStr == null || indexStr.isEmpty() || user == null) {
             return "redirect:/applicant/list/1";
         }
-
         try {
+
             int index = Integer.parseInt(indexStr);
             if (index <= 0) {
                 return "redirect:/applicant/list/1";
@@ -83,13 +82,14 @@ public class ApplicantListController {
     public String search(@RequestParam(value = "status", required = false) String status,
                          @RequestParam(value = "date", required = false) String sendDate,
                          @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
-                         @AuthenticationPrincipal SpringUser springUser,
                          ModelMap modelMap,
                          HttpServletRequest httpServletRequest) {
-        User user = springUser.getUser();
+
+        User user = securityService.getCurrentUser();
         Resume resume = resumeService.findByUserIdAndIsActiveTrue(user.getId());
 
         try {
+
             int searchIndex = Integer.parseInt(searchIndexStr);
             String url = UrlSubStringUtil.removeLastCharacterFromQueryString(httpServletRequest);
 

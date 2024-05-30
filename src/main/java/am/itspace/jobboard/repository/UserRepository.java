@@ -23,8 +23,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findUserByActivated(boolean isActive);
 
+    List<User> findUserByPasswordAndActivatedFalse(String password);
+
     List<User> findTop4ByOrderByRegisterDateDesc();
 
     Optional<User> findByIdAndIsDeletedFalse(int id);
 }
-

@@ -1,5 +1,6 @@
 package am.itspace.jobboard.scheduler;
 
+import am.itspace.jobboard.config.PasswordProperties;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.service.UserService;
@@ -17,16 +18,43 @@ public class UserSchedulerService {
 
     private final UserService userService;
     private final SendMailService sendMailService;
+    private final PasswordProperties passwordProperties;
 
     @Scheduled(cron = "0 * * * * ?")
     @Transactional
     public void cleanUnconfirmedUsers() {
-        List<User> userByActivated = userService.findUserByActivated(false);
-        for (User user : userByActivated) {
-            if (user.getRegisterDate() != null && user.getRegisterDate().before(new Date(System.currentTimeMillis() - 60000))) {
-                userService.delete(user);
-                sendMailService.send(user.getEmail(), "Deleting register dates", "Your dates is deleted please register again");
-            }
-        }
+
+        List<User> unconfirmedUsers = userService.findUserByActivated(false);
+        Date oneMinuteAgo = new Date(System.currentTimeMillis() - 60000);
+
+        unconfirmedUsers.stream()
+                .filter(user -> user.getRegisterDate() != null &&
+                        user.getRegisterDate().before(oneMinuteAgo) &&
+                        !user.getPassword().equals(passwordProperties.getOAuth2UserPassword()))
+                .forEach(user -> {
+                    userService.delete(user);
+                    sendMailService.send(user.getEmail(),
+                            "Account Deletion Notice",
+                            "Your account has been deleted because it was not confirmed. Please register again.");
+                });
+    }
+
+    @Scheduled(cron = "0 * * * * ?")
+    @Transactional
+    public void activeOAuth2Users() {
+
+        List<User> unactivatedOAuth2Users = userService.findUserByPasswordAndIsActivatedFalse(passwordProperties.getOAuth2UserPassword());
+        Date oneMinuteAgo = new Date(System.currentTimeMillis() - 60000);
+
+        unactivatedOAuth2Users.stream()
+                .filter(user -> user.getRegisterDate() != null &&
+                        user.getRegisterDate().before(oneMinuteAgo))
+                .forEach(user -> {
+                    user.setActivated(true);
+                    userService.save(user);
+                    sendMailService.send(user.getEmail(),
+                            "Account Activation Notice",
+                            "Your account has activated and your type is finally Job Seeker because you don't select yor type after login with social media.");
+                });
     }
 }

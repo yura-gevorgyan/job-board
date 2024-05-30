@@ -48,10 +48,7 @@ public class RegisterController {
     }
 
     @PostMapping
-    public String register(
-            @ModelAttribute User user,
-            @RequestParam String confirmPassword,
-            RedirectAttributes redirectAttributes) {
+    public String register(@ModelAttribute User user, @RequestParam String confirmPassword, RedirectAttributes redirectAttributes) {
 
         if (user.getRole() == null || user.getRole().toString().isEmpty()) {
             redirectAttributes.addFlashAttribute("msg", "Choose your type.");

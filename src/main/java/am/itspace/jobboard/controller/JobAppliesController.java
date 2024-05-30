@@ -5,23 +5,21 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.IncorrectDateFormatException;
-import am.itspace.jobboard.security.SpringUser;
 import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobAppliesSpecification;
+import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.util.UrlSubStringUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @RequiredArgsConstructor
@@ -30,13 +28,12 @@ public class JobAppliesController {
 
     private final JobAppliesService jobAppliesService;
     private final ResumeService resumeService;
+    private final SecurityService securityService;
 
     @GetMapping("/{index}")
-    public String jobApplies(@PathVariable("index") String indexStr,
-                             @AuthenticationPrincipal SpringUser springUser,
-                             ModelMap modelMap) {
+    public String jobApplies(@PathVariable("index") String indexStr, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
 
-        User user = springUser.getUser();
         if (user != null && user.getRole() == Role.JOB_SEEKER) {
             if (indexStr == null || indexStr.isEmpty()) {
                 return "redirect:/job/applies/1";
@@ -74,18 +71,17 @@ public class JobAppliesController {
         return "redirect:/";
     }
 
-
     @GetMapping("/search")
     public String search(@RequestParam(value = "status", required = false) String status,
                          @RequestParam(value = "date", required = false) String sendDate,
                          @RequestParam(value = "searchIndexStr", required = false) String searchIndexStr,
-                         @AuthenticationPrincipal SpringUser springUser,
                          ModelMap modelMap,
                          HttpServletRequest httpServletRequest) {
 
-        User user = springUser.getUser();
+        User user = securityService.getCurrentUser();
         if (user != null && user.getRole() == Role.JOB_SEEKER) {
             try {
+
                 int searchIndex = Integer.parseInt(searchIndexStr);
                 String url = UrlSubStringUtil.removeLastCharacterFromQueryString(httpServletRequest);
 

@@ -86,7 +86,7 @@
                                                         <label for="logo">Company Logo</label>
                                                         <div style="width: 100%"
                                                              class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
-                                                            <img id="previewImg" src="/img/avatar/userDefault.png" width="100px"
+                                                            <img id="previewImg" src="/img/avatar/default_company_logo.png" width="100px"
                                                                  alt="..."
                                                                  class="border-radius-50">
                                                         </div>
@@ -369,7 +369,7 @@
                                                     <label>Location</label>
                                                     <div class="quform-input">
                                                         <select class="form-control form-select border-radius-10"
-                                                                name="countryId">
+                                                                name="country">
                                                             <option value="0">Choose Country</option>
                                                             <option th:each="country : ${countries}"
                                                                     th:value="${country.id}"

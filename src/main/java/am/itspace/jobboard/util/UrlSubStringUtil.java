@@ -3,7 +3,6 @@ package am.itspace.jobboard.util;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
-@Component
 public  class UrlSubStringUtil {
     public static String  removeLastCharacterFromQueryString (HttpServletRequest httpServletRequest) {
         String queryString = httpServletRequest.getQueryString();

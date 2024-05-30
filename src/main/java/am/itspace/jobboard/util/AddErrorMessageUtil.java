@@ -1,11 +1,9 @@
 package am.itspace.jobboard.util;
 
-import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Component
 public class AddErrorMessageUtil {
 
     public static void addMessageToModel(String msg, ModelMap modelMap) {

@@ -9,6 +9,7 @@ import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
+import am.itspace.jobboard.exception.NotFoundException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.repository.ApplicantListRepository;
@@ -22,6 +23,8 @@ import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.GenerateTokenUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -52,7 +55,8 @@ public class UserServiceImpl implements UserService {
     private static final int PAGE_SIZE = 20;
 
     @Override
-    public User register(User user, String confirmPassword, Role role) {
+    public User
+    register(User user, String confirmPassword, Role role) {
         Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
 
         if (byEmail.isPresent()) {
@@ -138,6 +142,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+//    @Cacheable(cacheNames = "findByEmail", key = "#email")
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
@@ -158,6 +163,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findUserByPasswordAndIsActivatedFalse(String password) {
+        return userRepository.findUserByPasswordAndActivatedFalse(password);
+    }
+
+    @Override
+//    @CacheEvict(cacheNames = "findByEmail", key = "#user.email")
     public void delete(User user) {
         userRepository.delete(user);
     }
@@ -257,5 +268,21 @@ public class UserServiceImpl implements UserService {
     public User findById(int id) {
         return userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
     }
-}
 
+    @Override
+    public void updateOAuth2User(User user) {
+
+        Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
+        byEmail.ifPresentOrElse(existingUser -> {
+
+            existingUser.setName(user.getName());
+            existingUser.setSurname(user.getSurname());
+            existingUser.setRole(user.getRole());
+            existingUser.setActivated(true);
+            userRepository.save(existingUser);
+
+        }, () -> {
+            throw new NotFoundException();
+        });
+    }
+}
