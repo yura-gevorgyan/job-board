@@ -5,10 +5,10 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.IncorrectDateFormatException;
+import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.specification.JobAppliesSpecification;
-import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.util.UrlSubStringUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -108,7 +108,7 @@ public class JobAppliesController {
         return "redirect:/";
     }
 
-    private void addAttributes(ModelMap modelMap,  String status, String sandeDate, String url, Page<JobApplies> jobApplies, int searchIndex, int index) {
+    private void addAttributes(ModelMap modelMap, String status, String sandeDate, String url, Page<JobApplies> jobApplies, int searchIndex, int index) {
         modelMap.addAttribute("url", url);
         modelMap.addAttribute("jobApplies", jobApplies);
         modelMap.addAttribute("searchIndex", searchIndex);
@@ -116,7 +116,7 @@ public class JobAppliesController {
         modelMap.addAttribute("totalPages", jobApplies.getTotalPages());
         modelMap.addAttribute("jobAppliesCount", jobApplies.getTotalElements());
         modelMap.addAttribute("statuses", ApplicantListStatus.values());
-        modelMap.addAttribute("currentStatus",  status);
-        modelMap.addAttribute("currentDate",  sandeDate);
+        modelMap.addAttribute("currentStatus", status);
+        modelMap.addAttribute("currentDate", sandeDate);
     }
 }

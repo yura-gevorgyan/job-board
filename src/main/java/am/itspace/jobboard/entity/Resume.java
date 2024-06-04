@@ -1,6 +1,6 @@
 package am.itspace.jobboard.entity;
 
-import am.itspace.jobboard.anotation.MinAge;
+import am.itspace.jobboard.annotation.MinAge;
 import am.itspace.jobboard.entity.enums.Gender;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.util.UploadAble;

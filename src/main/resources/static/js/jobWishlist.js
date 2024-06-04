@@ -2,7 +2,6 @@ $(document).ready(function () {
 
     $('.wishList').on('click', function (e) {
         e.preventDefault();
-        console.log("aaaaa")
         var jobId = $(this).data('job-id');
         var $row = $(this).closest('a');
 
@@ -48,17 +47,17 @@ $(document).ready(function () {
         var jobId = $(this).data('job-id');
         var $row = $(this).closest('.single-job');
 
-            $.ajax({
-                url: '/jobs/favorites/delete/' + jobId,
-                method: 'DELETE',
-                success: function (response) {
-                    $row.remove();
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                    console.error(error);
-                }
-            });
+        $.ajax({
+            url: '/jobs/favorites/delete/' + jobId,
+            method: 'DELETE',
+            success: function (response) {
+                $row.remove();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                console.error(error);
+            }
+        });
 
     });
 });

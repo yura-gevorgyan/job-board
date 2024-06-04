@@ -5,8 +5,35 @@ spring:
     password: hilg456
   liquibase:
     change-log: classpath*:db/change-log.xml
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 967542614813689
+            client-secret: 0d8886e762df1a9d3c367d42a511e44e
+            scope:
+              - email
+              - public_profile
+
+          google:
+            client-id: 74863290846-i5sth07msc4s0puqgouv0gpf5r9thrvn.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+
+          github:
+            client-id: Ov23li9yjofRhQGEAqyY
+            client-secret: f0f680ae58ec6d5140c034367b5297f015d88603
+            scope:
+              - read:user
+              - user:email
 
 program:
   pictures:
     file:
       path: C:/Users/Dell/IdeaProjects/job-board-v2/src/programfiles
+
+password:
+  OAuth2-user-password: "$2a$10$93TR3YWe4YTMfkgTV/6IÎÑ∑∂∫∆ƒ©˙¬˚µ≤≥÷œ∑´®†¥¨ˆøπ“‘åß∂ƒ©˙
+                  †¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫µ≤≥÷Ω∫ƒ∆∑´®†¥¨¨ˆøπ“‘åß∂©˙¬˚µ≤≥÷Ω≈ç√∫
+                  $2a$10$qZYpy6yba88mXIYzAldIYu8U8EbJ4G/xxifzj2xzYcHVYskYwxpkm"

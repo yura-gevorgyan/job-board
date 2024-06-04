@@ -1,7 +1,7 @@
 package am.itspace.jobboard.security;
 
-import am.itspace.jobboard.feignClient.GitHubFeignClient;
-import am.itspace.jobboard.feignClient.GitHubUserInfo;
+import am.itspace.jobboard.feignclient.GitHubFeignClient;
+import am.itspace.jobboard.feignclient.GitHubUserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

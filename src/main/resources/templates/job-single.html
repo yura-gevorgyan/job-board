@@ -127,8 +127,10 @@
                                         <a th:href="@{'/jobs/apply/' + ${job.id}}" class="butn mb-3 w-100 text-center">Apply
                                             For Job</a>
                                     </div>
-                                    <div class="col-12" th:if="${(currentUser != null) && (job.user.id != currentUser.id)}">
-                                        <a th:href="'/profile/message/' + ${job.user.id}" class="butn w-100 text-center">Message</a>
+                                    <div class="col-12"
+                                         th:if="${(currentUser != null) && (job.user.id != currentUser.id)}">
+                                        <a th:href="'/profile/message/' + ${job.user.id}"
+                                           class="butn w-100 text-center">Message</a>
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +320,7 @@
             <div class="modal-content-pop">
                        <span>
                             <div class="alert alert-dark alert-dismissible ">
-                                <strong>Please login or register in order to add to favorites.</strong>
+                                <strong>Login your account, in order to add in favorites.</strong>
                             </div>
                        </span>
                 <a href="/login" class="butn mb-3 w-100 text-center">Login</a>

@@ -40,6 +40,9 @@ public class RegisterController {
 
     @PostMapping("/confirm")
     public String confirmEmail(@RequestParam String confirmEmailCode, RedirectAttributes redirectAttributes) {
+        if (confirmEmailCode == null || confirmEmailCode.isBlank()) {
+            return "redirect:/";
+        }
         if (userService.confirmEmail(confirmEmailCode) != null) {
             return "redirect:/";
         }
