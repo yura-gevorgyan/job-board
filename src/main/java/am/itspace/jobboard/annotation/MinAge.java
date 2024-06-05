@@ -1,4 +1,4 @@
-package am.itspace.jobboard.anotation;
+package am.itspace.jobboard.annotation;
 
 
 import jakarta.validation.Constraint;

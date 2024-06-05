@@ -112,44 +112,6 @@
                                     <form action="#!" method="post" enctype="multipart/form-data" onclick="">
                                         <div class="quform-elements">
                                             <div class="row align-items-center">
-                                                <!-- Begin Select element -->
-                                                <div class="col-md-6 mb-4 mb-md-0">
-                                                    <div class="quform-element">
-                                                        <div class="quform-input">
-                                                            <select id="sortby"
-                                                                    class="form-control form-select border-radius-10"
-                                                                    name="sortby">
-                                                                <option value="">Sort By</option>
-                                                                <option value="New Jobs">New Jobs</option>
-                                                                <option value="Freelance">Freelance</option>
-                                                                <option value="Full Time">Full Time</option>
-                                                                <option value="Internship">Internship</option>
-                                                                <option value="Part Time">Part Time</option>
-                                                                <option value="Temporary">Temporary</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Select element -->
-                                                <!-- Begin Select element -->
-                                                <div class="col-md-6">
-                                                    <div class="quform-element">
-                                                        <div class="quform-input">
-                                                            <select id="show"
-                                                                    class="form-control form-select border-radius-10"
-                                                                    name="show">
-                                                                <option value="">Show</option>
-                                                                <option value="Show 10">Show 10</option>
-                                                                <option value="Show 20">Show 20</option>
-                                                                <option value="Show 30">Show 30</option>
-                                                                <option value="Show 40">Show 40</option>
-                                                                <option value="Show 50">Show 50</option>
-                                                                <option value="Show 60">Show 60</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Select element -->
                                             </div>
                                         </div>
                                     </form>
@@ -179,20 +141,22 @@
                                         </th:block>
 
                                         <div th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
-                                        <button th:if="${currentUser != null && (favoritesCompanies == null || favoritesCompanies.isEmpty())}"
-                                                style="border: white">
-                                            <a class="favourite wishList" href="#!"
-                                               th:data-company-id="${'a' + company.id}"><i class="far fa-heart"></i></a>
-                                        </button>
+                                            <button th:if="${currentUser != null && (favoritesCompanies == null || favoritesCompanies.isEmpty())}"
+                                                    style="border: white">
+                                                <a class="favourite wishList" href="#!"
+                                                   th:data-company-id="${'a' + company.id}"><i class="far fa-heart"></i></a>
+                                            </button>
 
-                                        <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
-                                                style="border: white"><a class="favourite" href="#!"><i
-                                                class="far fa-heart"></i></a>
-                                        </button>
+                                            <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
+                                                    style="border: white"><a class="favourite" href="#!"><i
+                                                    class="far fa-heart"></i></a>
+                                            </button>
                                         </div>
 
                                         <div class="popular-jobs-box">
-                                            <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${company.logoName}" width="80px" alt="...">
+                                            <img class="mb-4 border-radius-10"
+                                                 th:src="'/download/picture/' + ${company.logoName}" width="80px"
+                                                 alt="...">
                                             <h4 class="h5"><a th:href="'/companies/item/' + ${company.id}"
                                                               th:text="${company.name}"></a>
                                             </h4>
@@ -288,7 +252,7 @@
             <div class="modal-content-pop">
                        <span>
                             <div class="alert alert-dark alert-dismissible ">
-                                <strong>Please login or register in order to add to favorites.</strong>
+                                <strong>Login your account, in order to add in favorites.</strong>
                             </div>
                        </span>
                 <a href="/login" class="butn mb-3 w-100 text-center">Login</a>

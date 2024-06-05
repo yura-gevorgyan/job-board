@@ -5,15 +5,24 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +62,6 @@ public class CustomerOAth2UserService extends DefaultOAuth2UserService {
             String firstName = nameParts.length > 0 ? nameParts[0] : "";
             String surname = nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
 
-            new User();
             existingUser = User.builder()
                     .name(firstName)
                     .surname(surname)
@@ -64,9 +72,46 @@ public class CustomerOAth2UserService extends DefaultOAuth2UserService {
                     .activated(false)
                     .isDeleted(false)
                     .build();
-            existingUser = userService.save(existingUser);
+            userService.save(existingUser);
         }
-        new SpringUser(existingUser);
-        return oauth2User;
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(existingUser.getRole().name());
+
+        OAuth2User customOAuth2User = new DefaultOAuth2User(
+                Collections.singletonList(authority),
+                oauth2User.getAttributes(),
+                "name"
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities())
+        );
+
+        return customOAuth2User;
+    }
+}
+
+@Getter
+class CustomOAuth2User extends DefaultOAuth2User {
+    private final String email;
+
+    public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes, String nameAttributeKey, String email) {
+        super(authorities, attributes, nameAttributeKey);
+        this.email = email;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return super.getAttributes();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return super.getAuthorities();
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
     }
 }

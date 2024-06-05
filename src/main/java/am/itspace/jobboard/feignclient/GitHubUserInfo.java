@@ -1,4 +1,4 @@
-package am.itspace.jobboard.feignClient;
+package am.itspace.jobboard.feignclient;
 
 import lombok.Data;
 
