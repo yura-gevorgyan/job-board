@@ -6,6 +6,7 @@ import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Set;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/register")
@@ -44,6 +46,7 @@ public class RegisterController {
             return "redirect:/";
         }
         if (userService.confirmEmail(confirmEmailCode) != null) {
+            log.info("User has been confirmed with the confirm code of {}", confirmEmailCode);
             return "redirect:/";
         }
         redirectAttributes.addFlashAttribute("msg", "Invalid confirm code.");
@@ -60,7 +63,7 @@ public class RegisterController {
 
         try {
             userService.register(user, confirmPassword, user.getRole());
-
+            log.info("User by {} id and {} username, has registered with the Role of {}", user.getId(), user.getEmail(), user.getRole().getName());
         } catch (EmailIsPresentException e) {
             redirectAttributes.addFlashAttribute("msg", "Email is already in use.");
             return "redirect:/register";

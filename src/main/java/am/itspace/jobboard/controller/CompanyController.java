@@ -16,6 +16,7 @@ import am.itspace.jobboard.util.PictureUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
@@ -36,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/companies")
@@ -196,6 +198,7 @@ public class CompanyController {
 
         companyService.create(company, user, logo);
         companyPictureService.addPictures(company, companyPictures);
+        log.info("Company owner by {} id, has created a company", user.getId());
 
         return "redirect:/profile/company";
     }
@@ -238,6 +241,7 @@ public class CompanyController {
 
         Company updated = companyService.update(userOldCompany, company, user, logo);
         companyPictureService.update(updated, companyPictures, deletedPictures);
+        log.info("Company owner by {} id, has updated the company by {} id", user.getId(), company.getId());
 
         return "redirect:/profile/company";
     }
@@ -291,6 +295,7 @@ public class CompanyController {
 
                 if (company != null && company.isActive()) {
                     companyWishlistService.save(company, user);
+                    log.info("User by {} id, has added the company by {} id, in wishlist", user.getId(), company.getId());
                     return ResponseEntity.ok().build();
                 }
             } catch (NumberFormatException e) {
@@ -312,6 +317,7 @@ public class CompanyController {
 
                 if (company != null && company.isActive()) {
                     companyWishlistService.delete(company, user);
+                    log.info("User by {} id, has deleted the company by {} id, from wishlist", user.getId(), company.getId());
                     return ResponseEntity.ok().build();
                 }
 

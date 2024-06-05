@@ -2,6 +2,7 @@ package am.itspace.jobboard.controller.admin;
 
 import am.itspace.jobboard.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/categories")
@@ -47,6 +49,7 @@ public class AdminCategoryController {
             return "redirect:/admin/categories";
         }
         categoryService.save(name, multipartFile);
+        log.info("Category by {} name, was added by Admin", name);
         return "redirect:/admin/categories";
     }
 
@@ -94,6 +97,7 @@ public class AdminCategoryController {
             return "redirect:/admin/categories";
         }
         categoryService.update(id, name, multipartFile);
+        log.info("Category by {} name, was updated by Admin", name);
         return "redirect:/admin/categories";
     }
 }

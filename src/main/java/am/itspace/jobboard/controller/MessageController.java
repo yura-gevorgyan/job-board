@@ -8,6 +8,7 @@ import am.itspace.jobboard.service.ChatroomService;
 import am.itspace.jobboard.service.MessageService;
 import am.itspace.jobboard.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MessageController {
@@ -47,6 +49,7 @@ public class MessageController {
                     modelMap.put("fromUserId", user.getId());
                     modelMap.put("toUserId", toUserId);
                     modelMap.put("userName", byId.getName());
+                    log.info("User by {} id, has tried to start chat with the user of {} id", user.getId(), toUserId);
                 }
             } catch (NumberFormatException | NullPointerException e) {
                 return "redirect:/profile/message";
@@ -86,6 +89,7 @@ public class MessageController {
         try {
             int selectedUserId = Integer.parseInt(selectedUserIdStr);
             chatroomService.deleteConversationForOneUser(user.getId(), selectedUserId);
+            log.info("User by {} id, has deleted the chat with the user of {} id", user.getId(), selectedUserId);
         } catch (NumberFormatException ignored) {
         }
         return "/profile/messages";

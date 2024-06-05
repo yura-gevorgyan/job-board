@@ -6,6 +6,7 @@ import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/forgot/password")
@@ -51,6 +53,7 @@ public class ForgotPasswordController {
         Optional<User> optionalUser = userService.findByToken(confirmEmailCode);
         if (optionalUser.isPresent()) {
             httpSession.setAttribute("user", optionalUser.get());
+            log.info("User by {} id, are going to changed password", optionalUser.get().getId());
             return "redirect:/forgot/password/confirm/change";
         }
         redirectAttributes.addFlashAttribute("msg", "Wrong confirm code. Please try again.");
@@ -62,7 +65,7 @@ public class ForgotPasswordController {
         User user = (User) session.getAttribute("user");
         try {
             userService.changePassword(password, confirmPassword, user);
-
+            log.info("User by {} id, has changed password successfully", user.getId());
         } catch (PasswordNotMuchException e) {
             redirectAttributes.addFlashAttribute("msg", "Invalid password.");
             return "redirect:/forgot/password/confirm/change";

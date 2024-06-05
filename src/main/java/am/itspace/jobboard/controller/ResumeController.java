@@ -8,6 +8,7 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
+import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.JobAppliesService;
 import am.itspace.jobboard.service.JobService;
@@ -15,10 +16,10 @@ import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.ResumeWishlistService;
 import am.itspace.jobboard.specification.ResumeSpecification;
 import am.itspace.jobboard.util.PictureUtil;
-import am.itspace.jobboard.security.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ import java.util.List;
 
 import static am.itspace.jobboard.util.AddErrorMessageUtil.addErrorMessage;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/resumes")
@@ -173,7 +175,7 @@ public class ResumeController {
     }
 
     @GetMapping("/apply/{id}")
-    public String jobApply(@PathVariable("id") String idStr, RedirectAttributes redirectAttributes, @RequestParam(value = "jobId",required = false) String jobIdStr) {
+    public String jobApply(@PathVariable("id") String idStr, RedirectAttributes redirectAttributes, @RequestParam(value = "jobId", required = false) String jobIdStr) {
         User user = securityService.getCurrentUser();
 
         try {
@@ -185,21 +187,22 @@ public class ResumeController {
                 return "redirect:/resumes/item/" + id;
             }
 
-            if (jobIdStr != null){
+            if (jobIdStr != null) {
                 int jobId = Integer.parseInt(jobIdStr);
 
                 Job job = jobService.getJobById(jobId);
                 JobApplies jobApplies = jobAppliesService.findByJobIdAndUserIdAndIsActiveTrue(job.getId(), resume.getUser().getId());
-                if (jobApplies != null){
+                if (jobApplies != null) {
                     redirectAttributes.addFlashAttribute("applyResumeMsg", "You have already applied for this resume.");
                     return "redirect:/resumes/item/" + id;
                 }
 
-                jobAppliesService.save(job,resume.getUser());
+                jobAppliesService.save(job, resume.getUser());
 
                 redirectAttributes.addFlashAttribute("msg", "Success. You have applied for the job.");
+                log.info("User by {} id, has applied for job by {} id", user.getId(), job.getId());
                 return "redirect:/resumes/item/" + id;
-            }else {
+            } else {
                 return "redirect:/resumes/item/" + id;
             }
         } catch (NumberFormatException e) {
@@ -239,6 +242,7 @@ public class ResumeController {
         }
 
         resumeService.create(resume, multipartFile);
+        log.info("User by {} id, has created a resume", user.getId());
         return "redirect:/profile/resume";
     }
 
@@ -271,6 +275,7 @@ public class ResumeController {
         }
 
         resumeService.update(resume, multipartFile);
+        log.info("User by {} id, has updated the resume", user.getId());
         return "redirect:/profile/resume";
     }
 
@@ -323,6 +328,7 @@ public class ResumeController {
 
                 if (resume != null && resume.isActive()) {
                     resumeWishlistService.save(resume, user);
+                    log.info("User by {} id, has added the resume by {} id, in wishlist", user.getId(), resume.getId());
                     return ResponseEntity.ok().build();
                 }
 
@@ -345,6 +351,7 @@ public class ResumeController {
 
                 if (resume != null && resume.isActive()) {
                     resumeWishlistService.delete(resume, user);
+                    log.info("User by {} id, has deleted the resume by {} id, from wishlist", user.getId(), resume.getId());
                     return ResponseEntity.ok().build();
                 }
 
