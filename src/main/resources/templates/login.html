@@ -59,79 +59,82 @@
                         <div class="col-lg-7">
                             <div class="p-1-6 p-sm-1-9 p-lg-2-2 p-xl-2-9 bg-white rounded-start-md-10px rounded-end-lg-10px">
                                 <div class="text-center mb-1-6 mb-lg-1-9">
-                                    <h2 class="h3 mb-0">Login Your Account</h2> <br>
+                                    <h2 class="h3 mb-0" th:text="#{login.title}">Login Your Account</h2> <br>
                                     <span th:if="${msg != null}">
-                                           <div class="alert alert-danger alert-dismissible">
+                                    <div class="alert alert-danger alert-dismissible">
                                         <strong th:text="${msg}"></strong>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                 aria-label="Close"></button>
                                     </div>
-                                    </span>
+                                </span>
                                 </div>
                                 <form action="/login" method="post">
                                     <div class="col-lg-12 mb-3">
-                                        <label for="username" class="form-label fs-6 text-muted">Email</label>
+                                        <label for="username" class="form-label fs-6 text-muted" th:text="#{login.email.label}">Email</label>
                                         <div class="input-group">
                                             <div class="input-group-text bg-light border-radius-10">
                                                 <i class="ti-user"></i>
                                             </div>
                                             <input type="email" class="form-control border-radius-10"
-                                                   placeholder="Enter Your Email*" name="username" id="username"
+                                                   th:placeholder="#{login.email.placeholder}" name="username" id="username"
                                                    required>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <label class="form-label fs-6 text-muted" for="password">Password</label>
+                                        <label class="form-label fs-6 text-muted" for="password" th:text="#{login.password.label}">Password</label>
                                         <div class="input-group mb-4">
                                             <div class="input-group-text bg-light border-radius-10">
                                                 <i class="ti-unlock"></i>
                                             </div>
                                             <input type="Password" class="form-control border-radius-10"
-                                                   placeholder="Enter Your Password*" name="password" id="password">
+                                                   th:placeholder="#{login.password.placeholder}" name="password" id="password">
                                         </div>
                                         <div class="d-sm-flex justify-content-between align-items-center mb-4">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="remember-me" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Remember Me</label>
+                                                <label class="form-check-label" for="rememberMe" th:text="#{login.rememberMe}">Remember Me</label>
                                             </div>
-                                            <div><a href="/forgot/password" class="text-primary font-weight-500">Forget
-                                                Password?</a></div>
+                                            <div><a href="/forgot/password" class="text-primary font-weight-500" th:text="#{login.forgotPassword}">Forget Password?</a></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="d-grid">
-                                            <button type="submit" class="butn">Sign In</button>
+                                            <button type="submit" class="butn" th:text="#{login.signInButton}">Sign In</button>
                                         </div>
                                     </div>
                                 </form>
                                 <div class="login-divider">
-                                    <span class="fs-6 bg-white z-index-1 p-2 mb-0 text-muted font-weight-600">Or Login With</span>
+                                    <span class="fs-6 bg-white z-index-1 p-2 mb-0 text-muted font-weight-600" th:text="#{login.orLoginWith}">Or Login With</span>
                                 </div>
                                 <div class="row mb-1-9">
                                     <div class="col-lg-4 mb-3 mb-lg-0">
                                         <div class="form-social-item">
                                             <a href="/oauth2/authorization/facebook" class="facebook vertical-align-middle">
-                                                <i class="ti-facebook me-2 display-30"></i>Facebook
+                                                <i class="ti-facebook me-2 display-30"></i>
+                                                <span>Facebook</span>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 mb-3 mb-lg-0">
                                         <div class="form-social-item">
                                             <a href="/oauth2/authorization/google" style="background-color: #cd0d0d; color: whitesmoke" class="google vertical-align-middle">
-                                                <i class="ti-google me-2 display-30"></i>Google
+                                                <i class="ti-google me-2 display-30"></i>
+                                                <span >Google</span>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 mb-3 mb-lg-0">
                                         <div class="form-social-item">
                                             <a href="/oauth2/authorization/github" style="background-color: black; color: whitesmoke" class="github vertical-align-middle">
-                                                <i class="ti-github me-2 display-30"></i>GitHub
+                                                <i class="ti-github me-2 display-30"></i>
+                                                <span >GitHub</span>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <span>Not registered ? <a href="/register" class="font-weight-600">Create account</a></span>
+                                    <span th:text="#{login.notRegistered}">Not registered ?</span>&nbsp;
+                                    <a href="/register" class="font-weight-600" th:text="#{login.createAccount}">Create account</a>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +143,7 @@
             </div>
         </div>
     </section>
+
 
 </div>
 

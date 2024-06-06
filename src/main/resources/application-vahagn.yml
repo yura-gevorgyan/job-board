@@ -47,6 +47,9 @@ spring:
   liquibase:
     change-log: classpath*:db/change-log.xml
 
+  messages:
+    encoding: utf-8
+
 program:
   pictures:
     file:

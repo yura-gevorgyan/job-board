@@ -93,66 +93,42 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-2">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Applied Jobs</h3>
+                            <h3 class="mb-3" th:text="#{appliedJobs}">Applied Jobs</h3>
                             <span th:if="${createJob != null}">
-                                <div class="alert alert-warning alert-dismissible">
-                                    <strong th:text="${createJob}"></strong>
-                                    <button type="button" class="btn btn-outline-warning">
-                                        <a href="/profile/jobs-create">Create job ?</a>
-                                    </button>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close"></button>
-                                </div>
-                            </span>
+            <div class="alert alert-warning alert-dismissible">
+                <strong th:text="${createJob}"></strong>
+                <button type="button" class="btn btn-outline-warning">
+                    <a href="/profile/jobs-create" th:text="#{createJob}">Create job ?</a>
+                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </span>
                         </div>
                         <div class="col-lg-12">
                             <div class="dashboard-title">
                                 <div class="d-md-flex justify-content-between align-items-center">
                                     <div class="mb-4 mb-md-0">
-                                        <h4 class="mb-0 h5">Candidate<span class="text-primary"> Proposals</span>
-                                        </h4>
+                                        <h4 class="mb-0 h5" th:text="#{appliedJobs}">Candidate Proposals</h4>
                                     </div>
                                     <div class="quform-elements">
                                         <div class="row align-items-center">
                                             <form action="/applicant/list/search" method="get" class="d-flex">
-                                                <input class="form-control border-radius-10 me-2" id="search"
-                                                       type="text" placeholder="Search">
-                                                <select id="status"
-                                                        class="form-control form-select border-radius-10 me-2"
-                                                        name="status">
-                                                    <option value="0">Choose Status</option>
-                                                    <option value="WAITING"
-                                                            th:selected="${currentStatus != null && ('WAITING' == currentStatus)}">
-                                                        Waiting
-                                                    </option>
-                                                    <option value="APPROVED"
-                                                            th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}">
-                                                        Approved
-                                                    </option>
-                                                    <option value="REJECTED"
-                                                            th:selected="${currentStatus != null && ('REJECTED' == currentStatus)}">
-                                                        Rejected
-                                                    </option>
+                                                <input class="form-control border-radius-10 me-2" id="search" type="text" th:placeholder="#{search}">
+                                                <select id="status" class="form-control form-select border-radius-10 me-2" name="status">
+                                                    <option value="0" th:text="#{status}">Choose Status</option>
+                                                    <option value="WAITING" th:selected="${currentStatus != null && ('WAITING' == currentStatus)}">Waiting</option>
+                                                    <option value="APPROVED" th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}">Approved</option>
+                                                    <option value="REJECTED" th:selected="${currentStatus != null && ('REJECTED' == currentStatus)}">Rejected</option>
                                                 </select>
-                                                <select id="date" class="form-control form-select border-radius-10 me-2"
-                                                        name="date">
-                                                    <option value="">Choose Date</option>
-                                                    <option value="day"
-                                                            th:selected="${currentDate != null && (currentDate == 'day')}">
-                                                        Last Day
-                                                    </option>
-                                                    <option value="week"
-                                                            th:selected="${currentDate != null && (currentDate == 'week')}">
-                                                        Last Week
-                                                    </option>
-                                                    <option value="month"
-                                                            th:selected="${currentDate != null && (currentDate == 'month')}">
-                                                        Last Month
-                                                    </option>
+                                                <select id="date" class="form-control form-select border-radius-10 me-2" name="date">
+                                                    <option value="" th:text="#{dateApplied}">Choose Date</option>
+                                                    <option value="day" th:selected="${currentDate != null && (currentDate == 'day')}">Last Day</option>
+                                                    <option value="week" th:selected="${currentDate != null && (currentDate == 'week')}">Last Week</option>
+                                                    <option value="month" th:selected="${currentDate != null && (currentDate == 'month')}">Last Month</option>
                                                 </select>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
                                                 <button type="submit" class="not-border"><a
-                                                        class="butn secondary text-white">Search</a></button>
+                                                        class="butn secondary text-white" th:text="#{search}">Search</a></button>
                                             </form>
                                         </div>
                                     </div>
@@ -162,18 +138,17 @@
 
                         <div class="dashboard-widget">
                             <div class="table-responsive">
-                                        <span style="justify-content: center"
-                                              th:if="${applicantLists == null or applicantListCount == 0}">
-                                               <h2>Job applies are not found.</h2>
-                                            </span>
+                                   <span style="justify-content: center" th:if="${applicantLists == null or applicantListCount == 0}">
+                                       <h2 th:text="#{jobAppliesNotFound}">Job applies are not found.</h2>
+                                   </span>
                                 <table class="table custome-table2">
                                     <thead th:if="${applicantLists != null and applicantListCount != 0}">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Job</th>
-                                        <th>Date Applied</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th th:text="#{name}">Name</th>
+                                        <th th:text="#{job}">Job</th>
+                                        <th th:text="#{dateApplied}">Date Applied</th>
+                                        <th th:text="#{status}">Status</th>
+                                        <th th:text="#{action}">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -181,44 +156,40 @@
                                         <td>
                                             <div class="d-xl-flex align-items-center">
                                                 <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                    <img th:src="@{/getImage(picName=${applicantList.resume.picName})}"
-                                                         width="80px" alt="...">
+                                                    <img th:src="@{/getImage(picName=${applicantList.resume.picName})}" width="80px" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
-                                                    <h5 class="mb-1"><a
-                                                            th:href="@{'/resumes/item/' + ${applicantList.resume.id}}"
-                                                            th:text="${applicantList.resume.user.name}"></a></h5>
-                                                    <span class="me-2 display-30 text-muted"
-                                                          th:text="${applicantList.resume.category.name}"></span>
-                                                    <span class="me-2 display-30 text-muted"><i
-                                                            class="ti-location-pin pe-1"
-                                                            th:text="${applicantList.resume.country.countryName}"></i></span>
+                                                    <h5 class="mb-1">
+                                                        <a th:href="@{'/resumes/item/' + ${applicantList.resume.id}}" th:text="${applicantList.resume.user.name}"></a>
+                                                    </h5>
+                                                    <span class="me-2 display-30 text-muted" th:text="${applicantList.resume.category.name}"></span>
+                                                    <span class="me-2 display-30 text-muted">
+                                        <i class="ti-location-pin pe-1" th:text="${applicantList.resume.country.countryName}"></i>
+                                    </span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-xl-flex align-items-center">
                                                 <div class="flex-shrink-0 mb-3 mb-xl-0">
-                                                    <img th:src="@{/getImage(picName=${applicantList.job.logoName})}"
-                                                         width="80px" alt="...">
+                                                    <img th:src="@{/getImage(picName=${applicantList.job.logoName})}" width="80px" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
-                                                    <h5 class="mb-1"><a
-                                                            th:href="@{'/jobs/item/' + ${applicantList.job.id}}"
-                                                            th:text="${applicantList.job.title}"></a></h5>
-                                                    <span class="me-2 display-30 text-muted"
-                                                          th:text="${applicantList.job.category.name}"></span>
-                                                    <span class="me-2 display-30 text-muted"><i
-                                                            class="ti-location-pin pe-1"
-                                                            th:text="${applicantList.job.country.countryName}"></i></span>
+                                                    <h5 class="mb-1">
+                                                        <a th:href="@{'/jobs/item/' + ${applicantList.job.id}}" th:text="${applicantList.job.title}"></a>
+                                                    </h5>
+                                                    <span class="me-2 display-30 text-muted" th:text="${applicantList.job.category.name}"></span>
+                                                    <span class="me-2 display-30 text-muted">
+                                        <i class="ti-location-pin pe-1" th:text="${applicantList.job.country.countryName}"></i>
+                                    </span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td th:text="${#dates.format(applicantList.sendDate,'MMM dd, yyyy')}"></td>
                                         <td class="jobapplies-status">
-                                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
-                                                  class="text-warning font-weight-600"
-                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
+                            <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
+                                  class="text-warning font-weight-600"
+                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'APPROVED'}"
                                                   class="text-success font-weight-600"
                                                   th:text="${applicantList.applicantListStatus.getName()}"></span>
@@ -228,17 +199,19 @@
                                         </td>
                                         <td>
                                             <ul class="action-list">
-                                                <li><a th:href="@{'/resumes/item/' + ${applicantList.resume.id}}"><span
-                                                        class="ti-eye"></span></a></li>
+
+                                                <li>
+                                                    <a th:href="@{'/resumes/item/' + ${applicantList.resume.id}}">
+                                                        <span class="ti-eye"></span>
+                                                    </a>
+                                                </li>
                                                 <li th:if="${applicantList.applicantListStatus.name() == 'WAITING'}">
-                                                    <a href="#!" class="approve-job"
-                                                       th:data-jobapply-id="${applicantList.id}">
+                                                    <a href="#!" class="approve-job" th:data-jobapply-id="${applicantList.id}">
                                                         <span class="ti-check"></span>
                                                     </a>
                                                 </li>
                                                 <li th:if="${applicantList.applicantListStatus.name() == 'WAITING'}">
-                                                    <a href="#!" class="reject-job"
-                                                       th:data-jobapply-id="${applicantList.id}">
+                                                    <a href="#!" class="reject-job" th:data-jobapply-id="${applicantList.id}">
                                                         <span class="ti-close"></span>
                                                     </a>
                                                 </li>
@@ -250,6 +223,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <div class="row">
                         <div class="col-sm-12">

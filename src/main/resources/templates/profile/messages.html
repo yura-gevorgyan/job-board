@@ -63,39 +63,23 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-5">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Messages Chat</h3>
+                            <h3 class="mb-3" th:text="#{messages.chat.title}">Messages Chat</h3>
                         </div>
                         <div class="col-xl-4 mb-2-2 mb-xl-0">
                             <div class="dashboard-title">
-                                <h5 class="mb-0">Messages</h5>
+                                <h5 class="mb-0" th:text="#{messages.chat.messages}">Messages</h5>
                             </div>
                             <div class="dashboard-widget left-dashboard">
                                 <div class="row mb-4">
                                     <div class="col-md-12">
                                         <div class="search-bar">
                                             <input class="search__chat" type="search" name="search"
-                                                   placeholder="Search here ...">
+                                                   th:placeholder="#{messages.chat.searchPlaceholder}">
                                         </div>
                                     </div>
                                 </div>
                                 <ul id="connectedUsers" class="message-list">
-                                    <li>
-                                        <a href="#!">
-                                            <div class="d-sm-flex justify-content-between">
-                                                <div class="d-flex mb-2 mb-sm-0">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="position-relative">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </a>
-                                    </li>
+                                    <!-- Content dynamically generated -->
                                 </ul>
                             </div>
                         </div>
@@ -105,30 +89,29 @@
                                     <div class="d-flex align-items-center mb-3 mb-sm-0">
                                         <div class="flex-shrink-0">
                                             <div class="position-relative" id="userArea">
-
+                                                <!-- Content dynamically generated -->
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3" id="userNameArea">
-
+                                            <!-- Content dynamically generated -->
                                         </div>
                                     </div>
                                     <div>
-                                        <a href="#!"><span id="openModalBtn" class="text-danger"><i
-                                                class="ti-trash pe-2 vertical-align-middle"></i>Delete Conversation</span></a>
+                                        <a href="#!" th:href="@{'#!'}"><span id="openModalBtn" class="text-danger"><i
+                                                class="ti-trash pe-2 vertical-align-middle"></i><span th:text="#{messages.chat.deleteConversation}">Delete Conversation</span></span></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="dashboard-widget chat-area" id="chat-merssages">
-
+                                <!-- Content dynamically generated -->
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <form id="messageForm" name="messageForm">
                                         <div class="message-bar">
-                                            <input type="text" id="message" placeholder="Type message ...">
+                                            <input type="text" id="message" th:placeholder="#{messages.chat.typeMessage}">
                                             <button type="submit" style="border: none; background-color: white"
                                                     class="btn-msg-send"><i class="far fa-paper-plane"></i></button>
-
                                         </div>
                                     </form>
                                 </div>
@@ -137,22 +120,20 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div id="myModal" class="modal-pop">
-            <div class="modal-content-pop">
-                <span class="close-pop close">&times;</span>
-                <div class="alert-pop">
-                    <strong class="cnt">Are you sure you want to delete this conversation?</strong>
-                    <p class="cnt">This conversation cannot be recovered.</p>
-                </div>
-                <div class="modal-footer-pop">
-                    <button id="deleteBtn">Delete</button>
+            <div id="myModal" class="modal-pop">
+                <div class="modal-content-pop">
+                    <span class="close-pop close">&times;</span>
+                    <div class="alert-pop">
+                        <strong class="cnt" th:text="#{messages.chat.confirmDeleteTitle}">Are you sure you want to delete this conversation?</strong>
+                        <p class="cnt" th:text="#{messages.chat.confirmDeleteContent}">This conversation cannot be recovered.</p>
+                    </div>
+                    <div class="modal-footer-pop">
+                        <button id="deleteBtn" th:text="#{messages.chat.deleteButton}">Delete</button>
+                    </div>
                 </div>
             </div>
         </div>
-
-
     </section>
 
     <div class="hidden" id="fromUserId" th:text="${fromUserId}"></div>

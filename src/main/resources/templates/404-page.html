@@ -52,14 +52,14 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-xl-6 text-center my-5">
                     <img src="/img/content/error-404.png" class="mb-1-9 mb-sm-2-5 mb-lg-6" alt="...">
-                    <h2 class="h1 mb-1-6 text-white">Sorry, An error occurred, Please try again later</h2>
-                    <p class="mb-1-6 mb-lg-2-5 text-white opacity9 mx-auto">We can’t locate the web page your are
-                        searching for. You can test out our Help Center or head again to Homepage.</p>
-                    <a href="/" class="butn ms-2 ms-sm-0 mt-2 mt-sm-0">Back To Home</a>
+                    <h2 class="h1 mb-1-6 text-white" th:text="#{error_occurred}">Sorry, An error occurred, Please try again later</h2>
+                    <p class="mb-1-6 mb-lg-2-5 text-white opacity9 mx-auto" th:text="#{error_description}">We can’t locate the web page your are searching for. You can test out our Help Center or head again to Homepage.</p>
+                    <a href="/" class="butn ms-2 ms-sm-0 mt-2 mt-sm-0" th:text="#{back_to_home}">Back To Home</a>
                 </div>
             </div>
         </div>
     </div>
+
 
 </div>
 <!-- start scroll to top -->

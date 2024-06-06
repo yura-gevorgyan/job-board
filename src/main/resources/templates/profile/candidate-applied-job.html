@@ -93,12 +93,12 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-2">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Applied Jobs</h3>
+                            <h3 class="mb-3" th:text="#{appliedJobs.title}">Applied Jobs</h3>
                             <span th:if="${createResumeMsg != null}">
                                 <div class="alert alert-warning alert-dismissible">
                                     <strong th:text="${createResumeMsg}"></strong>
                                     <button type="button" class="btn btn-outline-warning">
-                                        <a href="/profile/resume">Create Resume ?</a>
+                                        <a href="/profile/resume" th:text="#{appliedJobs.createResumeMsg}">Create Resume ?</a>
                                     </button>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
@@ -109,50 +109,55 @@
                             <div class="dashboard-title">
                                 <div class="d-md-flex justify-content-between align-items-center">
                                     <div class="mb-4 mb-md-0">
-                                        <h4 class="mb-0 h5">Job Applies<span class="text-primary"> History</span>
-                                        </h4>
+                                        <h4 class="mb-0 h5" th:text="#{appliedJobs.jobAppliesHistory}">Job Applies
+                                            History</h4>
                                     </div>
                                     <div class="quform-elements">
                                         <div class="row align-items-center">
                                             <form action="/applicant/list/search" method="get" class="d-flex">
                                                 <input class="form-control border-radius-10 me-2" id="search"
-                                                       type="text" placeholder="Search">
+                                                       type="text" placeholder="#{appliedJobs.searchPlaceholder}">
                                                 <select id="status"
                                                         class="form-control form-select border-radius-10 me-2"
                                                         name="status">
-                                                    <option value="0">Choose Status</option>
+                                                    <option value="0" th:text="#{appliedJobs.chooseStatus}">Choose
+                                                        Status
+                                                    </option>
                                                     <option value="WAITING"
-                                                            th:selected="${currentStatus != null && ('WAITING' == currentStatus)}">
-                                                        Waiting
+                                                            th:selected="${currentStatus != null && ('WAITING' == currentStatus)}"
+                                                            th:text="#{appliedJobs.statusWaiting}">Waiting
                                                     </option>
                                                     <option value="APPROVED"
-                                                            th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}">
-                                                        Approved
+                                                            th:selected="${currentStatus != null && ('APPROVED' == currentStatus)}"
+                                                            th:text="#{appliedJobs.statusApproved}">Approved
                                                     </option>
                                                     <option value="REJECTED"
-                                                            th:selected="${currentStatus != null && ('REJECTED' == currentStatus)}">
-                                                        Rejected
+                                                            th:selected="${currentStatus != null && ('REJECTED' == currentStatus)}"
+                                                            th:text="#{appliedJobs.statusRejected}">Rejected
                                                     </option>
                                                 </select>
                                                 <select id="date" class="form-control form-select border-radius-10 me-2"
                                                         name="date">
-                                                    <option value="">Choose Date</option>
+                                                    <option value="" th:text="#{appliedJobs.chooseDate}">Choose Date
+                                                    </option>
                                                     <option value="day"
-                                                            th:selected="${currentDate != null && (currentDate == 'day')}">
-                                                        Last Day
+                                                            th:selected="${currentDate != null && (currentDate == 'day')}"
+                                                            th:text="#{appliedJobs.lastDay}">Last Day
                                                     </option>
                                                     <option value="week"
-                                                            th:selected="${currentDate != null && (currentDate == 'week')}">
-                                                        Last Week
+                                                            th:selected="${currentDate != null && (currentDate == 'week')}"
+                                                            th:text="#{appliedJobs.lastWeek}">Last Week
                                                     </option>
                                                     <option value="month"
-                                                            th:selected="${currentDate != null && (currentDate == 'month')}">
-                                                        Last Month
+                                                            th:selected="${currentDate != null && (currentDate == 'month')}"
+                                                            th:text="#{appliedJobs.lastMonth}">Last Month
                                                     </option>
                                                 </select>
                                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                                <button type="submit" class="not-border"><a
-                                                        class="butn secondary text-white">Search</a></button>
+                                                <button type="submit" class="not-border">
+                                                    <a class="butn secondary text-white"
+                                                       th:text="#{appliedJobs.searchButton}">Search</a>
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -162,17 +167,18 @@
 
                         <div class="dashboard-widget">
                             <div class="table-responsive">
-                                        <span style="justify-content: center"
-                                              th:if="${applicantLists == null or applicantListCount == 0}">
-                                               <h2>Job applies are not found.</h2>
-                                            </span>
+                                <span style="justify-content: center"
+                                      th:if="${applicantLists == null or applicantListCount == 0}">
+                                    <h2 th:text="#{appliedJobs.notFound}">Job applies are not found.</h2>
+                                </span>
+
                                 <table class="table custome-table2">
                                     <thead th:if="${applicantLists != null and applicantListCount != 0}">
                                     <tr>
-                                        <th>Title</th>
-                                        <th>Date Applied</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th th:text="#{appliedJobs.tableTitle}">Title</th>
+                                        <th th:text="#{appliedJobs.tableDateApplied}">Date Applied</th>
+                                        <th th:text="#{appliedJobs.tableStatus}">Status</th>
+                                        <th th:text="#{appliedJobs.tableAction}">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -184,14 +190,16 @@
                                                          width="80px" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-xl-3">
-                                                    <h5 class="mb-1"><a
-                                                            th:href="@{'/jobs/item/' + ${applicantList.job.id}}"
-                                                            th:text="${applicantList.job.title}"></a></h5>
+                                                    <h5 class="mb-1">
+                                                        <a th:href="@{'/jobs/item/' + ${applicantList.job.id}}"
+                                                           th:text="${applicantList.job.title}"></a>
+                                                    </h5>
                                                     <span class="me-2 display-30 text-muted"
                                                           th:text="${applicantList.job.category.name}"></span>
-                                                    <span class="me-2 display-30 text-muted"><i
-                                                            class="ti-location-pin pe-1"
-                                                            th:text="${applicantList.job.country.countryName}"></i></span>
+                                                    <span class="me-2 display-30 text-muted">
+                                    <i class="ti-location-pin pe-1"
+                                       th:text="${applicantList.job.country.countryName}"></i>
+                                </span>
                                                 </div>
                                             </div>
                                         </td>
@@ -199,13 +207,13 @@
                                         <td>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'WAITING'}"
                                                   class="text-warning font-weight-600"
-                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  th:text="#{appliedJobs.statusWaitingLabel}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'APPROVED'}"
                                                   class="text-success font-weight-600"
-                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  th:text="#{appliedJobs.statusApprovedLabel}"></span>
                                             <span th:if="${applicantList.applicantListStatus != null && applicantList.applicantListStatus.name() == 'REJECTED'}"
                                                   class="text-danger font-weight-600"
-                                                  th:text="${applicantList.applicantListStatus.getName()}"></span>
+                                                  th:text="#{appliedJobs.statusRejectedLabel}"></span>
                                         </td>
                                         <td>
                                             <ul class="action-list">
@@ -222,80 +230,80 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- start pager  -->
-                            <div th:if="${totalPages != 0 && totalPages != null}" class="text-center mt-6">
-                                <div class="pagination text-primary">
-                                    <ul>
-                                        <li th:if="${searchIndex == 0}"
-                                            th:class="${index <= 1 ? 'disabled' : ''}">
-                                            <a th:href="@{'/applicant/list/' + ${index - 1}}"
-                                               aria-label="Previous">
-                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
-                                            </a>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- start pager  -->
+                        <div th:if="${totalPages != 0 && totalPages != null}" class="text-center mt-6">
+                            <div class="pagination text-primary">
+                                <ul>
+                                    <li th:if="${searchIndex == 0}"
+                                        th:class="${index <= 1 ? 'disabled' : ''}">
+                                        <a th:href="@{'/applicant/list/' + ${index - 1}}"
+                                           aria-label="Previous">
+                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                        </a>
+                                    </li>
+                                    <li th:if="${index == 0}"
+                                        th:class="${searchIndex <= 1 ? 'disabled' : ''}">
+                                        <a th:if="${searchIndex == 1}"
+                                           th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
+                                           aria-label="Previous">
+                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                        </a>
+                                        <a th:if="${searchIndex != 1}"
+                                           th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex - 1}}"
+                                           aria-label="Previous">
+                                            <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
+                                        </a>
+                                    </li>
+
+
+                                    <th:block th:if="${searchIndex == 0}"
+                                              th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                        <li>
+                                            <a th:href="@{'/applicant/list/' + ${pageNum}}"
+                                               th:text="${pageNum}"></a>
                                         </li>
-                                        <li th:if="${index == 0}"
-                                            th:class="${searchIndex <= 1 ? 'disabled' : ''}">
-                                            <a th:if="${searchIndex == 1}"
-                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
-                                               aria-label="Previous">
-                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
-                                            </a>
-                                            <a th:if="${searchIndex != 1}"
-                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex - 1}}"
-                                               aria-label="Previous">
-                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Prev
-                                            </a>
+                                    </th:block>
+                                    <th:block th:if="${index == 0}"
+                                              th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                        <li>
+                                            <a th:href="@{'/applicant/list/search?' + ${url} + ${pageNum}}"
+                                               th:text="${pageNum}"></a>
                                         </li>
+                                    </th:block>
 
 
-                                        <th:block th:if="${searchIndex == 0}"
-                                                  th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                                            <li>
-                                                <a th:href="@{'/applicant/list/' + ${pageNum}}"
-                                                   th:text="${pageNum}"></a>
-                                            </li>
-                                        </th:block>
-                                        <th:block th:if="${index == 0}"
-                                                  th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                                            <li>
-                                                <a th:href="@{'/applicant/list/search?' + ${url} + ${pageNum}}"
-                                                   th:text="${pageNum}"></a>
-                                            </li>
-                                        </th:block>
-
-
-                                        <li th:if="${searchIndex == 0}"
-                                            th:class="${index >= totalPages ? 'disabled' : ''}">
-                                            <a th:if="${index != totalPages}"
-                                               th:href="@{'/applicant/list/' + ${index + 1}}" aria-label="Next">
-                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
-                                            </a>
-                                            <a th:if="${index == totalPages}" th:href="@{'/applicant/list/' + ${index}}"
-                                               aria-label="Next">
-                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
-                                            </a>
-                                        </li>
-                                        <li th:if="${index == 0}"
-                                            th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
-                                            <a th:if="${searchIndex != totalPages}"
-                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex + 1}}"
-                                               aria-label="Next">
-                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
-                                            </a>
-                                            <a th:if="${searchIndex == totalPages}"
-                                               th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
-                                               aria-label="Next">=
-                                                Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                    <li th:if="${searchIndex == 0}"
+                                        th:class="${index >= totalPages ? 'disabled' : ''}">
+                                        <a th:if="${index != totalPages}"
+                                           th:href="@{'/applicant/list/' + ${index + 1}}" aria-label="Next">
+                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                        </a>
+                                        <a th:if="${index == totalPages}" th:href="@{'/applicant/list/' + ${index}}"
+                                           aria-label="Next">
+                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                        </a>
+                                    </li>
+                                    <li th:if="${index == 0}"
+                                        th:class="${searchIndex >= totalPages ? 'disabled' : ''}">
+                                        <a th:if="${searchIndex != totalPages}"
+                                           th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex + 1}}"
+                                           aria-label="Next">
+                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                        </a>
+                                        <a th:if="${searchIndex == totalPages}"
+                                           th:href="@{'/applicant/list/search?' + ${url} + ${searchIndex}}"
+                                           aria-label="Next">=
+                                            Next <i class="fas fa-long-arrow-alt-right ms-2"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <!-- end pager -->
                         </div>
+                        <!-- end pager -->
                     </div>
                 </div>
             </div>

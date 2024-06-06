@@ -62,7 +62,7 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-5">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Candidate Profile</h3> <br>
+                            <h3 class="mb-3" th:text="#{candidateProfile}">Candidate Profile</h3> <br>
                             <span th:if="${msg != null}">
                                 <div class="alert alert-danger alert-dismissible">
                                     <strong th:text="${msg}"></strong>
@@ -71,195 +71,201 @@
                                 </div>
                             </span>
                         </div>
+
                         <span th:if="${resume == null}">
-                             <div class="col-lg-12 mb-2-2">
-                            <div class="dashboard-title">
-                                <h5 class="mb-0">My Profile</h5> <br>
-                                <div class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
-                                    <img id="previewImg" src="/img/avatar/userDefault.png" width="80px" alt="..."
-                                         class="border-radius-50">
+                            <div class="col-lg-12 mb-2-2">
+                                <div class="dashboard-title">
+                                    <h5 class="mb-0" th:text="#{myProfile}">My Profile</h5> <br>
+                                    <div class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
+                                        <img id="previewImg" src="/img/avatar/userDefault.png" width="80px" alt="..."
+                                             class="border-radius-50">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="dashboard-widget">
-                                <form action="/resumes/create" method="post" enctype="multipart/form-data" onclick="">
-                                    <div class="quform-elements">
-                                        <div class="row">
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <div class="quform-input">
-                                                        <label for="picNamee">Browse Picture</label>
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input" type="file" id="picNamee"
-                                                                   name="picture"/>
-                                                            <label class="custom-file-label" data-browse="Browse">Choose file</label>
+                                <div class="dashboard-widget">
+                                    <form action="/resumes/create" method="post" enctype="multipart/form-data"
+                                          onclick="">
+                                        <div class="quform-elements">
+                                            <div class="row">
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-12">
+                                                    <div class="quform-element form-group">
+                                                        <div class="quform-input">
+                                                            <label th:text="#{browsePicture}" for="picNamee">Browse Picture</label>
+                                                            <div class="custom-file">
+                                                                <input class="custom-file-input" type="file"
+                                                                       id="picNamee" name="picture"/>
+                                                                <label class="custom-file-label" data-browse="Browse"
+                                                                       th:text="#{browsePicture}">Choose file</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                            <!-- Begin Text input element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="profession">Profession</label>
-                                                    <div class="quform-input">
-                                                        <input id="profession" class="form-control" type="text"
-                                                               name="profession" placeholder="Enter your profession "/>
+                                                <!-- End Select element -->
+                                                <!-- Begin Text input element -->
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{profession}"
+                                                               for="profession">Profession</label>
+                                                        <div class="quform-input">
+                                                            <input id="profession" class="form-control" type="text"
+                                                                   name="profession"
+                                                                   placeholder="Enter your profession "/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Text input element -->
-
-                                            <!-- Begin Text input element -->
-                                           <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label>Location</label>
-                                                    <div class="quform-input">
-                                                        <select id="country"
-                                                                class="form-control form-select border-radius-10"
-                                                                name="country">
-                                                            <option value="0">Choose Country</option>
-                                                            <option th:each="country : ${countries}"
-                                                                    th:value="${country.id}"
-                                                                    th:text="${country.countryName}">
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Text input element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="phoneNum">Phone</label>
-                                                    <div class="quform-input">
-                                                        <input class="form-control" id="phoneNum" type="text"
-                                                               name="phone"
-                                                               placeholder="Enter Your Phone">
+                                                <!-- End Text input element -->
+                                                <!-- Begin Text input element -->
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{location}">Location</label>
+                                                        <div class="quform-input">
+                                                            <select id="country"
+                                                                    class="form-control form-select border-radius-10"
+                                                                    name="country">
+                                                                <option value="0"
+                                                                        th:text="#{country}">Choose Country</option>
+                                                                <option th:each="country : ${countries}"
+                                                                        th:value="${country.id}"
+                                                                        th:text="${country.countryName}"></option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                            </div>
+                                                <!-- Begin Text input element -->
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{phone}" for="phoneNum">Phone</label>
+                                                        <div class="quform-input">
+                                                            <input class="form-control" id="phoneNum" type="text"
+                                                                   name="phone"
+                                                                   placeholder="Enter Your Phone">
+                                                        </div>
+                                                    </div>
 
-                                            <!-- Begin Text input element for Birth Date -->
-                                                  <div class="col-md-6">
-                                                      <div class="quform-element form-group">
-                                                          <label for="birthDate">Birth Date</label>
-                                                          <div class="quform-input">
-                                                              <input class="form-control" id="birthDate" type="date"
-                                                                     name="birthDate"
-                                                                     placeholder="Enter your birth date">
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                            <!-- End Text input element for Birth Date -->
+                                                </div>
 
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-3">
-                                                <div class="quform-element form-group">
-                                                    <label for="currentsalary">Expected Salary</label>
-                                                    <div class="quform-input">
-                                                        <input class="form-control" id="currentsalary" type="number"
-                                                               name="expectedSalary"
-                                                               placeholder="Enter your expected salary">
+                                                <!-- Begin Text input element for Birth Date -->
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{birthDate}" for="birthDate">Birth Date</label>
+                                                        <div class="quform-input">
+                                                            <input class="form-control" id="birthDate" type="date"
+                                                                   name="birthDate"
+                                                                   placeholder="Enter your birth date">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Select element -->
+                                                <!-- End Text input element for Birth Date -->
 
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="experiencee">Experience</label>
-                                                    <div class="quform-input">
-                                                          <select id="experiencee" class="form-control form-select"
-                                                                  name="workExperience">
-                                                            <option value="" disabled selected>Select Experience
-                                                            </option>
-                                                            <option th:each="experience : ${workExperience}"
-                                                                    th:value="${experience}"
-                                                                    th:text="${experience.experience}"></option>
-                                                        </select>
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-3">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{expectedSalary}" for="currentsalary">Expected Salary</label>
+                                                        <div class="quform-input">
+                                                            <input class="form-control" id="currentsalary" type="number"
+                                                                   name="expectedSalary"
+                                                                   placeholder="Enter your expected salary">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Select element -->
+                                                <!-- End Select element -->
 
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="categoryy">Category</label>
-                                                    <div class="quform-input">
-                                                         <select id="categoryy" class="form-control form-select"
-                                                                 name="category.id">
-                                                            <option value="" disabled selected>Choose Category</option>
-                                                            <option th:if="${categories != null and not #lists.isEmpty(categories)}"
-                                                                    th:each="category : ${categories}"
-                                                                    th:text="${category.name}"
-                                                                    th:value="${category.id}">
-                                                            </option>
-                                                        </select>
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{experience}"
+                                                               for="experiencee">Experience</label>
+                                                        <div class="quform-input">
+                                                            <select id="experiencee" class="form-control form-select"
+                                                                    name="workExperience">
+                                                                <option value="" disabled selected
+                                                                        th:text="#{experience}">Select Experience</option>
+                                                                <option th:each="experience : ${workExperience}"
+                                                                        th:value="${experience}"
+                                                                        th:text="${experience.experience}"></option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Select element -->
+                                                <!-- End Select element -->
 
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="genderResume">Gender</label>
-                                                    <div class="quform-input">
-                                                        <select id="genderResume" class="form-control form-select"
-                                                                name="gender">
-                                                            <option value="" disabled selected>Select Gender</option>
-                                                            <option th:each="genderResume : ${gender}"
-                                                                    th:value="${genderResume}"
-                                                                    th:text="${genderResume}"></option>
-                                                        </select>
+                                                <!-- Begin Select element -->
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{category}" for="categoryy">Category</label>
+                                                        <div class="quform-input">
+                                                            <select id="categoryy" class="form-control form-select"
+                                                                    name="category.id">
+                                                                <option value="" disabled selected
+                                                                        th:text="#{category}">Choose Category</option>
+                                                                <option th:if="${categories != null and not #lists.isEmpty(categories)}"
+                                                                        th:each="category : ${categories}"
+                                                                        th:text="${category.name}"
+                                                                        th:value="${category.id}"></option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Select element -->
+                                                <!-- End Select element -->
 
-                                            <!-- Begin Textarea element -->
-                                            <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <label for="description">Description</label>
-                                                    <div class="quform-input">
+                                                <div class="col-md-6">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{gender}" for="genderResume">Gender</label>
+                                                        <div class="quform-input">
+                                                            <select id="genderResume" class="form-control form-select"
+                                                                    name="gender">
+                                                                <option value="" disabled selected
+                                                                        th:text="#{gender}">Select Gender</option>
+                                                                <option th:each="genderResume : ${gender}"
+                                                                        th:value="${genderResume}"
+                                                                        th:text="${genderResume}"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Select element -->
+
+                                                <!-- Begin Textarea element -->
+                                                <div class="col-md-12">
+                                                    <div class="quform-element form-group">
+                                                        <label th:text="#{description}"
+                                                               for="description">Description</label>
+                                                        <div class="quform-input">
                                                             <textarea id="description" class="form-control"
-                                                                      name="description"
-                                                                      rows="6"
+                                                                      name="description" rows="6"
                                                                       placeholder="How'd you hear description"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- End Textarea element -->
+                                                <!-- End Textarea element -->
 
 
-                                            <!-- Begin Submit button -->
-                                            <div class="col-md-12">
-                                                <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Save Changes</span>
-                                                    </button>
+                                                <!-- Begin Submit button -->
+                                                <div class="col-md-12">
+                                                    <div class="quform-submit-inner">
+                                                        <button class="butn" type="submit"
+                                                                th:text="#{saveChanges}"><span>Save Changes</span></button>
+                                                    </div>
+                                                    <div class="quform-loading-wrap"><span
+                                                            class="quform-loading"></span></div>
                                                 </div>
-                                                <div class="quform-loading-wrap"><span class="quform-loading"></span>
-                                                </div>
-                                            </div>
-                                            <!-- End Submit button -->
+                                                <!-- End Submit button -->
 
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
                         </span>
 
                         <span th:if="${resume != null}">
                              <div class="col-lg-12 mb-2-2">
                             <div class="dashboard-title">
-                            <h5 class="mb-0">My Profile</h5> <br>
+                            <h5 class="mb-0" th:text="#{myProfile}">My Profile</h5> <br>
                             <div class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
-                                <img id="previewImage" th:src="@{/getImage(picName=${resume.picName})}" width="80px" alt="..." class="border-radius-50">
+                                <img id="previewImage" th:src="@{/getImage(picName=${resume.picName})}" width="80px"
+                                     alt="..." class="border-radius-50">
                             </div>
                             </div>
                             <div class="dashboard-widget">
@@ -275,12 +281,13 @@
                                                 <!-- Begin Select element -->
                                                <div class="col-md-12">
                                                  <div class="quform-element form-group">
-                                                     <label for="picName">Browse Logo</label>
+                                                     <label for="picName" th:text="#{browsePicture}">Browse Logo</label>
                                                      <div class="custom-file">
                                                          <input class="custom-file-input" type="file" id="picName"
                                                                 name="picture"
                                                                 onchange="" th:value="${resume.getPicName()}">
-                                                         <label class="custom-file-label" data-browse="Browse">Choose file</label>
+                                                         <label class="custom-file-label" data-browse="Browse"
+                                                                th:text="#{browsePicture}">Choose file</label>
                                                      </div>
                                                  </div>
                                              </div>
@@ -290,7 +297,7 @@
                                                 <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="profession">Profession</label>
+                                                    <label for="profession" th:text="#{profession}">Profession</label>
                                                     <div class="quform-input">
                                                         <input id="professionn" class="form-control" type="text"
                                                                name="profession"
@@ -304,7 +311,7 @@
                                                 <!-- Begin Text input element -->
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label>Phone</label>
+                                                        <label th:text="#{phone}">Phone</label>
                                                         <div class="quform-input">
                                                             <input class="form-control" id="phoneNumber" type="text"
                                                                    name="phone" th:value="${resume.phone}">
@@ -315,11 +322,12 @@
 
                                                   <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label>Location</label>
+                                                    <label th:text="#{location}">Location</label>
                                                     <div class="quform-input">
                                                         <select class="form-control form-select border-radius-10"
                                                                 name="country">
-                                                            <option value="0">Choose Country</option>
+                                                            <option value="0"
+                                                                    th:text="#{country}">Choose Country</option>
                                                             <option th:each="country : ${countries}"
                                                                     th:value="${country.id}"
                                                                     th:selected="${resume.country != null && country.id == resume.country.id}"
@@ -333,7 +341,8 @@
                                                 <!-- Begin Text input element for Birth Date -->
                                                   <div class="col-md-6">
                                                       <div class="quform-element form-group">
-                                                          <label for="birthDatte">Birth Date</label>
+                                                          <label for="birthDatte"
+                                                                 th:text="#{birthDate}">Birth Date</label>
                                                           <div class="quform-input">
                                                               <input class="form-control" id="birthDatte" type="date"
                                                                      name="birthDate"
@@ -347,7 +356,7 @@
                                                 <!-- Begin Select element -->
                                                 <div class="col-md-3">
                                                     <div class="quform-element form-group">
-                                                        <label for="expectedSalaryy">Expected Salary</label>
+                                                        <label for="expectedSalaryy" th:text="#{expectedSalary}">Expected Salary</label>
                                                         <input class="form-control" id="expectedSalaryy"
                                                                type="number"
                                                                name="expectedSalary"
@@ -360,7 +369,8 @@
                                             <!-- Experience Select element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="experienceResume">Experience</label>
+                                                    <label for="experienceResume"
+                                                           th:text="#{experience}">Experience</label>
                                                     <div class="quform-input">
                                                         <select id="experienceResume" class="form-control form-select"
                                                                 name="workExperience">
@@ -379,7 +389,7 @@
                                             <!-- Category Select element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="categoryResume">Category</label>
+                                                    <label for="categoryResume" th:text="#{category}">Category</label>
                                                     <div class="quform-input">
                                                         <select id="categoryResume" class="form-control form-select"
                                                                 name="category.id">
@@ -398,7 +408,7 @@
                                             <!-- Gender Select element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="gender">Gender</label>
+                                                    <label for="gender" th:text="#{gender}">Gender</label>
                                                     <div class="quform-input">
                                                         <select id="gender" class="form-control form-select"
                                                                 name="gender">
@@ -417,7 +427,8 @@
                                             <!-- Begin Textarea element -->
                                             <div class="col-md-12">
                                                 <div class="quform-element form-group">
-                                                    <label for="description">Description</label>
+                                                    <label for="description"
+                                                           th:text="#{description}">Description</label>
                                                     <div class="quform-input">
                                                             <textarea id="massage" class="form-control"
                                                                       name="description"
@@ -431,7 +442,7 @@
                                             <!-- Begin Submit button -->
                                             <div class=" col-md-12">
                                                 <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Save Changes</span>
+                                                    <button class="butn" type="submit" th:text="#{saveChanges}"><span>Save Changes</span>
                                                     </button>
                                                 </div>
                                                 <div class="quform-loading-wrap"><span
@@ -443,11 +454,10 @@
                             </div>
                         </div>
                     </span>
-
+                    </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 </div>
 <!-- BUY TEMPLATE

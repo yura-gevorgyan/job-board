@@ -62,7 +62,7 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-5">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Post New Job</h3> <br>
+                            <h3 class="mb-3" th:text="#{job.post.publishWorkTitle}">Post New Job</h3> <br>
                             <span th:if="${msg != null}">
                                 <div class="alert alert-danger alert-dismissible">
                                     <strong th:text="${msg}"></strong>
@@ -72,319 +72,324 @@
                             </span>
                         </div>
                         <span th:if="${job == null}">
-                             <div class="col-lg-12 mb-2-2">
-                            <div class="dashboard-title">
-                                <h5 class="mb-0">Post Job Advertisement</h5> <br>
-                                <div th:if="${currentUser.role.name() == 'EMPLOYEE'}"
-                                     class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
-                                    <img id="previewImg" src="/img/avatar/images.png" width="80px" alt="..."
-                                         class="border-radius-50">
-                                </div>
-                            </div>
-                            <div class="dashboard-widget">
-                                <form th:action="${currentUser.role.name() == 'EMPLOYEE' ? '/jobs/create' : '/jobs/create/company'}"
-                                      method="post" enctype="multipart/form-data">
-                                    <div class="quform-elements">
-                                        <div class="row">
-                                            <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
-                                                <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <div class="quform-input">
-                                                        <label for="picNamee">Browse Picture</label>
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input" type="file" id="picNamee"
-                                                                   name="picture"/>
-                                                            <label class="custom-file-label" data-browse="Browse">Choose file</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </span>
-
-                                            <!-- Begin Text input element -->
-                                            <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <label for="job-title">Job Title</label>
-                                                    <div class="quform-input">
-                                                        <input id="job-title" class="form-control" type="text"
-                                                               name="title" placeholder="Enter Job Title">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="category">Job Category</label>
-                                                    <div class="quform-input">
-                                                        <select id="category" class="form-control form-select"
-                                                                name="categoryId">
-                                                            <option value="" disabled selected>Choose Category</option>
-                                                            <option th:each="category : ${categories}"
-                                                                    th:text="${category.name}"
-                                                                    th:value="${category.id}"></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="status">Job Status</label>
-                                                    <div class="quform-input">
-                                                        <select id="status" class="form-control form-select"
-                                                                name="jobStatus">
-                                                            <option value="" disabled selected>Select Status</option>
-                                                            <option th:each="jobStatus : ${status}"
-                                                                    th:value="${jobStatus}"
-                                                                    th:text="${jobStatus.name}"></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="experience">Experience</label>
-                                                    <div class="quform-input">
-                                                        <select id="experience" class="form-control form-select"
-                                                                name="experience">
-                                                            <option value="" disabled selected>Select Experience
-                                                            </option>
-                                                            <option th:each="experience : ${workExperience}"
-                                                                    th:value="${experience}"
-                                                                    th:text="${experience.experience}"></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="offered-salary">Offered Salary</label>
-                                                    <div class="quform-input">
-                                                        <input id="offered-salary" class="form-control" type="number"
-                                                               name="salary" placeholder="Enter Average Salary" min="0"
-                                                               max="10000000">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label>Location</label>
-                                                    <div class="quform-input">
-                                                        <select id="country"
-                                                                class="form-control form-select border-radius-10"
-                                                                name="country">
-                                                            <option value="0">Choose Country</option>
-                                                            <option th:each="country : ${countries}"
-                                                                    th:value="${country.id}"
-                                                                    th:text="${country.countryName}">
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <label for="job-description">Job Description</label>
-                                                    <div class="quform-input">
-                                                        <textarea id="job-description" class="form-control"
-                                                                  name="description" rows="6"
-                                                                  placeholder="Tell about job in details..."></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Submit button -->
-                                            <div class="col-md-12">
-                                                <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Publish Work</span>
-                                                    </button>
-                                                </div>
-                                                <div class="quform-loading-wrap"><span class="quform-loading"></span>
-                                                </div>
-                                            </div>
-                                            <!-- End Submit button -->
-
+    <div class="col-lg-12 mb-2-2">
+        <div class="dashboard-title">
+            <h5 class="mb-0" th:text="#{job.post.title}">Post Job Advertisement</h5> <br>
+            <div th:if="${currentUser.role.name() == 'EMPLOYEE'}"
+                 class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
+                <img id="previewImg" src="/img/avatar/images.png" width="80px" alt="..."
+                     class="border-radius-50">
+            </div>
+        </div>
+        <div class="dashboard-widget">
+            <form th:action="${currentUser.role.name() == 'EMPLOYEE' ? '/jobs/create' : '/jobs/create/company'}"
+                  method="post" enctype="multipart/form-data">
+                <div class="quform-elements">
+                    <div class="row">
+                        <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
+                            <div class="col-md-12">
+                                <div class="quform-element form-group">
+                                    <div class="quform-input">
+                                        <label for="picNamee" th:text="#{job.post.browsePicture}">Browse Picture</label>
+                                        <div class="custom-file">
+                                            <input class="custom-file-input" type="file" id="picNamee"
+                                                   name="picture"/>
+                                            <label class="custom-file-label" data-browse="Browse"
+                                                   th:text="#{job.post.chooseFile}">Choose file</label>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-
-                             </div>
-                    </span>
-                        <span th:if="${job != null}">
-                             <div class="col-lg-12 mb-2-2">
-                            <div class="dashboard-title">
-                                <h5 class="mb-0">Post Job Advertisement</h5> <br>
-                                <div th:if="${currentUser.role.name() == 'EMPLOYEE'}"
-                                     class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
-                                    <img id="previewImage" th:src="@{/getImage(picName=${job.logoName})}" width="80px" alt="..."
-                                         class="border-radius-50">
                                 </div>
                             </div>
-                            <div class="dashboard-widget">
-                                <form th:action="${currentUser.role.name() == 'EMPLOYEE' ? '/jobs/update' : '/jobs/update/company'}" method="post" enctype="multipart/form-data" onclick="">
-                                    <div class="quform-elements">
-                                        <div class="row">
-                                            <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
+                        </span>
 
-                                                <input class="form-control" type="hidden" name="picName"
-                                                       th:value="${job.getLogoName()}"/>
-
-                                                <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <div class="quform-input">
-                                                        <label for="picName">Browse Picture</label>
-                                                        <div class="custom-file">
-                                                            <input class="custom-file-input" type="file" id="picName"
-                                                                   name="picture" th:value="${job.getLogoName()}"/>
-                                                            <label class="custom-file-label" data-browse="Browse">Choose file</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </span>
-
-                                            <input type="hidden" name="id" th:value="${job.id}">
-
-                                            <!-- Begin Text input element -->
-                                            <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <label for="job-title-e">Job Title</label>
-                                                    <div class="quform-input">
-                                                        <input id="job-title-e" class="form-control" type="text"
-                                                               name="title" placeholder="Enter Job Title"
-                                                               th:value="${job.title}">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="category-e">Job Category</label>
-                                                    <div class="quform-input">
-                                                        <select id="category-e" class="form-control form-select"
-                                                                name="categoryId">
-                                                            <option value="" disabled selected>Choose Category</option>
-                                                            <option th:each="category : ${categories}"
-                                                                    th:text="${category.name}"
-                                                                    th:value="${category.id}"
-                                                                    th:selected="${job.category.id == category.id}"></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="status-e">Job Status</label>
-                                                    <div class="quform-input">
-                                                        <select id="status-e" class="form-control form-select"
-                                                                name="jobStatus">
-                                                            <option value="" disabled selected>Select Status</option>
-                                                            <option th:each="jobStatus : ${status}"
-                                                                    th:value="${jobStatus}"
-                                                                    th:text="${jobStatus.name}"
-                                                                    th:selected="${job.status.name.equals(jobStatus.name)}"></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="experience-e">Experience</label>
-                                                    <div class="quform-input">
-                                                        <select id="experience-e" class="form-control form-select"
-                                                                name="experience">
-                                                            <option value="" disabled selected>Select Experience
-                                                            </option>
-                                                            <option th:each="experience : ${workExperience}"
-                                                                    th:value="${experience}"
-                                                                    th:text="${experience.experience}"
-                                                                    th:selected="${job.workExperience.experience.equals(experience.experience)}"></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                            <!-- Begin Select element -->
-                                            <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label for="offered-salary-e">Offered Salary</label>
-                                                    <div class="quform-input">
-                                                        <input id="offered-salary-e" class="form-control" type="number"
-                                                               name="salary" placeholder="Enter Average Salary" min="0"
-                                                               max="10000000" th:value="${job.salary}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Select element -->
-
-                                              <div class="col-md-6">
-                                                <div class="quform-element form-group">
-                                                    <label>Location</label>
-                                                    <div class="quform-input">
-                                                        <select class="form-control form-select border-radius-10"
-                                                                name="country">
-                                                            <option value="0">Choose Country</option>
-                                                            <option th:each="country : ${countries}"
-                                                                    th:value="${country.id}"
-                                                                    th:selected="${job.country != null && country.id == job.country.id}"
-                                                                    th:text="${country.countryName}">
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="quform-element form-group">
-                                                    <label for="job-description-e">Job Description</label>
-                                                    <div class="quform-input">
-                                                        <textarea id="job-description-e" class="form-control"
-                                                                  th:text="${job.description}"
-                                                                  name="description" rows="6"
-                                                                  placeholder="Tell about job in details..."></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Begin Submit button -->
-                                            <div class="col-md-12">
-                                                <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Update Work</span>
-                                                    </button>
-                                                </div>
-                                                <div class="quform-loading-wrap"><span class="quform-loading"></span>
-                                                </div>
-                                            </div>
-                                            <!-- End Submit button -->
-
-                                        </div>
-                                    </div>
-                                </form>
+                        <!-- Begin Text input element -->
+                        <div class="col-md-12">
+                            <div class="quform-element form-group">
+                                <label for="job-title" th:text="#{job.post.jobTitle}">Job Title</label>
+                                <div class="quform-input">
+                                    <input id="job-title" class="form-control" type="text"
+                                           name="title" th:placeholder="#{job.post.enterJobTitle}">
+                                </div>
                             </div>
                         </div>
+                        <!-- End Text input element -->
+
+                        <!-- Begin Select element -->
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="category" th:text="#{job.post.jobCategory}">Job Category</label>
+                                <div class="quform-input">
+                                    <select id="category" class="form-control form-select"
+                                            name="categoryId">
+                                        <option value="" disabled selected th:text="#{job.post.chooseCategory}">Choose Category</option>
+                                        <option th:each="category : ${categories}"
+                                                th:text="${category.name}"
+                                                th:value="${category.id}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select element -->
+
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="status" th:text="#{job.post.jobStatus}">Job Status</label>
+                                <div class="quform-input">
+                                    <select id="status" class="form-control form-select"
+                                            name="jobStatus">
+                                        <option value="" disabled selected th:text="#{job.post.selectStatus}">Select Status</option>
+                                        <option th:each="jobStatus : ${status}"
+                                                th:value="${jobStatus}"
+                                                th:text="${jobStatus.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Begin Select element -->
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="experience" th:text="#{job.post.experience}">Experience</label>
+                                <div class="quform-input">
+                                    <select id="experience" class="form-control form-select"
+                                            name="experience">
+                                        <option value="" disabled selected th:text="#{job.post.selectExperience}">Select Experience</option>
+                                        <option th:each="experience : ${workExperience}"
+                                                th:value="${experience}"
+                                                th:text="${experience.experience}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select element -->
+
+                        <!-- Begin Select element -->
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="offered-salary" th:text="#{job.post.offeredSalary}">Offered Salary</label>
+                                <div class="quform-input">
+                                    <input id="offered-salary" class="form-control" type="number"
+                                           name="salary" th:placeholder="#{job.post.enterSalary}" min="0"
+                                           max="10000000">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select element -->
+
+                                            <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label th:text="#{job.post.location}">Location</label>
+                                <div class="quform-input">
+                                    <select id="country"
+                                            class="form-control form-select border-radius-10"
+                                            name="country">
+                                        <option value="0" th:text="#{job.post.chooseCountry}">Choose Country</option>
+                                        <option th:each="country : ${countries}"
+                                                th:value="${country.id}"
+                                                th:text="${country.countryName}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="quform-element form-group">
+                                <label for="job-description"
+                                       th:text="#{job.post.jobDescription}">Job Description</label>
+                                <div class="quform-input">
+                                    <textarea id="job-description" class="form-control"
+                                              name="description" rows="6"
+                                              th:placeholder="#{job.post.tellAboutJob}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Begin Submit button -->
+                        <div class="col-md-12">
+                            <div class="quform-submit-inner">
+                                <button class="butn" type="submit" th:text="#{job.post.publishWork}">
+                                    Publish Work
+                                </button>
+                            </div>
+                            <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
+                        </div>
+                        <!-- End Submit button -->
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</span>
+                        <span th:if="${job != null}">
+    <div class="col-lg-12 mb-2-2">
+        <div class="dashboard-title">
+            <h5 class="mb-0" th:text="#{job.post.title}">Update Job Advertisement</h5> <br>
+            <div th:if="${currentUser.role.name() == 'EMPLOYEE'}"
+                 class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
+                <img id="previewImage" th:src="@{/getImage(picName=${job.logoName})}" width="80px"
+                     alt="..."
+                     class="border-radius-50">
+            </div>
+        </div>
+        <div class="dashboard-widget">
+            <form th:action="${currentUser.role.name() == 'EMPLOYEE' ? '/jobs/update' : '/jobs/update/company'}"
+                  method="post" enctype="multipart/form-data" onclick="">
+                <div class="quform-elements">
+                    <div class="row">
+                        <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
+
+                            <input class="form-control" type="hidden" name="picName"
+                                   th:value="${job.getLogoName()}"/>
+
+                            <div class="col-md-12">
+                                <div class="quform-element form-group">
+                                    <div class="quform-input">
+                                        <label for="picName" th:text="#{job.post.browsePicture}">Browse Picture</label>
+                                        <div class="custom-file">
+                                            <input class="custom-file-input" type="file" id="picName"
+                                                   name="picture" th:value="${job.getLogoName()}"/>
+                                            <label class="custom-file-label" data-browse="Browse" th:text="#{job.post.chooseFile}">Choose file</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </span>
+
+                        <input type="hidden" name="id" th:value="${job.id}">
+
+                        <!-- Begin Text input element -->
+                        <div class="col-md-12">
+                            <div class="quform-element form-group">
+                                <label for="job-title-e" th:text="#{job.post.jobTitle}">Job Title</label>
+                                <div class="quform-input">
+                                    <input id="job-title-e" class="form-control" type="text"
+                                           name="title" th:value="${job.title}"
+                                           placeholder="Enter Job Title">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Text input element -->
+
+                        <!-- Begin Select element -->
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="category-e" th:text="#{job.post.jobCategory}">Job Category</label>
+                                <div class="quform-input">
+                                    <select id="category-e" class="form-control form-select"
+                                            name="categoryId">
+                                        <option value="" disabled selected th:text="#{job.post.chooseCategory}">Choose Category</option>
+                                        <option th:each="category : ${categories}"
+                                                th:text="${category.name}"
+                                                th:value="${category.id}"
+                                                th:selected="${job.category.id == category.id}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select element -->
+
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="status-e" th:text="#{job.post.jobStatus}">Job Status</label>
+                                <div class="quform-input">
+                                    <select id="status-e" class="form-control form-select"
+                                            name="jobStatus">
+                                        <option value="" disabled selected th:text="#{job.post.selectStatus}">Select Status</option>
+                                        <option th:each="jobStatus : ${status}"
+                                                th:value="${jobStatus}"
+                                                th:text="${jobStatus.name}"
+                                                th:selected="${job.status.name.equals(jobStatus.name)}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Begin Select element -->
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="experience-e" th:text="#{job.post.experience}">Experience</label>
+                                <div class="quform-input">
+                                    <select id="experience-e" class="form-control form-select"
+                                            name="experience">
+                                        <option value="" disabled selected th:text="#{job.post.selectExperience}">Select Experience</option>
+                                        <option th:each="experience : ${workExperience}"
+                                                th:value="${experience}"
+                                                th:text="${experience.experience}"
+                                                th:selected="${job.workExperience.experience.equals(experience.experience)}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select element -->
+
+                        <!-- Begin Select element -->
+                        <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label for="offered-salary-e" th:text="#{job.post.offeredSalary}">Offered Salary</label>
+                                <div class="quform-input">
+                                    <input id="offered-salary-e" class="form-control" type="number"
+                                           name="salary" th:value="${job.salary}"
+                                           placeholder="Enter Average Salary" min="0"
+                                           max="10000000">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select element -->
+
+                          <div class="col-md-6">
+                            <div class="quform-element form-group">
+                                <label th:text="#{job.post.location}">Location</label>
+                                <div class="quform-input">
+                                    <select class="form-control form-select border-radius-10"
+                                            name="country">
+                                        <option value="0" th:text="#{job.post.chooseCountry}">Choose Country</option>
+                                        <option th:each="country : ${countries}"
+                                                th:value="${country.id}"
+                                                th:selected="${job.country != null && country.id == job.country.id}"
+                                                th:text="${country.countryName}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="quform-element form-group">
+                                <label for="job-description-e" th:text="#{job.post.jobDescription}">Job Description</label>
+                                <div class="quform-input">
+                                    <textarea id="job-description-e" class="form-control"
+                                              th:text="${job.description}"
+                                              name="description" rows="6"
+                                              placeholder="Tell about job in details..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Begin Submit button -->
+                        <div class="col-md-12">
+                            <div class="quform-submit-inner">
+                                <button class="butn" type="submit" th:text="#{job.post.publishWork}">
+                                    Update Work
+                                </button>
+                            </div>
+                            <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
+                        </div>
+                        <!-- End Submit button -->
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</span>
+
+                    </div>
                 </div>
             </div>
         </div>
-</div>
-</section>
+    </section>
 
 </div>
 
