@@ -5,6 +5,7 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.service.SendMailService;
 import am.itspace.jobboard.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserSchedulerService {
@@ -37,6 +39,7 @@ public class UserSchedulerService {
                             "Account Deletion Notice",
                             "Your account has been deleted because it was not confirmed. Please register again.");
                 });
+        log.info("Cleaning unconfirmed users has just finished successfully");
     }
 
     @Scheduled(cron = "0 * * * * ?")
@@ -56,5 +59,6 @@ public class UserSchedulerService {
                             "Account Activation Notice",
                             "Your account has activated and your type is finally Job Seeker because you don't select yor type after login with social media.");
                 });
+        log.info("Auto activation of non activated users has just finished successfully");
     }
 }

@@ -21,6 +21,7 @@ import am.itspace.jobboard.util.PictureUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,7 @@ import static am.itspace.jobboard.entity.enums.Role.COMPANY_OWNER;
 import static am.itspace.jobboard.entity.enums.Role.JOB_SEEKER;
 import static am.itspace.jobboard.util.AddErrorMessageUtil.addErrorMessage;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/jobs")
@@ -227,6 +229,7 @@ public class JobController {
 
                 if (multipartFile != null && !multipartFile.isEmpty()) {
                     jobService.createJobForEmployee(job, user, categoryIdStr, statusStr, experienceStr, multipartFile);
+                    log.info("Employee by {} id, has created a job advertisement", user.getId());
                     return "redirect:/profile/jobs-manage/1";
 
                 } else if (!PictureUtil.isFileSizeValid(multipartFile)) {
@@ -265,6 +268,7 @@ public class JobController {
                 Company company = companyService.findCompanyByUserIdAndIsActiveTrue(user.getId());
                 if (company != null) {
                     jobService.createJobForCompanyOwner(company, job, user, categoryIdStr, statusStr, experienceStr);
+                    log.info("Company owner by {} id, has created a job advertisement", user.getId());
                     return "redirect:/profile/jobs-manage/1";
                 }
 
@@ -299,6 +303,7 @@ public class JobController {
 
                 int categoryId = Integer.parseInt(categoryIdStr);
                 jobService.updateForCompanyOwner(job, categoryId, statusStr, experienceStr);
+                log.info("Company owner by {} id, has updated the job advertisement by {} id", user.getId(), job.getId());
                 return "redirect:/profile/jobs-manage/1";
 
             } catch (Exception e) {
@@ -334,6 +339,7 @@ public class JobController {
 
                 if ((multipartFile != null && !multipartFile.isEmpty()) || oldJob.getLogoName().equals(job.getLogoName())) {
                     jobService.updateForEmployee(job, oldJob, categoryId, statusStr, experienceStr, multipartFile);
+                    log.info("Employee by {} id, has updated the job advertisement by {} id", user.getId(), job.getId());
                     return "redirect:/profile/jobs-manage/1";
 
                 } else if (!PictureUtil.isFileSizeValid(multipartFile)) {
@@ -392,6 +398,7 @@ public class JobController {
                 throw new Exception();
             }
             jobService.deleteById(byId);
+            log.info("User by {} id, has deleted the job advertisement by {} id", user.getId(), idStr);
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -409,6 +416,7 @@ public class JobController {
                 throw new Exception();
             }
             jobService.recoverJobById(byId);
+            log.info("User by {} id, has returned the job advertisement by {} id", user.getId(), idStr);
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -443,6 +451,7 @@ public class JobController {
             }
 
             applicantListService.save(job, resume);
+            log.info("User by {} id, has applied for the job by {} id", user.getId(), idStr);
 
             redirectAttributes.addFlashAttribute("msg", "Success. You have applied for the job.");
             return "redirect:/jobs/item/" + id;
@@ -502,6 +511,7 @@ public class JobController {
 
                 if (job != null && !job.isDeleted()) {
                     jobWishlistService.save(job, user);
+                    log.info("User by {} id, has added the job by {} id, in wishlist", user.getId(), job.getId());
                     return ResponseEntity.ok().build();
                 }
             } catch (NumberFormatException e) {
@@ -523,6 +533,7 @@ public class JobController {
 
                 if (job != null && !job.isDeleted()) {
                     jobWishlistService.delete(job, user);
+                    log.info("User by {} id, has deleted the job by {} id, from wishlist", user.getId(), idStr);
                     return ResponseEntity.ok().build();
                 }
 

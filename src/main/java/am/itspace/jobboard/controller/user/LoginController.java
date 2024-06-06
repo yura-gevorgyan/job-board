@@ -4,10 +4,10 @@ import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.NotFoundException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
-import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.AddErrorMessageUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Set;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/login")
@@ -58,7 +59,7 @@ public class LoginController {
 
         try {
             userService.updateOAuth2User(user);
-
+            log.info("User by {} id and {} username, has updated account, by registering with oauth2", user.getId(), user.getEmail());
         } catch (PasswordNotMuchException e) {
             redirectAttributes.addFlashAttribute("msg", "Passwords do not match.");
             return "redirect:/login/success/oath2";

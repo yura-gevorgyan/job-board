@@ -9,6 +9,7 @@ import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
+import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.service.CategoryService;
 import am.itspace.jobboard.service.CompanyPictureService;
 import am.itspace.jobboard.service.CompanyService;
@@ -17,9 +18,9 @@ import am.itspace.jobboard.service.JobService;
 import am.itspace.jobboard.service.ResumeService;
 import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.AddErrorMessageUtil;
-import am.itspace.jobboard.security.SecurityService;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/profile")
@@ -154,6 +156,7 @@ public class ProfileController {
         return "/profile/candidate-profile";
     }
 
+    //WRITE LOG FOR DELETING ACCOUNT
     @GetMapping("/delete")
     public String deleteAccount() {
         User user = securityService.getCurrentUser();
@@ -177,6 +180,7 @@ public class ProfileController {
             user.setName(name);
             user.setSurname(surname);
             userService.update(user);
+            log.info("User by {} id and {} username, has updated the name or surname", user.getId(), user.getEmail());
         }
         return "redirect:/profile";
     }
@@ -197,6 +201,7 @@ public class ProfileController {
             try {
                 userService.changePassword(newPassword, confirmPassword, user);
                 redirectAttributes.addFlashAttribute("msg", "Your password is successfully changed.");
+                log.info("User by {} id and {} username, has changed account password", user.getId(), user.getEmail());
                 return "redirect:/profile/change-password";
 
             } catch (PasswordNotMuchException e) {
