@@ -89,22 +89,22 @@
                 <div class="col-lg-3 order-2 order-lg-1">
                     <div class="sidebar">
                         <form action="/resumes/search" method="get" class="search-bar">
-                            <div class="sidebar-title">Search Keywords</div>
+                            <div class="sidebar-title" th:text="#{search_keywords}">Search Keywords</div>
                             <div class="widget search">
                                 <div class="quform-element form-group">
-                                    <label for="search">Search By Profession</label>
+                                    <label for="search" th:text="#{search_by_profession}">Search By Profession</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="search"
                                                th:value="${currentProfession}"
-                                               type="text" name="profession" placeholder="search keywords">
+                                               type="text" name="profession" th:placeholder="#{search_by_profession}">
                                     </div>
                                 </div>
                                 <div class="quform-element form-group">
-                                    <label for="category">Category</label>
+                                    <label for="category" th:text="#{category}">Category</label>
                                     <div class="quform-input">
                                         <select id="category" class="form-control form-select border-radius-10"
                                                 name="category">
-                                            <option value="0">Choose Category</option>
+                                            <option value="0" th:text="#{choose_category}">Choose Category</option>
                                             <option th:each="category : ${categories}" th:value="${category.id}"
                                                     th:selected="${currentCategoryId != null && (category.id == currentCategoryId)}"
                                                     th:text="${category.name}"></option>
@@ -112,43 +112,45 @@
                                     </div>
                                 </div>
                                 <div class="quform-element">
-                                    <label for="gender">Candidate Gender</label>
+                                    <label for="gender" th:text="#{candidate_gender}">Candidate Gender</label>
                                     <div class="quform-input">
                                         <select id="gender" class="form-control form-select border-radius-10"
                                                 name="gender">
-                                            <option value="">Choose Gender</option>
+                                            <option value="" th:text="#{choose_gender}">Choose Gender</option>
                                             <option value="MALE"
-                                                    th:selected="${currentGender != null && ('MALE' == currentGender)}">
+                                                    th:selected="${currentGender != null && ('MALE' == currentGender)}"
+                                                    th:text="#{male}">
                                                 Male
                                             </option>
                                             <option value="FEMALE"
-                                                    th:selected="${currentGender != null && ('FEMALE' == currentGender)}">
+                                                    th:selected="${currentGender != null && ('FEMALE' == currentGender)}"
+                                                    th:text="#{female}">
                                                 Female
                                             </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="sidebar-title">Salary Range</div>
+                            <div class="sidebar-title" th:text="#{salary_range}">Salary Range</div>
                             <div class="widget">
                                 <div class="quform-element form-group">
-                                    <label for="search">From Salary</label>
+                                    <label for="fromSalary" th:text="#{from_salary}">From Salary</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="fromSalary" type="number"
-                                               th:value="${currentFromSalary}" name="fromSalary" placeholder="From"
+                                               th:value="${currentFromSalary}" name="fromSalary" th:placeholder="#{from_salary}"
                                                step="500" min="0" max="100000000">
                                     </div>
                                 </div>
                                 <div class="quform-element form-group">
-                                    <label for="search">To Salary</label>
+                                    <label for="toSalary" th:text="#{to_salary}">To Salary</label>
                                     <div class="quform-input">
                                         <input class="form-control border-radius-10" id="toSalary" type="number"
-                                               th:value="${currentToSalary}" name="toSalary" placeholder="To" step="500"
+                                               th:value="${currentToSalary}" name="toSalary" th:placeholder="#{to_salary}" step="500"
                                                min="0" max="100000000">
                                     </div>
                                 </div>
                             </div>
-                            <div class="sidebar-title">Experience</div>
+                            <div class="sidebar-title" th:text="#{experience}">Experience</div>
                             <div class="widget">
                                 <div class="form-check mb-2" th:each="experience : ${experiences}">
                                     <input class="form-check-input" type="checkbox" name="experiences"
@@ -161,7 +163,8 @@
                             </div>
                             <li class="d-none d-xl-inline-block">
                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                <button type="submit" class="not-border"><a class="butn secondary text-white">
+                                <button type="submit" class="not-border"><a class="butn secondary text-white"
+                                                                            th:text="#{search_resume}">
                                     Search Resume
                                 </a></button>
                             </li>
@@ -177,8 +180,8 @@
                             <div class="col-lg-12">
                                 <div class="d-md-flex justify-content-between align-items-center">
                                     <div class="mb-4 mb-md-0">
-                                        <h4 class="mb-0 h5">Showing 1–20 of <span class="text-primary"
-                                                                                  th:text="${resumeCount + ' Candidate'}"></span>
+                                        <h4 class="mb-0 h5">
+                                            <span th:text="#{showing_candidates(${1}, ${20}, ${resumeCount})}">Showing 1–20 of 100 Candidates</span>
                                         </h4>
                                     </div>
                                     <form action="#!" method="post" enctype="multipart/form-data" onclick="">
@@ -204,26 +207,27 @@
                                                 <div class="flex-grow-1 ms-md-4">
                                                     <input type="hidden" name="indexStr" th:value="${'1'}">
                                                     <h4 class="h5"><a th:href="@{'/resumes/item/' + ${resume.id}}">
-                                                        <th:block
-                                                                th:text="${resume.user.name + ' ' + resume.user.surname}"></th:block>
+                                                        <th:block th:text="${resume.user.name + ' ' + resume.user.surname}"></th:block>
                                                     </a></h4>
                                                     <span class="text-muted d-block mb-2 font-weight-500"
                                                           th:text="${resume.profession}"></span>
-                                                    <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
-                                                            class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block
-                                                            th:text="${resume.country.countryName}"></th:block></span>
-                                                    <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
-                                                            class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                            th:text="${resume.workExperience.getExperience()}"></th:block></span>
-                                                    <span th:if="${resume.expectedSalary != null}"><i
-                                                            class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
-                                                            th:text="${'$' + resume.expectedSalary}"></th:block></span>
+                                                    <span class="border-end border-color-extra-light-gray pe-2 me-2">
+                                                    <i class="fas fa-map-marker-alt pe-2 text-secondary"></i>
+                                                    <th:block th:text="${resume.country.countryName}"></th:block>
+                                                </span>
+                                                    <span class="border-end border-color-extra-light-gray pe-2 me-2">
+                                                    <i class="ti-briefcase pe-2 text-secondary"></i>
+                                                    <th:block th:text="${resume.workExperience.getExperience()}"></th:block>
+                                                </span>
+                                                    <span th:if="${resume.expectedSalary != null}">
+                                                    <i class="far fa-money-bill-alt pe-2 text-secondary"></i>
+                                                    <th:block th:text="${'$' + resume.expectedSalary}"></th:block>
+                                                </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3 text-center text-md-end" th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
-                                            <th:block
-                                                    th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
+                                            <th:block th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
 
                                                 <button th:if="${#lists.contains(favoritesResumes,resume)}"
                                                         style="background-color: white; border: none">
@@ -236,16 +240,14 @@
                                                 <button th:if="${!#lists.contains(favoritesResumes,resume)}"
                                                         style="border: white;background: white">
                                                     <a class="favourite wishList" href="#!"
-                                                       th:data-resume-id="${'a' + resume.id}"><i
-                                                            class="far fa-heart"></i></a>
+                                                       th:data-resume-id="${'a' + resume.id}"><i class="far fa-heart"></i></a>
                                                 </button>
                                             </th:block>
 
                                             <button th:if="${currentUser != null  &&  (favoritesResumes == null || favoritesResumes.isEmpty())}"
                                                     style="border: white;background: white"><a
                                                     class="favourite wishList" href="#!"
-                                                    th:data-resume-id="${'a' + resume.id}"><i
-                                                    class="far fa-heart"></i></a>
+                                                    th:data-resume-id="${'a' + resume.id}"><i class="far fa-heart"></i></a>
                                             </button>
 
                                             <button class="openModalBtn" type="submit"
@@ -255,13 +257,13 @@
                                                     class="far fa-heart"></i></a>
                                             </button>
 
-                                            <a th:href="@{'/resumes/item/' + ${resume.id}}" class="butn butn-md">See
-                                                Profile</a>
+                                            <a th:href="@{'/resumes/item/' + ${resume.id}}" class="butn butn-md" th:text="#{see_profile}">See Profile</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <!-- start pager  -->
@@ -562,5 +564,4 @@
 <!-- all js include end -->
 
 </body>
-
 </html>

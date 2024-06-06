@@ -1,8 +1,10 @@
 spring:
+
   datasource:
     url: jdbc:mysql://localhost:3306/job_board
     username: root
     password: root
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -14,8 +16,13 @@ spring:
           auth: true
           starttls:
             enable: true
+
   liquibase:
     change-log: classpath*:db/change-log.xml
+
+  messages:
+    encoding: UTF-8
+
 
 logging:
   level:

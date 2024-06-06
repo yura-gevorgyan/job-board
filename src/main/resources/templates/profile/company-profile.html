@@ -62,11 +62,11 @@
                 <div class="dashboard-right-sidebar">
                     <div class="row mb-2-2">
                         <div class="col-lg-12 mb-1-9">
-                            <h3 class="mb-3">Company Page Configurations</h3>
+                            <h3 class="mb-3" th:text="#{company.page.configurations.title}">Company Page Configurations</h3>
                         </div>
                         <div class="col-lg-12 mb-2-2">
                             <div class="dashboard-title">
-                                <h5 class="mb-0">My Company</h5> <br>
+                                <h5 class="mb-0" th:text="#{company.page.configurations.myCompany}">My Company</h5> <br>
                                 <span th:if="${msg != null}">
                                            <div class="alert alert-danger alert-dismissible">
                                         <strong th:text="${msg}"></strong>
@@ -83,7 +83,7 @@
                                             <div class="col-md-6" style="width: 100%">
                                                 <div class="quform-element form-group">
                                                     <div class="quform-input">
-                                                        <label for="logo">Company Logo</label>
+                                                        <label for="logo" th:text="#{company.page.configurations.companyLogo}">Company Logo</label>
                                                         <div style="width: 100%"
                                                              class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
                                                             <img id="previewImg" src="/img/avatar/default_company_logo.png" width="100px"
@@ -94,8 +94,7 @@
                                                         <div class="custom-file">
                                                             <input class="custom-file-input" type="file" id="logo"
                                                                    name="logo">
-                                                            <label class="custom-file-label" data-browse="Browse">Choose
-                                                                Logo</label>
+                                                            <label class="custom-file-label" data-browse="Browse" th:text="#{company.page.configurations.chooseLogo}">Choose Logo</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -104,10 +103,10 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="company-name">Company Name</label>
+                                                    <label for="company-name" th:text="#{company.page.configurations.companyName}">Company Name</label>
                                                     <div class="quform-input">
                                                         <input id="company-name" class="form-control" type="text"
-                                                               name="name" placeholder="Enter Company Name">
+                                                               name="name" th:placeholder="#{company.page.configurations.enterCompanyName}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,10 +115,10 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="email">Email</label>
+                                                    <label for="email" th:text="#{company.page.configurations.email}">Email</label>
                                                     <div class="quform-input">
                                                         <input id="email" class="form-control" type="email" name="email"
-                                                               placeholder="company-name@example.com">
+                                                               th:placeholder="#{company.page.configurations.enterEmail}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,12 +126,12 @@
                                             <!-- End Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label>Location</label>
+                                                    <label th:text="#{company.page.configurations.location}">Location</label>
                                                     <div class="quform-input">
                                                         <select id="country"
                                                                 class="form-control form-select border-radius-10"
                                                                 name="country">
-                                                            <option value="0">Choose Country</option>
+                                                            <option value="0" th:text="#{company.page.configurations.chooseCountry}">Choose Country</option>
                                                             <option th:each="country : ${countries}"
                                                                     th:value="${country.id}"
                                                                     th:text="${country.countryName}">
@@ -145,10 +144,10 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="phoneNum">Phone</label>
+                                                    <label for="phoneNum" th:text="#{company.page.configurations.phone}">Phone</label>
                                                     <div class="quform-input">
                                                         <input class="form-control" id="phoneNum" type="text" name="phone"
-                                                               placeholder="Enter Your Phone">
+                                                               th:placeholder="#{company.page.configurations.enterPhone}">
                                                     </div>
                                                 </div>
 
@@ -158,10 +157,10 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="website-link">Website</label>
+                                                    <label for="website-link" th:text="#{company.page.configurations.website}">Website</label>
                                                     <div class="quform-input">
                                                         <input id="website-link" class="form-control" type="text"
-                                                               name="website" placeholder="Enter Website Link">
+                                                               name="website" th:placeholder="#{company.page.configurations.enterWebsite}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -170,10 +169,10 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="since-date">Founded Date</label>
+                                                    <label for="since-date" th:text="#{company.page.configurations.foundedDate}">Founded Date</label>
                                                     <div class="quform-input">
                                                         <input class="form-control" id="since-date" type="date"
-                                                               name="foundedDate" placeholder="Enter Founded Date">
+                                                               name="foundedDate" th:placeholder="#{company.page.configurations.enterFoundedDate}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,7 +181,7 @@
                                             <!-- Begin Select element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="category">Choose Category</label>
+                                                    <label for="category" th:text="#{company.page.configurations.chooseCategory}">Choose Category</label>
                                                     <div class="quform-input">
                                                         <select id="category" class="form-control form-select"
                                                                 name="categoryId">
@@ -198,12 +197,12 @@
                                             <div class="col-md-6" style="width: 100%">
                                                 <div class="quform-element form-group">
                                                     <div class="quform-input">
-                                                        <label for="companyPictures">Company Office Pictures</label>
+                                                        <label for="companyPictures" th:text="#{company.page.configurations.companyOfficePictures}">Company Office Pictures</label>
                                                         <div class="custom-file">
                                                             <input class="custom-file-input" type="file"
                                                                    id="companyPictures" name="companyPictures"
                                                                    multiple onchange="handleFileUploadForCreate(event)">
-                                                            <label class="custom-file-label" data-browse="Browse">Choose
+                                                            <label class="custom-file-label" data-browse="Browse" th:text="#{company.page.configurations.chooseFiles}">Choose
                                                                 file's</label>
                                                         </div>
                                                     </div>
@@ -216,11 +215,11 @@
                                             <!-- Begin Textarea element -->
                                             <div class="col-md-12">
                                                 <div class="quform-element form-group">
-                                                    <label for="message">About Company Info</label>
+                                                    <label for="message" th:text="#{company.page.configurations.aboutCompanyInfo}">About Company Info</label>
                                                     <div class="quform-input">
                                                         <textarea id="message" class="form-control" name="description"
                                                                   rows="6"
-                                                                  placeholder="What can you tell about the company ?"></textarea>
+                                                                  th:placeholder="#{company.page.configurations.aboutCompanyInfo}"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,7 +228,7 @@
                                             <!-- Begin Submit button -->
                                             <div class="col-md-12">
                                                 <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Create Company</span>
+                                                    <button class="butn" type="submit" th:text="#{company.page.configurations.createCompany}"><span th:text="#{company.page.configurations.createCompany}">Create Company</span>
                                                     </button>
                                                 </div>
                                                 <div class="quform-loading-wrap"><span class="quform-loading"></span>
@@ -253,7 +252,7 @@
                                             <div style="width: 100%" class="col-md-6">
                                                 <div class="quform-element form-group">
                                                     <div class="quform-input">
-                                                        <label for="picNamee">Company Logo</label>
+                                                        <label for="picNamee" th:text="#{company.page.configurations.companyLogo}">Company Logo</label>
                                                         <div style="width: 100%;"
                                                              class="flex-shrink-0 mx-auto mx-md-0 w-80px w-md-auto mb-3 mb-md-0">
                                                             <img id="previewImage"
@@ -265,7 +264,7 @@
                                                             <input class="custom-file-input" type="file" id="picNamee"
                                                                    onchange=""
                                                                    name="logo">
-                                                            <label class="custom-file-label" data-browse="Browse">Choose
+                                                            <label class="custom-file-label" data-browse="Browse" th:text="#{company.page.configurations.chooseLogo}">Choose
                                                                 Logo</label>
                                                         </div>
                                                     </div>
@@ -275,7 +274,7 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="companyName">Company Name</label>
+                                                    <label for="companyName" th:text="#{company.page.configurations.companyName}">Company Name</label>
                                                     <div class="quform-input">
                                                         <input id="companyName" class="form-control" type="text"
                                                                name="name" th:value="${company.name}">
@@ -287,7 +286,7 @@
                                             <!-- Begin Text input element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="emailAddres">Email</label>
+                                                    <label for="emailAddres" th:text="#{company.page.configurations.email}">Email</label>
                                                     <div class="quform-input">
                                                         <input id="emailAddres" class="form-control" type="email"
                                                                name="email" th:value="${company.email}">
@@ -300,13 +299,13 @@
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
                                                     <label th:if="${company.phone != null}"
-                                                           for="phoneNumber">Phone</label>
+                                                           for="phoneNumber" th:text="#{company.page.configurations.phone}">Phone</label>
                                                     <div th:if="${company.phone != null}" class="quform-input">
                                                         <input class="form-control" id="phoneNumber" type="text"
                                                                name="phone" th:value="${company.phone}">
                                                     </div>
                                                     <label th:if="${company.phone == null}"
-                                                           for="no-phoneNumber">Phone</label>
+                                                           for="no-phoneNumber" th:text="#{company.page.configurations.phone}">Phone</label>
                                                     <div th:if="${company.phone == null}" class="quform-input">
                                                         <input class="form-control" id="no-phoneNumber" type="text"
                                                                name="phone" placeholder="Enter Your Phone">
@@ -320,12 +319,12 @@
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
                                                     <label th:if="${company.website != null}"
-                                                           for="websiteLink">Website</label>
+                                                           for="websiteLink" th:text="#{company.page.configurations.website}">Website</label>
                                                     <div th:if="${company.website != null}" class="quform-input">
                                                         <input id="websiteLink" class="form-control" type="text"
                                                                name="website" th:value="${company.website}">
                                                     </div>
-                                                    <label th:if="${company.website == null}" for="no-websiteLink">Website</label>
+                                                    <label th:if="${company.website == null}" for="no-websiteLink" th:text="#{company.page.configurations.website}">Website</label>
                                                     <div th:if="${company.website == null}" class="quform-input">
                                                         <input id="no-websiteLink" class="form-control" type="text"
                                                                name="website" placeholder="Enter Website Link">
@@ -336,7 +335,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="since-date-n">Founded Date</label>
+                                                    <label for="since-date-n" th:text="#{company.page.configurations.foundedDate}">Founded Date</label>
                                                     <div class="quform-input">
                                                         <input class="form-control" id="since-date-n" type="date"
                                                                name="foundedDate"
@@ -349,7 +348,7 @@
                                             <!-- Begin Select element -->
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label for="category-n">Category</label>
+                                                    <label for="category-n"th:text="#{company.page.configurations.chooseCategory}">Category</label>
                                                     <div class="quform-input">
                                                         <select id="category-n" class="form-control form-select"
                                                                 name="categoryId">
@@ -366,11 +365,11 @@
 
                                             <div class="col-md-6">
                                                 <div class="quform-element form-group">
-                                                    <label>Location</label>
+                                                    <label th:text="#{company.page.configurations.location}">Location</label>
                                                     <div class="quform-input">
                                                         <select class="form-control form-select border-radius-10"
                                                                 name="country">
-                                                            <option value="0">Choose Country</option>
+                                                            <option value="0" th:text="#{company.page.configurations.chooseCountry}">Choose Country</option>
                                                             <option th:each="country : ${countries}"
                                                                     th:value="${country.id}"
                                                                     th:selected="${company.country != null && country.id == company.country.id}"
@@ -384,12 +383,12 @@
                                             <div class="col-md-6" style="width: 100%">
                                                 <div class="quform-element form-group">
                                                     <div class="quform-input">
-                                                        <label for="company-pictures">Company Office Pictures</label>
+                                                        <label for="company-pictures" th:text="#{company.page.configurations.companyOfficePictures}">Company Office Pictures</label>
                                                         <div class="custom-file">
                                                             <input class="custom-file-input" type="file"
                                                                    id="company-pictures" name="companyPictures"
                                                                    multiple onchange="handleFileUpload(event)">
-                                                            <label class="custom-file-label" data-browse="Browse">Choose
+                                                            <label class="custom-file-label" data-browse="Browse" th:text="#{company.page.configurations.chooseFiles}">Choose
                                                                 file's</label>
                                                         </div>
                                                     </div>
@@ -414,14 +413,14 @@
 
                                             <div class="col-md-12">
                                                 <div class="quform-element form-group">
-                                                    <label th:if="${company.description != null}" for="messages-c">About
+                                                    <label th:if="${company.description != null}" for="messages-c" th:text="#{company.page.configurations.aboutCompanyInfo}">About
                                                         Company Info</label>
                                                     <div th:if="${company.description != null}" class="quform-input">
                                                         <textarea id="messages-c" class="form-control"
                                                                   name="description"
                                                                   rows="6" th:text="${company.description}"></textarea>
                                                     </div>
-                                                    <label th:if="${company.description == null}" for="on-message">About
+                                                    <label th:if="${company.description == null}" for="on-message" th:text="#{company.page.configurations.aboutCompanyInfo}">About
                                                         Company Info</label>
                                                     <div th:if="${company.description == null}" class="quform-input">
                                                         <textarea id="on-message" class="form-control"
@@ -436,7 +435,7 @@
                                             <!-- Begin Submit button -->
                                             <div class="col-md-12">
                                                 <div class="quform-submit-inner">
-                                                    <button class="butn" type="submit"><span>Save Changes</span>
+                                                    <button class="butn" type="submit" th:text="#{company.page.configurations.saveChanges}"><span th:text="#{company.page.configurations.saveChanges}">Save Changes</span>
                                                     </button>
                                                 </div>
                                                 <div class="quform-loading-wrap"><span class="quform-loading"></span>

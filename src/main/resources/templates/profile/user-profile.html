@@ -63,47 +63,39 @@
                     <div class="dashboard-right-sidebar">
                         <div class="row mb-2-5">
                             <div class="col-lg-12 mb-1-9">
-                                <h3 class="mb-3">User Profile</h3>
+                                <h3 class="mb-3" th:text="#{user.profile.title}">User Profile</h3>
                             </div>
                             <div class="col-lg-12 mb-2-2">
                                 <div class="dashboard-title">
-                                    <h5 class="mb-0">My Profile</h5>
+                                    <h5 class="mb-0" th:text="#{user.profile.myProfile}">My Profile</h5>
                                 </div>
                                 <div class="dashboard-widget" th:if="${currentUser != null}">
-                                    <form action="/profile/update" method="post" enctype="multipart/form-data"
-                                          onclick="">
+                                    <form action="/profile/update" method="post" enctype="multipart/form-data" onclick="">
                                         <div class="quform-elements">
                                             <div class="row">
-
                                                 <!-- Begin Text input element -->
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label for="name">Name</label>
+                                                        <label for="name" th:text="#{user.profile.name}">Name</label>
                                                         <div class="quform-input">
-                                                            <input id="name" class="form-control" type="text"
-                                                                   name="name" th:value="${currentUser.name}">
+                                                            <input id="name" class="form-control" type="text" name="name" th:value="${currentUser.name}">
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-md-6">
                                                     <div class="quform-element form-group">
-                                                        <label for="name">Surname</label>
+                                                        <label for="surname" th:text="#{user.profile.surname}">Surname</label>
                                                         <div class="quform-input">
-                                                            <input id="surname" class="form-control" type="text"
-                                                                   name="surname" th:value="${currentUser.surname}">
+                                                            <input id="surname" class="form-control" type="text" name="surname" th:value="${currentUser.surname}">
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <!-- Begin Submit button -->
-                                                <div class=" col-md-12">
+                                                <div class="col-md-12">
                                                     <div class="quform-submit-inner">
-                                                        <button class="butn" type="submit"><span>Save Changes</span>
-                                                        </button>
+                                                        <button class="butn" type="submit" th:text="#{user.profile.saveChanges}"><span>Save Changes</span></button>
                                                     </div>
-                                                    <div class="quform-loading-wrap"><span
-                                                            class="quform-loading"></span></div>
+                                                    <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
                                                 </div>
                                                 <!-- End Submit button -->
                                             </div>
@@ -117,6 +109,7 @@
             </div>
         </div>
     </section>
+
 </div>
 
 

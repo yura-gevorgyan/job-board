@@ -54,7 +54,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="h2 mb-4">You don't have Favorite Jobs.</h1>
+                    <h1 class="h2 mb-4" th:text="#{no_favorite_jobs}">You don't have Favorite Jobs.</h1>
                 </div>
             </div>
         </div>
@@ -66,18 +66,17 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <div th:if="${!favoritesJobs.isEmpty()}"
-                         class="d-md-flex justify-content-between align-items-center mb-2-2">
+                    <div th:if="${!favoritesJobs.isEmpty()}" class="d-md-flex justify-content-between align-items-center mb-2-2">
                         <div class="mb-4 mb-md-0">
-                            <h4 class="mb-0 h5">Showing 20 of <span class="text-primary"
-                                                                    th:text="${favoritesJobs.getTotalElements() + ' Favorites Jobs'}"></span>
+                            <h4 class="mb-0 h5">
+                                <span th:text="#{showing}">Showing</span>  <span th:text="#{of}">of</span>
+                                <span class="text-primary" th:text="${favoritesJobs.totalElements} + ' ' + #{favorites_jobs}"></span>
                             </h4>
                         </div>
                     </div>
                     <br>
                     <div th:if="${!favoritesJobs.isEmpty()}" class="quform-input">
-                        <input class="form-control border-radius-10 me-2" id="search" type="text" style="width: 400px"
-                               placeholder="Search">
+                        <input class="form-control border-radius-10 me-2" id="search" type="text" style="width: 400px" th:placeholder="#{search}">
                     </div>
                     <br>
                     <div th:if="${!favoritesJobs.isEmpty()}" th:each="favoritesJob : ${favoritesJobs}" id="accordion2"
@@ -89,12 +88,10 @@
                                     <div class="d-flex align-items-center">
                                         <img th:src="'/download/picture/' + ${favoritesJob.job.logoName}" width="60px"
                                              alt="..." class="me-3 border-radius-10">
-                                        <a th:href="@{'/jobs/item/' + ${favoritesJob.job.id}}"><h3 class="h5 mb-0"
-                                                                                                   th:text="${favoritesJob.job.title}"></h3>
+                                        <a th:href="@{'/jobs/item/' + ${favoritesJob.job.id}}"><h3 class="h5 mb-0" th:text="${favoritesJob.job.title}"></h3>
                                         </a>
                                     </div>
-                                    <div class="job-badge purple"><span
-                                            th:text="${favoritesJob.job.category.name}"></span></div>
+                                    <div class="job-badge purple"><span th:text="${favoritesJob.job.category.name}"></span></div>
                                 </div>
                             </div>
                             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"

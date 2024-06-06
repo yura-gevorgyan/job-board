@@ -128,27 +128,24 @@
     <section>
         <div class="container">
             <div class="row mb-2-5 mb-lg-2-9">
-                     <span th:if="${errorMsg != null}">
-                            <div class="alert alert-danger alert-dismissible">
-                                <strong th:text="${errorMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                     </span>
+            <span th:if="${errorMsg != null}">
+                <div class="alert alert-danger alert-dismissible">
+                    <strong th:text="#{alert.error}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
                 <span th:if="${msg != null}">
-                            <div class="alert alert-success alert-dismissible">
-                                <strong th:text="${msg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                    </span>
+                <div class="alert alert-success alert-dismissible">
+                    <strong th:text="#{alert.success}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
                 <span th:if="${applyResumeMsg != null}">
-                            <div class="alert alert-warning alert-dismissible">
-                                <strong th:text="${applyResumeMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                    </span>
+                <div class="alert alert-warning alert-dismissible">
+                    <strong th:text="#{alert.warning}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
 
                 <div class="col-lg-12">
                     <div class="p-1-6 p-lg-1-9 border border-color-extra-light-gray border-radius-10">
@@ -160,17 +157,16 @@
                                              class="border-radius-50" alt="...">
                                     </div>
                                     <div class="flex-grow-1 ms-lg-4">
-                                        <h4 class="mb-3"
-                                            th:text="${resume.user.name + ' ' + resume.user.surname}"></h4>
-                                        <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                th:text="${resume.profession}"></th:block></span>
-                                        <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
-                                                th:text="${resume.country.countryName}"></th:block></span>
-                                        <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
-                                                th:text="${#dates.format(resume.createdDate,'dd MMMM yyyy')}"></th:block></span>
+                                        <h4 class="mb-3" th:text="${resume.user.name + ' ' + resume.user.surname}"></h4>
+                                        <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><span
+                                                th:text="#{resume.profession}"></span></span>
+                                        <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><span
+                                                th:text="#{resume.country.countryName}"></span></span>
+                                        <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><span
+                                                th:text="${#dates.format(resume.createdDate,'dd MMMM yyyy')}"></span></span>
                                         <span th:if="${resume.expectedSalary != null}"><i
-                                                class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
-                                                th:text="${'$' + resume.expectedSalary}"></th:block></span>
+                                                class="far fa-money-bill-alt pe-2 text-secondary"></i><span
+                                                th:text="'$' + ${resume.expectedSalary}"></span></span>
                                     </div>
                                 </div>
                             </div>
@@ -184,13 +180,13 @@
 
                                             <a th:if="${(currentUser == null || (currentUser.role.name().equals('JOB_SEEKER')) )}"
                                                th:href="@{'/resumes/apply/' + ${resume.id}}"
-                                               class="butn mb-3 w-100 text-center">Apply For Job</a>
+                                               class="butn mb-3 w-100 text-center" th:text="#{button.apply}"></a>
 
-                                            <a href="#!" th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
-                                                    currentUser.role.name().equals('COMPANY_OWNER'))) }"
+                                            <a href="#!"
+                                               th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER'))) }"
                                                class="butn mb-3 w-100 text-center user-jobs"
                                                th:data-user-id="${currentUser.id}"
-                                               th:data-resume-id="${resume.id}">Apply For Job</a>
+                                               th:data-resume-id="${resume.id}" th:text="#{button.apply}"></a>
 
                                         </button>
 
@@ -198,7 +194,7 @@
                                             <div class="col-12"
                                                  th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                                 <a th:href="'/profile/message/' + ${resume.user.id}"
-                                                   class="butn w-100 text-center">Message</a>
+                                                   class="butn w-100 text-center" th:text="#{button.message}"></a>
                                             </div>
                                         </div>
 
@@ -214,7 +210,7 @@
                             <div class="row">
                                 <div class="col-lg-12 mb-1-9 mb-lg-2-5">
                                     <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
-                                        <h4 class="mb-3">Candidates About :</h4>
+                                        <h4 class="mb-3" th:text="#{resume.candidates.about}"></h4>
                                         <p class="mb-0" th:text="${resume.description}"></p>
                                     </div>
                                 </div>
@@ -226,21 +222,17 @@
                             <div class="widget">
                                 <div class="card border-color-extra-light-gray border-radius-10">
                                     <div class="card-body p-4">
-                                        <h4>Job Summary</h4>
+                                        <h4 th:text="#{resume.job.summary}"></h4>
                                         <ul class="list-style5">
-                                            <li><span>Salary</span>
-                                                <th:block th:text="${' ' + resume.expectedSalary}"></th:block>
+                                            <li><span th:text="#{resume.salary}"></span><span
+                                                    th:text="' ' + ${resume.expectedSalary}"></span></li>
+                                            <li><span th:text="#{experience}"></span><span
+                                                    th:text="' ' + ${resume.workExperience.getExperience()}"></span>
                                             </li>
-                                            <li><span>Experience</span>
-                                                <th:block
-                                                        th:text="${' ' + resume.workExperience.getExperience()}"></th:block>
-                                            </li>
-                                            <li><span>Gender</span>
-                                                <th:block th:text="${' ' + resume.gender.getName()}"></th:block>
-                                            </li>
-                                            <li><span>Profession</span>
-                                                <th:block th:text="${' ' + resume.profession}"></th:block>
-                                            </li>
+                                            <li><span th:text="#{gender}"></span><span
+                                                    th:text="' ' + ${resume.gender.getName()}"></span></li>
+                                            <li><span th:text="#{profession}"></span><span
+                                                    th:text="' ' + ${resume.profession}"></span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -248,17 +240,15 @@
                             <div class="widget">
                                 <div class="card border-color-extra-light-gray border-radius-10">
                                     <div class="card-body p-4">
-                                        <h4>Contact Information</h4>
+                                        <h4 th:text="#{resume.contact.information}"></h4>
                                         <ul class="list-style5">
-                                            <li><span>Phone</span>
-                                                <th:block th:text="${' ' + resume.phone}"></th:block>
+                                            <li><span th:text="#{phone}"></span><span
+                                                    th:text="' ' + ${resume.phone}"></span>
                                             </li>
-                                            <li><span>Email</span>
-                                                <th:block th:text="${' ' + resume.user.email}"></th:block>
-                                            </li>
-                                            <li><span>Address</span>
-                                                <th:block th:text="${' ' + resume.country.countryName}"></th:block>
-                                            </li>
+                                            <li><span th:text="#{resume.email}"></span><span
+                                                    th:text="' ' + ${resume.user.email}"></span></li>
+                                            <li><span th:text="#{resume.address}"></span><span
+                                                    th:text="' ' + ${resume.country.countryName}"></span></li>
                                         </ul>
                                         <br>
                                     </div>
@@ -269,12 +259,11 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h4 class="mb-4">Related Candidates :</h4>
+                        <h4 class="mb-4" th:text="#{resume.related.candidates}"></h4>
                         <div class="featured-candidate owl-carousel owl-theme">
                             <div class="card card-style7 radius-10" th:each="resumeList : ${resumes}">
                                 <div class="card-body">
-                                    <th:block
-                                            th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
+                                    <th:block th:if="${favoritesResumes != null && !favoritesResumes.isEmpty()}">
 
                                         <button th:if="${#lists.contains(favoritesResumes,resume)}"
                                                 style="border: white">
@@ -319,15 +308,15 @@
                                               th:text="${resumeList.profession}"></span>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
-                                        <span><i
-                                                class="ti-location-pin text-secondary me-2 display-31 display-sm-30"></i><strong
-                                                th:text="${resumeList.country.countryName}"></strong></span>
+                                    <span><i
+                                            class="ti-location-pin text-secondary me-2 display-31 display-sm-30"></i><strong
+                                            th:text="${resumeList.country.countryName}"></strong></span>
                                         <span><i
                                                 class="far fa-money-bill-alt text-secondary me-2 display-31 display-sm-30"></i><strong
-                                                th:text="${'$' + resumeList.expectedSalary}"></strong></span>
+                                                th:text="'$' + ${resumeList.expectedSalary}"></strong></span>
                                     </div>
-                                    <a th:href="@{'/resumes/item/' + ${resumeList.id}}" class="butn w-100 radius-10">View
-                                        Profile</a>
+                                    <a th:href="@{'/resumes/item/' + ${resumeList.id}}" class="butn w-100 radius-10"
+                                       th:text="#{button.view}">View Profile</a>
                                 </div>
                             </div>
                         </div>
@@ -338,19 +327,19 @@
 
         <div id="myModal" class="modal-pop"
              th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') ||
-                                                    currentUser.role.name().equals('COMPANY_OWNER')))}">
+                                                currentUser.role.name().equals('COMPANY_OWNER')))}">
 
             <!-- Modal content -->
             <div class="modal-content-pop">
-                     <span>
-                            <div class="alert alert-primary alert-dismissible ">
-                                <strong>Please choose Job.</strong>
-                            </div>
-                    </span>
+            <span>
+                <div class="alert alert-primary alert-dismissible ">
+                    <strong th:text="#{modal.choose}"></strong>
+                </div>
+            </span>
                 <div class="quform-element form-group" style="width: 30%">
                     <div class="quform-input">
                         <input class="form-control border-radius-10 search"
-                               type="text" name="profession" placeholder="search job">
+                               type="text" name="profession" placeholder="#{modal.search}">
                     </div>
                 </div>
 
@@ -360,18 +349,18 @@
 
                     <div id="pagination" class="text-primary"
                          style="display: flex;justify-content: center;margin-top: 3%;margin-bottom: 2%">
-                        <button class="prevBtn">Prev</button>
+                        <button class="prevBtn" th:text="#{pagination.prev}">Prev</button>
                         <span class="currentPage" th:text="${currentPage}">1</span> / <span class="totalPages"
                                                                                             th:text="${totalPages}">1</span>
-                        <button class="nextBtn">Next</button>
+                        <button class="nextBtn" th:text="#{pagination.next}">Next</button>
                     </div>
 
                     <span class="close"></span>
                 </div>
             </div>
         </div>
-
     </section>
+
 
     <!-- FOOTER
     ================================================== -->

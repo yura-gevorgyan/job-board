@@ -8,13 +8,11 @@
 
 <header th:fragment="header" class="header-style1 menu_area-light">
     <div class="navbar-default border-bottom border-color-light-white" style="background-color: whitesmoke">
-
         <div class="container-fluid px-lg-1-6 px-xl-2-5 px-xxl-2-9">
             <div class="row align-items-center">
                 <div class="col-12 col-lg-12">
                     <div class="menu_area alt-font">
                         <nav class="navbar navbar-expand-lg navbar-light p-0">
-
                             <div class="navbar-header navbar-header-custom" style="width: 14%">
                                 <!-- start logo -->
                                 <a href="/"><img class="new-logo-class" src="/img/logos/logo.png" alt="logo"></a>
@@ -25,57 +23,53 @@
 
                             <!-- menu area -->
                             <ul class="navbar-nav ms-auto" id="nav" style="display: none;">
-                                <li><a href="/" style="color: black">Home</a></li>
-                                <li><a href="/jobs/1" style="color: black">Jobs</a></li>
-                                <li><a href="/resumes/1" style="color: black">Resumes</a></li>
-                                <li><a href="/companies/1" style="color: black">Companies</a></li>
+                                <li><a href="/" style="color: black" th:text="#{header.home}">Home</a></li>
+                                <li><a href="/jobs/1" style="color: black" th:text="#{header.jobs}">Jobs</a></li>
+                                <li><a href="/resumes/1" style="color: black" th:text="#{header.resumes}">Resumes</a></li>
+                                <li><a href="/companies/1" style="color: black" th:text="#{header.companies}">Companies</a></li>
                                 <li th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
-                                    <a style="color: black">Wishlist</a>
+                                    <a style="color: black" th:text="#{header.wishlist}">Wishlist</a>
                                     <ul>
-                                        <li><a href="/jobs/favorites/1">Favorite Jobs</a>
-                                        </li>
-                                        <li>
-                                            <a href="/resumes/favorites/1">Favorite Resumes</a>
-                                        </li>
-                                        <li>
-                                            <a href="/companies/favorites/1">Favorite Companies</a>
-                                        </li>
+                                        <li><a href="/jobs/favorites/1" th:text="#{header.favoriteJobs}">Favorite Jobs</a></li>
+                                        <li><a href="/resumes/favorites/1" th:text="#{header.favoriteResumes}">Favorite Resumes</a></li>
+                                        <li><a href="/companies/favorites/1" th:text="#{header.favoriteCompanies}">Favorite Companies</a></li>
                                     </ul>
                                 </li>
                             </ul>
                             <!-- end menu area -->
 
+                            <!-- language switcher -->
+                            <div class="language-switcher ms-auto" style="margin-right: 20px;">
+                                <a href="?lang=en"><img src="/img/flags/us.png.webp" alt="English" style="width: 30px; height: 20px; margin-right: 10px;"/></a>
+                                <a href="?lang=ru"><img src="/img/flags/rs.png" alt="Русский" style="width: 30px; height: 20px; margin-right: 10px;"/></a>
+                                <a href="?lang=hy"><img src="/img/flags/arm.png.webp" alt="Հայերեն" style="width: 30px; height: 20px;"/></a>
+                            </div>
+                            <!-- end language switcher -->
+
                             <!-- start attribute navigation -->
                             <div class="attr-nav align-items-lg-center ms-lg-auto">
                                 <ul>
                                     <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}" href="/login"
-                                                                            class="butn secondary white-hover text-white">Sign
-                                        In</a></li>
+                                                                            class="butn secondary white-hover text-white" th:text="#{header.signIn}">Sign In</a></li>
                                     <li class="d-none d-xl-inline-block"><a th:if="${currentUser == null}"
                                                                             href="/register"
-                                                                            class="butn secondary white-hover text-white">Sign
-                                        Up</a></li>
-                                    <li class="d-none d-xl-inline-block"><a
-                                            th:if="${currentUser != null and currentUser.role.name() != 'ADMIN'}"
-                                            href="/profile" class="butn secondary white-hover text-white">My Profile</a>
-                                    </li>
-                                    <li class="d-none d-xl-inline-block"><a
-                                            th:if="${currentUser != null && currentUser.role.name() == 'ADMIN'}"
-                                            href="/admin"
-                                            class="butn secondary white-hover text-white">Configurations</a>
-                                    </li>
+                                                                            class="butn secondary white-hover text-white" th:text="#{header.signUp}">Sign Up</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null and currentUser.role.name() != 'ADMIN'}"
+                                                                            href="/profile" class="butn secondary white-hover text-white" th:text="#{header.myProfile}">My Profile</a></li>
+                                    <li class="d-none d-xl-inline-block"><a th:if="${currentUser != null && currentUser.role.name() == 'ADMIN'}"
+                                                                            href="/admin" class="butn secondary white-hover text-white" th:text="#{header.configurations}">Configurations</a></li>
                                 </ul>
                             </div>
                             <!-- end attribute navigation -->
-
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </header>
+
+
 
 </body>
 </html>

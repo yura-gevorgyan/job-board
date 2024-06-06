@@ -84,24 +84,23 @@
             <div class="row align-items-center justify-content-center text-center pt-sm-7">
                 <div class="col-xl-9 col-xxl-7 mb-1-9 mb-lg-0">
                     <div th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER') || currentUser.role.name().equals('ADMIN')}">
-                        <h1 class="text-white display-sm-14 display-lg-10">Find The Best Job</h1>
-                        <p class="text-white mb-1-9 mb-md-2-9">Find perfect job for build your skills. Have many job in
-                            this platform.</p>
+                        <h1 class="text-white display-sm-14 display-lg-10" th:text="#{banner.heading}">Find The Best Job</h1>
+                        <p class="text-white mb-1-9 mb-md-2-9" th:text="#{banner.subheading}">Find perfect job for build your skills. Have many job in this platform.</p>
                     </div>
                     <div class="banner-4-form mb-2-9"
                          th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER') || currentUser.role.name().equals('ADMIN')}">
                         <form action="/jobs/search" method="get">
                             <div class="input-group">
-                                <input type="text" name="title" class="form-control" placeholder="Job title, Keyword"
-                                       aria-label="Job title, Keyword" aria-describedby="button-addon2">
+                                <input type="text" name="title" class="form-control" th:placeholder="#{homePage.search.placeholder}"
+                                       th:aria-label="#{homePage.search.placeholder}" aria-describedby="button-addon2">
                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                <button class="butn" type="submit" id="button-addon">Find Job</button>
+                                <button class="butn" type="submit" id="button-addon" th:text="#{homePage.findButton}">Find Job</button>
                             </div>
                         </form>
                     </div>
 
                     <div th:if="${currentUser != null && (currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER'))}">
-                        <h1 class="text-white display-sm-14 display-lg-10">Find The Best Resume</h1>
+                        <h1 class="text-white display-sm-14 display-lg-10" th:text="#{banner.heading}">Find The Best Resume</h1>
                         <br>
                     </div>
                     <div class="banner-4-form mb-2-9"
@@ -112,7 +111,7 @@
                                        placeholder="Job title, Keyword"
                                        aria-label="Job title, Keyword" aria-describedby="button-addon2">
                                 <input type="hidden" name="searchIndexStr" th:value="${1}">
-                                <button class="butn" type="submit" id="button-addon2">Find Resume</button>
+                                <button class="butn" type="submit" id="button-addon2" th:text="#{homePage.findResumeButton}">Find Resume</button>
                             </div>
                         </form>
                     </div>
@@ -146,8 +145,6 @@
                 </div>
             </div>
         </div>
-
-
     </section>
 
     <!-- RECENT JOBS
@@ -155,43 +152,32 @@
     <section th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
         <div class="container">
             <div class="section-heading4">
-                <span>Recent Jobs</span>
-                <h2>Latest Job Postings</h2>
+                <span th:text="#{recentjobs.label}">Recent Jobs</span>
+                <h2 th:text="#{recentjobs.heading}">Latest Job Postings</h2>
             </div>
             <div class="recent-jobs owl-carousel owl-theme">
                 <div th:each="job : ${jobs}" class="card card-style10">
                     <div class="card-body">
-                        <span class="popular-jobs-status"
-                              th:text="${job.status.getName()}"></span>
+                        <span class="popular-jobs-status" th:text="${job.status.getName()}"></span>
                         <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
-
                             <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
-                                <a class="favourite wishList"
-                                   style="background-color: #e74c3c; color: white"
-                                   href="#!"
+                                <a class="favourite wishList" style="background-color: #e74c3c; color: white" href="#!"
                                    th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
                             </button>
-
-                            <button th:if="${!#lists.contains(favoritesJobs,job)}"
-                                    style="border: white;background: white">
-                                <a class="favourite wishList" href="#!"
-                                   th:data-job-id="${'a' + job.id}"><i
+                            <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
+                                <a class="favourite wishList" href="#!" th:data-job-id="${'a' + job.id}"><i
                                         class="far fa-heart"></i></a>
                             </button>
-
                         </th:block>
                         <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
                                 style="border: white;background: white">
-                            <a class="favourite wishList" href="#!"
-                               th:data-job-id="${'a' + job.id}"><i
+                            <a class="favourite wishList" href="#!" th:data-job-id="${'a' + job.id}"><i
                                     class="far fa-heart"></i></a>
                         </button>
-
                         <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
                                 style="border: white;background: white"><a class="favourite" href="/login"><i
                                 class="far fa-heart"></i></a>
                         </button>
-
                         <div class="popular-jobs-box">
                             <img class="mb-4 border-radius-10" th:src="'/download/picture/' + ${job.logoName}"
                                  style="width: 80px" width="80px" alt="...">
@@ -208,21 +194,21 @@
                                 th:text="${job.workExperience.getExperience()}"></th:block></span>
                         <br>
                     </div>
-                    <a th:href="'/jobs/item/' + ${job.id}" class="butn butn-apply">Apply Now</a>
+                    <a th:href="'/jobs/item/' + ${job.id}" class="butn butn-apply" th:text="#{homePage.apply}">Apply Now</a>
                 </div>
             </div>
         </div>
-
     </section>
+
 
     <!-- JOB CATEGORIES
     ================================================== -->
     <section class="bg-primary-light"
-             th:if="${currentUser == null || currentUser.role.name().equals('JOB_SEEKER') || currentUser.role.name().equals('ADMIN')}">
+             th:if="${currentUser == null || currentUser.role.name.equals('JOB_SEEKER') || currentUser.role.name.equals('ADMIN')}">
         <div class="container">
             <div class="section-heading4">
-                <span>Categories</span>
-                <h2>Jobs By Category</h2>
+                <span th:text="#{categories.label}">Categories</span>
+                <h2 th:text="#{categories.jobHeading}">Jobs By Category</h2>
             </div>
             <div class="row mt-n1-9">
                 <div th:each="category : ${categories}" class="col-md-6 col-lg-4 mt-1-9">
@@ -252,8 +238,8 @@
              th:if="${currentUser != null && ((currentUser.role.name().equals('EMPLOYEE') || currentUser.role.name().equals('COMPANY_OWNER')))}">
         <div class="container">
             <div class="section-heading4">
-                <span>Categories</span>
-                <h2>Resumes By Category</h2>
+                <span th:text="#{categories.label}">Categories</span>
+                <h2 th:text="#{categories.resumeHeading}">Resumes By Category</h2>
             </div>
             <div class="row mt-n1-9">
                 <div th:each="category : ${categories}" class="col-md-6 col-lg-4 mt-1-9">
@@ -279,6 +265,7 @@
         </div>
     </section>
 
+
     <!-- JOB LOCATION
     ================================================== -->
 
@@ -287,8 +274,8 @@
     <section class="bg-primary-light company-style-02">
         <div class="container">
             <div class="section-heading4">
-                <span>Let’s Find Out</span>
-                <h2>Top Rated Companies</h2>
+                <span th:text="#{companies.findOut}">Let’s Find Out</span>
+                <h2 th:text="#{companies.label}">Top Rated Companies</h2>
             </div>
             <div class="row mt-n1-9">
                 <div class="col-md-6 mt-1-9" th:each="entry : ${companies.entrySet()}">
@@ -328,12 +315,11 @@
         </div>
     </section>
 
-
     <footer>
         <div class="container">
             <div class="row mt-n2-6">
                 <div class="col-sm-6 col-xl-4 mt-2-6">
-                    <h3 class="h5 mb-1-6 text-white">Contact Us</h3>
+                    <h3 class="h5 mb-1-6 text-white" th:text="#{footer.contactUs}">Contact Us</h3>
                     <p class="mb-1-6 text-white opacity9">Advertise your jobs to hundreds of thousands of monthly
                         customers and seek 15.8 million CV in our database.</p>
                     <ul class="contact-list">
@@ -347,7 +333,7 @@
                 </div>
                 <div class="col-sm-6 col-xl-2 mt-2-6">
                     <div class="ps-md-1-9">
-                        <h3 class="h5 mb-1-6 text-white">Information</h3>
+                        <h3 class="h5 mb-1-6 text-white" th:text="#{footer.information}">Information</h3>
                         <ul class="footer-list-style1">
                             <li><a href="aboutus.html">About us</a></li>
                             <li><a href="blog-grid.html">Blog</a></li>
@@ -359,7 +345,7 @@
                 </div>
                 <div class="col-sm-6 col-xl-2 mt-2-6">
                     <div class="ps-xl-1-9">
-                        <h3 class="h5 mb-1-6 text-white">Candidates</h3>
+                        <h3 class="h5 mb-1-6 text-white" th:text="#{footer.candidates}">Candidates</h3>
                         <ul class="footer-list-style1">
                             <li><a href="candidate-applied-job.html">Applied Job</a></li>
                             <li><a href="candidate-cv-manager.html">CV Manager</a></li>
@@ -371,7 +357,7 @@
                 </div>
                 <div class="col-sm-6 col-xl-4 mt-2-6">
                     <div class="ps-md-1-9 ps-xl-2-5">
-                        <h3 class="h5 mb-1-6 text-white">Join Our Newsletter</h3>
+                        <h3 class="h5 mb-1-6 text-white" th:text="#{footer.joinNewsletter}">Join Our Newsletter</h3>
                         <p class="text-white mb-4">Subscribe to get the latest jobs posted, find candidates...</p>
                         <form class="quform newsletter-style-02" action="quform/newsletter-two.php" method="post"
                               enctype="multipart/form-data" onclick="">
@@ -392,7 +378,7 @@
                                     <!-- Begin Submit button -->
                                     <div class="col-md-12">
                                         <div class="quform-submit-inner">
-                                            <button class="butn" type="submit"><span>Subscribe</span></button>
+                                            <button class="butn" type="submit"><span th:text="#{footer.subscribe}">Subscribe</span></button>
                                         </div>
                                         <div class="quform-loading-wrap text-start"><span class="quform-loading"></span>
                                         </div>
@@ -436,6 +422,7 @@
             </div>
         </div>
     </footer>
+
 
 </div>
 

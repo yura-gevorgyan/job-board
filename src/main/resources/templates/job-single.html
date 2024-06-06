@@ -57,80 +57,59 @@
     <!-- JOB DETAILS 2
     ================================================== -->
     <section>
-
         <div class="container">
             <div class="row mb-2-5 mb-lg-2-9">
-                        <span th:if="${errorMsg != null}">
-                            <div class="alert alert-danger alert-dismissible">
-                                <strong th:text="${errorMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                        </span>
+            <span th:if="${errorMsg != null}">
+                <div class="alert alert-danger alert-dismissible">
+                    <strong th:text="${errorMsg}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
                 <span th:if="${msg != null}">
-                            <div class="alert alert-success alert-dismissible">
-                                <strong th:text="${msg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                    </span>
+                <div class="alert alert-success alert-dismissible">
+                    <strong th:text="${msg}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
                 <span th:if="${applyJobMsg != null}">
-                            <div class="alert alert-warning alert-dismissible">
-                                <strong th:text="${applyJobMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                    </span>
+                <div class="alert alert-warning alert-dismissible">
+                    <strong th:text="${applyJobMsg}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
                 <span th:if="${resumeMsg != null}">
-                            <div class="alert alert-dark alert-dismissible">
-                                <strong th:text="${resumeMsg}"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                    </span>
+                <div class="alert alert-dark alert-dismissible">
+                    <strong th:text="${resumeMsg}"></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
                 <div class="col-lg-12">
                     <div class="p-1-6 p-md-1-9 border border-color-extra-light-gray border-radius-10">
                         <div class="row align-items-center">
                             <div class="col-lg-9 mb-4 mb-lg-0">
                                 <div class="d-lg-flex align-items-center text-center text-lg-start">
                                     <div class="flex-shrink-0 mb-4 mb-lg-0">
-                                        <img th:src="@{'/download/picture/' + ${job.logoName}}" style="width: 80px"
-                                             alt="..."
-                                             class="border-radius-10">
+                                        <img th:src="@{'/download/picture/' + ${job.logoName}}" style="width: 80px" alt="..." class="border-radius-10">
                                     </div>
                                     <div class="flex-grow-1 ms-lg-4">
                                         <h4 class="mb-3">
                                             <th:block th:text="${job.title}"></th:block>
-
-                                            <span class="job-detail-info"><i
-                                                    class="ti-briefcase text-primary pe-2"></i><th:block
-                                                    th:text="${job.status.getName()}"></th:block></span>
+                                            <span class="job-detail-info"><i class="ti-briefcase text-primary pe-2"></i><th:block th:text="${job.status.getName()}"></th:block></span>
                                         </h4>
-                                        <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                                th:text="${job.category.name}"></th:block></span>
-                                        <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block
-                                                th:text="${job.country.countryName}"></th:block></span>
-                                        <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block
-                                                th:text="${job.workExperience.getExperience()}"></th:block></span>
-                                        <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block
-                                                th:text="${'$' + job.salary}"></th:block></span>
+                                        <span class="me-2"><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${job.category.name}"></th:block></span>
+                                        <span class="me-2"><i class="ti-location-pin pe-2 text-secondary"></i><th:block th:text="${job.country.countryName}"></th:block></span>
+                                        <span class="me-2"><i class="ti-time pe-2 text-secondary"></i><th:block th:text="${job.workExperience.getExperience()}"></th:block></span>
+                                        <span><i class="far fa-money-bill-alt pe-2 text-secondary"></i><th:block th:text="${'$' + job.salary}"></th:block></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3"
-                                 th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
+                            <div class="col-lg-3" th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
                                 <div class="row">
-                                    <div class="text-center mb-3">Published Date: <strong
-                                            th:text="${#dates.format(job.publishedDate,'dd MMMM yyyy')}"></strong>
-                                    </div>
                                     <div class="col-12">
-                                        <a th:href="@{'/jobs/apply/' + ${job.id}}" class="butn mb-3 w-100 text-center">Apply
-                                            For Job</a>
+                                        <a th:href="@{'/jobs/apply/' + ${job.id}}" class="butn mb-3 w-100 text-center" th:text="#{job.apply}">Apply For Job</a>
                                     </div>
-                                    <div class="col-12"
-                                         th:if="${(currentUser != null) && (job.user.id != currentUser.id)}">
-                                        <a th:href="'/profile/message/' + ${job.user.id}"
-                                           class="butn w-100 text-center">Message</a>
+                                    <div class="col-12" th:if="${(currentUser != null) && (job.user.id != currentUser.id)}">
+                                        <a th:href="'/profile/message/' + ${job.user.id}" class="butn w-100 text-center" th:text="#{job.message}">Message</a>
                                     </div>
                                 </div>
                             </div>
@@ -144,27 +123,24 @@
                         <div class="row">
                             <div class="col-lg-12 mb-2-2">
                                 <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
-                                    <h4 class="mb-3">Job Details :</h4>
+                                    <h4 class="mb-3" th:text="#{job.details}">Job Details :</h4>
                                     <div class="row mt-n3">
                                         <div class="col-sm-6 col-md-4 mt-3">
                                             <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
-                                                <h5 class="display-29 display-xl-28">Offered Salary</h5>
-                                                <span class="font-weight-500 text-primary display-30"
-                                                      th:text="${'$' + job.salary}"></span>
+                                                <h5 class="display-29 display-xl-28" th:text="#{job.offeredSalary}">Offered Salary</h5>
+                                                <span class="font-weight-500 text-primary display-30" th:text="${'$' + job.salary}"></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-4 mt-3">
                                             <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
-                                                <h5 class="display-29 display-xl-28">Experience</h5>
-                                                <span class="font-weight-500 text-primary display-30"
-                                                      th:text="${job.workExperience.getExperience()}"></span>
+                                                <h5 class="display-29 display-xl-28" th:text="#{job.experience}">Experience</h5>
+                                                <span class="font-weight-500 text-primary display-30" th:text="${job.workExperience.getExperience()}"></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-4 mt-3">
                                             <div class="border border-color-extra-light-gray py-3 px-4 border-radius-10">
-                                                <h5 class="display-29 display-xl-28">Industry</h5>
-                                                <span class="font-weight-500 text-primary display-30"
-                                                      th:text="${job.category.name}"></span>
+                                                <h5 class="display-29 display-xl-28" th:text="#{job.industry}">Industry</h5>
+                                                <span class="font-weight-500 text-primary display-30" th:text="${job.category.name}"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +148,7 @@
                             </div>
                             <div class="col-lg-12 mb-2-2">
                                 <div class="p-1-6 border border-color-extra-light-gray border-radius-10">
-                                    <h4 class="mb-3">Job Description :</h4>
+                                    <h4 class="mb-3" th:text="#{job.jobDescription}">Job Description :</h4>
                                     <p class="mb-0" th:utext="${job.description}"></p>
                                 </div>
                             </div>
@@ -186,41 +162,35 @@
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center mb-1-9">
                                         <div class="flex-shrink-0">
-                                            <img th:src="@{'/download/picture/' + ${job.company.logoName}}"
-                                                 style="width: 100px" alt="..." class="border-radius-10">
+                                            <img th:src="@{'/download/picture/' + ${job.company.logoName}}" style="width: 100px" alt="..." class="border-radius-10">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h5 class="mb-1" th:text="${job.company.name}"></h5>
-                                            <a th:href="@{'/companies/item/' + ${job.company.id}}"
-                                               class="font-weight-600">View Company Profile</a>
+                                            <a th:href="@{'/companies/item/' + ${job.company.id}}" class="font-weight-600" th:text="#{company.profile}">View Company Profile</a>
                                         </div>
                                     </div>
                                     <ul class="list-style5">
-                                        <li><span>Industry</span>
+                                        <li><span th:text="#{company.industry}">Industry</span>
                                             <th:block th:text="${' ' + job.company.category.name}"></th:block>
                                         </li>
-                                        <li><span>Founded In</span>
-                                            <th:block
-                                                    th:text="${#dates.format(job.company.foundedDate,'dd MMMM yyyy')}"></th:block>
+                                        <li><span th:text="#{company.foundedIn}">Founded In</span>
+                                            <th:block th:text="${#dates.format(job.company.foundedDate,'dd MMMM yyyy')}"></th:block>
                                         </li>
-                                        <li th:if="${job.company.phone != null && !job.company.phone.isEmpty()}"><span>Phone</span>
+                                        <li th:if="${job.company.phone != null && !job.company.phone.isEmpty()}"><span th:text="#{company.phone}">Phone</span>
                                             <th:block th:text="${job.company.phone}"></th:block>
                                         </li>
-                                        <li th:if="${job.company.email != null && !job.company.email.isEmpty()}"><span>Email</span>
+                                        <li th:if="${job.company.email != null && !job.company.email.isEmpty()}"><span th:text="#{company.email}">Email</span>
                                             <th:block th:text="${job.company.email}"></th:block>
                                         </li>
                                         <li th:if="${job.company.website != null && !job.company.website.isEmpty()}">
-                                            <span>Website</span>
+                                            <span th:text="#{company.website}">Website</span>
                                             <th:block th:text="${job.company.website}"></th:block>
                                         </li>
-                                        <li><span>Address</span>
+                                        <li><span th:text="#{company.address}">Address</span>
                                             <th:block th:text="${job.company.country.countryName}"></th:block>
                                         </li>
                                     </ul>
-                                    <a th:if="${job.company.website != null && !job.company.website.isEmpty()}"
-                                       th:href="${job.company.website}" class="butn w-100 text-center mt-1-9">
-                                        <th:block th:text="${job.company.website}"></th:block>
-                                    </a>
+                                    <a th:if="${job.company.website != null && !job.company.website.isEmpty()}" th:href="${job.company.website}" class="butn w-100 text-center mt-1-9" th:text="${job.company.website}"></a>
                                 </div>
                             </div>
                         </div>
@@ -229,21 +199,19 @@
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center mb-1-9">
                                         <div class="flex-shrink-0">
-                                            <img th:src="@{'/download/picture/' + ${job.user}}"
-                                                 style="width: 100px" alt="..." class="border-radius-10">
+                                            <img th:src="@{'/download/picture/' + ${job.user}}" style="width: 100px" alt="..." class="border-radius-10">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <h5 class="mb-1" th:text="${job.user.name +' ' +  job.user.surname}"></h5>
+                                            <h5 class="mb-1" th:text="${job.user.name +' ' + job.user.surname}"></h5>
                                             <span class="font-weight-600">Employer Profile Data</span>
                                         </div>
                                     </div>
                                     <ul class="list-style5">
-                                        <li><span>Email</span>
+                                        <li><span th:text="#{company.email}">Email</span>
                                             <th:block th:text="${job.user.email}"></th:block>
                                         </li>
-                                        <li><span>RegisterDate</span>
-                                            <th:block
-                                                    th:text="${#dates.format(job.user.registerDate,'dd MMMM yyyy')}"></th:block>
+                                        <li><span th:text="#{job.registerDate}">RegisterDate</span>
+                                            <th:block th:text="${#dates.format(job.user.registerDate,'dd MMMM yyyy')}"></th:block>
                                         </li>
                                     </ul>
                                 </div>
@@ -254,80 +222,51 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="mb-4">Related Jobs :</h4>
+                    <h4 class="mb-4" th:text="#{related.jobs}">Related Jobs :</h4>
                     <div class="recent-jobs owl-carousel owl-theme">
                         <div class="card card-style10" th:each="singleJob : ${jobs} ">
                             <div class="card-body">
                                 <span class="popular-jobs-status" th:text="${singleJob.status.getName()}"></span>
                                 <th:block th:if="${favoritesJobs != null && !favoritesJobs.isEmpty()}">
-
                                     <button th:if="${#lists.contains(favoritesJobs,job)}" style="border: white">
-                                        <a class="favourite wishList"
-                                           style="background-color: #e74c3c; color: white"
-                                           href="#!"
-                                           th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
+                                        <a class="favourite wishList" style="background-color: #e74c3c; color: white" href="#!" th:data-job-id="${job.id}"><i class="far fa-heart"></i></a>
                                     </button>
-
-                                    <button th:if="${!#lists.contains(favoritesJobs,job)}"
-                                            style="border: white;background: white">
-                                        <a class="favourite wishList" href="#!"
-                                           th:data-job-id="${'a' + job.id}"><i
-                                                class="far fa-heart"></i></a>
+                                    <button th:if="${!#lists.contains(favoritesJobs,job)}" style="border: white;background: white">
+                                        <a class="favourite wishList" href="#!" th:data-job-id="${'a' + job.id}"><i class="far fa-heart"></i></a>
                                     </button>
-
                                 </th:block>
-
                                 <div th:if="${(currentUser != null && !currentUser.role.name.equals('Admin')) || (currentUser == null)}">
-                                    <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}"
-                                            style="border: white;background: white">
-                                        <a class="favourite wishList" href="#!"
-                                           th:data-job-id="${'a' + job.id}"><i
-                                                class="far fa-heart"></i></a>
+                                    <button th:if="${currentUser != null && (favoritesJobs == null || favoritesJobs.isEmpty())}" style="border: white;background: white">
+                                        <a class="favourite wishList" href="#!" th:data-job-id="${'a' + job.id}"><i class="far fa-heart"></i></a>
                                     </button>
-
-                                    <button class="openModalBtn" type="submit" th:if="${currentUser == null}"
-                                            style="border: white;background: white"><a class="favourite" href="#!"><i
-                                            class="far fa-heart"></i></a>
-                                    </button>
+                                    <button class="openModalBtn" type="submit" th:if="${currentUser == null}" style="border: white;background: white"><a class="favourite" href="#!"><i class="far fa-heart"></i></a></button>
                                 </div>
-
                                 <div class="popular-jobs-box">
-                                    <img class="mb-4 border-radius-10"
-                                         th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;"
-                                         alt="...">
-                                    <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}"
-                                                      th:text="${job.title}"></a></h4>
+                                    <img class="mb-4 border-radius-10" th:src="@{'/download/picture/' + ${singleJob.logoName}}" style="width: 80px;" alt="...">
+                                    <h4 class="h5"><a th:href="@{'/jobs/item/' + ${singleJob.id}}" th:text="${job.title}"></a></h4>
                                     <p class="text-muted font-weight-500" th:text="${singleJob.category.name}"></p>
                                 </div>
-                                <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
-                                        class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block
-                                        th:text="${job.country.countryName}"></th:block></span>
-                                <span class="border-end border-color-extra-light-gray pe-2 me-2"><i
-                                        class="far fa-clock pe-2 text-secondary"></i><th:block
-                                        th:text="${'$' + job.salary}"></th:block></span>
-                                <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block
-                                        th:text="${singleJob.workExperience.getExperience()}"></th:block></span>
+                                <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="fas fa-map-marker-alt pe-2 text-secondary"></i><th:block th:text="${job.country.countryName}"></th:block></span>
+                                <span class="border-end border-color-extra-light-gray pe-2 me-2"><i class="far fa-clock pe-2 text-secondary"></i><th:block th:text="${'$' + job.salary}"></th:block></span>
+                                <span><i class="ti-briefcase pe-2 text-secondary"></i><th:block th:text="${singleJob.workExperience.getExperience()}"></th:block></span>
                             </div>
-                            <a th:href="@{'/jobs/item/' + ${singleJob.id}}" class="butn butn-apply">Watch Now</a>
+                            <a th:href="@{'/jobs/item/' + ${singleJob.id}}" class="butn butn-apply" th:text="#{related.watchNow}">Watch Now</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div id="myModal" class="modal-pop" th:if="${currentUser == null}">
-            <!-- Modal content -->
             <div class="modal-content-pop">
-                       <span>
-                            <div class="alert alert-dark alert-dismissible ">
-                                <strong>Login your account, in order to add in favorites.</strong>
-                            </div>
-                       </span>
-                <a href="/login" class="butn mb-3 w-100 text-center">Login</a>
+            <span>
+                <div class="alert alert-dark alert-dismissible ">
+                    <strong th:text="#{login.required}">Login your account, in order to add in favorites.</strong>
+                </div>
+            </span>
+                <a href="/login" class="butn mb-3 w-100 text-center" th:text="#{login.button}">Login</a>
                 <span class="close"></span>
             </div>
         </div>
-
     </section>
 
     <!-- FOOTER
