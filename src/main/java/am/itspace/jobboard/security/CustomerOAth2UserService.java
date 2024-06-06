@@ -75,18 +75,33 @@ public class CustomerOAth2UserService extends DefaultOAuth2UserService {
             userService.save(existingUser);
         }
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(existingUser.getRole().name());
+        OAuth2User customOAuth2User = getoAuth2User(existingUser, requestClientId, oauth2User);
 
-        OAuth2User customOAuth2User = new DefaultOAuth2User(
-                Collections.singletonList(authority),
-                oauth2User.getAttributes(),
-                "name"
-        );
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities())
         );
 
+        return customOAuth2User;
+    }
+
+    private OAuth2User getoAuth2User(User existingUser, String requestClientId, OAuth2User oauth2User) {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(existingUser.getRole().name());
+
+        OAuth2User customOAuth2User;
+        if (requestClientId.equals(gitHubClientId)) {
+            customOAuth2User = new DefaultOAuth2User(
+                    Collections.singletonList(authority),
+                    oauth2User.getAttributes(),
+                    "login"
+            );
+        } else {
+            customOAuth2User = new DefaultOAuth2User(
+                    Collections.singletonList(authority),
+                    oauth2User.getAttributes(),
+                    "name"
+            );
+        }
         return customOAuth2User;
     }
 }

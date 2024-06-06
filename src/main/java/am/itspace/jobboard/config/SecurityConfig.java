@@ -43,6 +43,8 @@ public class SecurityConfig {
                         .requestMatchers("/css2/**").permitAll()
                         .requestMatchers("/download/picture/**").permitAll()
                         .requestMatchers("/getImage/**").permitAll()
+                        .requestMatchers("/user").permitAll()
+                        .requestMatchers("/user/emails").permitAll()
 
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/jobs/**").permitAll()
