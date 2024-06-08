@@ -16,4 +16,8 @@ public interface ResumeWishlistService {
     void delete(Resume resume, User user);
 
     List<ResumeWishlist> findAllByUserId(int id);
+
+    void deleteByUserId(int id);
+
+    void deleteByResume(Resume resume);
 }

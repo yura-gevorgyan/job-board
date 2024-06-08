@@ -50,4 +50,10 @@ public interface UserService {
     User findById(int id);
 
     void updateOAuth2User(User user);
+
+    void deleteProfileCode(User user);
+
+    void deleteProfile(User user);
+
+    User confirmEmailForDelete(String confirmEmailCode);
 }

@@ -315,7 +315,7 @@ public class CompanyController {
 
                 Company company = companyService.findById(id);
 
-                if (company != null && company.isActive()) {
+                if (company != null) {
                     companyWishlistService.delete(company, user);
                     log.info("User by {} id, has deleted the company by {} id, from wishlist", user.getId(), company.getId());
                     return ResponseEntity.ok().build();

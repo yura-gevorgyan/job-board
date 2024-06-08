@@ -17,4 +17,5 @@ public interface JobWishlistRepository extends JpaRepository<JobWishlist, Intege
 
     void deleteAllByJobId(int id);
 
+    List<JobWishlist> findAllByJobId(int id);
 }

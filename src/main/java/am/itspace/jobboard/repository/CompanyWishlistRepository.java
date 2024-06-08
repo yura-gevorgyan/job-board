@@ -19,4 +19,6 @@ public interface CompanyWishlistRepository extends JpaRepository<CompanyWishlist
     List<CompanyWishlist> findAllByUserId(int id);
 
     void deleteAllByCompanyId(int id);
+
+    List<CompanyWishlist> findAllByCompanyId(int id);
 }

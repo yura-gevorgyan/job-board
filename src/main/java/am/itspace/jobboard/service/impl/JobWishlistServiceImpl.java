@@ -48,4 +48,18 @@ public class JobWishlistServiceImpl implements JobWishlistService {
             jobWishlistRepository.delete(jobWishlist);
         }
     }
+
+    @Override
+    public void deleteByUserId(int id) {
+        jobWishlistRepository.deleteAll(findAllByUserId(id));
+    }
+
+    @Override
+    public void deleteByJob(Job job) {
+        jobWishlistRepository.deleteAll(findAllByJobId(job.getId()));
+    }
+
+    private List<JobWishlist> findAllByJobId(int id) {
+        return jobWishlistRepository.findAllByJobId(id);
+    }
 }
