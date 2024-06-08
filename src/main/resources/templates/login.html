@@ -68,7 +68,7 @@
                                     </div>
                                 </span>
                                 </div>
-                                <form action="/login" method="post">
+                                <form action="/login" method="post" onsubmit="return validateForm()">
                                     <div class="col-lg-12 mb-3">
                                         <label for="username" class="form-label fs-6 text-muted" th:text="#{login.email.label}">Email</label>
                                         <div class="input-group">
@@ -152,6 +152,8 @@
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+
+<script src="/js/loginValidation.js"></script>
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>

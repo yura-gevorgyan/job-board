@@ -9,6 +9,7 @@ import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.entity.enums.Status;
 import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
+import am.itspace.jobboard.exception.PasswordToShortException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.security.SecurityService;
 import am.itspace.jobboard.service.*;
@@ -35,11 +36,11 @@ public class ProfileController {
     private final ResumeService resumeService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordProperties passwordProperties;
     private final CompanyPictureService companyPictureService;
     private final JobService jobService;
     private final CountryService countryService;
     private final SecurityService securityService;
-    private final PasswordProperties passwordProperties;
 
     @GetMapping
     public String employerProfile() {
@@ -206,6 +207,10 @@ public class ProfileController {
 
     @GetMapping("/change-password")
     public String changePasswordPage(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+        User user = securityService.getCurrentUser();
+        if (user.getPassword().equals(passwordProperties.getOAuth2UserPassword())) {
+            modelMap.addAttribute("cannotChangePasswordMsg", "You cannot change the password because you are logged in with social media.");
+        }
         AddErrorMessageUtil.addMessageToModel(msg, modelMap);
         return "/profile/candidate-change-password";
     }
@@ -229,12 +234,16 @@ public class ProfileController {
                                  RedirectAttributes redirectAttributes) {
         User user = securityService.getCurrentUser();
 
+        if (user.getPassword().equals(passwordProperties.getOAuth2UserPassword())) {
+            redirectAttributes.addFlashAttribute("msg", "You cannot change the password because you are logged in with social media.");
+            return "redirect:/profile/change-password";
+        }
+
         if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword) || StringUtils.isEmpty(confirmPassword)) {
             return "redirect:/profile/change-password";
         }
 
-        if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
-
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             try {
                 userService.changePassword(newPassword, confirmPassword, user);
                 redirectAttributes.addFlashAttribute("msg", "Your password is successfully changed.");
@@ -247,6 +256,10 @@ public class ProfileController {
 
             } catch (UseOldPasswordException e) {
                 redirectAttributes.addFlashAttribute("msg", "You are using old password.");
+                return "redirect:/profile/change-password";
+
+            } catch (PasswordToShortException e) {
+                redirectAttributes.addFlashAttribute("msg", "Password must be at least 8 characters long.");
                 return "redirect:/profile/change-password";
             }
         }

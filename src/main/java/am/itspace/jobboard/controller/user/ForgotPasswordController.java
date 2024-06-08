@@ -1,7 +1,9 @@
 package am.itspace.jobboard.controller.user;
 
 import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.exception.OAuth2UserCannotChangePasswordException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
+import am.itspace.jobboard.exception.PasswordToShortException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -41,11 +43,17 @@ public class ForgotPasswordController {
 
     @PostMapping
     public String forgotPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
-        if (userService.forgotPassword(email) != null) {
-            return "redirect:/forgot/password/confirm";
-        }
-        redirectAttributes.addFlashAttribute("msg", "Invalid Email, please try again.");
-        return "redirect:/forgot/password";
+       try {
+           if (userService.forgotPassword(email) != null) {
+               return "redirect:/forgot/password/confirm";
+           }
+           redirectAttributes.addFlashAttribute("msg", "Invalid Email, please try again.");
+           return "redirect:/forgot/password";
+
+       } catch (OAuth2UserCannotChangePasswordException e) {
+           redirectAttributes.addFlashAttribute("msg", "You cannot change the password because you are logged in with social media.");
+           return "redirect:/forgot/password";
+       }
     }
 
     @PostMapping("/confirm")
@@ -72,6 +80,10 @@ public class ForgotPasswordController {
 
         } catch (UseOldPasswordException e) {
             redirectAttributes.addFlashAttribute("msg", "You are using old password.");
+            return "redirect:/forgot/password/confirm/change";
+
+        } catch (PasswordToShortException e) {
+            redirectAttributes.addFlashAttribute("msg", "Password must be at least 8 characters long.");
             return "redirect:/forgot/password/confirm/change";
         }
         return "redirect:/login";

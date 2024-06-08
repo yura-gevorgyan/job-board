@@ -81,9 +81,10 @@
                      class="border-radius-50">
             </div>
         </div>
+        
         <div class="dashboard-widget">
             <form th:action="${currentUser.role.name() == 'EMPLOYEE' ? '/jobs/create' : '/jobs/create/company'}"
-                  method="post" enctype="multipart/form-data">
+                  method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
                 <div class="quform-elements">
                     <div class="row">
                         <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
@@ -235,7 +236,7 @@
         </div>
         <div class="dashboard-widget">
             <form th:action="${currentUser.role.name() == 'EMPLOYEE' ? '/jobs/update' : '/jobs/update/company'}"
-                  method="post" enctype="multipart/form-data" onclick="">
+                  method="post" enctype="multipart/form-data" onsubmit="return validateForm()" onclick="">
                 <div class="quform-elements">
                     <div class="row">
                         <span th:if="${currentUser.role.name() == 'EMPLOYEE'}">
@@ -398,6 +399,7 @@
 <!-- end scroll to top -->
 
 <!-- all js include start -->
+<script src="/js/validateJobCreate.js"></script>
 
 <script src="/js/jquery.min.js"></script>
 

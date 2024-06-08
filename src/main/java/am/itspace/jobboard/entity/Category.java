@@ -1,6 +1,7 @@
 package am.itspace.jobboard.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String picName;
 
+    @NotBlank(message = "Category name can not be null")
+    private String name;
+
+    @NotBlank(message = "Category picture can not be null")
+    private String picName;
 }
