@@ -48,7 +48,6 @@ public class Job implements UploadAble {
     private WorkExperience workExperience;
 
     @ManyToOne
-    @NotNull(message = "Country must not be null")
     private Country country;
 
     @Min(value = 0, message = "Salary must be at least 0.")

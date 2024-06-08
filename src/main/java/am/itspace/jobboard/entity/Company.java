@@ -1,7 +1,13 @@
 package am.itspace.jobboard.entity;
 
 import am.itspace.jobboard.util.UploadAble;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,18 +34,16 @@ public class Company implements UploadAble {
     @Length(max = 25)
     private String name;
 
-    @NotBlank(message = "Company logo can not be null")
     private String logoName;
 
     @Length(max = 4000)
     private String description;
 
     @ManyToOne
-    @NotNull(message = "Country must not be null")
     private Country country;
 
-    @Past(message = "Founded Date must contain a past date")
-    @NotNull(message = "Founded date can not be null")
+    @Past(message = "Founded Date must contain a past date.")
+    @NotNull(message = "Founded date can not be null.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date foundedDate;
 
@@ -58,7 +62,6 @@ public class Company implements UploadAble {
     @ManyToOne
     private User user;
 
-    @NotNull(message = "Category can not be null")
     @ManyToOne
     private Category category;
 
