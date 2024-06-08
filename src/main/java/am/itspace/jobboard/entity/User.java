@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,13 +31,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String surname;
 
     @Email(message = "Invalid Email")
     private String email;
 
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
+
     private String token;
     private boolean activated;
     private boolean isDeleted;
@@ -45,5 +50,4 @@ public class User {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date registerDate;
-
 }

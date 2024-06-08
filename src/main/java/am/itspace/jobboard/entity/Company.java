@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +28,7 @@ public class Company implements UploadAble {
     @Length(max = 25)
     private String name;
 
+    @NotBlank(message = "Company logo can not be null")
     private String logoName;
 
     @Length(max = 4000)
@@ -36,6 +38,8 @@ public class Company implements UploadAble {
     @NotNull(message = "Country must not be null")
     private Country country;
 
+    @Past(message = "Founded Date must contain a past date")
+    @NotNull(message = "Founded date can not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date foundedDate;
 
@@ -54,6 +58,7 @@ public class Company implements UploadAble {
     @ManyToOne
     private User user;
 
+    @NotNull(message = "Category can not be null")
     @ManyToOne
     private Category category;
 

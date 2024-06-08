@@ -5,10 +5,12 @@ import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
+
+import static am.itspace.jobboard.util.AddErrorMessageUtil.addErrorMessage;
 
 @Slf4j
 @Controller
@@ -54,7 +59,16 @@ public class RegisterController {
     }
 
     @PostMapping
-    public String register(@ModelAttribute User user, @RequestParam String confirmPassword, RedirectAttributes redirectAttributes) {
+    public String register(@Valid @ModelAttribute User user,
+                           @RequestParam String confirmPassword,
+                           RedirectAttributes redirectAttributes,
+                           BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            String errorMessage = bindingResult.getFieldError("password").getDefaultMessage();
+            redirectAttributes.addFlashAttribute("msg", errorMessage);
+            return "redirect:/register";
+        }
 
         if (user.getRole() == null || user.getRole().toString().isEmpty()) {
             redirectAttributes.addFlashAttribute("msg", "Choose your type.");
@@ -64,6 +78,7 @@ public class RegisterController {
         try {
             userService.register(user, confirmPassword, user.getRole());
             log.info("User by {} id and {} username, has registered with the Role of {}", user.getId(), user.getEmail(), user.getRole().getName());
+
         } catch (EmailIsPresentException e) {
             redirectAttributes.addFlashAttribute("msg", "Email is already in use.");
             return "redirect:/register";

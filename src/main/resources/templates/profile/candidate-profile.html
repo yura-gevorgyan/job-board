@@ -82,8 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="dashboard-widget">
-                                    <form action="/resumes/create" method="post" enctype="multipart/form-data"
-                                          onclick="">
+                                    <form action="/resumes/create" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" onclick="">
                                         <div class="quform-elements">
                                             <div class="row">
                                                 <!-- Begin Select element -->
@@ -269,14 +268,14 @@
                             </div>
                             </div>
                             <div class="dashboard-widget">
-                                <form action="/resumes/update" method="post" enctype="multipart/form-data" onclick="">
+                                <form action="/resumes/update" method="post" enctype="multipart/form-data" onsubmit="return validateFormUpdate()"  onclick="">
                                         <div class="quform-elements">
                                             <div class="row">
                                                 <input class="form-control" type="hidden" name="id"
                                                        th:value="${resume.id}"/>
                                                 <input class="form-control" type="hidden" name="user.id"
                                                        th:value="${resume.user.id}"/>
-                                                <input class="form-control" type="hidden" name="picName"
+                                                <input class="form-control" type="hidden" name="picName" id="picNameResume"
                                                        th:value="${resume.getPicName()}"/>
                                                 <!-- Begin Select element -->
                                                <div class="col-md-12">
@@ -325,7 +324,7 @@
                                                     <label th:text="#{location}">Location</label>
                                                     <div class="quform-input">
                                                         <select class="form-control form-select border-radius-10"
-                                                                name="country">
+                                                                name="country" id="location">
                                                             <option value="0"
                                                                     th:text="#{country}">Choose Country</option>
                                                             <option th:each="country : ${countries}"
@@ -470,6 +469,10 @@
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js"></script>
+
+<script src="/js/resumeValidation.js"></script>
+
+<script src="/js/resumUpdateValidation.js"></script>
 
 <script src="/js/ShowPictureUpdate.js"></script>
 

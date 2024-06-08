@@ -1,8 +1,5 @@
 package am.itspace.jobboard.util;
 
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GenerateTokenUtil {

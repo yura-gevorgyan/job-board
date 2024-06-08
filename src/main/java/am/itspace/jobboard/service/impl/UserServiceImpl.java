@@ -1,13 +1,33 @@
 package am.itspace.jobboard.service.impl;
 
-import am.itspace.jobboard.entity.*;
+import am.itspace.jobboard.config.PasswordProperties;
+import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Chatroom;
+import am.itspace.jobboard.entity.Company;
+import am.itspace.jobboard.entity.Job;
+import am.itspace.jobboard.entity.JobApplies;
+import am.itspace.jobboard.entity.Resume;
+import am.itspace.jobboard.entity.User;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.NotFoundException;
+import am.itspace.jobboard.exception.OAuth2UserCannotChangePasswordException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
+import am.itspace.jobboard.exception.PasswordToShortException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
-import am.itspace.jobboard.repository.*;
-import am.itspace.jobboard.service.*;
+import am.itspace.jobboard.repository.ApplicantListRepository;
+import am.itspace.jobboard.repository.ChatroomRepository;
+import am.itspace.jobboard.repository.CompanyRepository;
+import am.itspace.jobboard.repository.JobAppliesRepository;
+import am.itspace.jobboard.repository.JobRepository;
+import am.itspace.jobboard.repository.ResumeRepository;
+import am.itspace.jobboard.repository.UserRepository;
+import am.itspace.jobboard.service.CompanyPictureService;
+import am.itspace.jobboard.service.CompanyWishlistService;
+import am.itspace.jobboard.service.JobWishlistService;
+import am.itspace.jobboard.service.ResumeWishlistService;
+import am.itspace.jobboard.service.SendMailService;
+import am.itspace.jobboard.service.UserService;
 import am.itspace.jobboard.util.GenerateTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,6 +49,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordProperties passwordProperties;
     private final SendMailService sendMailService;
     private final JobRepository jobRepository;
     private final CompanyRepository companyRepository;
@@ -84,9 +105,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(String password, String confirmPassword, User user) {
+        if (password.length() < 8) {
+            throw new PasswordToShortException();
 
-        if (!password.equals(confirmPassword)) {
+        } else if (!password.equals(confirmPassword)) {
             throw new PasswordNotMuchException();
+
         } else if (passwordEncoder.matches(password, user.getPassword())) {
             throw new UseOldPasswordException();
         }
@@ -112,6 +136,9 @@ public class UserServiceImpl implements UserService {
     public User forgotPassword(String email) {
         User user = findByEmail(email);
         if (user != null) {
+            if (user.getPassword().equals(passwordProperties.getOAuth2UserPassword())) {
+                throw new OAuth2UserCannotChangePasswordException();
+            }
             user.setToken(GenerateTokenUtil.generateToken());
             save(user);
             sendMailService.sendEmailConfirmMail(user);
