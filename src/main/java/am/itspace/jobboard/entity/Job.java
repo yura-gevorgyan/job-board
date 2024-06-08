@@ -30,9 +30,9 @@ import java.util.Date;
 @Table(name = "job")
 @Data
 @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Job implements UploadAble {
 
     @Id

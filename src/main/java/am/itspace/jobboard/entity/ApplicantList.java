@@ -4,7 +4,10 @@ import am.itspace.jobboard.entity.enums.ApplicantListStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -12,6 +15,9 @@ import java.util.Date;
 @Entity
 @Table(name = "applicant_list")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApplicantList {
 
     @Id
