@@ -22,7 +22,6 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country findPhoneCodeById(int id) {
-        Country byId = countryRepository.findById(id);
-        return byId;
+        return countryRepository.findById(id);
     }
 }

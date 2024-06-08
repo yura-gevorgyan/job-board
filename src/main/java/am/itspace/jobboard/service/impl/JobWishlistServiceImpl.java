@@ -8,7 +8,6 @@ import am.itspace.jobboard.service.JobWishlistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class JobWishlistServiceImpl implements JobWishlistService {
 
     @Override
     public Page<JobWishlist> findByUserId(int index, int id) {
-        return jobWishlistRepository.findAllByUserId(PageRequest.of(index - 1,20),id);
+        return jobWishlistRepository.findAllByUserId(PageRequest.of(index - 1, 20), id);
     }
 
     @Override
@@ -32,7 +31,7 @@ public class JobWishlistServiceImpl implements JobWishlistService {
     @Override
     public void save(Job job, User user) {
         JobWishlist jobWishlist = jobWishlistRepository.findByJobIdAndUserId(job.getId(), user.getId());
-        if (jobWishlist == null){
+        if (jobWishlist == null) {
             JobWishlist build = JobWishlist.builder()
                     .job(job)
                     .user(user)
@@ -44,7 +43,7 @@ public class JobWishlistServiceImpl implements JobWishlistService {
     @Override
     public void delete(Job job, User user) {
         JobWishlist jobWishlist = jobWishlistRepository.findByJobIdAndUserId(job.getId(), user.getId());
-        if (jobWishlist != null){
+        if (jobWishlist != null) {
             jobWishlistRepository.delete(jobWishlist);
         }
     }
