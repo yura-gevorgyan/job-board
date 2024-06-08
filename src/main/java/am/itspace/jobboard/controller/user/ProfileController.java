@@ -150,14 +150,14 @@ public class ProfileController {
         return "/profile/candidate-profile";
     }
 
-    //WRITE LOG FOR DELETING ACCOUNT
+
     @GetMapping("/delete")
     public String deleteAccountPage() {
         User user = securityService.getCurrentUser();
         if (user != null) {
-            if (!user.getPassword().equals(passwordProperties.getOAuth2UserPassword())){
+            if (!user.getPassword().equals(passwordProperties.getOAuth2UserPassword())) {
                 return "/profile/delete-profile";
-            }else {
+            } else {
                 userService.deleteProfileCode(user);
                 return "/profile/delete-profile-confirm";
             }
@@ -188,7 +188,7 @@ public class ProfileController {
 
     @PostMapping("/delete/confirm")
     public String deleteProfileConfirm(@RequestParam String confirmEmailCode,
-                                       RedirectAttributes redirectAttributes){
+                                       RedirectAttributes redirectAttributes) {
 
         if (confirmEmailCode == null || confirmEmailCode.isBlank()) {
             return "redirect:/profile/delete";
@@ -197,7 +197,7 @@ public class ProfileController {
             User user = securityService.getCurrentUser();
             userService.deleteProfile(user);
             log.info("User has been confirmed with the confirm code of {}", confirmEmailCode);
-            log.info("User with {} id is deleted profile",user.getId());
+            log.info("User with {} id is deleted profile", user.getId());
             return "redirect:/logout";
         }
         redirectAttributes.addFlashAttribute("msg", "Invalid confirm code.");
