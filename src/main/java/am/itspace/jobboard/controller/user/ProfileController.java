@@ -201,7 +201,7 @@ public class ProfileController {
             return "redirect:/logout";
         }
         redirectAttributes.addFlashAttribute("msg", "Invalid confirm code.");
-        return "redirect:/profile/delete/confirm";
+        return "/profile/delete-profile-confirm";
 
     }
 
