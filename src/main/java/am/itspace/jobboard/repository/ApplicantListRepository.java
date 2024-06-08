@@ -1,6 +1,7 @@
 package am.itspace.jobboard.repository;
 
 import am.itspace.jobboard.entity.ApplicantList;
+import am.itspace.jobboard.entity.Resume;
 import am.itspace.jobboard.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,4 +30,7 @@ public interface ApplicantListRepository extends JpaRepository<ApplicantList, In
     void deleteAllByResumeId(int id);
 
     void deleteAllByJobId(int id);
+
+    List<ApplicantList> findAllByResume(Resume resume);
+
 }

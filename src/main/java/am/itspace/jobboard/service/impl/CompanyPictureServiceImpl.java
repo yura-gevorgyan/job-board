@@ -56,6 +56,11 @@ public class CompanyPictureServiceImpl implements CompanyPictureService {
 
     }
 
+    @Override
+    public void deleteByCompanyId(int id) {
+        companyPictureRepository.deleteAllByCompanyId(id);
+    }
+
     public void savePictures(Company company, MultipartFile[] newPictures) {
         Arrays.stream(newPictures).parallel().forEach(companyPicture -> {
             if (!companyPicture.isEmpty() && companyPicture.getSize() > 1

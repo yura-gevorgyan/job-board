@@ -1,5 +1,6 @@
 package am.itspace.jobboard.controller.user;
 
+import am.itspace.jobboard.config.PasswordProperties;
 import am.itspace.jobboard.entity.Company;
 import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.User;
@@ -10,14 +11,9 @@ import am.itspace.jobboard.entity.enums.WorkExperience;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
 import am.itspace.jobboard.security.SecurityService;
-import am.itspace.jobboard.service.CategoryService;
-import am.itspace.jobboard.service.CompanyPictureService;
-import am.itspace.jobboard.service.CompanyService;
-import am.itspace.jobboard.service.CountryService;
-import am.itspace.jobboard.service.JobService;
-import am.itspace.jobboard.service.ResumeService;
-import am.itspace.jobboard.service.UserService;
+import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.util.AddErrorMessageUtil;
+import am.itspace.jobboard.util.GenerateTokenUtil;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -47,6 +39,7 @@ public class ProfileController {
     private final JobService jobService;
     private final CountryService countryService;
     private final SecurityService securityService;
+    private final PasswordProperties passwordProperties;
 
     @GetMapping
     public String employerProfile() {
@@ -158,13 +151,57 @@ public class ProfileController {
 
     //WRITE LOG FOR DELETING ACCOUNT
     @GetMapping("/delete")
-    public String deleteAccount() {
+    public String deleteAccountPage() {
         User user = securityService.getCurrentUser();
         if (user != null) {
-            user.setDeleted(true);
-            return "redirect:/login";
+            if (!user.getPassword().equals(passwordProperties.getOAuth2UserPassword())){
+                return "/profile/delete-profile";
+            }else {
+                userService.deleteProfileCode(user);
+                return "/profile/delete-profile-confirm";
+            }
         }
         return "redirect:/";
+    }
+
+    @PostMapping("/delete")
+    public String deleteAccount(@RequestParam String password,
+                                RedirectAttributes redirectAttributes) {
+        User user = securityService.getCurrentUser();
+
+        if (!password.isBlank()) {
+            if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+                try {
+                    userService.deleteProfileCode(user);
+                    return "/profile/delete-profile-confirm";
+                } catch (PasswordNotMuchException e) {
+                    redirectAttributes.addFlashAttribute("msg", "Invalid password");
+                    return "redirect:/profile/delete";
+                }
+            }
+        }
+
+        redirectAttributes.addFlashAttribute("msg", "Invalid password");
+        return "redirect:/profile/delete";
+    }
+
+    @PostMapping("/delete/confirm")
+    public String deleteProfileConfirm(@RequestParam String confirmEmailCode,
+                                       RedirectAttributes redirectAttributes){
+
+        if (confirmEmailCode == null || confirmEmailCode.isBlank()) {
+            return "redirect:/profile/delete";
+        }
+        if (userService.confirmEmailForDelete(confirmEmailCode) != null) {
+            User user = securityService.getCurrentUser();
+            userService.deleteProfile(user);
+            log.info("User has been confirmed with the confirm code of {}", confirmEmailCode);
+            log.info("User with {} id is deleted profile",user.getId());
+            return "redirect:/logout";
+        }
+        redirectAttributes.addFlashAttribute("msg", "Invalid confirm code.");
+        return "redirect:/profile/delete/confirm";
+
     }
 
     @GetMapping("/change-password")

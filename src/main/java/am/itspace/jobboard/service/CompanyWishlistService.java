@@ -17,4 +17,8 @@ public interface CompanyWishlistService {
     void delete(Company company, User user);
 
     List<CompanyWishlist> findAllByUserId(int id);
+
+    void deleteByUserId(int id);
+
+    void deleteByCompany(Company company);
 }

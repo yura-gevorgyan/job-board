@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <!-- metas -->
+    <meta charset="utf-8">
+    <meta name="author" content="Chitrakoot Web"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="Job Portal HTML Template"/>
+    <meta name="description" content="Job Board - Job Portal HTML Template"/>
+
+    <!-- title  -->
+    <title>Job Board - Job Portal HTML Template</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/logos/favicon.png"/>
+    <link rel="apple-touch-icon" href="/img/logos/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/logos/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/logos/apple-touch-icon-114x114.png"/>
+
+    <!-- plugins -->
+    <link rel="stylesheet" href="/css/plugins.css"/>
+
+    <!-- search css -->
+    <link rel="stylesheet" href="/search/search.css"/>
+
+    <!-- quform css -->
+    <link rel="stylesheet" href="/quform/css/base.css">
+
+    <!-- dashboard css -->
+    <link href="/css/dashboard.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="/css/confirmEmail.css">
+
+</head>
+
+<body>
+
+<!-- PAGE LOADING
+================================================== -->
+<div id="preloader"></div>
+
+<!-- MAIN WRAPPER
+================================================== -->
+<div class="main-wrapper">
+
+    <!-- HEADER
+    ================================================== -->
+    <header class="header-style2 static-header">
+        <div th:replace="~{/fragment/header-menu-fragment::header}"></div>
+    </header>
+
+    <!-- EMPLOYER DASHBOARD
+    ================================================== -->
+    <section class="py-0">
+        <div class="row g-0">
+            <div class="col-lg-3 mb-2-2 mb-lg-0">
+                <th:block th:insert="~{fragment/user-left-menue-fragmnet::left-user-menue-fragment}"/>
+            </div>
+
+            <div class="container">
+                <h1>Confirm Email</h1>
+                <p>Please confirm your e-mail for deleting your profile !</p><br>
+                <div class="text-center mb-1-6 mb-lg-1-9">
+                    <h2 class="h3 mb-0">Delete Your Account</h2> <br>
+                    <span th:if="${msg != null}">
+                        <div class="alert alert-danger alert-dismissible">
+                            <strong th:text="${msg}"></strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </span>
+                </div>
+                <div class="timer-container">
+                    <span class="timer-text">01:00</span>
+                </div>
+                <form action="/profile/delete/confirm" method="post">
+                    <input type="text" name="confirmEmailCode" class="confirmation-code" maxlength="6"
+                           th:placeholder="#{confirmEmailCodePlaceholder}">
+                    <button class="btn btn-green">Confirm code</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- start scroll to top -->
+<a href="#!" class="scroll-to-top"><i class="fas fa-angle-up" aria-hidden="true"></i></a>
+<!-- end scroll to top -->
+
+<!-- all js include start -->
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- popper js -->
+<script src="/js/popper.min.js"></script>
+
+<!-- bootstrap -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- core.min.js -->
+<script src="/js/core.min.js"></script>
+
+<!-- search -->
+<script src="/search/search.js"></script>
+
+<!-- custom scripts -->
+<script src="/js/main.js"></script>
+
+<!-- form plugins js -->
+<script src="/quform/js/plugins.js"></script>
+
+<!-- form scripts js -->
+<script src="/quform/js/scripts.js"></script>
+
+<script src="/js/confirmEmailTimer.js"></script>
+
+<!-- all js include end -->
+
+</body>
+
+</html>

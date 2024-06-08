@@ -17,4 +17,7 @@ public interface JobWishlistService {
 
     void delete(Job job, User user);
 
+    void deleteByUserId(int id);
+
+    void deleteByJob(Job job);
 }

@@ -49,5 +49,18 @@ public class ResumeWishlistServiceImpl implements ResumeWishlistService {
         return resumeWishlistRepository.findByUserId(id);
     }
 
+    @Override
+    public void deleteByUserId(int id) {
+        resumeWishlistRepository.deleteAll(findAllByUserId(id));
+    }
+
+    @Override
+    public void deleteByResume(Resume resume) {
+        resumeWishlistRepository.deleteAll(findAllByResumeId(resume.getId()));
+    }
+
+    private List<ResumeWishlist> findAllByResumeId(int id) {
+        return resumeWishlistRepository.findAllByResumeId(id);
+    }
 
 }

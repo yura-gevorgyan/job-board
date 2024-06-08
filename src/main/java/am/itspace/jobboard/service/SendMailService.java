@@ -19,5 +19,7 @@ public interface SendMailService {
     void sendEmailAccountBlocked(User user);
 
     void sendEmailAccountUnlocked(User user);
+
+    void sendEmailConfirmMailForDelete(User user);
 }
 

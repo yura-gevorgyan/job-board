@@ -17,4 +17,5 @@ public interface ResumeWishlistRepository extends JpaRepository<ResumeWishlist, 
 
     void deleteAllByResumeId(int id);
 
+    List<ResumeWishlist> findAllByResumeId(int id);
 }

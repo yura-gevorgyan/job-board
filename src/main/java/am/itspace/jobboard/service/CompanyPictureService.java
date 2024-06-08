@@ -13,4 +13,6 @@ public interface CompanyPictureService {
     void addPictures(Company company, MultipartFile[] multipartFiles);
 
     void update(Company company, MultipartFile[] newPictures, String[] deletedPictures);
+
+    void deleteByCompanyId(int id);
 }

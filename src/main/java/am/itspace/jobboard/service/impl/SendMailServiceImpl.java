@@ -192,5 +192,27 @@ public class SendMailServiceImpl implements SendMailService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void sendEmailConfirmMailForDelete(User user) {
+        final Context ctx = new Context();
+        ctx.setVariable("user", user);
+
+        final String htmlContent = templateEngine.process("message/SendGeneratedTokenMessageForDelete.html", ctx);
+
+        final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        try {
+            final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            message.setSubject("Confirm code");
+            message.setTo(user.getEmail());
+
+            message.setText(htmlContent, true);
+
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 

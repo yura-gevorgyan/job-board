@@ -1,26 +1,13 @@
 package am.itspace.jobboard.service.impl;
 
-import am.itspace.jobboard.entity.ApplicantList;
-import am.itspace.jobboard.entity.Chatroom;
-import am.itspace.jobboard.entity.Company;
-import am.itspace.jobboard.entity.Job;
-import am.itspace.jobboard.entity.JobApplies;
-import am.itspace.jobboard.entity.Resume;
-import am.itspace.jobboard.entity.User;
+import am.itspace.jobboard.entity.*;
 import am.itspace.jobboard.entity.enums.Role;
 import am.itspace.jobboard.exception.EmailIsPresentException;
 import am.itspace.jobboard.exception.NotFoundException;
 import am.itspace.jobboard.exception.PasswordNotMuchException;
 import am.itspace.jobboard.exception.UseOldPasswordException;
-import am.itspace.jobboard.repository.ApplicantListRepository;
-import am.itspace.jobboard.repository.ChatroomRepository;
-import am.itspace.jobboard.repository.CompanyRepository;
-import am.itspace.jobboard.repository.JobAppliesRepository;
-import am.itspace.jobboard.repository.JobRepository;
-import am.itspace.jobboard.repository.ResumeRepository;
-import am.itspace.jobboard.repository.UserRepository;
-import am.itspace.jobboard.service.SendMailService;
-import am.itspace.jobboard.service.UserService;
+import am.itspace.jobboard.repository.*;
+import am.itspace.jobboard.service.*;
 import am.itspace.jobboard.util.GenerateTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -49,6 +36,10 @@ public class UserServiceImpl implements UserService {
     private final JobAppliesRepository jobAppliesRepository;
     private final ResumeRepository resumeRepository;
     private final ChatroomRepository chatroomRepository;
+    private final ResumeWishlistService resumeWishlistService;
+    private final CompanyWishlistService companyWishlistService;
+    private final JobWishlistService jobWishlistService;
+    private final CompanyPictureService companyPicture;
 
     private static final int PAGE_SIZE = 20;
 
@@ -57,10 +48,25 @@ public class UserServiceImpl implements UserService {
     register(User user, String confirmPassword, Role role) {
         Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
 
-        if (byEmail.isPresent()) {
+        if (byEmail.isPresent() && !byEmail.get().isDeleted()) {
             throw new EmailIsPresentException();
         } else if (!user.getPassword().equals(confirmPassword)) {
             throw new PasswordNotMuchException();
+        } else if (byEmail.isPresent() && byEmail.get().isDeleted()) {
+
+            byEmail.get().setName(user.getName());
+            byEmail.get().setSurname(user.getSurname());
+            byEmail.get().setPassword(passwordEncoder.encode(user.getPassword()));
+            byEmail.get().setRole(role);
+            byEmail.get().setToken(GenerateTokenUtil.generateToken());
+            byEmail.get().setActivated(false);
+            byEmail.get().setDeleted(false);
+            byEmail.get().setRegisterDate(new Date());
+
+            User save = userRepository.save(byEmail.get());
+            sendMailService.sendEmailConfirmMail(save);
+
+            return save;
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -165,7 +171,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-//    @CacheEvict(cacheNames = "findByEmail", key = "#user.email")
     public void delete(User user) {
         userRepository.delete(user);
     }
@@ -281,5 +286,109 @@ public class UserServiceImpl implements UserService {
         }, () -> {
             throw new NotFoundException();
         });
+    }
+
+    @Override
+    public void deleteProfileCode(User user) {
+        user.setToken(GenerateTokenUtil.generateToken());
+        userRepository.save(user);
+        sendMailService.sendEmailConfirmMailForDelete(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProfile(User user) {
+        switch (user.getRole().getName()) {
+            case "Job Seeker" -> {
+                Optional<Resume> byUser = resumeRepository.findByUser(user);
+
+                if (byUser.isPresent()) {
+                    List<ApplicantList> allByResume = applicantListRepository.findAllByResume(byUser.get());
+
+                    allByResume.parallelStream().
+                            forEach(applicantList -> {
+                                applicantList.setActive(false);
+                                applicantListRepository.save(applicantList);
+                            });
+                    resumeWishlistService.deleteByResume(byUser.get());
+                    byUser.get().setActive(false);
+                    resumeRepository.save(byUser.get());
+                }
+
+                List<JobApplies> allByToJobSeeker = jobAppliesRepository.findAllByToJobSeeker(user);
+                allByToJobSeeker.parallelStream().forEach(jobApplies -> {
+                    jobApplies.setActive(false);
+                    jobAppliesRepository.save(jobApplies);
+                });
+
+            }
+            case "Employee" -> {
+                List<ApplicantList> allByToEmployer = applicantListRepository.findAllByToEmployer(user);
+
+                allByToEmployer.parallelStream().
+                        forEach(applicantList -> {
+                            applicantList.setActive(false);
+                            applicantListRepository.save(applicantList);
+                        });
+
+
+                for (Job job : jobRepository.findByUserId(user.getId())) {
+
+                    for (JobApplies jobApplies : jobAppliesRepository.findAllByJob(job)) {
+                        jobApplies.setActive(false);
+                        jobAppliesRepository.save(jobApplies);
+                    }
+                    jobWishlistService.deleteByJob(job);
+                    job.setDeleted(true);
+                    jobRepository.save(job);
+                }
+            }
+            case "Company Owner" -> {
+                Optional<Company> byUser = companyRepository.findByUser(user);
+
+                for (ApplicantList applicantList : applicantListRepository.findAllByToEmployer(user)) {
+                    applicantList.setActive(false);
+                    applicantListRepository.save(applicantList);
+                }
+
+                for (Job job : jobRepository.findByUserId(user.getId())) {
+
+                    for (JobApplies jobApplies : jobAppliesRepository.findAllByJob(job)) {
+                        jobApplies.setActive(false);
+                        jobAppliesRepository.save(jobApplies);
+                    }
+                    jobWishlistService.deleteByJob(job);
+                    job.setDeleted(true);
+                    jobRepository.save(job);
+                }
+
+                if (byUser.isPresent()) {
+                    companyWishlistService.deleteByCompany(byUser.get());
+                    companyPicture.deleteByCompanyId(byUser.get().getId());
+                    byUser.get().setActive(false);
+                    companyRepository.save(byUser.get());
+                }
+            }
+        }
+
+        resumeWishlistService.deleteByUserId(user.getId());
+        companyWishlistService.deleteByUserId(user.getId());
+        jobWishlistService.deleteByUserId(user.getId());
+
+        user.setDeleted(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User confirmEmailForDelete(String confirmEmailCode) {
+        Optional<User> optionalUser = findByToken(confirmEmailCode);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setActivated(true);
+            save(user);
+            sendMailService.send(user.getEmail(), "messageForDeleting", "Email confirmed For Deleting your Profile !");
+            return user;
+        }
+        return null;
     }
 }

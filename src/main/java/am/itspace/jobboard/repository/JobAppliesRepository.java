@@ -1,5 +1,6 @@
 package am.itspace.jobboard.repository;
 
+import am.itspace.jobboard.entity.Job;
 import am.itspace.jobboard.entity.JobApplies;
 import am.itspace.jobboard.entity.User;
 import org.springframework.data.domain.Page;
@@ -23,4 +24,6 @@ public interface JobAppliesRepository extends JpaRepository<JobApplies, Integer>
     Optional<JobApplies> findByJobIdAndToJobSeekerIdAndIsActiveTrue(int jobId, int UserId);
 
     void deleteAllByJobId(int id);
+
+    List<JobApplies> findAllByJob(Job job);
 }

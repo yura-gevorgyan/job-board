@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +46,20 @@ public class CompanyWishlistServiceImpl implements CompanyWishlistService {
     @Override
     public List<CompanyWishlist> findAllByUserId(int id) {
         return companyWishlistRepository.findAllByUserId(id);
+    }
+
+    @Override
+    public void deleteByUserId(int id) {
+        companyWishlistRepository.deleteAll(findAllByUserId(id));
+    }
+
+    @Override
+    public void deleteByCompany(Company company) {
+        companyWishlistRepository.deleteAll(findAllByCompanyId(company.getId()));
+    }
+
+    private List<CompanyWishlist> findAllByCompanyId(int id) {
+        return companyWishlistRepository.findAllByCompanyId(id);
     }
 
 }
