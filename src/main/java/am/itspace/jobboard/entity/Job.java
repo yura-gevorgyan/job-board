@@ -15,10 +15,12 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,6 +30,9 @@ import java.util.Date;
 @Table(name = "job")
 @Data
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Job implements UploadAble {
 
     @Id

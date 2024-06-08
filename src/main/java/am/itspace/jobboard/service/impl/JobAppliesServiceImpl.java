@@ -9,13 +9,11 @@ import am.itspace.jobboard.service.JobAppliesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +26,7 @@ public class JobAppliesServiceImpl implements JobAppliesService {
 
     @Override
     public JobApplies findByJobIdAndUserIdAndIsActiveTrue(int jobId, int userId) {
-        return jobAppliesRepository.findByJobIdAndToJobSeekerIdAndIsActiveTrue(jobId,userId).orElse(null);
+        return jobAppliesRepository.findByJobIdAndToJobSeekerIdAndIsActiveTrue(jobId, userId).orElse(null);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class JobAppliesServiceImpl implements JobAppliesService {
 
     @Override
     public JobApplies save(JobApplies jobApplies) {
-         return jobAppliesRepository.save(jobApplies);
+        return jobAppliesRepository.save(jobApplies);
     }
 
     @Override
