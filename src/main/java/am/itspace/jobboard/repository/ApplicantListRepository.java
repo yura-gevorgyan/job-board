@@ -32,6 +32,4 @@ public interface ApplicantListRepository extends JpaRepository<ApplicantList, In
     void deleteAllByJobId(int id);
 
     List<ApplicantList> findAllByResume(Resume resume);
-
-    ApplicantList findById(int id);
 }
