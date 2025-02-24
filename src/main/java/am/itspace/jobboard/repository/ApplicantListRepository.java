@@ -33,5 +33,4 @@ public interface ApplicantListRepository extends JpaRepository<ApplicantList, In
 
     List<ApplicantList> findAllByResume(Resume resume);
 
-    ApplicantList findById(int id);
 }
